@@ -77,7 +77,21 @@ textarea{
     background-color: transparent;
     cursor: pointer;
 }
+.document-content{
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 10px 20px;
+}
 
-.padding{
-	padding: 40px;
+.document-content > label {
+	display: flex;
+	gap: 20px;
+	white-space: nowrap;
+}
+.document-content > label > span{
+	font-weight: bold;
+}
+.document-content > label > input{
+	width: 100%;
 }
