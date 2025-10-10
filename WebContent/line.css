@@ -1,0 +1,206 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 700px;
+    margin: 20px auto;
+}
+
+h2 {
+    margin-bottom: 15px;
+}
+
+.flex {
+    display: flex;
+    gap: 10px;
+    width: 900px;
+    margin: 20px auto;
+}
+
+span {
+    font-weight: bold;
+}
+
+.org-tree {
+    flex: 1;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.org-header {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.org-search {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    align-items: center;
+}
+
+.org-search input {
+    width: 100%;
+    padding: 10px 35px 10px 30px;
+    margin-bottom: 10px;
+    background: url('./img/search.png') no-repeat 5px center;
+    background-size: 18px 18px;
+    background-color: #d3d3d3;
+    border-radius: 5px;
+    border-color: #ffffff;
+    font-size: 16px;
+}
+
+.accordion-container {
+    /* 초기에는 보임 */
+}
+
+.accordion {
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+}
+
+.accordion-header {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #fff;
+    padding: 6px 10px;
+}
+
+.accordion-header img {
+    cursor: pointer;
+    width: 14px;
+    height: 14px;
+}
+
+.accordion-content {
+    display: none;
+    padding: 5px 10px 5px 25px;
+}
+
+.user-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 0;
+}
+
+.profile-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.user-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+.user-info small {
+    color: #888;
+    font-size: 12px;
+}
+
+.add-btn {
+    margin-left: 10px;
+    padding: 2px 6px;
+    background: orange;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+#search-results {
+    display: none;
+}
+
+#search-results .user-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+
+#search-results .user-item:last-child {
+    border-bottom: none;
+}
+
+.no-results {
+    text-align: center;
+    padding: 10px;
+    color: #888;
+}
+
+.approval-line {
+    flex: 1;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+#approvalTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#approvalTable th,
+#approvalTable td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#approvalTable thead th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+#approvalTable th:nth-child(1),
+#approvalTable td:nth-child(1) {
+    width: 35%;
+}
+
+#approvalTable th:nth-child(2),
+#approvalTable td:nth-child(2) {
+    width: 30%;
+}
+
+#approvalTable th:nth-child(3),
+#approvalTable td:nth-child(3) {
+    width: 25%;
+}
+
+#approvalTable th:nth-child(4),
+#approvalTable td:nth-child(4) {
+    width: 10%;
+}
+
+.section-header-row td.section-header {
+    background-color: #e0e0e0;
+    font-weight: bold;
+    text-align: left;
+    padding: 5px 10px;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+}
+
+.applicant-row td:last-child {
+    border-left: none;
+    border-right: none;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.delete-btn img {
+    width: 20px;
+    height: 20px;
+}

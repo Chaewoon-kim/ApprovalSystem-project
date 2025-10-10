@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>addReport</title>
+<link rel="stylesheet" href="documentForm.css">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="report.css">
+</head>
+<body>
+  <nav class="top-nav">
+    <div class="logo">
+      로고자리
+    </div>
+
+    <div class="profile">
+      <span class="label">개발팀</span>
+      <span class="label">홍길동</span>
+      <span class="label">사원</span>
+      님, 환영합니다.
+
+      <img class="profile-img" src="https://cdn-icons-png.flaticon.com/512/6522/6522516.png">
+    </div>
+  </nav>
+
+  <div class="container">
+    <nav class="side-nav">
+      <div class="draft">
+        <div class="make">기안서 작성</div>
+      </div>
+      <div class="menu">
+        <div class="menu-title">▼ 결제 신청</div>
+        <div class="submenu">
+          <div>결제 신청 목록</div>  
+        </div>
+      </div>   
+      <div class="logout">
+        로그아웃
+      </div>
+    </nav>
+
+
+    <main class="add-form">
+      <h1>
+      	기안서 작성
+      </h1>
+		<div class="btn-container">
+			<button class="form-btn">
+				<img src="./img/check-square.png"> <span>결재요청</span>
+			</button>
+			<button class="form-btn">
+				<img src="./img/user-plus.png"> <span>결재선수정</span>
+			</button>
+			<button class="form-btn">
+				<img src="./img/file-plus.png"> <span>파일첨부</span>
+			</button>
+			<button class="form-btn">
+				<img src="./img/x-circle.png"> <span>작성취소</span>
+			</button>
+		</div>
+
+		<hr>
+			<form class="padding">
+				<div class="documentForm">
+			<h1 class="text-center">휴가신청서</h1>
+			<div class="flex-container">
+				<div class="tables">
+					<table class="table-bordered">
+						<tbody>
+							<tr>
+								<th class="table-bgColor draft-th">기안자</th>
+								<td class="input-table">홍길동</td>
+							</tr>
+							<tr>
+								<th class="table-bgColor draft-th">소속</th>
+								<td class="input-table">개발팀</td>
+							</tr>
+							<tr>
+								<th class="table-bgColor draft-th">기안일</th>
+								<td class="input-table">2025.09.24</td>
+							</tr>
+							<tr>
+								<th class="table-bgColor draft-th">문서번호</th>
+								<td class="input-table"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="flex-container">
+					<div class="tables">
+						<table class="table-bordered">
+							<tbody>
+								<tr>
+									<th rowspan="4" class="table-bgColor rotated-text">신청</th>
+								</tr>
+								<tr>
+									<td class="input-table">사원</td>
+								</tr>
+								<tr>
+									<td class="input-table">홍길동</td>
+								</tr>
+								<tr>
+									<td class="input-table"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div class="tables">
+						<table class="table-bordered">
+							<tbody>
+								<tr>
+									<th rowspan="4" class="table-bgColor rotated-text">승인</th>
+								</tr>
+								<tr>
+									<td class="input-table">개발팀/대리</td>
+									<td class="input-table">개발팀/과장</td>
+									<td class="input-table">개발팀/부장</td>
+								</tr>
+								<tr>
+									<td class="input-table">배성윤</td>
+									<td class="input-table">성민서</td>
+									<td class="input-table">김채운</td>
+								</tr>
+								<tr>
+									<td class="input-table"></td>
+									<td class="input-table"></td>
+									<td class="input-table"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<hr>
+
+			<div class="inputForm">
+				<textarea>
+휴가 종류: 연차
+휴가 기간: 2025년 09월 18일 ~ 20205년 09월 19일
+휴가 사유: 예비군
+				</textarea>
+			</div>
+		</div>
+			</form>
+		<hr>
+		<input type="file" style="display:none;" multiple>
+      	<div class="file-container">
+      		<img src="./img/file-plus.png">
+	      	<span>첨부된 파일</span>
+	        <div class="file-list">
+	        	<div class="file-item-info">
+	    			<button class="remove-btn"><img src="./img/x.png" alt="첨부취소"></button>
+	                <img src="./img/file.png">
+	                <div class="file-info-text">
+	                    <span>예비군통지서.pdf</span>
+	                    <span class="file-size">(334.2KB)</span>
+	                </div>
+	            </div>  
+	        </div>
+      	</div>
+    </main>
+  </div>
+
+
+  <script>
+    document.querySelectorAll(".menu-title").forEach(title =>{
+      title.addEventListener("click", () => {
+        const submenu = title.nextElementSibling;
+        if(submenu.classList.contains("open")){
+          submenu.style.maxHeight = submenu.scrollHeight + "px";
+          requestAnimationFrame(() => {
+            submenu.style.maxHeight = "0";
+          })
+          submenu.classList.remove("open");
+        } else{
+          submenu.style.maxHeight = submenu.scrollHeight + "px";
+          submenu.classList.add("open");
+        }
+      });
+    });
+  </script>
+</body>
+</html>

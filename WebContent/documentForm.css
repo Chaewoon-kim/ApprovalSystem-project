@@ -1,0 +1,60 @@
+.documentForm {
+    width: 576px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid black;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.table-bordered {
+    border-collapse: collapse;
+}
+
+.table-bordered, .table-bordered th, .table-bordered td {
+    border: 1px solid #000000;
+}
+
+.table-bordered th, .table-bordered td {
+    text-align: center;
+    font-weight: normal;
+}
+
+.tables{
+	font-size:12px;
+}
+
+.table-bgColor {
+    background-color: #d9d9d9;
+}
+
+.draft-th{
+  width: 77px;
+  height: 24px;
+}
+
+.input-table {
+  width: 66px;
+  height: 24px;
+}
+
+
+.rotated-text {
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    padding: 0 5px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.file-size {
+	color:#b3b3b3;
+}

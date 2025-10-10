@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="managerMapper">
+	<!-- 사원 목록 조회 -->
+	<select id="getEmployees" parameterType="com.oopsw.model.EmployeeVO" resultType="com.oopsw.model.EmployeeVO">
+		select employee_id employeeId, name, department, rank, access_permission accessPermission 
+		from (
+			select e.*, ROW_NUMBER() over (order by employee_id asc) as rn
+			from employee e
+		)
+		where rn between (#{page} - 1) * 8 + 1 and #{page} * 8
+	</select>
+	
+	<!-- 사원 접근권한 수정 -->
+	<update id="invertPermission" parameterType="com.oopsw.model.EmployeeVO">
+		update employee set access_permission = case
+		when access_permission = 'Y' then 'N'
+		when access_permission = 'N' then 'Y'
+		end
+		where employee_id = #{employeeId}
+	</update>
+	
+	<!-- 사원 권한별 조회 -->
+	<select id="getEmployeesByPermission" parameterType="com.oopsw.model.EmployeeVO" resultType="com.oopsw.model.EmployeeVO">
+		select employee_id employeeId, name, department, rank, access_permission accessPermission
+		from (
+			select e.*, ROW_NUMBER() over (order by employee_id desc) as rn
+			from employee e
+			where (#{accessPermission} is null or access_permission = #{accessPermission})
+		)
+		where rn between (#{page} - 1) * 8 + 1 and #{page} * 8
+	</select>
+	
+	<!-- 양식 추가 seq는 어떻게 할지 -->
+	<insert id="addForm" parameterType="com.oopsw.model.FormVO">
+		<selectKey keyProperty="formId" resultType="String" order="BEFORE">
+			select form_id_seq.nextval from dual
+		</selectKey>
+	
+		insert into document_form (form_id, manager_id, form_category, form_name, form_content, form_description, form_usage) 
+		values (#{formId}, #{managerId}, #{formCategory}, #{formName}, #{formContent}, #{formDescription}, #{formUsage})
+	</insert>
+	
+	<!-- 기본 결재선 설정 -->
+	<insert id="addApprovalLine">
+		insert into default_approval_line(default_approval_line_no , form_id , rank , line_order) 
+		values(form_id_seq.nextval , #{formId}, #{rank}, #{order})
+	</insert>
+	
+	<!-- 양식 목록 조회 -->
+	<select id="getForms" resultType="com.oopsw.model.FormVO">
+		select form_id formId, form_category formCategory, form_name formName, form_description formDescription, form_usage formUsage
+		from document_form
+		order by form_id
+	</select>
+	
+	<!-- 양식 상태 수정 -->
+	<update id="invertFormUsage">
+		update document_form 
+		set form_usage = 
+		case
+			when form_usage = 'Y' then 'N'
+			when form_usage = 'N' then 'Y'
+		end
+		where form_id = #{formId}
+	</update>
+	
+	<!-- 양식 검색 -->
+	<select id="getFormsByKeyword" parameterType="com.oopsw.model.FormVO" resultType="com.oopsw.model.FormVO">
+		select form_id formId, form_category formCategory, form_name formName, form_description formDescription, form_usage formUsage
+		from document_form
+		where (#{keyword} is null or form_category = #{keyword} or form_name like '%' || #{keyword} || '%')
+		order by form_id
+	</select>
+	
+</mapper>

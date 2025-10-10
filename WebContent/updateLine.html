@@ -1,0 +1,225 @@
+	<!DOCTYPE html>
+	<html lang="ko">
+	<head>
+	<meta charset="UTF-8">
+	<title>결재선 수정</title>
+	<link rel="stylesheet" href="line.css">
+	<link rel="stylesheet" href="popup.css">
+	</head>
+	<body>
+		<div class="container">
+			<h2>결재선 수정</h2>
+			<form action="#" method="post">
+				<div class="flex">
+	
+					<div class="org-tree">
+						<div class="org-header">조직도</div>
+						<div class="org-search">
+							<input type="text" placeholder="이름, 부서, 직책 입력"
+								class"WebContent/updateLine.html"="search-input">
+						</div>
+						
+						<div id="search-results"></div>
+	
+						<div class="accordion-container">
+							<div class="accordion">
+								<div class="accordion-header">
+									<img src="./img/arrow.png"> <span>코스타 오피스</span>
+								</div>
+								<div class="accordion-content">
+									<div class="user-item">
+										<img src="https://cdn-icons-png.flaticon.com/512/6522/6522516.png" class="profile-icon">
+										<div class="user-info">
+											심재웅 대표이사
+											<small>코스타오피스 &gt; 대표이사</small>
+										</div>
+										<button type="button" class="add-btn">추가</button>
+									</div>
+									
+									<div class="accordion">
+										<div class="accordion-header">
+											<img src="./img/arrow.png"> <span>개발팀</span>
+										</div>
+										<div class="accordion-content">
+											<div class="user-item">
+												<img src="https://cdn-icons-png.flaticon.com/512/6522/6522516.png" class="profile-icon">
+												<div class="user-info">
+													박새희 사장
+													<small>코스타오피스 &gt; 개발팀 &gt; 사장</small>
+												</div>
+												<button type="button" class="add-btn">추가</button>
+											</div>
+											<div class="user-item">
+												<img src="https://cdn-icons-png.flaticon.com/512/6522/6522516.png" class="profile-icon">
+												<div class="user-info">
+													고은별 차장
+													<small>코스타오피스 &gt; 개발팀 &gt; 차장</small>
+												</div>
+												<button type="button" class="add-btn">추가</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+	
+					<div class="approval-line">
+						<table id="approvalTable">
+							<thead>
+								<tr>
+									<th>이름</th>
+									<th>부서</th>
+									<th>직급</th>
+									<th style="width: 50px;"></th> 
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="section-header-row">
+									<td colspan="4" class="section-header">기안자</td>
+								</tr>
+								<tr class="applicant-row">
+									<td>지연우</td>
+									<td>개발팀</td>
+									<td>사원</td>
+									<td></td> 
+								</tr>
+								<tr class="section-header-row">
+									<td colspan="4" class="section-header">결재자</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+	
+				<div class="popup-btns">
+					<button class="popup-btn-true">확인</button>
+					<button class="popup-btn-false">취소</button>
+				</div>
+			</form>
+		</div>
+	
+		<script>
+	// 아코디언 토글 기능
+	document.querySelectorAll('.accordion-header').forEach(header => {
+	    header.addEventListener('click', () => {
+	        const content = header.nextElementSibling;
+	        const arrowImg = header.querySelector('img');
+	        if (content.style.display === "block") {
+	            content.style.display = "none";
+	            arrowImg.src = "./img/arrow.png";	
+	        } else {
+	            content.style.display = "block";
+	            arrowImg.src = "./img/arrow-down.png";	
+	        }
+	    });
+	});
+	
+	// 검색 기능 구현
+	document.addEventListener('DOMContentLoaded', () => {
+	    const searchInput = document.querySelector('.search-input');
+	    const orgTree = document.querySelector('.accordion-container');
+	    const searchResults = document.querySelector('#search-results');
+	
+	    // 모든 직원 정보를 배열에 저장
+	    const allUsers = [];
+	    document.querySelectorAll('.user-item').forEach(item => {
+	        const name = item.querySelector('.user-info').firstChild.textContent.trim();
+	        const info = item.querySelector('small').textContent.trim();
+	        allUsers.push({
+	            name: name,
+	            info: info,
+	            element: item.outerHTML
+	        });
+	    });
+	
+	    searchInput.addEventListener('input', (event) => {
+	        const searchTerm = event.target.value.toLowerCase();
+	        
+	        // 검색어가 있으면
+	        if (searchTerm.length > 0) {
+	            orgTree.style.display = 'none';
+	            searchResults.style.display = 'block';
+	            
+	            const filteredUsers = allUsers.filter(user => 
+	                user.name.toLowerCase().includes(searchTerm) ||
+	                user.info.toLowerCase().includes(searchTerm)
+	            );
+	            
+	            searchResults.innerHTML = ''; // 기존 검색 결과 지우기
+	            if (filteredUsers.length > 0) {
+	                filteredUsers.forEach(user => {
+	                    searchResults.innerHTML += user.element;
+	                });
+	            } else {
+	                searchResults.innerHTML = `<div class="no-results">검색 결과가 없습니다.</div>`;
+	            }
+	        } else {
+	            // 검색어가 없으면
+	            orgTree.style.display = 'block';
+	            searchResults.style.display = 'none';
+	        }
+	    });
+	});
+	
+	
+	// 새로운 결재자 추가 기능 (에러 처리 추가)
+	// 동적으로 생성된 요소에도 이벤트가 적용되도록 이벤트 위임 사용
+	document.querySelector('.org-tree').addEventListener('click', (event) => {
+	    const addBtn = event.target.closest('.add-btn');
+	    if (!addBtn) return;
+	
+	    const userItem = addBtn.closest('.user-item');
+	    if (!userItem) return;
+	
+	    const name = userItem.querySelector('.user-info').firstChild.textContent.trim();
+	    const infoText = userItem.querySelector('small').textContent.trim();
+	    const parts = infoText.split('>').map(part => part.trim());
+	    
+	    let department = '';
+	    let rank = '';
+	
+	    if (parts.length >= 2) {
+	        department = parts[parts.length - 2];
+	        rank = parts[parts.length - 1];
+	    }
+	    
+	    const approvalTableBody = document.querySelector('#approvalTable tbody');
+	    const existingNames = Array.from(approvalTableBody.querySelectorAll('td:first-child')).map(td => td.textContent);
+	    
+	    if (existingNames.includes(name)) {
+	        alert('이미 추가된 사용자입니다.');
+	        return;
+	    }
+	    
+	    const newRow = document.createElement('tr');
+	    newRow.innerHTML = `
+	        <td>${name}</td>
+	        <td>${department}</td>
+	        <td>${rank}</td>
+	        <td><button type="button" class="delete-btn"><img src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png" alt="삭제"></button></td>
+	    `;
+	    
+	    const approverSectionHeader = approvalTableBody.querySelector('.section-header-row:last-child');
+	    if (approverSectionHeader) {
+	        approverSectionHeader.parentNode.insertBefore(newRow, approverSectionHeader.nextSibling);
+	    } else {
+	        approvalTableBody.appendChild(newRow);
+	    }
+	});
+	
+	// 결재자 삭제 기능 (동적으로 추가된 요소에 이벤트 위임)
+	document.querySelector('#approvalTable tbody').addEventListener('click', (event) => {
+	    const deleteBtn = event.target.closest('.delete-btn');
+	    if (deleteBtn) {
+	        const rowToRemove = deleteBtn.closest('tr');
+	        if (rowToRemove.classList.contains('applicant-row')) {
+	            alert('신청자는 삭제할 수 없습니다.');
+	            return;
+	        }
+	        rowToRemove.remove();
+	    }
+	});
+		</script>
+	</body>
+	</html>
