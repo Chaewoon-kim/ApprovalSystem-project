@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberMapper">
+	<select id="selectLogin" parameterType="com.oopsw.model.MemberVO" resultType="String">
+		select name from members where member_id = #{memberId} and pw = #{pw}
+	</select>
+	
+	<insert id="addMember" parameterType="com.oopsw.model.MemberVO">
+		insert into members(member_id, pw, name, in_date) values (#{memberId}, #{pw}, #{name}, sysdate)
+	</insert>
+	
+	<select id="getVisitors" resultType="com.oopsw.model.VisitorsVO"> <!-- 생성형이라 full객체명 -->
+		select visitor_no_seq visitorNo, member_id memberId, contents, in_date inDate
+		from visitors
+		order by visitor_no_seq desc
+	</select>
+	
+	<update id="updateContents" parameterType="com.oopsw.model.VisitorsVO">
+		update visitors set contents=#{contents}, up_date = sysdate
+		where visitor_no_seq=#{visitorNo} and member_id=#{memberId}
+	</update>
+	
+	<select id="idCheck" parameterType="String" resultType="String">
+		select member_id from members where member_id = #{memberId}
+	</select>
+	
+	
+</mapper>
