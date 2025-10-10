@@ -1,8 +1,8 @@
 //예시 데이터
 const approvalTableData = [
-           { name: "배성윤", department: "개발팀", rank: "대리", status: true, date: "2025.09.17.", comment: "" },
-           { name: "성민서 ", department: "개발팀", rank: "과장", status: true, date: "2025.09.17.", comment: "" },
-           { name: "김채운", department: "개발팀", rank: "부장", status: false, date: "2025.09.18.", comment: "신규 프로젝트 파견으로 현재 부서 내 인원이 부족한 상황입니다. 일정을 고려하여 다른 날짜에 다시 신청해 주시길 바랍니다." }
+           { name: "배성윤", department: "개발팀", rank: "대리", status: "승인", date: "2025.09.17.", comment: "", readStatus: "2025.09.17."},
+           { name: "성민서 ", department: "개발팀", rank: "과장", status: "승인", date: "2025.09.17.", comment: "", readStatus: "2025.09.17." },
+           { name: "김채운", department: "개발팀", rank: "부장", status: "반려", date: "2025.09.18.", comment: "신규 프로젝트 파견으로 현재 부서 내 인원이 부족한 상황입니다. 일정을 고려하여 다른 날짜에 다시 신청해 주시길 바랍니다.", readStatus: "2025.09.18." }
 	    ];
 const approvers = document.querySelector(".approvers-table")
 const opinions = document.querySelector(".approval-opinions-section") 
@@ -11,19 +11,22 @@ const approversTable = function(data){
 	let content = '';
 	let rankCells = '';
 	let nameCells = '';
-	let signCells = '';
+	let resultCells = '';
+	let readCells = '';
 		    
 	for(i = 0;  i < data.length ; i++){
 		rankCells += '<td>' + data[i].department + data[i].rank + '</td>';
 		nameCells += '<td>' + data[i].name + '</td>';
-		result = (data[i].status) ? data[i].date : "반려"; 
-		console.log(result)
-		signCells += '<td>'+ result +'</td>';
+		result = (data[i].status == "반려") ? data[i].status : data[i].date; 
+		resultCells += '<td>'+ result +'</td>';
+		readStatus = (data[i].readStatus == null) ? "안읽음" : "읽음";
+		readCells += '<td>' + readStatus + '</td>';
 	}
 		    
 	content += '<tr>' + rankCells + '</tr>';
 	content += '<tr>' + nameCells + '</tr>';
-	content += '<tr>' + signCells + '</tr>';
+	content += '<tr>' + resultCells + '</tr>';
+	content += '<tr>' + readCells + '</tr>';
 	content += '</table>';
 		    
 	return content
