@@ -1,5 +1,7 @@
 
 .add-form{
+	overflow: scroll;
+	overflow-x: hidden;
 	padding: 50px;
 	flex:1;
 }

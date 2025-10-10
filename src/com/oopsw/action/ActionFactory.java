@@ -6,6 +6,14 @@ public class ActionFactory {
 		Action a = null;
 		switch(cmd){
 		
+		case "getEmployees":
+			a = new GetEmployeesAction();
+			break;
+		case "InvertAccessPermission":
+			a = new InvertAccessPermissionAction();
+			break;
+		
+			
 		case "deleteAbsence":
 			a = new DeleteAbsenceAction();
 			break;
@@ -17,23 +25,18 @@ public class ActionFactory {
 		case "modifyAbsence":
 			a = new ModifyAbsenceAction();
 			break;
-			
 		case "addAbsence":
 			a = new AddAbsenceAction();
 			break;
-		
 		case "getAbsenceProxyListAction":
 			a = new GetAbsenceProxyListAction();
 			break;
-		
 		case "approvalProcess":
 			a = new ApprovalProcessAction();
 			break;
-		
 		case "getWaitList":
 			a = new GetWaitListAction();
 			break;
-			
 		case "getEndList":
 			a = new GetEndListAction();
 			break;

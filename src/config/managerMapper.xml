@@ -13,9 +13,11 @@
 	
 	<!-- 사원 접근권한 수정 -->
 	<update id="invertPermission" parameterType="com.oopsw.model.EmployeeVO">
-		update employee set access_permission = case
-		when access_permission = 'Y' then 'N'
-		when access_permission = 'N' then 'Y'
+		update employee 
+		set access_permission = 
+		case
+			when access_permission = 'Y' then 'N'
+			when access_permission = 'N' then 'Y'
 		end
 		where employee_id = #{employeeId}
 	</update>
