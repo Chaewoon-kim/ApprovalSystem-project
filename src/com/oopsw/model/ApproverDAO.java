@@ -96,7 +96,7 @@ public class ApproverDAO{
     	boolean result = false;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
     	try{
-    		doc.setApprovedDocumentNo(generateApprovedDocNo()); // 문서번호 생성
+    		//doc.setApprovedDocumentNo(generateApprovedDocNo()); // 문서번호 생성
     		int count = conn.update("approverMapper.updateDocComplete", doc);
     		result = count == 1;
     	} finally{
@@ -119,13 +119,12 @@ public class ApproverDAO{
     }
     
 
-    // 결재문서번호 생성 규칙 (ex: D25-0001)
-    private String generateApprovedDocNo() {
-        String year = String.valueOf(java.time.LocalDate.now().getYear()).substring(2); // "25"
-        int random = (int)(Math.random() * 9000) + 1000;
-        return "D" + year + "-" + random;
-    }
-    
+//    // 결재문서번호 생성 규칙 (ex: D25-0001)
+//    private String generateApprovedDocNo() {
+//        String year = String.valueOf(java.time.LocalDate.now().getYear()).substring(2); // "25"
+//        int random = (int)(Math.random() * 9000) + 1000;
+//        return "D" + year + "-" + random;
+//    }
     
     
     

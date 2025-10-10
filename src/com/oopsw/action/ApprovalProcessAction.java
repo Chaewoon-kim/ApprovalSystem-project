@@ -62,7 +62,6 @@ public class ApprovalProcessAction implements Action {
                 dao.updateDocReject(doc);
                 dao.sendProcessNoti(vo);
                 request.setAttribute("message", "반려 처리 완료");
-                url ="controller?cmd=getApprovalWaitList";
             }
             
             request.setAttribute("message", "결재 완료");

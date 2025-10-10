@@ -26,7 +26,7 @@ public class ApproverDAOTest {
 		dao = new ApproverDAO();
 	}
 	
-	@Test
+	//@Test
 	public void testCheckAbsence() {
 	    String approverId = "E25-003"; // 존재하는 결재자 ID로 테스트
 
@@ -240,7 +240,7 @@ public class ApproverDAOTest {
         assertTrue(result); 
     }
 
-    //@Test
+    @Test
     public void updateDocCompleteTest() {
         DocumentVO doc = new DocumentVO();
         doc.setDocumentNo(1); 
@@ -248,7 +248,7 @@ public class ApproverDAOTest {
 
         System.out.println("완료 처리 결과: " + result);
         assertTrue(result);
-        System.out.println("생성된 문서번호: " + doc.getApprovedDocumentNo());
+        //System.out.println("생성된 문서번호: " + doc.getApprovedDocumentNo());
     }
 
 

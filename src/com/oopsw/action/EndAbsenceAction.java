@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.oopsw.model.ApproverDAO;
 
-public class RevokeAbsenceAction implements Action {
+public class EndAbsenceAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {

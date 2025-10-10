@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.oopsw.model.AbsenceVO;
 import com.oopsw.model.ApproverDAO;
 
-public class UpdateAbsenceAction implements Action {
+public class ModifyAbsenceAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {

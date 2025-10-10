@@ -31,10 +31,10 @@
 		where rn between (#{page} - 1) * 8 + 1 and #{page} * 8
 	</select>
 	
-	<!-- 양식 추가 seq는 어떻게 할지 -->
+	<!-- 양식 추가  -->
 	<insert id="addForm" parameterType="com.oopsw.model.FormVO">
 		<selectKey keyProperty="formId" resultType="String" order="BEFORE">
-			select form_id_seq.nextval from dual
+			select 'D' || to_char(form_id_seq.nextval) from dual
 		</selectKey>
 	
 		insert into document_form (form_id, manager_id, form_category, form_name, form_content, form_description, form_usage) 

@@ -10,12 +10,12 @@ public class ActionFactory {
 			a = new DeleteAbsenceAction();
 			break;
 			
-		case "revokeAbsence":
-			a = new RevokeAbsenceAction();
+		case "endAbsence":
+			a = new EndAbsenceAction();
 			break;
 			
-		case "updateAbsence":
-			a = new UpdateAbsenceAction();
+		case "modifyAbsence":
+			a = new ModifyAbsenceAction();
 			break;
 			
 		case "addAbsence":

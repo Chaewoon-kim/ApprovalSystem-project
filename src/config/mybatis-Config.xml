@@ -18,6 +18,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   <mappers>
     <mapper resource="config/drafterMapper.xml"/>
     <mapper resource="config/managerMapper.xml"/>
+    <mapper resource="config/approverMapper.xml"/>
   </mappers>
   
 </configuration>
