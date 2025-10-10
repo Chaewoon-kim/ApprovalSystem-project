@@ -29,6 +29,7 @@ span {
 }
 
 .org-header {
+	text-align: center;
     font-weight: bold;
     margin-bottom: 8px;
 }
@@ -57,7 +58,7 @@ span {
 }
 
 .accordion {
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd;*/
     margin-bottom: 5px;
 }
 
@@ -203,4 +204,19 @@ span {
 .delete-btn img {
     width: 20px;
     height: 20px;
+}
+
+.searchProxy{
+	width: 50%;
+}
+
+.x-btn {
+	border: none;
+	background-color: transparent;
+}
+
+.flex-container{
+	display:flex;
+	justify-content: space-between;
+    align-items: center;
 }

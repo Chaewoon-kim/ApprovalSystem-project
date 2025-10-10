@@ -41,3 +41,21 @@
 .add-absence .mb{
 	margin-bottom: 40px;
 }
+
+.proxy {
+	display: flex;
+	gap: 3px;
+	justify-content: center;
+	align-items: center;
+	padding: 5px 10px;
+	border: 1px solid #f49600;
+	border-radius: 50px;
+	background-color: #FDF0DB;
+	color: #f49600;
+	cursor: pointer;
+}
+
+.proxy img{
+	width: 20px;
+	height: 20px;
+}
