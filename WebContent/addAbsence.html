@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>addAbsence</title>
+<link rel="stylesheet" href="documentForm.css">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="addAbsence.css">
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <nav class="top-nav">
+    <div class="logo">
+      로고자리
+    </div>
+
+    <div class="profile">
+      <span class="label">개발팀</span>
+      <span class="label">홍길동</span>
+      <span class="label">사원</span>
+      님, 환영합니다.
+
+      <img class="profile-img" src="https://cdn-icons-png.flaticon.com/512/6522/6522516.png">
+    </div>
+  </nav>
+
+  <div class="container">
+    <nav class="side-nav">
+      <div class="draft">
+        <div class="make">기안서 작성</div>
+      </div>
+      <div class="menu">
+        <div class="menu-title">▼ 결제 신청</div>
+        <div class="submenu">
+          <div>결제 신청 목록</div>  
+        </div>
+      </div>   
+      <div class="logout">
+        로그아웃
+      </div>
+    </nav>
+
+
+    <main class="add-absence">
+      <h1>
+      	부재/위임 설정
+      </h1>
+		<hr class="mt"/>
+			<form>
+				<label>
+					<span>부재 기간</span>
+					<input name="statDate" type="date" />
+					<div>~</div>
+					<input name="endDate" type="date" />
+				</label>
+				<label>
+					<span>부재 사유</span>
+					<textarea name="reason"></textarea>
+				</label>
+				<label>
+					<span>대결자</span>
+					<div></div>
+					<button class="form-btn">
+						<img src="./img/user-plus.png"> <span>대결자 선택</span>
+					</button>
+				</label>
+			</form>
+		<hr class="mb"/>
+		<div class="popup-btns">
+			<button class="popup-btn-true" type="submit">확인</button>
+			<button class="popup-btn-false" type="reset">취소</button>
+		</div>
+    </main>
+  </div>
+
+
+  <script>
+    document.querySelectorAll(".menu-title").forEach(title =>{
+      title.addEventListener("click", () => {
+        const submenu = title.nextElementSibling;
+        if(submenu.classList.contains("open")){
+          submenu.style.maxHeight = submenu.scrollHeight + "px";
+          requestAnimationFrame(() => {
+            submenu.style.maxHeight = "0";
+          })
+          submenu.classList.remove("open");
+        } else{
+          submenu.style.maxHeight = submenu.scrollHeight + "px";
+          submenu.classList.add("open");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
