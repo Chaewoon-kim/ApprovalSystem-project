@@ -7,6 +7,43 @@
 textarea{
 	width:100%;
 	height: 200px;
+	resize: none;
+}
+.comment-container{
+	display: flex;
+	width: 100%;
+	min-height: 30px;
+    gap: 20px;
+}
+.name-area{
+	min-width: 70px;
+}
+.comment-area{
+	width: 100%;
+	height: 60px;
+}
+.comment-text{
+	font-size: 14px;
+}
+.date-area{
+	display: flex;
+	min-width: 140px;
+	align-items: end;
+}
+.date-text{
+	min-width: 130px;
+	color: gray;
+	font-size: 14px;
+}
+.comment-btn{
+	width: 80px;
+	height: 45px;
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    font-size: 14px;
+    gap: 5px;
 }
 .btn-container{
 	display: flex;
