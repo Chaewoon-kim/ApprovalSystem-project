@@ -245,10 +245,7 @@ public class ApproverDAOTest {
         DocumentVO doc = new DocumentVO();
         doc.setDocumentNo(1); 
         boolean result = dao.updateDocComplete(doc);
-
-        System.out.println("완료 처리 결과: " + result);
         assertTrue(result);
-        //System.out.println("생성된 문서번호: " + doc.getApprovedDocumentNo());
     }
 
 

@@ -48,7 +48,7 @@
 	<!-- 7. 문서상태변경, 완료 (마지막 결재자 승인 시) -->
 	<update id="updateDocComplete" parameterType="com.oopsw.model.DocumentVO">
 		update document
-		set process_status = '완료', completion_date = sysdate, approved_document_no = 'D' || to_char(approved_document_no_seq.nextval)
+		set process_status = '완료', completion_date = sysdate, approved_document_no = 'D' || to_char(sysdate, 'YY') || '-' || to_char(approved_document_no_seq.nextval)
 		where document_no = #{documentNo}
 	</update>
 
