@@ -22,8 +22,12 @@ public class AddDocAction implements Action {
 		String formId = request.getParameter("formId");
 		String title = request.getParameter("title");
 		String contents = request.getParameter("contents");
-		String deadlineStr = request.getParameter("deadline");
-		Date deadline = java.sql.Date.valueOf(deadlineStr);
+		String year = request.getParameter("deadlineYear");
+		String month = request.getParameter("deadlineMonth");
+		String day = request.getParameter("deadlineDay");
+		String formattedMonth = String.format("%02d", Integer.parseInt(month));
+		String formattedDay = String.format("%02d", Integer.parseInt(day));
+		Date deadline = java.sql.Date.valueOf(year + "-" + formattedMonth+ "-" + formattedDay);
 		String isTemp = request.getParameter("isTemp");
 		String[] approverIds = request.getParameterValues("approverId");
 		//문서등록
