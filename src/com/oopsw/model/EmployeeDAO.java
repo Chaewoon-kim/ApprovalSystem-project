@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+
 public class EmployeeDAO {
 	
 	private Connection conn;
@@ -78,7 +80,7 @@ public class EmployeeDAO {
 	                comment.setCommentContents(rs.getString("comment_contents"));
 	                comment.setCommentInDate(rs.getDate("comment_in_date"));
 	                
-	                comment.setWriterName(writer);
+	                //comment.setWriterName(writer);
 	                commentList.add(comment);
 	           
 	            }
@@ -172,6 +174,72 @@ public class EmployeeDAO {
 		
 		return employeeList;
 		
+	}
+	
+	//댓글 알림 보내기
+	public int sendNoti(CommentNotiVO notiVo){
+		int result = 0;
+		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+		
+		try{
+			result = conn.insert("employeeMapper.sendNoti",notiVo);
+			conn.commit();
+		}finally{
+			conn.close();
+		}
+		return result;
+	}
+	
+	//대결 알림
+	public List<AbsenceVO> getApprovalNoti(String proxyId) {
+	    List<AbsenceVO> result = null;
+	    SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+	    try {
+	        result = conn.selectList("employeeMapper.getApprovalNoti", proxyId);
+	    } finally {
+	        conn.close();
+	    }
+	    return result;
+	}
+
+	//댓글 알림 (받기)
+	public List<CommentVO> getCommentsNoti(String recipientId){
+		List<CommentVO> result = null;
+		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+		
+		try{
+			result = conn.selectList("employeeMapper.getCommentsNoti" , recipientId);
+		}finally{
+			conn.close();
+		}
+		return result;
+	}
+	
+	//결재 신청 문서 상세 조회 - 결재선 테이블에서 가져오기
+	public List<ApprovalLineEmployeeVO> getApprvovalTable(int documentNumber){
+		List<ApprovalLineEmployeeVO> result = null;
+		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+		
+		try{
+			result = conn.selectList("employeeMapper.getApprovalTable" , documentNumber);			
+		}finally{
+			conn.close();
+		}
+		
+		return result;
+	}
+	
+	public List<DocumentVO> getDetailReport(int documentNumber){
+		List<DocumentVO> result = null;
+		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+		
+		try{
+			result = conn.selectList("employeeMapper.getDetailReport" , documentNumber);
+		}finally{
+			conn.close();
+		}
+		
+		return result;
 	}
 	
 }
