@@ -1,5 +1,4 @@
 .popup-btns{
-	margin-top: 50px;
 	display:flex;
 	justify-content:center;
 	font-weight: bold;
@@ -29,4 +28,3 @@
 	font-size: 20px;
 	cursor: pointer;
 }
-

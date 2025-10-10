@@ -2,106 +2,32 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    
     <title>결재 현황</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="approvalStatusPopup.css">
+    <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-
-    <div class="container">
-        <div id="frame-70">
-            <h2>결재 현황</h2>
-            <div class="approval-status-flow">
-                <div class="drafter-box">
-                    <div class="title">기안</div>
-                    <div class="name">지연우</div>
-                    <div class="date">2025. 09. 16.</div>
-                </div>
-                <div class="arrow"></div>
-                <div class="approvers-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>개발팀/대리</th>
-                                <th>개발팀/과장</th>
-                                <th>개발팀/부장</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <span class="name">배성윤</span>
-                                    <span class="date">2025. 09. 17.</span>
-                                </td>
-                                <td>
-                                    <span class="name">성민서</span>
-                                    <span class="date">2025. 09. 17.</span>
-                                </td>
-                                <td>
-                                    <span class="name">김채운</span>
-                                    <span class="status-rejected">반려</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <hr class="solid-divider">
-
-        <div id="frame-40-content">
-            <h2>결재 의견</h2>
-            <div class="approval-opinions-section">
-                <div class="opinion-item">
-                    <div class="info">
-                        <div class="name">배성윤</div>
-                        <div class="team">개발1팀 / 대리</div>
-                    </div>
-                    <div class="comment">-</div>
-                    <div class="result">
-                        <div class="status">결재</div>
-                        <div class="date">2025. 09. 17.</div>
-                    </div>
-                </div>
-                
-                <hr class="dashed-divider">
-
-                <div class="opinion-item">
-                    <div class="info">
-                        <div class="name">성민서</div>
-                        <div class="team">개발1팀 / 과장</div>
-                    </div>
-                    <div class="comment">-</div>
-                    <div class="result">
-                        <div class="status">결재</div>
-                        <div class="date">2025. 09. 17.</div>
-                    </div>
-                </div>
-                
-                <hr class="dashed-divider">
-
-                <div class="opinion-item">
-                    <div class="info">
-                        <div class="name">김채운</div>
-                        <div class="team">개발1팀 / 부장</div>
-                    </div>
-                    <div class="comment">
-                        신규 프로젝트 파견으로 현재 부서 내 인원이 부족한 상황입니다. 일정을 고려하여 다른 날짜에 다시 신청해 주시길 바랍니다.
-                    </div>
-                    <div class="result">
-                        <div class="status status-rejected">반려</div>
-                        <div class="date">2025. 09. 18.</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="actions">
-            <button class="btn-close">닫기</button>
-        </div>
-
-    </div>
-
+	<div class="approval-status-container">
+		<h2>결재 현황</h2>
+		<hr/>
+		<div class="approval-status-flow">
+			<table class="drafter-table">
+				<tr><td>기안</td></tr>
+				<tr><td>지연우</td></tr>
+				<tr><td>2025.09.17.</td></tr>
+			</table>
+			<img src="./img/chevron-right.png">
+			<table class="approvers-table"></table>
+		</div>
+	
+		<h3>결재 의견</h3>
+		<hr/>
+		<div class="approval-opinions-section"></div>
+		<hr/>
+		<div class="popup-btns">
+			<button class="popup-btn-false">닫기</button>
+		</div>
+	</div>
+	<script src="approvalStatusPopup.js"></script>
 </body>
 </html>

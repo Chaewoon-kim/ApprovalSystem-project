@@ -1,0 +1,7 @@
+.preview-container{
+	padding: 50px;
+	min-width: 626px;
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+}

@@ -1,0 +1,129 @@
+@CHARSET "UTF-8";
+
+/* 메인 콘텐츠 */
+.add-form {
+  flex: 1;
+  padding: 30px;
+  background: #fff;
+  box-sizing: border-box;
+  min-width: 600px;
+}
+
+.add-form h1 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #F49600;
+  padding-bottom: 8px;
+  color: #333;
+}
+
+/* 폼 그룹 */
+.form-group {
+  margin-bottom: 25px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 15px;
+  color: #333;
+}
+
+select,
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #D9D9D9;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+textarea {
+  resize: none;
+  background-color: #F9F9F9;
+}
+
+/* 결재선 + 내용영역 묶음 */
+.form-flex {
+  display: flex;
+  justify-content: flex-start;
+  gap: 40px; /* 결재선과 내용 양식 사이 간격 */
+  margin: 20px 0;
+}
+
+/* 결재선 영역 */
+.approval-line {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* 각 결재자 행 */
+.approver-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.approver-row label {
+  width: 120px;
+  margin: 0;
+  font-weight: normal;
+}
+
+.approver-row select {
+  flex: 1;
+  min-width: 180px;
+}
+
+/* 결재자 추가 버튼 (가로 네모) */
+.add-approver-btn {
+  display: inline-block;
+  background: #F49600;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 6px 20px;   /* 가로로 긴 형태 */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.add-approver-btn:hover {
+  background: #d17e00;
+}
+
+/* 내용양식 textarea */
+.textarea-box {
+  flex: 1; /* 오른쪽 영역 넓게 */
+  display: flex;
+  flex-direction: column;
+}
+
+.textarea-box textarea {
+  width: 100%;
+  resize: vertical;
+  padding: 10px;
+  font-size: 14px;
+}
+
+/* 설정 버튼 */
+.submit-btn {
+  display: inline-block;
+  background: #F49600;
+  color: #fff;
+  padding: 12px 25px;
+  font-size: 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.submit-btn:hover {
+  background: #d17e00;
+}

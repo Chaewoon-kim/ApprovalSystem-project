@@ -1,0 +1,55 @@
+@CHARSET "UTF-8";
+
+@CHARSET "UTF-8";
+
+.full{
+	width: 100vw;
+	height: 100vh;
+}
+.center {
+	display: flex;
+	justify-content: center; /*가로*/
+	align-items: center; /*세로*/
+}
+.vert {
+	display: flex;
+	flex-direction: column;
+	justify-content: center; /*가로*/
+	align-items: center; /*세로*/
+}
+.selectForm {
+	width: 100%;
+	height: 200px;
+	overflow: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: start; /*가로*/
+}
+.center-text{
+	text-align: center;
+}
+.border {
+	padding: 20px;
+	border: 1px solid gray;
+}
+
+.input {
+	width: 250px;
+	height: 40px;
+}
+
+.btn-submit {
+	width: 150px;
+	height: 50px;
+	background-color: #F49600;
+	color: white;
+	font-size: 20px;
+}
+
+.btn-cancel {
+	width: 150px;
+	height: 50px;
+	background-color: #FFFFFF;
+	color: black;
+	font-size: 20px;
+}

@@ -1,0 +1,52 @@
+.approval-status-flow{
+	display: flex;
+	padding: 30px;
+	gap: 30px;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+.approval-status-flow img{
+	width: 20px;
+	height: 20px;
+}
+.drafter-table{
+	border-collapse: collapse;
+}
+.drafter-table td{
+	padding: 10px;
+	border: 1px solid black;
+}
+
+.approvers-table{
+	border-collapse: collapse;
+}
+.approvers-table td{
+	padding: 10px;
+	border: 1px solid black;
+}
+.approval-opinions-section{
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+	justify-content: center;
+}
+.opinion-items{
+	display:flex;
+	justify-content: space-between;
+	margin: 10px;
+	gap: 10px;
+	text-align: center;
+}
+.opinion-items-info{
+	min-width: 110px;
+	padding: 10px;
+	border-right: 1px solid black; 
+}
+.opinion-items-comment{
+	padding: 10px 30px;
+}
+.opinion-items-status{
+	min-width: 110px;
+	padding:10px;
+}

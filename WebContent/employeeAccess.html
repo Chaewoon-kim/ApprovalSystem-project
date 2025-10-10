@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>전자결재 시스템 - 양식 목록</title>
+  	<link href="table.css" rel="stylesheet">
+  	<link href="common.css" rel="stylesheet">
+  	
+</head>
+<body>
+  <!-- 헤더 -->
+  <nav class="top-nav">
+    <div class="logo">로고자리</div>
+    <div class="profile">
+      <span class="label">관리자</span>
+      <span class="label">홍길동</span>
+      님, 환영합니다.
+      <img class="profile-img" src="https://cdn-icons-png.flaticon.com/512/6522/6522516.png">
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- 사이드바 -->
+    <nav class="side-nav">
+      <div class="menu">
+        <div class="menu-title">▼ 사원 관리</div>
+        <div class="submenu">
+          <div>접근 권한 관리</div>  
+        </div>
+      </div>  
+      <div class="menu">
+        <div class="menu-title">▼ 양식 관리</div>
+        <div class="submenu">
+          <div>양식 설정</div>
+          <div>양식 목록</div>
+        </div>
+      </div>  
+      <div class="logout">로그아웃</div>
+    </nav>
+
+    <!-- 메인 콘텐츠 -->
+    <main class="form-list">
+      <h1>접근 권한 관리</h1>
+      
+        <!-- 등록상태 필터 -->
+  <div class="status-filter">
+    <label for="statusSelect">등록 상태: </label>
+    <select id="statusSelect">
+      <option value="all">전체</option>
+      <option value="complete">등록</option>
+      <option value="reject">미등록</option>
+    </select>
+  </div>
+
+      <!-- 목록 테이블 -->
+      <table class="form-table">
+        <thead>
+          <tr>
+            <th>사번</th>
+            <th>이름</th>
+            <th>부서</th>
+            <th>직급</th>
+            <th>권한 수정</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>E25-055</td>
+            <td>김채운</td>
+            <td>개발</td>
+            <td>부장</td>
+            <td><button class="btn btn-use">권한 부여</button></td>
+          </tr>
+          <tr>
+            <td>E25-051</td>
+            <td>성민서</td>
+            <td>개발 </td>
+            <td>과장</td>
+            <td><button class="btn btn-unuse">권한 해제</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+       <!-- 페이지네이션 -->
+		<div class="pagination">
+		  <a href="#prev" class="page-arrow">&lt;</a>
+		  <a href="#1" class="page-number active">1</a>
+		  <a href="#2" class="page-number">2</a>
+		  <a href="#3" class="page-number">3</a>
+		  <a href="#3" class="page-number">4</a>
+		  <a href="#3" class="page-number">5</a>
+		  <a href="#next" class="page-arrow">&gt;</a>
+		</div>
+      
+    </main>
+  </div>
+
+	<script src="common.js"></script>
+    <script src="employeeAccess.js" ></script>
+</body>
+</html>

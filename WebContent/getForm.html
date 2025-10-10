@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>전자결재 시스템 - 양식 목록</title>
+  	<link href="table.css" rel="stylesheet">
+  	<link href="common.css" rel="stylesheet">
+  	
+</head>
+<body>
+  <!-- 헤더 -->
+  <nav class="top-nav">
+    <div class="logo">로고자리</div>
+    <div class="profile">
+      <span class="label">관리자</span>
+      <span class="label">홍길동</span>
+      님, 환영합니다.
+      <img class="profile-img" src="https://cdn-icons-png.flaticon.com/512/6522/6522516.png">
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- 사이드바 -->
+    <nav class="side-nav">
+      <div class="menu">
+        <div class="menu-title">▼ 사원 관리</div>
+        <div class="submenu">
+          <div>접근 권한 관리</div>  
+        </div>
+      </div>  
+      <div class="menu">
+        <div class="menu-title">▼ 양식 관리</div>
+        <div class="submenu">
+          <div>양식 설정</div>
+          <div>양식 목록</div>
+        </div>
+      </div>  
+      <div class="logout">로그아웃</div>
+    </nav>
+
+    <!-- 메인 콘텐츠 -->
+    <main class="form-list">
+      <h1>양식 목록</h1>
+
+      <!-- 검색 -->
+      <div class="search-box">
+        <input type="text" placeholder="카테고리, 양식제목 검색">
+        <button type="button">검색</button>
+      </div>
+
+      <!-- 목록 테이블 -->
+      <table class="form-table">
+        <thead>
+          <tr>
+            <th>양식 ID</th>
+            <th>카테고리</th>
+            <th>양식 제목</th>
+            <th>설명</th>
+            <th>상태</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>D1</td>
+            <td>출장</td>
+            <td>출장 신청서</td>
+            <td>출장 신청 서류</td>
+            <td><button class="btn btn-use">사용</button></td>
+          </tr>
+          <tr>
+            <td>D2</td>
+            <td>인사</td>
+            <td>결근 사유서</td>
+            <td>결근 사유 서류</td>
+            <td><button class="btn btn-unuse">미사용</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 페이지네이션 -->
+      <div class="pagination">
+        <span>&lt; 1 &gt;</span>
+      </div>
+    </main>
+  </div>
+
+	<script src="common.js"></script>
+    <script src="getForm.js" ></script>
+</body>
+</html>
