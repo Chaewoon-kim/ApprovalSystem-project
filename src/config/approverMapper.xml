@@ -4,24 +4,24 @@
 
 	<!-- 결재처리 1-8 -->
 	<!-- 1. 현재 결재자 승인 처리 -->
-	<update id="updateApproval" parameterType="com.oopsw.model.ApprovalLineVO">
+	<update id="processApproval" parameterType="com.oopsw.model.ApprovalLineVO">
 		update approval_line
 		set approval_status = #{approvalStatus}, opinion = #{opinion}, approval_date = sysdate
 		where document_no = #{documentNo} and approver_id = #{approverId}
 	</update>
 
 	<!-- 2. 다음 결재자 상태를 '결재대기'로 변경 -->
-	<update id="updateNextApproverToWait" parameterType="com.oopsw.model.ApprovalLineVO">
+	<update id="setNextApproverToWait" parameterType="com.oopsw.model.ApprovalLineVO">
 		update approval_line
 		set approval_status = '결재대기'
-		where document_no = #{documentNo} and line_order = #{lineOrder} + 1 and approval_status = '대기'
+		where document_no = #{documentNo} and line_order = #{lineOrder} + 1 and approval_status = '대기중'
 	</update>
 
 	<!-- 3. 다음 결재자 line_no 조회 -->
-	<select id="findNextApprovalLineNo" parameterType="com.oopsw.model.ApprovalLineVO" resultType="int">
-		select NVL(approval_line_no, 0)
+	<select id="findNextApprovalLineNo" parameterType="com.oopsw.model.ApprovalLineVO" resultType="Integer">
+		select approval_line_no
 		from approval_line
-		where document_no = #{documentNo} and line_order = #{lineOrder} + 1 and approval_status = '결재대기'
+		where document_no = #{documentNo} and line_order = #{lineOrder} + 1
 	</select>
 
 	<!-- 4. 다음 결재자 알림 (approval_request_noti) -->
@@ -38,14 +38,14 @@
 
 
 	<!-- 6. 문서상태변경, 반려 -->
-	<update id="updateDocReject" parameterType="com.oopsw.model.DocumentVO">
+	<update id="setDocReject" parameterType="com.oopsw.model.DocumentVO">
 		update document
 		set process_status = '반려', completion_date = sysdate
 		where document_no = #{documentNo}
 	</update>
 
 	<!-- 7. 문서상태변경, 완료 (마지막 결재자 승인 시) -->
-	<update id="updateDocComplete" parameterType="com.oopsw.model.DocumentVO">
+	<update id="setDocComplete" parameterType="com.oopsw.model.DocumentVO">
 		update document
 		set process_status = '완료', completion_date = sysdate, approved_document_no = 'D' || to_char(sysdate, 'YY') || '-' || to_char(approved_document_no_seq.nextval)
 		where document_no = #{documentNo}
@@ -53,9 +53,10 @@
 
 	<!-- 8. 부재 여부 확인 (대결자 정보 조회) -->
 	<select id="checkAbsence" parameterType="string" resultType="com.oopsw.model.AbsenceVO">
-		select a.absence_date_no, a.absentee_id, a.proxy_id, a.absence_start_date, a.absence_end_date, a.absence_usage
+		select a.absence_date_no as absenceDateNo, a.absentee_id as absenteeId, a.proxy_id as proxyId, 
+			a.absence_start_date as absenceStartDate, a.absence_end_date as absenceEndDate, a.absence_usage as absenceUsage
 		from absence a
-		where a.absentee_id = #{approverId} and a.absence_usage = '위임' and sysdate between a.absence_start_date and a.absence_end_date
+		where a.absentee_id = #{approverId} and a.absence_usage = '위임'
 	</select>
 
 
@@ -116,14 +117,14 @@
 	</insert>
 
 	<!-- 위임 철회 (사용여부가 위임중일때만) -->
-	<update id="revokeAbsence" parameterType="int">
+	<update id="endAbsence" parameterType="int">
 		update absence
 		set absence_end_date = trunc(sysdate), absence_usage = '종료'
 		where absence_date_no = #{absenceDateNo} and absence_usage = '위임'
 	</update>
 
 	<!-- 부재 수정 -->
-	<update id="updateAbsence" parameterType="com.oopsw.model.AbsenceVO">
+	<update id="modifyAbsence" parameterType="com.oopsw.model.AbsenceVO">
 		update absence
 		set proxy_id = #{proxyId}, absence_start_date = #{absenceStartDate}, absence_end_date = #{absenceEndDate}, absence_reason = #{absenceReason}, absence_usage = #{absenceUsage}
 		where absence_date_no = #{absenceDateNo}

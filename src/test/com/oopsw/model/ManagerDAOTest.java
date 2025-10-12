@@ -94,7 +94,7 @@ public class ManagerDAOTest {
 	@Test
 	public void invertFormUsageTest(){
 		FormVO vo = new FormVO();
-		vo.setFormId("23");
+		vo.setFormId("D2");
 		
 		assertTrue(managerDAO.invertFormUsage(vo));
 	}

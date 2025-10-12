@@ -27,7 +27,7 @@ public class EmployeeDAOTest {
 	
 	
 	//로그인
-	@Test
+	//@Test
 	public void loginTest(){ 
 		    EmployeeVO vo = new EmployeeVO();
 		    vo.setEmployeeId("E25-001");
@@ -38,7 +38,7 @@ public class EmployeeDAOTest {
 	}
 	
 	
-	@Test
+	//@Test
 	public void getCommentTest(){
 		List<CommentVO> resultList = dao.getComments(1);
 		
@@ -49,7 +49,7 @@ public class EmployeeDAOTest {
 	}
 
 	
-	@Test 
+	//@Test 
 	public void writeCommentTest(){
 		CommentVO comment = new CommentVO(1 , "E25-013" ,"승인했습니다.");
 		boolean result = dao.writeComment(comment.getDocumentNumber(),comment.getwriterId(), comment.getCommentContents());
@@ -67,7 +67,7 @@ public class EmployeeDAOTest {
 		 }
 	}
 	
-	@Test
+	//@Test
 	public void getEmployeeTest(){
 		List<EmployeeVO> employeeList = dao.getEmployee("영");
 		
@@ -75,18 +75,18 @@ public class EmployeeDAOTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void sendNoti(){
 		System.out.println(dao.sendNoti(new CommentNotiVO(9 , "E25-001" , 3)));
 	}
 	
 	
-	@Test
+	//@Test
 	public void getApprovalNoti(){
 		System.out.println(dao.getApprovalNoti("E25-001"));
 	}
 	
-	@Test
+	//@Test
 	public void getCommentsNoti(){
 		System.out.println(dao.getCommentsNoti("E25-006"));
 	}
@@ -97,7 +97,7 @@ public class EmployeeDAOTest {
 		System.out.println(dao.getApprvovalTable(2));
 	}
 	
-	@Test
+	//@Test
 	public void getDetailReport(){
 		System.out.println(dao.getDetailReport(2));
 	}

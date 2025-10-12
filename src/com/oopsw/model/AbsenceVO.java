@@ -84,6 +84,15 @@ public class AbsenceVO {
 	public void setAbsenceReadStatus(Date absenceReadStatus) {
 		this.absenceReadStatus = absenceReadStatus;
 	}
+
+
+	@Override
+	public String toString() {
+		return "AbsenceVO [absenceDateNo=" + absenceDateNo + ", absenteeId=" + absenteeId + ", proxyId=" + proxyId
+				+ ", absenceStartDate=" + absenceStartDate + ", absenceEndDate=" + absenceEndDate + ", absenceReason="
+				+ absenceReason + ", absenceUsage=" + absenceUsage + ", notiInDate=" + notiInDate
+				+ ", absenceReadStatus=" + absenceReadStatus + "]\n";
+	}
     
     
 

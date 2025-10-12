@@ -92,6 +92,16 @@ public class ApproverListVO {
 	public void setProcessStatus(String processStatus) {
 		this.processStatus = processStatus;
 	}
+
+
+	@Override
+	public String toString() {
+		return "ApproverListVO [documentNo=" + documentNo + ", deadline=" + deadline + ", draftDate=" + draftDate
+				+ ", completionDate=" + completionDate + ", title=" + title + ", department=" + department
+				+ ", approvedDocumentNo=" + approvedDocumentNo + ", approvalStatus=" + approvalStatus + ", name=" + name
+				+ ", processStatus=" + processStatus + "]\n";
+	}
+	
 	
 	
 

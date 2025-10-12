@@ -19,7 +19,7 @@ public class ManagerDAO {
 	public boolean invertPermissioin(EmployeeVO employeeVO){
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		
-		boolean result = conn.update("invertPermission", employeeVO) == 1;
+		boolean result = conn.update("managerMapper.invertPermission", employeeVO) == 1;
 		conn.close();
 		
 		return result;

@@ -27,8 +27,9 @@ public class ApprovalProcessAction implements Action {
         try {
         	// 부재 여부 확인
             AbsenceVO absence = dao.checkAbsence(approverId);
-            if (absence != null) {
-                approverId = absence.getProxyId(); // 대결자가 결재하도록
+            if (absence != null && !absence.getProxyId().equals(approverId)) {
+                request.setAttribute("message", "현재 부재 설정 중, 대결자만 결재 가능.");
+                return "approvalFail.jsp";
             }
 
             ApprovalLineVO vo = new ApprovalLineVO();
@@ -37,36 +38,37 @@ public class ApprovalProcessAction implements Action {
             vo.setApprovalStatus(approvalStatus);
             vo.setOpinion(opinion);
             vo.setLineOrder(lineOrder);
-            dao.updateApproval(vo);
+            
+            dao.processApproval(vo); 
 
             if (approvalStatus.equals("승인")) {
-                int nextLineNo = dao.findNextApprovalLineNo(vo);
+                Integer nextLineNo = dao.findNextApprovalLineNo(vo);
 
-                if (nextLineNo != 0) {
+                if (nextLineNo != null) {
                     // 다음 결재자 존재 -> 결재대기 처리 + 알림
-                    dao.updateNextApproverToWait(vo);
+                    dao.setNextApproverToWait(vo);
                     vo.setApprovalLineNo(nextLineNo);
                     dao.sendRequestNoti(vo);
                 } else {
                     // 마지막 결재자 -> 문서 완료 처리 + 알림
                     DocumentVO doc = new DocumentVO();
                     doc.setDocumentNo(documentNo);
-                    dao.updateDocComplete(doc);
+                    dao.setDocComplete(doc);
                     dao.sendProcessNoti(vo);
                 }
+                request.setAttribute("message", "승인 완료");
+                url = "controller?cmd=getApprovalWaitList";
 
             } else if (approvalStatus.equals("반려")) {
                 // 반려 처리 -> 문서 반려 + 알림
                 DocumentVO doc = new DocumentVO();
                 doc.setDocumentNo(documentNo);
-                dao.updateDocReject(doc);
+                dao.setDocReject(doc);
                 dao.sendProcessNoti(vo);
                 request.setAttribute("message", "반려 처리 완료");
+                url = "controller?cmd=getApprovalWaitList";
             }
             
-            request.setAttribute("message", "결재 완료");
-            url = "controller?cmd=getApprovalWaitList";
-
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("message", "결재 실패");

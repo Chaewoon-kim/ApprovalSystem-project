@@ -43,7 +43,7 @@ public class ModifyAbsenceAction implements Action {
         vo.setAbsenceUsage(usage);
 
         ApproverDAO dao = new ApproverDAO();
-        boolean result = dao.updateAbsence(vo);
+        boolean result = dao.modifyAbsence(vo);
 
         if (result) {
             request.setAttribute("message", "부재 정보가 성공적으로 수정되었습니다.");

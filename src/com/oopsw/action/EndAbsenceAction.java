@@ -16,7 +16,7 @@ public class EndAbsenceAction implements Action {
 		int absenceDateNo = Integer.parseInt(request.getParameter("absenceDateNo"));
 
 		ApproverDAO dao = new ApproverDAO();
-		boolean result = dao.revokeAbsence(absenceDateNo);
+		boolean result = dao.endAbsence(absenceDateNo);
 
 		if (result) {
 			request.setAttribute("message", "위임이 성공적으로 철회되었습니다.");

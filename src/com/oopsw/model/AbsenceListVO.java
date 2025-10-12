@@ -105,6 +105,16 @@ public class AbsenceListVO {
 	public void setAbsenteeRank(String absenteeRank) {
 		this.absenteeRank = absenteeRank;
 	}
+
+
+
+	@Override
+	public String toString() {
+		return "AbsenceListVO [absenceDateNo=" + absenceDateNo + ", absenteeId=" + absenteeId + ", proxyId=" + proxyId
+				+ ", absenceStartDate=" + absenceStartDate + ", absenceEndDate=" + absenceEndDate + ", absenceReason="
+				+ absenceReason + ", absenceUsage=" + absenceUsage + ", proxyName=" + proxyName + ", proxyRank="
+				+ proxyRank + ", absenteeName=" + absenteeName + ", absenteeRank=" + absenteeRank + "]\n";
+	}
     
     
     
