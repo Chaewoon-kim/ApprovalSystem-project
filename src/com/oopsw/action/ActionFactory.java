@@ -48,19 +48,16 @@ public class ActionFactory {
 		case "getApprovalStatus":
 			a = new GetApprovalStatusAction();
 			break;
-		case "submitTempDoc":
-			a = new SubmitTempDocAction();
+		case "saveTempDoc":
+			a = new SaveTempDocAction();
 			break;
 		case "getTempDoc":
 			a = new GetTempDocAction();
 		case "getTempList":
 			a = new GetTempListAction();
 			break;
-		case "addDoc":
-			a = new AddDocAction();
-			break;
-		case "getDefaultLine":
-			a = new GetDefaultLineAction();
+		case "submitDoc":
+			a = new SubmitDocAction();
 			break;
 		case "getReqList":
 			a = new GetReqListAction();

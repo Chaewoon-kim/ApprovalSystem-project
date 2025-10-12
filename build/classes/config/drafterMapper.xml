@@ -48,7 +48,7 @@
 			select document_no_seq.nextval from dual
 		</selectKey>
 		insert into document (document_no, employee_id, form_id, title, contents, process_status, temporary_save_date, deadline)
-		values (#{documentNo}, #{employeeId}, #{formId}, #{title}, #{contents}, '임시저장', sysdate, '2025-10-05')
+		values (#{documentNo}, #{employeeId}, #{formId}, #{title}, #{contents}, '임시저장', sysdate, #{deadline})
 	</insert>
 	<select id="getTempList" parameterType="String" resultType="com.oopsw.model.TempDocumentVO">
 		select d.document_no documentNo, df.form_name formName, d.title, d.process_status processStatus, d.temporary_save_date temporarySaveDate

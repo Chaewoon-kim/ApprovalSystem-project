@@ -11,13 +11,14 @@ import com.oopsw.model.ApprovalLineVO;
 import com.oopsw.model.DocumentVO;
 import com.oopsw.model.DrafterDAO;
 
-public class AddDocAction implements Action {
+public class SubmitDocAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
 		String url = null;
 		DrafterDAO d = new DrafterDAO();
 		HttpSession session = request.getSession();
+		String documentNoStr = request.getParameter("documentNo");//임시저장 안했었으면 null
 		String employeeId = (String) session.getAttribute("employeeId");
 		String formId = request.getParameter("formId");
 		String title = request.getParameter("title");
@@ -28,22 +29,31 @@ public class AddDocAction implements Action {
 		String formattedMonth = String.format("%02d", Integer.parseInt(month));
 		String formattedDay = String.format("%02d", Integer.parseInt(day));
 		Date deadline = java.sql.Date.valueOf(year + "-" + formattedMonth+ "-" + formattedDay);
-		String isTemp = request.getParameter("isTemp");
 		String[] approverIds = request.getParameterValues("approverId");
-		//문서등록
-		int newDocumentNo = 0;
-		if(isTemp != null){
-			newDocumentNo = d.saveTempDoc(new DocumentVO(employeeId, formId, title, contents, deadline));
+		boolean result = false;
+		//1. 문서등록
+		int documentNo = (documentNoStr != null) ? Integer.parseInt(documentNoStr) : 0;
+		
+		if(documentNoStr != null){
+			//임시저장했던 문서인 경우
+			result = d.submitTempDoc(new DocumentVO(documentNo, title, contents, deadline));
 		}else{
-			newDocumentNo = d.addDoc(new DocumentVO(employeeId, formId, title, contents, deadline));
+			//처음 작성하는 문서인 경우
+			documentNo = d.addDoc(new DocumentVO(employeeId, formId, title, contents, deadline));
 		}
+		//2. 결재자 등록
 		int firstApprovalLineNo = 0;
-		//결재자등록
+		
+		//임시저장된 문서였던 경우 기존 결재자 삭제
+		if(documentNoStr != null){
+			int count = d.removeApprovers(documentNo);
+		}
+		
 		for (int i = 1; i <= approverIds.length; i++) {
-			if(isTemp == null && i == 1){
-				firstApprovalLineNo = d.addApprovers(new ApprovalLineVO(newDocumentNo, approverIds[i], i, "결재대기"));
+			if(i == 1){
+				firstApprovalLineNo = d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i, "결재대기"));
 			}else{
-				d.addApprovers(new ApprovalLineVO(newDocumentNo, approverIds[i], i, "대기중"));
+				d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i, "대기중"));
 			}
 		}
 		
