@@ -16,6 +16,7 @@ import com.oopsw.action.draft.GetTempListAction;
 import com.oopsw.action.draft.SaveTempDocAction;
 import com.oopsw.action.draft.SetFormAction;
 import com.oopsw.action.draft.SubmitDocAction;
+import com.oopsw.action.employee.GetNotiAction;
 import com.oopsw.action.manager.GetEmployeesAction;
 import com.oopsw.action.manager.InvertAccessPermissionAction;
 
@@ -62,7 +63,7 @@ public class ActionFactory {
 		
 			
 		case "getApprovalProcessNoti":
-			a = new GetApprovalProcessNoti();
+			a = new GetNotiAction();
 			break;
 		case "getApprovalStatus":
 			a = new GetApprovalStatusAction();

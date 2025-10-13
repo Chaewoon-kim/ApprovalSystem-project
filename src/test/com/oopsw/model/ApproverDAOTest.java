@@ -138,7 +138,7 @@ public class ApproverDAOTest {
 		assertTrue(dao.deleteAbsence(13));
 	}
 
-//	@Test
+	@Test
 	public void getApprovalReqNotiTest() {
 		System.out.println(dao.getApprovalReqNoti("E25-013"));
 	}

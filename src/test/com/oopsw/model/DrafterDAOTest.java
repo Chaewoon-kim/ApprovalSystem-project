@@ -85,12 +85,12 @@ public class DrafterDAOTest {
 		System.out.println(d.getApprovalStatus(20));
 	}
 	
-//	@Test
+	@Test
 	public void getAllApprovalProcessNotiTest() {
 		System.out.println(d.getApprovalProcessNoti(new GetListVO("E25-004", null, 0)));
 	}
 	
-	@Test
+//	@Test
 	public void getStatusApprovalProcessNotiTest() {
 		System.out.println(d.getApprovalProcessNoti(new GetListVO("E25-004", "¿Ï·á", 0)));
 	}

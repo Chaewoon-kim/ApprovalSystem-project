@@ -4,7 +4,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.oopsw.model.DBCP;
-import com.oopsw.model.VO.AbsenceVO;
+import com.oopsw.model.VO.AlarmVO;
 import com.oopsw.model.VO.ApprovalLineEmployeeVO;
 import com.oopsw.model.VO.CommentNotiVO;
 import com.oopsw.model.VO.CommentVO;
@@ -108,8 +108,8 @@ public class EmployeeDAO {
 	}
 	
 	//대결 알림
-	public List<AbsenceVO> getApprovalNoti(String proxyId) {
-	    List<AbsenceVO> result = null;
+	public List<AlarmVO> getApprovalNoti(String proxyId) {
+	    List<AlarmVO> result = null;
 	    SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 	    try {
 	        result = conn.selectList("employeeMapper.getApprovalNoti", proxyId);
@@ -120,8 +120,8 @@ public class EmployeeDAO {
 	}
 
 	//댓글 알림 (받기)
-	public List<CommentVO> getCommentsNoti(String recipientId){
-		List<CommentVO> result = null;
+	public List<AlarmVO> getCommentsNoti(String recipientId){
+		List<AlarmVO> result = null;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		
 		try{
@@ -157,6 +157,27 @@ public class EmployeeDAO {
 			conn.close();
 		}
 		
+		return result;
+	}
+	
+	public boolean readProcessNoti(int notiNo){
+		boolean result = false;
+		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+		result = conn.update("employeeMapper.readProcessNoti", notiNo) == 1;
+		return result;
+	}
+	
+	public boolean readRequestNoti(int notiNo){
+		boolean result = false;
+		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+		result = conn.update("employeeMapper.readRequestNoti", notiNo) == 1;
+		return result;
+	}
+	
+	public boolean readCommentNoti(int notiNo){
+		boolean result = false;
+		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+		result = conn.update("employeeMapper.readCommentNoti", notiNo) == 1;
 		return result;
 	}
 	

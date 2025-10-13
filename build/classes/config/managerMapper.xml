@@ -2,7 +2,7 @@
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="managerMapper">
 	<!-- 사원 목록 조회 -->
-	<select id="getEmployees" parameterType="com.oopsw.model.EmployeeVO" resultType="com.oopsw.model.EmployeeVO">
+	<select id="getEmployees" parameterType="com.oopsw.model.VO.EmployeeVO" resultType="com.oopsw.model.VO.EmployeeVO">
 		select employee_id employeeId, name, department, rank, access_permission accessPermission 
 		from (
 			select e.*, ROW_NUMBER() over (order by employee_id asc) as rn
@@ -12,7 +12,7 @@
 	</select>
 	
 	<!-- 사원 접근권한 수정 -->
-	<update id="invertPermission" parameterType="com.oopsw.model.EmployeeVO">
+	<update id="invertPermission" parameterType="com.oopsw.model.VO.EmployeeVO">
 		update employee 
 		set access_permission = 
 		case
@@ -23,7 +23,7 @@
 	</update>
 	
 	<!-- 사원 권한별 조회 -->
-	<select id="getEmployeesByPermission" parameterType="com.oopsw.model.EmployeeVO" resultType="com.oopsw.model.EmployeeVO">
+	<select id="getEmployeesByPermission" parameterType="com.oopsw.model.VO.EmployeeVO" resultType="com.oopsw.model.VO.EmployeeVO">
 		select employee_id employeeId, name, department, rank, access_permission accessPermission
 		from (
 			select e.*, ROW_NUMBER() over (order by employee_id desc) as rn
@@ -34,7 +34,7 @@
 	</select>
 	
 	<!-- 양식 추가  -->
-	<insert id="addForm" parameterType="com.oopsw.model.FormVO">
+	<insert id="addForm" parameterType="com.oopsw.model.VO.FormVO">
 		<selectKey keyProperty="formId" resultType="String" order="BEFORE">
 			select 'D' || to_char(form_id_seq.nextval) from dual
 		</selectKey>
@@ -44,13 +44,13 @@
 	</insert>
 	
 	<!-- 기본 결재선 설정 -->
-	<insert id="addApprovalLine" parameterType="com.oopsw.model.DefaultApprovalLineVO">
+	<insert id="addApprovalLine" parameterType="com.oopsw.model.VO.DefaultApprovalLineVO">
 		insert into default_approval_line(default_approval_line_no, form_id , rank , line_order) 
 		values(default_approval_line_no_seq.nextval , #{formId}, #{rank}, #{lineOrder})
 	</insert>
 	
 	<!-- 양식 목록 조회 -->
-	<select id="getForms" resultType="com.oopsw.model.FormVO">
+	<select id="getForms" resultType="com.oopsw.model.VO.FormVO">
 		select form_id formId, form_category formCategory, form_name formName, form_description formDescription, form_usage formUsage
 		from document_form
 		order by form_id
@@ -68,7 +68,7 @@
 	</update>
 	
 	<!-- 양식 검색 -->
-	<select id="getFormsByKeyword" parameterType="com.oopsw.model.FormVO" resultType="com.oopsw.model.FormVO">
+	<select id="getFormsByKeyword" parameterType="com.oopsw.model.VO.FormVO" resultType="com.oopsw.model.VO.FormVO">
 		select form_id formId, form_category formCategory, form_name formName, form_description formDescription, form_usage formUsage
 		from document_form
 		where (#{keyword} is null or form_category = #{keyword} or form_name like '%' || #{keyword} || '%')
