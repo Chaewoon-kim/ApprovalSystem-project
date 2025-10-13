@@ -6,7 +6,7 @@ public class CommentVO {
 
 		
 		private int documentNumber;
-		private EmployeeVO writerName;
+		private String writerName;
 	    private String writerId;     
 	    private String commentContents;
 	    private Date commentInDate;  
@@ -29,11 +29,11 @@ public class CommentVO {
 	    
 
 
-		public EmployeeVO getWriterName() {
+		public String getWriterName() {
 			return writerName;
 		}
 
-		public void setWriterName(EmployeeVO writerName) {
+		public void setWriterName(String writerName) {
 			this.writerName = writerName;
 		}
 
@@ -95,6 +95,13 @@ public class CommentVO {
 
 		public void setDeleteStatus(Date deleteStatus) {
 			this.deleteStatus = deleteStatus;
+		}
+
+		@Override
+		public String toString() {
+			return "CommentVO [writerName=" + writerName + ", writerId="
+					+ writerId + ", commentContents=" + commentContents + ", commentInDate=" + commentInDate
+					+ "]";
 		}
 	    
 	    

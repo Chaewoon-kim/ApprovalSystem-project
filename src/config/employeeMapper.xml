@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="employeeMapper">
+
+
+
+	
+	<!-- 로그인 -->
+    <select id="login" parameterType="com.oopsw.model.EmployeeVO" resultType="com.oopsw.model.EmployeeVO">
+        select employee_id as employeeId, name
+        from employee
+        where employee_id = #{employeeId} and password = #{password}
+    </select>
+
+
+ 	<!-- 댓글 조회 -->
+    <select id="getComments" parameterType="int" resultType="com.oopsw.model.CommentVO">
+        select 
+            e.employee_id   as writerId,
+            e.name          as writerName,
+            c.comment_contents as commentContents,
+            c.comment_in_date  as commentInDate
+        from comments c
+        join employee e on c.writer_id = e.employee_id
+        where c.document_no = #{documentNumber} and c.del_status is null
+        order by c.comment_no
+    </select>
+    
+    <!-- 댓글 작성 -->
+    <insert id="writeComment" parameterType="com.oopsw.model.CommentVO">
+        insert into comments 
+            (comment_no, document_no, writer_id, comment_contents, comment_in_date, comment_up_date, del_status)
+        values
+            (comment_no_seq.nextval, #{documentNumber}, #{writerId}, #{commentContents}, 
+             SYSDATE, NULL, NULL)
+    </insert>
+    
+    
+    <!-- 전체 사원 검색 -->
+    <select id="getAllEmployees" resultType="com.oopsw.model.EmployeeVO">
+        select employee_id as employeeId,name,department,rank
+        from employee
+        order by employee_id
+    </select>
+
+
+	<!-- 특정 사원 검색 -->
+    <select id="getEmployee" parameterType="String" resultType="com.oopsw.model.EmployeeVO">
+        select employee_id as employeeId, name,department,rank
+        from employee
+        where name like '%' || #{keyword} || '%'
+           or department like '%' || #{keyword} || '%'
+           or rank like '%' || #{keyword} || '%'
+        order by employee_id
+    </select>
+	
+	
+	
+	<!-- 댓글 알림 보내기 -->
+	<insert id="sendNoti" parameterType="com.oopsw.model.CommentNotiVO">
+		insert into comment_noti (comment_noti_no, comment_no, recipient_id,
+		document_no)
+		select comment_noti_no_seq.nextval, #{commentNo}, emp_id, #{documentNo}
+		from (
+		select employee_id emp_id
+		from document
+		where document_no = #{documentNo}
+		and employee_id != #{recipientId}
+		union
+		select approver_id emp_id
+		from approval_line
+		where document_no = #{documentNo}
+		and approver_id != #{recipientId}
+		)
+	</insert>
+	
+	
+	<!-- 대결 알림 -->
+	<select id="getApprovalNoti" resultType="com.oopsw.model.AbsenceVO" parameterType="String">
+		select e.name , a.absence_Reason as absenceReason , a.noti_In_Date as
+		notiInDate , a.absence_Read_Status as absenceReadStatus
+		from absence a
+		join employee e on e.employee_id = a.absentee_id
+		where proxy_Id = #{proxyId}
+	</select>
+	
+	
+	<!-- 댓글 알림 (받기) -->
+	<select id="getCommentsNoti" resultType = "com.oopsw.model.CommentVO" parameterType = "String">
+		select e.name writerName, c.comment_contents commentContents, c.comment_in_date commentInDate
+		from comment_noti cn
+		join comments c on c.comment_no = cn.comment_no
+		join employee e on c.writer_id = e.employee_id
+		where cn.recipient_id = #{recipientId}
+	</select>
+	
+	
+	
+	<!-- 결재선 테이블에서 가져오기 -->
+	<select id = "getApprovalTable" resultType = "com.oopsw.model.ApprovalLineEmployeeVO" parameterType = "int">
+		select e.employee_Id as employeeId, e.name as name, e.department as department , e.rank as rank, al.line_order as lineOrder,
+	    al.approval_date as approvalDate, al.approval_status as approvalStatus
+		from approval_line al 
+		join employee e on al.approver_id = e.employee_id
+		where al.document_no = #{documentNo}
+	</select>
+	
+	
+	<!-- 결재 신청 문서 상세 조회 -->
+	<select id = "getDetailReport" resultType = "com.oopsw.model.DocumentDetailVO" parameterType = "int">
+			select d.employee_id as employeeId ,e.name as employeeName ,  e.department as employeeDepartment , e.rank as employeeRank , d.deadline as deadline , d.draft_date as draftDate , d.completion_date as completionDate
+			 , d.title as title , df.form_name as formName , d.contents as contents , d.document_no as documentNo
+			from document d
+			join document_form df on d.form_id = df.form_id
+			join employee e on d.employee_id = e.employee_id
+			where d.document_no = #{documentNo}
+		
+		</select>
+
+</mapper>
