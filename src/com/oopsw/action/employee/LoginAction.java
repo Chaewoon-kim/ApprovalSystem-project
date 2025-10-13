@@ -29,7 +29,8 @@ public class LoginAction implements Action {
 		
 			url = "webpage/approve/getApprovalWaitList.html";
 			if(vo.getRank().equals("»ç¿ø")){
-				url = "webpage/draft/getReport.html";
+				url = "webpage/draft/getReport.jsp";
+//				url = "webpage/employee/common.jsp";
 			}
 		}
 		return url;
