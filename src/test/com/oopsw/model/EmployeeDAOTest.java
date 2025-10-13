@@ -27,12 +27,11 @@ public class EmployeeDAOTest {
 	
 
 	//∑Œ±◊¿Œ
-//	@Test
+	@Test
 	public void loginTest(){ 
-		    EmployeeVO vo = new EmployeeVO("E25-001" , "a1lb2@c3");
+		    EmployeeVO vo = new EmployeeVO("E25-021" , "asdf123!");
 		    EmployeeVO result = dao.login(vo);       
-		    assertEquals("±ËπŒ¡ÿ", result.getName()); 
-	
+		    System.out.println(result);
 	}
 	
 	

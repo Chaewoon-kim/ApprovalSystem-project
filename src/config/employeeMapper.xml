@@ -3,9 +3,9 @@
 <mapper namespace="employeeMapper">
 	<!-- 로그인 -->
     <select id="login" parameterType="com.oopsw.model.VO.EmployeeVO" resultType="com.oopsw.model.VO.EmployeeVO">
-        select employee_id as employeeId, name
-        from employee
-        where employee_id = #{employeeId} and password = #{password}
+        select name, department, rank, manager_permission managerPermission
+   		from employee
+        where employee_id = #{employeeId} and password = #{password} and access_permission = 'Y'
     </select>
 
 

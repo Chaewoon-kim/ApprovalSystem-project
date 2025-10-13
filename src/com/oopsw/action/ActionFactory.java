@@ -17,6 +17,8 @@ import com.oopsw.action.draft.SaveTempDocAction;
 import com.oopsw.action.draft.SetFormAction;
 import com.oopsw.action.draft.SubmitDocAction;
 import com.oopsw.action.employee.GetNotiAction;
+import com.oopsw.action.employee.LoginAction;
+import com.oopsw.action.employee.LoginUIAction;
 import com.oopsw.action.manager.GetEmployeesAction;
 import com.oopsw.action.manager.InvertAccessPermissionAction;
 
@@ -25,7 +27,13 @@ public class ActionFactory {
 	public static Action getAction(String cmd){
 		Action a = null;
 		switch(cmd){
-		
+		case "loginAction":
+			a = new LoginAction();
+			break;
+		case "loginUI":
+		case "mainUI":
+			a = new LoginUIAction();
+			break;
 		case "getEmployees": 
 			a = new GetEmployeesAction();
 			break;
