@@ -1,4 +1,4 @@
-package com.oopsw.model;
+package com.oopsw.model.VO;
 
 public class EmployeeVO {
 	private String employeeId;

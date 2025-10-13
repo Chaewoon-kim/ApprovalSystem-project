@@ -7,8 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.oopsw.model.DrafterDAO;
-import com.oopsw.model.TempDocumentVO;
+import com.oopsw.model.DAO.DrafterDAO;
+import com.oopsw.model.VO.TempDocumentVO;
 
 public class GetTempListAction implements Action {
 

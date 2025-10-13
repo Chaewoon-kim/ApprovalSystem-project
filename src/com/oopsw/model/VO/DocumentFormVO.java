@@ -1,4 +1,4 @@
-package com.oopsw.model;
+package com.oopsw.model.VO;
 
 public class DocumentFormVO {
 	private String formId;

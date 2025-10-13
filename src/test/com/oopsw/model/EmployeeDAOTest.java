@@ -5,9 +5,9 @@ import java.sql.Connection;
 import java.util.List;
 
 import com.oopsw.model.CommentNotiVO;
-import com.oopsw.model.CommentVO;
-import com.oopsw.model.EmployeeDAO;
-import com.oopsw.model.EmployeeVO;
+import com.oopsw.model.DAO.EmployeeDAO;
+import com.oopsw.model.VO.CommentVO;
+import com.oopsw.model.VO.EmployeeVO;
 
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;

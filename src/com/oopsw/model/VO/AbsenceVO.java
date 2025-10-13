@@ -1,8 +1,8 @@
-package com.oopsw.model;
+package com.oopsw.model.VO;
 
 import java.sql.Date;
 
-public class AbsenceListVO {
+public class AbsenceVO {
 	private int absenceDateNo;
     private String absenteeId;
     private String proxyId;
@@ -10,19 +10,14 @@ public class AbsenceListVO {
     private Date absenceEndDate;
     private String absenceReason;
     private String absenceUsage;
+    private Date notiInDate;
+    private Date absenceReadStatus;
     
-    private String proxyName;
-    private String proxyRank;
-    private String absenteeName;
-    private String absenteeRank;
-    
-    public AbsenceListVO(){};
+    public AbsenceVO(){};
     
     
-    
-	public AbsenceListVO(int absenceDateNo, String absenteeId, String proxyId, Date absenceStartDate,
-			Date absenceEndDate, String absenceReason, String absenceUsage,
-			String proxyName, String proxyRank, String absenteeName, String absenteeRank) {
+	public AbsenceVO(int absenceDateNo, String absenteeId, String proxyId, Date absenceStartDate, Date absenceEndDate,
+			String absenceReason, String absenceUsage, Date notiInDate, Date absenceReadStatus) {
 		this.absenceDateNo = absenceDateNo;
 		this.absenteeId = absenteeId;
 		this.proxyId = proxyId;
@@ -30,12 +25,9 @@ public class AbsenceListVO {
 		this.absenceEndDate = absenceEndDate;
 		this.absenceReason = absenceReason;
 		this.absenceUsage = absenceUsage;
-		this.proxyName = proxyName;
-		this.proxyRank = proxyRank;
-		this.absenteeName = absenteeName;
-		this.absenteeRank = absenteeRank;
+		this.notiInDate = notiInDate;
+		this.absenceReadStatus = absenceReadStatus;
 	}
-
 
 
 	public int getAbsenceDateNo() {
@@ -80,45 +72,27 @@ public class AbsenceListVO {
 	public void setAbsenceUsage(String absenceUsage) {
 		this.absenceUsage = absenceUsage;
 	}
-
-	public String getProxyName() {
-		return proxyName;
+	public Date getNotiInDate() {
+		return notiInDate;
 	}
-	public void setProxyName(String proxyName) {
-		this.proxyName = proxyName;
+	public void setNotiInDate(Date notiInDate) {
+		this.notiInDate = notiInDate;
 	}
-	public String getProxyRank() {
-		return proxyRank;
+	public Date getAbsenceReadStatus() {
+		return absenceReadStatus;
 	}
-	public void setProxyRank(String proxyRank) {
-		this.proxyRank = proxyRank;
+	public void setAbsenceReadStatus(Date absenceReadStatus) {
+		this.absenceReadStatus = absenceReadStatus;
 	}
-	public String getAbsenteeName() {
-		return absenteeName;
-	}
-	public void setAbsenteeName(String absenteeName) {
-		this.absenteeName = absenteeName;
-	}
-	public String getAbsenteeRank() {
-		return absenteeRank;
-	}
-	public void setAbsenteeRank(String absenteeRank) {
-		this.absenteeRank = absenteeRank;
-	}
-
 
 
 	@Override
 	public String toString() {
-		return "AbsenceListVO [absenceDateNo=" + absenceDateNo + ", absenteeId=" + absenteeId + ", proxyId=" + proxyId
+		return "AbsenceVO [absenceDateNo=" + absenceDateNo + ", absenteeId=" + absenteeId + ", proxyId=" + proxyId
 				+ ", absenceStartDate=" + absenceStartDate + ", absenceEndDate=" + absenceEndDate + ", absenceReason="
-				+ absenceReason + ", absenceUsage=" + absenceUsage + ", proxyName=" + proxyName + ", proxyRank="
-				+ proxyRank + ", absenteeName=" + absenteeName + ", absenteeRank=" + absenteeRank + "]\n";
+				+ absenceReason + ", absenceUsage=" + absenceUsage + ", notiInDate=" + notiInDate
+				+ ", absenceReadStatus=" + absenceReadStatus + "]\n";
 	}
-    
-    
-    
-    
     
     
 

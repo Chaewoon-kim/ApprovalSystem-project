@@ -10,10 +10,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.junit.Before;
 import org.junit.Test;
 import com.oopsw.model.DBCP;
-import com.oopsw.model.DefaultApprovalLineVO;
-import com.oopsw.model.EmployeeVO;
-import com.oopsw.model.FormVO;
-import com.oopsw.model.ManagerDAO;
+import com.oopsw.model.DAO.ManagerDAO;
+import com.oopsw.model.VO.DefaultApprovalLineVO;
+import com.oopsw.model.VO.EmployeeVO;
+import com.oopsw.model.VO.FormVO;
 
 public class ManagerDAOTest {
 		

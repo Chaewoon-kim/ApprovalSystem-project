@@ -8,14 +8,14 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.oopsw.model.AbsenceListVO;
-import com.oopsw.model.AbsenceVO;
-import com.oopsw.model.AlarmVO;
-import com.oopsw.model.ApprovalLineVO;
-import com.oopsw.model.ApproverDAO;
-import com.oopsw.model.ApproverListVO;
 import com.oopsw.model.DBCP;
-import com.oopsw.model.DocumentVO;
+import com.oopsw.model.DAO.ApproverDAO;
+import com.oopsw.model.VO.AbsenceListVO;
+import com.oopsw.model.VO.AbsenceVO;
+import com.oopsw.model.VO.AlarmVO;
+import com.oopsw.model.VO.ApprovalLineVO;
+import com.oopsw.model.VO.ApproverListVO;
+import com.oopsw.model.VO.DocumentVO;
 
 public class ApproverDAOTest {
 	

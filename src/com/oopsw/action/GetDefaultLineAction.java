@@ -7,22 +7,19 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.oopsw.model.GetListVO;
 import com.oopsw.model.DAO.DrafterDAO;
-import com.oopsw.model.VO.DocumentVO;
+import com.oopsw.model.VO.DefaultLineVO;
+import com.oopsw.model.VO.GetDefaultLineVO;
 
-public class GetReqListAction implements Action {
+public class GetDefaultLineAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String employeeId = (String) session.getAttribute("employeeId");
-		String processStatus = request.getParameter("processStatus");
-		int page = Integer.parseInt(request.getParameter("page"));
-		
-		List<DocumentVO> list = new DrafterDAO().getReqList(new GetListVO(employeeId, processStatus, page));
-		//setParameter로 넘겨줘야함
-		return "getReport.jsp";
+		String formId = request.getParameter("formId");
+		List<DefaultLineVO> lines = new DrafterDAO().getDefaultLine(new GetDefaultLineVO(employeeId, formId));
+		return "defaultLine.jsp";
 	}
 
 }

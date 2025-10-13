@@ -1,4 +1,4 @@
-package  com.oopsw.model;
+package  com.oopsw.model.VO;
 
 import java.sql.Date;
 

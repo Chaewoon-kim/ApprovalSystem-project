@@ -1,10 +1,19 @@
-package  com.oopsw.model;
+package  com.oopsw.model.DAO;
 
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.oopsw.model.DocumentVO;
+import com.oopsw.model.DBCP;
+import com.oopsw.model.GetListVO;
+import com.oopsw.model.VO.AlarmVO;
+import com.oopsw.model.VO.ApprovalLineVO;
+import com.oopsw.model.VO.ApprovalStatusVO;
+import com.oopsw.model.VO.DefaultLineVO;
+import com.oopsw.model.VO.DocumentFormVO;
+import com.oopsw.model.VO.DocumentVO;
+import com.oopsw.model.VO.GetDefaultLineVO;
+import com.oopsw.model.VO.TempDocumentVO;
 
 public class DrafterDAO {
 

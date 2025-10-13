@@ -45,7 +45,7 @@
 	
 	<!-- 기본 결재선 설정 -->
 	<insert id="addApprovalLine">
-		insert into default_approval_line(default_approval_line_no , form_id , rank , line_order) 
+		insert into default_approval_line(default_approval_line_no.nextval , form_id , rank , line_order) 
 		values(form_id_seq.nextval , #{formId}, #{rank}, #{order})
 	</insert>
 	

@@ -7,8 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.oopsw.model.AbsenceVO;
-import com.oopsw.model.ApproverDAO;
+import com.oopsw.model.DAO.ApproverDAO;
+import com.oopsw.model.VO.AbsenceVO;
 
 public class AddAbsenceAction implements Action {
 
