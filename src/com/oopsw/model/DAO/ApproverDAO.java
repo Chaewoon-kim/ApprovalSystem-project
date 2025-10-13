@@ -11,6 +11,7 @@ import com.oopsw.model.VO.AlarmVO;
 import com.oopsw.model.VO.ApprovalLineVO;
 import com.oopsw.model.VO.ApproverListVO;
 import com.oopsw.model.VO.DocumentVO;
+import com.oopsw.model.VO.GetListVO;
 
 public class ApproverDAO{
 	/// 결재 처리
@@ -138,13 +139,24 @@ public class ApproverDAO{
     }
     
  // 결재 처리 목록 조회 (내가 반려한 문서 + 내가 승인한 완료 문서)
-    public List<ApproverListVO> getEndList(String approverId) {
-        List<ApproverListVO> list = null;
+//    public List<ApproverListVO> getEndList(String approverId) {
+//        List<ApproverListVO> list = null;
+//        SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+//        try {
+//            list = conn.selectList("approverMapper.getEndList", approverId);
+//        } finally {
+//            conn.close();
+//        }
+//        return list;
+//    }
+    
+    public List<ApproverListVO> getEndList(GetListVO vo) {
+    	List<ApproverListVO> list = null;
         SqlSession conn = DBCP.getSqlSessionFactory().openSession();
-        try {
-            list = conn.selectList("approverMapper.getEndList", approverId);
-        } finally {
-            conn.close();
+        try{
+        	 list = conn.selectList("approverMapper.getEndList", vo);
+        } finally{
+        	conn.close();
         }
         return list;
     }

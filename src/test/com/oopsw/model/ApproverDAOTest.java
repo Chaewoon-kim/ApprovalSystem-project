@@ -16,6 +16,7 @@ import com.oopsw.model.VO.AlarmVO;
 import com.oopsw.model.VO.ApprovalLineVO;
 import com.oopsw.model.VO.ApproverListVO;
 import com.oopsw.model.VO.DocumentVO;
+import com.oopsw.model.VO.GetListVO;
 
 public class ApproverDAOTest {
 	
@@ -101,7 +102,7 @@ public class ApproverDAOTest {
 
 //	@Test
 	public void getEndListTest() {
-		System.out.println(dao.getEndList("E25-010"));
+		System.out.println(dao.getEndList(new GetListVO("E25-010", null, 1)));
 	}
 
 //	@Test
