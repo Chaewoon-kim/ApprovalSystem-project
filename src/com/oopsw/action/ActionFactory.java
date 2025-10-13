@@ -6,34 +6,37 @@ public class ActionFactory {
 		Action a = null;
 		switch(cmd){
 		
+		case "getEmployees":
+			a = new GetEmployeesAction();
+			break;
+		case "invertAccessPermission":
+			a = new InvertAccessPermissionAction();
+			break;
+		
+			
 		case "deleteAbsence":
 			a = new DeleteAbsenceAction();
 			break;
 			
-		case "revokeAbsence":
-			a = new RevokeAbsenceAction();
+		case "endAbsence":
+			a = new EndAbsenceAction();
 			break;
 			
-		case "updateAbsence":
-			a = new UpdateAbsenceAction();
+		case "modifyAbsence":
+			a = new ModifyAbsenceAction();
 			break;
-			
 		case "addAbsence":
 			a = new AddAbsenceAction();
 			break;
-		
 		case "getAbsenceProxyListAction":
 			a = new GetAbsenceProxyListAction();
 			break;
-		
 		case "approvalProcess":
 			a = new ApprovalProcessAction();
 			break;
-		
 		case "getWaitList":
 			a = new GetWaitListAction();
 			break;
-			
 		case "getEndList":
 			a = new GetEndListAction();
 			break;
@@ -45,19 +48,16 @@ public class ActionFactory {
 		case "getApprovalStatus":
 			a = new GetApprovalStatusAction();
 			break;
-		case "submitTempDoc":
-			a = new SubmitTempDocAction();
+		case "saveTempDoc":
+			a = new SaveTempDocAction();
 			break;
 		case "getTempDoc":
 			a = new GetTempDocAction();
 		case "getTempList":
 			a = new GetTempListAction();
 			break;
-		case "addDoc":
-			a = new AddDocAction();
-			break;
-		case "getDefaultLine":
-			a = new GetDefaultLineAction();
+		case "submitDoc":
+			a = new SubmitDocAction();
 			break;
 		case "getReqList":
 			a = new GetReqListAction();

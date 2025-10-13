@@ -1,0 +1,61 @@
+.add-absence{
+	padding: 50px;
+	flex:1;
+}
+
+.form-btn{
+	margin-left: 5px;
+	padding: 5px 12px;
+    border: 1px solid #646464;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+.add-absence form{
+	display: flex;
+	flex-direction: column;
+	gap: 50px;
+}
+.add-absence form label{
+	display: flex;
+	gap: 10px;
+}
+.add-absence form label > span{
+	margin : 0px 20px;
+}
+
+.add-absence textarea{
+	width:90%;
+	height: 100px;
+}
+
+.add-absence .mt{
+	margin-top: 50px;
+}
+
+.add-absence .mb{
+	margin-bottom: 40px;
+}
+
+.proxy {
+	display: flex;
+	gap: 3px;
+	justify-content: center;
+	align-items: center;
+	padding: 5px 10px;
+	border: 1px solid #f49600;
+	border-radius: 50px;
+	background-color: #FDF0DB;
+	color: #f49600;
+	cursor: pointer;
+}
+
+.proxy img{
+	width: 20px;
+	height: 20px;
+}

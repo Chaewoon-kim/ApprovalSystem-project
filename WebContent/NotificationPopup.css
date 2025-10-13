@@ -1,0 +1,56 @@
+@CHARSET "UTF-8";
+.popup-container{
+	display: flex;
+	flex-direction: column;
+	width: 400px;
+	height: 600px;
+	background-color: #D9D9D9;
+	border-radius: 20px;
+	overflow: hidden;
+}
+.popup-title-container{
+	width: 100%;
+	height: 10%;
+	background-color: white;
+}
+.popup-content-container{
+	height: 80%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	overflow: auto;
+}
+.popup-button-container{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-top: 5px;
+	height: 10%;
+	background-color: white;
+	display: flex;
+	justify-content: center;
+	
+}
+.popup-noti-container{
+	display: flex;
+	flex-direction: column;
+	margin-top: 3%;
+	width: 95%;
+	height: 80px;
+	background-color: white;
+	border-radius: 30px;
+	flex-shrink: 0;
+	justify-content: center;
+	align-items: center;
+}
+.popup-noti-content{
+	
+}
+
+.btn-primary{
+	width: 80px;
+	height: 40px;
+	color: black;
+	background-color: #FAFAFA;
+	border: solid 1px #A2A2A2;
+	border-radius: 10px;	
+}

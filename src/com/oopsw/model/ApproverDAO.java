@@ -1,4 +1,3 @@
-// src/main/java/com/oopsw/model/ApproverDAOImpl.java
 package com.oopsw.model;
 
 import java.util.List;
@@ -8,12 +7,12 @@ import org.apache.ibatis.session.SqlSession;
 public class ApproverDAO{
 	/// 결재 처리
 	// 1. 결재 하기
-    public boolean updateApproval(ApprovalLineVO vo) {
+    public boolean processApproval(ApprovalLineVO vo) {
     	boolean result = false;
     	
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
     	try{
-    		int count = conn.update("approverMapper.updateApproval", vo);
+    		int count = conn.update("approverMapper.processApproval", vo);
         	result = count == 1;
 //        	conn.commit();
     	} finally{
@@ -23,12 +22,12 @@ public class ApproverDAO{
     }
     
  // 2. 다음 결재자 상태를 '결재대기'로 변경
-    public boolean updateNextApproverToWait(ApprovalLineVO vo) {
+    public boolean setNextApproverToWait(ApprovalLineVO vo) {
         boolean result = false;
         
         SqlSession conn = DBCP.getSqlSessionFactory().openSession();
         try {
-            int count = conn.update("approverMapper.updateNextApproverToWait", vo);
+            int count = conn.update("approverMapper.setNextApproverToWait", vo);
             result = count == 1;
         } finally {
             conn.close();
@@ -37,13 +36,12 @@ public class ApproverDAO{
     }
 
     // 3. 다음 결재자 line_no 조회
-    public int findNextApprovalLineNo(ApprovalLineVO vo) {
-        int nextLineNo = -1; 
-
+    public Integer findNextApprovalLineNo(ApprovalLineVO vo) {
+    	Integer nextLineNo;
+    	
         SqlSession conn = DBCP.getSqlSessionFactory().openSession();
         try {
             nextLineNo = conn.selectOne("approverMapper.findNextApprovalLineNo", vo);
-            if(nextLineNo == 0) nextLineNo = -1;   
         } finally {
             conn.close();
         }
@@ -79,11 +77,11 @@ public class ApproverDAO{
     
     /// 문서 상태변경
     // 6. 문서 반려 처리
-    public boolean updateDocReject(DocumentVO doc) {
+    public boolean setDocReject(DocumentVO doc) {
     	boolean result = false;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
     	try{
-    		int count = conn.update("approverMapper.updateDocReject", doc);
+    		int count = conn.update("approverMapper.setDocReject", doc);
     		result = count == 1;
     	} finally{
     		conn.close();
@@ -92,12 +90,12 @@ public class ApproverDAO{
     }
 
     // 7. 문서 완료 처리 (마지막 결재자 승인 시)
-    public boolean updateDocComplete(DocumentVO doc) {
+    public boolean setDocComplete(DocumentVO doc) {
     	boolean result = false;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
     	try{
-    		doc.setApprovedDocumentNo(generateApprovedDocNo()); // 문서번호 생성
-    		int count = conn.update("approverMapper.updateDocComplete", doc);
+    		//doc.setApprovedDocumentNo(generateApprovedDocNo()); // 문서번호 생성
+    		int count = conn.update("approverMapper.setDocComplete", doc);
     		result = count == 1;
     	} finally{
     		conn.close();
@@ -117,16 +115,6 @@ public class ApproverDAO{
         }
         return vo;
     }
-    
-
-    // 결재문서번호 생성 규칙 (ex: D25-0001)
-    private String generateApprovedDocNo() {
-        String year = String.valueOf(java.time.LocalDate.now().getYear()).substring(2); // "25"
-        int random = (int)(Math.random() * 9000) + 1000;
-        return "D" + year + "-" + random;
-    }
-    
-    
     
     
  // 결재 대기 목록 조회
@@ -191,11 +179,11 @@ public class ApproverDAO{
     }
     
     // 부재 수정
-    public boolean updateAbsence(AbsenceVO vo){
+    public boolean modifyAbsence(AbsenceVO vo){
     	boolean result = false;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
     	try{
-    		int count = conn.update("approverMapper.updateAbsence", vo);
+    		int count = conn.update("approverMapper.modifyAbsence", vo);
         	result = count == 1;
 //        	conn.commit();
     	} finally{
@@ -204,12 +192,12 @@ public class ApproverDAO{
     	return result;
     }
     
-    // 위임 철회
-    public boolean revokeAbsence(int absenceDateNo) {
+    // 부재 조기종료
+    public boolean endAbsence(int absenceDateNo) {
     	boolean result = false;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
     	try{
-    		int count = conn.update("approverMapper.revokeAbsence", absenceDateNo);
+    		int count = conn.update("approverMapper.endAbsence", absenceDateNo);
         	result = count == 1;
 //        	conn.commit();
     	} finally{

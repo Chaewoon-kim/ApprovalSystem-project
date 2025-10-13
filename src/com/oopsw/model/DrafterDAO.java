@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.oopsw.model.DocumentVO;
-
 public class DrafterDAO {
 
 	public List<DocumentVO> getReqList(GetListVO getListVO) {

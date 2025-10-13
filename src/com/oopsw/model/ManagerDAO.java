@@ -16,10 +16,10 @@ public class ManagerDAO {
 		return employees;
 	}
 	
-	public boolean invertPermissioin(EmployeeVO employeeVO){
+	public boolean invertPermission(EmployeeVO employeeVO){
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		
-		boolean result = conn.update("invertPermission", employeeVO) == 1;
+		boolean result = conn.update("managerMapper.invertPermission", employeeVO) == 1;
 		conn.close();
 		
 		return result;
@@ -30,7 +30,7 @@ public class ManagerDAO {
 		
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		
-		employees = conn.selectList("getEmployeesByPermission", employeeVO);
+		employees = conn.selectList("managerMapper.getEmployeesByPermission", employeeVO);
 		conn.close();
 		
 		return employees;
@@ -40,7 +40,7 @@ public class ManagerDAO {
 		List<Map<String, Object>> forms;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		
-		forms = conn.selectList("getForms");
+		forms = conn.selectList("managerMapper.getForms");
 		conn.close();
 		
 		return forms;
@@ -49,7 +49,7 @@ public class ManagerDAO {
 	public boolean addForm(FormVO formVO){
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		
-		boolean result = conn.insert("addForm", formVO) == 1;
+		boolean result = conn.insert("managerMapper.addForm", formVO) == 1;
 		conn.close();
 		
 		return result;
@@ -60,7 +60,7 @@ public class ManagerDAO {
 		
 		boolean result = false;
 		for(int i = 0; i < approvalList.size(); i++){
-			 result = conn.insert("addApprovalLine", approvalList.get(i)) == 1;
+			 result = conn.insert("managerMapper.addApprovalLine", approvalList.get(i)) == 1;
 			if(!result) break;
 		}
 		conn.close();
@@ -71,7 +71,7 @@ public class ManagerDAO {
 	public boolean invertFormUsage(FormVO formVO){
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		
-		boolean result = conn.update("invertFormUsage", formVO) == 1;
+		boolean result = conn.update("managerMapper.invertFormUsage", formVO) == 1;
 		conn.close();
 		
 		return result;
@@ -81,7 +81,7 @@ public class ManagerDAO {
 		List<Map<String, Object>> forms;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		
-		forms = conn.selectList("getFormsByKeyword", formVO);
+		forms = conn.selectList("managerMapper.getFormsByKeyword", formVO);
 		conn.close();
 		
 		return forms;

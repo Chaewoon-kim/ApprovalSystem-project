@@ -8,50 +8,43 @@
 <link rel="stylesheet" href="report.css">
 </head>
 <body>
-  <nav class="top-nav">
-    <div class="logo">
-      로고자리
-    </div>
+<div class="screen">
+	<div>
+		<nav class="top-nav">
+			<div class="logo">로고자리</div>
+	
+			<div class="profile">
+				<span class="label">개발팀</span> <span class="label">홍길동</span> <span
+					class="label">사원</span> 님, 환영합니다. <img class="profile-img"
+					src="https://cdn-icons-png.flaticon.com/512/6522/6522516.png">
+			</div>
+		</nav>
+	</div>
+	<div class="container">
+		<nav class="side-nav">
+			<div class="draft">
+				<div class="make">기안서 작성</div>
+			</div>
+			<div class="menu">
+				<div class="menu-title">▼ 결제 신청</div>
+				<div class="submenu">
+					<div>결제 신청 목록</div>
+				</div>
 
-    <div class="profile">
-      <span class="label">개발팀</span>
-      <span class="label">홍길동</span>
-      <span class="label">사원</span>
-      님, 환영합니다.
-
-      <img class="profile-img" src="https://cdn-icons-png.flaticon.com/512/6522/6522516.png">
-    </div>
-  </nav>
-
-  <div class="container">
-    <nav class="side-nav">
-      <div class="draft">
-        <div class="make">기안서 작성</div>
-      </div>
-      <div class="menu">
-        <div class="menu-title">▼ 결제 신청</div>
-        <div class="submenu">
-          <div>결제 신청 목록</div>  
-        </div>
-        
-      </div>  
-      <div class="menu">
-        <div class="menu-title">▼ 결제 승인</div>
-        <div class="submenu">
-          <div>결제 대기 목록</div>
-          <div>결제 처리 목록</div>
-        </div>
-      </div>  
-      <div class="logout">
-        로그아웃
-      </div>
-    </nav>
+			</div>
+			<div class="menu">
+				<div class="menu-title">▼ 결제 승인</div>
+				<div class="submenu">
+					<div>결제 대기 목록</div>
+					<div>결제 처리 목록</div>
+				</div>
+			</div>
+			<div class="logout">로그아웃</div>
+		</nav>
 
 
-    <main class="add-form">
-      <h1>
-      	문서상세
-      </h1>
+		<main class="add-form">
+		<h1>문서상세</h1>
 		<div class="btn-container">
 			<button class="form-btn">
 				<img src="./img/list.png"> <span>목록보기</span>
@@ -62,8 +55,14 @@
 		</div>
 
 		<hr>
-			<form class="padding">
-				<div class="documentForm">
+		<div class="document-content">
+			<label>
+				<span>문서제목</span>
+				<div>휴가신청</div>
+			</label>
+		</div>
+		<hr>
+		<div class="documentForm">
 			<h1 class="text-center">휴가신청서</h1>
 			<div class="flex-container">
 				<div class="tables">
@@ -144,27 +143,51 @@
 				<p>휴가 사유: 예비군</p>
 			</div>
 		</div>
-			</form>
 		<hr>
-		<input type="file" style="display:none;" multiple>
-      	<div class="file-container">
-      		<img src="./img/file-plus.png">
-	      	<span>첨부된 파일</span>
-	        <div class="file-list">
-	        	<div class="file-item-info">
-	                <img src="./img/file.png">
-	                <div class="file-info-text">
-	                    <span>예비군통지서.pdf</span>
-	                    <span class="file-size">(334.2KB)</span>
-	                </div>
-	            </div>  
-	        </div>
-      	</div>
-    </main>
-  </div>
+		<div class="document-content">
+			<label>
+				<span>결재기한</span>
+				<div>2025-09-28</div>
+			</label>
+		</div>
+		<hr>
+		<div>
+			<div class="flex-container">
+				<div class="comment-container comment-text">
+					<div class="name-area"><span>배성윤</span> <span>대리</span></div>
+					<div><span>이전 프로젝트 당시 휴가 반납했으니까 보상 휴가 드려야 하지 않을까요?</span></div>
+				</div>
+				<div class="date-area"><span class="date-text">2025-09-25 14:18:25</span></div>
+			</div>
+			<div class="flex-container">
+				<div class="comment-container comment-text">
+					<div class="name-area"><span>지연우</span> <span>사원</span></div>
+					<div><span>헉 감사합니다..ㅠㅠ</span></div>
+				</div>
+				<div class="date-area"><span class="date-text">2025-09-25 14:30:16</span></div>
+			</div>
+			<div class="flex-container">
+				<div class="comment-container comment-text">
+					<div class="name-area"><span>김채운</span> <span>부장</span></div>
+					<div><span>허락할 수 없습니다..!</span></div>
+				</div>
+				<div class="date-area"><span class="date-text">2025-09-25 14:36:42</span></div>
+			</div>
+			<div class="flex-container">
+				<div class="comment-container comment-text">
+					<div class="name-area"><span>김채운</span> <span>부장</span></div>
+					<div class="comment-area"><textarea class="comment-area"></textarea></div>
+				</div>
+				<div class="date-area"><button class="comment-btn">등록</button></div>
+			</div>
+		</div>
 
 
-  <script>
+		</main>
+	</div>
+</div>
+
+	<script>
     document.querySelectorAll(".menu-title").forEach(title =>{
       title.addEventListener("click", () => {
         const submenu = title.nextElementSibling;

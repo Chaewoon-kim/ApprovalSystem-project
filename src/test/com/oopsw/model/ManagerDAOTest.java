@@ -56,7 +56,7 @@ public class ManagerDAOTest {
 		EmployeeVO vo = new EmployeeVO();
 		vo.setEmployeeId("E25-021");
 		
-		assertTrue(managerDAO.invertPermissioin(vo));
+		assertTrue(managerDAO.invertPermission(vo));
 	}
 
 	@Test
@@ -84,8 +84,8 @@ public class ManagerDAOTest {
 	@Test
 	public void setDefaultApprovalLineTest(){
 		List<DefaultApprovalLineVO> voList = new ArrayList<>();
-		voList.add(new DefaultApprovalLineVO(0, "23", "대리", 1));
-		voList.add(new DefaultApprovalLineVO(0, "23", "과장", 2));
+		voList.add(new DefaultApprovalLineVO(0, "D2", "대리", 1));
+		voList.add(new DefaultApprovalLineVO(0, "D2", "과장", 2));
 		
 		
 		managerDAO.setDefaultApprovalLine(voList);
@@ -94,7 +94,7 @@ public class ManagerDAOTest {
 	@Test
 	public void invertFormUsageTest(){
 		FormVO vo = new FormVO();
-		vo.setFormId("23");
+		vo.setFormId("D2");
 		
 		assertTrue(managerDAO.invertFormUsage(vo));
 	}
@@ -107,8 +107,8 @@ public class ManagerDAOTest {
 		
 		assertNotNull(forms);
 
-		for(Object tmp : forms){
-			System.out.println(tmp);
-		}
+//		for(Object tmp : forms){
+//			System.out.println(tmp);
+//		}
 	}
 }

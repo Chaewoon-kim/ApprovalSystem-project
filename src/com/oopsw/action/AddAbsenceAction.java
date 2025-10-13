@@ -31,15 +31,23 @@ public class AddAbsenceAction implements Action {
         Date startDate = Date.valueOf(startDateStr);
         Date endDate = Date.valueOf(endDateStr);
         Date today = new Date(System.currentTimeMillis());
-
-        // 부재 상태 결정
+        
+        // 부재기간 유효성검사?
+        if (startDate.before(today)) {
+            request.setAttribute("message", "시작일은 오늘 이후로 설정해야 합니다.");
+            return url;
+        }
+        if (endDate.before(startDate)) {
+            request.setAttribute("message", "종료일은 시작일 이후여야 합니다.");
+            return url;
+        }
+        
+        // 부재 상태 
         String usage;
-        if (today.before(startDate)) {
-            usage = "대기중";
-        } else if (today.after(endDate)) {
-            usage = "종료";
+        if (startDate.equals(today)) {
+            usage = "위임"; // 시작일이 오늘일 경우
         } else {
-            usage = "위임중";
+            usage = "대기중";
         }
         
         AbsenceVO vo = new AbsenceVO();

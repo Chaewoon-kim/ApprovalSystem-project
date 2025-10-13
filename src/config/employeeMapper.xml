@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="employeeMapper">
-
-
-
-	
 	<!-- 로그인 -->
     <select id="login" parameterType="com.oopsw.model.EmployeeVO" resultType="com.oopsw.model.EmployeeVO">
         select employee_id as employeeId, name
@@ -54,8 +50,7 @@
         order by employee_id
     </select>
 	
-	
-	
+
 	<!-- 댓글 알림 보내기 -->
 	<insert id="sendNoti" parameterType="com.oopsw.model.CommentNotiVO">
 		insert into comment_noti (comment_noti_no, comment_no, recipient_id,
@@ -73,6 +68,7 @@
 		and approver_id != #{recipientId}
 		)
 	</insert>
+
 	
 	
 	<!-- 대결 알림 -->
@@ -83,8 +79,9 @@
 		join employee e on e.employee_id = a.absentee_id
 		where proxy_Id = #{proxyId}
 	</select>
+
 	
-	
+
 	<!-- 댓글 알림 (받기) -->
 	<select id="getCommentsNoti" resultType = "com.oopsw.model.CommentVO" parameterType = "String">
 		select e.name writerName, c.comment_contents commentContents, c.comment_in_date commentInDate
@@ -93,6 +90,7 @@
 		join employee e on c.writer_id = e.employee_id
 		where cn.recipient_id = #{recipientId}
 	</select>
+
 	
 	
 	
@@ -109,12 +107,26 @@
 	<!-- 결재 신청 문서 상세 조회 -->
 	<select id = "getDetailReport" resultType = "com.oopsw.model.DocumentDetailVO" parameterType = "int">
 			select d.employee_id as employeeId ,e.name as employeeName ,  e.department as employeeDepartment , e.rank as employeeRank , d.deadline as deadline , d.draft_date as draftDate , d.completion_date as completionDate
-			 , d.title as title , df.form_name as formName , d.contents as contents , d.document_no as documentNo
+			, d.title as title , df.form_name as formName , d.contents as contents , d.document_no as documentNo
 			from document d
 			join document_form df on d.form_id = df.form_id
 			join employee e on d.employee_id = e.employee_id
 			where d.document_no = #{documentNo}
 		
+		</select>
+
+
+
+
+	
+		
+		<!-- 결재선 테이블에서 가져오기 -->
+		<select id = "getApprovalTable" resultType = "com.oopsw.model.ApprovalLineEmployeeVO" parameterType = "int">
+			select e.employee_Id as employeeId, e.name as name, e.department as department , e.rank as rank, al.line_order as lineOrder,
+	    	al.approval_date as approvalDate, al.approval_status as approvalStatus
+			from approval_line al 
+			join employee e on al.approver_id = e.employee_id
+			where al.document_no = #{documentNo}
 		</select>
 
 </mapper>

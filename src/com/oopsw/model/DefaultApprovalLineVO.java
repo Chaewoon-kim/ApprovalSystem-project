@@ -4,7 +4,7 @@ public class DefaultApprovalLineVO {
 	private int defaultApprovalLineNo;
 	private String formId;
 	private String rank;
-	private int order;
+	private int lineOrder;
 	
 	public DefaultApprovalLineVO(){}
 	
@@ -33,14 +33,14 @@ public class DefaultApprovalLineVO {
 		this.rank = rank;
 	}
 	public int getOrder() {
-		return order;
+		return lineOrder;
 	}
 	public void setOrder(int order) {
-		this.order = order;
+		this.lineOrder = order;
 	}
 	@Override
 	public String toString() {
 		return "DefaultApprovalLine [defaultApprovalLineNo=" + defaultApprovalLineNo + ", formId=" + formId + ", rank="
-				+ rank + ", order=" + order + "]";
+				+ rank + ", order=" + lineOrder + "]";
 	}
 }

@@ -13,9 +13,11 @@
 	
 	<!-- 사원 접근권한 수정 -->
 	<update id="invertPermission" parameterType="com.oopsw.model.EmployeeVO">
-		update employee set access_permission = case
-		when access_permission = 'Y' then 'N'
-		when access_permission = 'N' then 'Y'
+		update employee 
+		set access_permission = 
+		case
+			when access_permission = 'Y' then 'N'
+			when access_permission = 'N' then 'Y'
 		end
 		where employee_id = #{employeeId}
 	</update>
@@ -31,10 +33,10 @@
 		where rn between (#{page} - 1) * 8 + 1 and #{page} * 8
 	</select>
 	
-	<!-- 양식 추가 seq는 어떻게 할지 -->
+	<!-- 양식 추가  -->
 	<insert id="addForm" parameterType="com.oopsw.model.FormVO">
 		<selectKey keyProperty="formId" resultType="String" order="BEFORE">
-			select form_id_seq.nextval from dual
+			select 'D' || to_char(form_id_seq.nextval) from dual
 		</selectKey>
 	
 		insert into document_form (form_id, manager_id, form_category, form_name, form_content, form_description, form_usage) 
@@ -42,9 +44,9 @@
 	</insert>
 	
 	<!-- 기본 결재선 설정 -->
-	<insert id="addApprovalLine">
-		insert into default_approval_line(default_approval_line_no , form_id , rank , line_order) 
-		values(form_id_seq.nextval , #{formId}, #{rank}, #{order})
+	<insert id="addApprovalLine" parameterType="com.oopsw.model.DefaultApprovalLineVO">
+		insert into default_approval_line(default_approval_line_no, form_id , rank , line_order) 
+		values(default_approval_line_no_seq.nextval , #{formId}, #{rank}, #{lineOrder})
 	</insert>
 	
 	<!-- 양식 목록 조회 -->

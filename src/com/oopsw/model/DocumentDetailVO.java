@@ -3,8 +3,12 @@ package com.oopsw.model;
 import java.sql.Date;
 
 public class DocumentDetailVO {
+<<<<<<< HEAD
 	
 	 // document
+=======
+    // document
+>>>>>>> f8dce0232f82c7d5874bb166b2be45dcff177c56
     private int documentNo;
     private String employeeId;
     private String title;
@@ -113,8 +117,18 @@ public class DocumentDetailVO {
 
 	@Override
 	public String toString() {
+<<<<<<< HEAD
 		return "DocumentDetailVO [employeeId=" + employeeId  + ", employeeName=" + employeeName + ", employeeRank=" + employeeRank + ", employeeDepartment=" + employeeDepartment + ", draftDate=" + draftDate + ", completionDate=" + completionDate	
 				+ ", deadline=" + deadline  + "]";
 	}
 
+=======
+		return "DocumentDetailVO [documentNo=" + documentNo + ", employeeId=" + employeeId + ", title=" + title
+				+ ", contents=" + contents + ", draftDate=" + draftDate + ", completionDate=" + completionDate
+				+ ", deadline=" + deadline + ", employeeName=" + employeeName + ", employeeDepartment="
+				+ employeeDepartment + ", employeeRank=" + employeeRank + ", formName=" + formName + "]";
+	}
+
+   
+>>>>>>> f8dce0232f82c7d5874bb166b2be45dcff177c56
 }

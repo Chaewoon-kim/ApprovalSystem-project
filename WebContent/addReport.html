@@ -45,23 +45,40 @@
       	기안서 작성
       </h1>
 		<div class="btn-container">
-			<button class="form-btn">
+			<button class="form-btn" type="submit" form="approveDoc">
 				<img src="./img/check-square.png"> <span>결재요청</span>
 			</button>
 			<button class="form-btn">
 				<img src="./img/user-plus.png"> <span>결재선수정</span>
 			</button>
 			<button class="form-btn">
-				<img src="./img/file-plus.png"> <span>파일첨부</span>
+				<img src="./img/download.png"> <span>임시저장</span>
 			</button>
 			<button class="form-btn">
 				<img src="./img/x-circle.png"> <span>작성취소</span>
 			</button>
 		</div>
-
 		<hr>
-			<form class="padding">
-				<div class="documentForm">
+		<form id="approveDoc" action="controller?cmd=addDocAction">
+				<input type="hidden" name="formId" value="D2">
+				<div class="document-content">
+					<label>
+						<span>문서 제목</span>
+						<input name="title">
+					</label>
+					<label>
+						<span>결재 기한</span>
+						<div class="deadline">
+							<select class="deadlineYear" name="deadlineYear"></select>
+							<select class="deadlineMonth" name="deadlineMonth"></select>
+							<select class="deadlineDay" name="deadlineDay"></select>
+						</div>
+					</label>
+				</div>
+	
+			<hr>
+			
+			<div class="documentForm">
 			<h1 class="text-center">휴가신청서</h1>
 			<div class="flex-container">
 				<div class="tables">
@@ -137,7 +154,7 @@
 			<hr>
 
 			<div class="inputForm">
-				<textarea>
+				<textarea name="contents">
 휴가 종류: 연차
 휴가 기간: 2025년 09월 18일 ~ 20205년 09월 19일
 휴가 사유: 예비군
@@ -146,21 +163,7 @@
 		</div>
 			</form>
 		<hr>
-		<input type="file" style="display:none;" multiple>
-      	<div class="file-container">
-      		<img src="./img/file-plus.png">
-	      	<span>첨부된 파일</span>
-	        <div class="file-list">
-	        	<div class="file-item-info">
-	    			<button class="remove-btn"><img src="./img/x.png" alt="첨부취소"></button>
-	                <img src="./img/file.png">
-	                <div class="file-info-text">
-	                    <span>예비군통지서.pdf</span>
-	                    <span class="file-size">(334.2KB)</span>
-	                </div>
-	            </div>  
-	        </div>
-      	</div>
+		
     </main>
   </div>
 
@@ -182,5 +185,6 @@
       });
     });
   </script>
+  <script src="addReport.js"></script>
 </body>
 </html>
