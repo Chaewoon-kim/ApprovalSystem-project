@@ -6,11 +6,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.oopsw.model.ApprovalLineVO;
-import com.oopsw.model.DocumentVO;
-import com.oopsw.model.DrafterDAO;
-import com.oopsw.model.GetDefaultLineVO;
-import com.oopsw.model.GetListVO;
+import com.oopsw.model.DAO.DrafterDAO;
+import com.oopsw.model.VO.ApprovalLineVO;
+import com.oopsw.model.VO.DocumentVO;
+import com.oopsw.model.VO.GetDefaultLineVO;
+import com.oopsw.model.VO.GetListVO;
 
 public class DrafterDAOTest {
 	static DrafterDAO d;
@@ -90,9 +90,14 @@ public class DrafterDAOTest {
 		System.out.println(d.getApprovalProcessNoti(new GetListVO("E25-004", null, 0)));
 	}
 	
-	@Test
+//	@Test
 	public void getStatusApprovalProcessNotiTest() {
 		System.out.println(d.getApprovalProcessNoti(new GetListVO("E25-004", "¿Ï·á", 0)));
+	}
+	
+	@Test
+	public void getUnReadStatusApprovalProcessNotiTest() {
+		System.out.println(d.getUnReadApprovalProcessNoti(new GetListVO("E25-004", null, 0)));
 	}
 	
 }

@@ -8,14 +8,14 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.oopsw.model.AbsenceListVO;
-import com.oopsw.model.AbsenceVO;
-import com.oopsw.model.AlarmVO;
-import com.oopsw.model.ApprovalLineVO;
-import com.oopsw.model.ApproverDAO;
-import com.oopsw.model.ApproverListVO;
 import com.oopsw.model.DBCP;
-import com.oopsw.model.DocumentVO;
+import com.oopsw.model.DAO.ApproverDAO;
+import com.oopsw.model.VO.AbsenceListVO;
+import com.oopsw.model.VO.AbsenceVO;
+import com.oopsw.model.VO.AlarmVO;
+import com.oopsw.model.VO.ApprovalLineVO;
+import com.oopsw.model.VO.ApproverListVO;
+import com.oopsw.model.VO.DocumentVO;
 
 public class ApproverDAOTest {
 	
@@ -30,6 +30,16 @@ public class ApproverDAOTest {
 		al = new ApprovalLineVO();
 		ab = new AbsenceVO();
 		doc = new DocumentVO();
+	}
+	
+//	@Test
+	public void setAbsenceStatusToActiveTest() {
+		assertTrue(dao.setAbsenceStatusToActive());
+	}
+	
+//	@Test
+	public void setAbsenceStatusToEndTest(){
+		assertTrue(dao.setAbsenceStatusToEnd());
 	}
 
 //	@Test
@@ -138,9 +148,14 @@ public class ApproverDAOTest {
 		assertTrue(dao.deleteAbsence(13));
 	}
 
-//	@Test
+	@Test
 	public void getApprovalReqNotiTest() {
-		System.out.println(dao.getApprovalReqNoti("E25-013"));
+		System.out.println(dao.getApprovalReqNoti("E25-008"));
+	}
+	
+//	@Test
+	public void getUnReadApprovalReqNotiTest() {
+		System.out.println(dao.getUnReadApprovalReqNoti("E25-008"));
 	}
 	
 	
