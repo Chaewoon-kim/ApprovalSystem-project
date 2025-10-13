@@ -90,9 +90,14 @@ public class DrafterDAOTest {
 		System.out.println(d.getApprovalProcessNoti(new GetListVO("E25-004", null, 0)));
 	}
 	
-	@Test
+//	@Test
 	public void getStatusApprovalProcessNotiTest() {
 		System.out.println(d.getApprovalProcessNoti(new GetListVO("E25-004", "¿Ï·á", 0)));
+	}
+	
+	@Test
+	public void getUnReadStatusApprovalProcessNotiTest() {
+		System.out.println(d.getUnReadApprovalProcessNoti(new GetListVO("E25-004", null, 0)));
 	}
 	
 }

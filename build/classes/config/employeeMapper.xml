@@ -2,7 +2,7 @@
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="employeeMapper">
 	<!-- 로그인 -->
-    <select id="login" parameterType="com.oopsw.model.EmployeeVO" resultType="com.oopsw.model.EmployeeVO">
+    <select id="login" parameterType="com.oopsw.model.VO.EmployeeVO" resultType="com.oopsw.model.VO.EmployeeVO">
         select employee_id as employeeId, name
         from employee
         where employee_id = #{employeeId} and password = #{password}
@@ -10,7 +10,7 @@
 
 
  	<!-- 댓글 조회 -->
-    <select id="getComments" parameterType="int" resultType="com.oopsw.model.CommentVO">
+    <select id="getComments" parameterType="int" resultType="com.oopsw.model.VO.CommentVO">
         select 
             e.employee_id   as writerId,
             e.name          as writerName,
@@ -23,7 +23,7 @@
     </select>
     
     <!-- 댓글 작성 -->
-    <insert id="writeComment" parameterType="com.oopsw.model.CommentVO">
+    <insert id="writeComment" parameterType="com.oopsw.model.VO.CommentVO">
         insert into comments 
             (comment_no, document_no, writer_id, comment_contents, comment_in_date, comment_up_date, del_status)
         values
@@ -31,9 +31,8 @@
              SYSDATE, NULL, NULL)
     </insert>
     
-    
     <!-- 전체 사원 검색 -->
-    <select id="getAllEmployees" resultType="com.oopsw.model.EmployeeVO">
+    <select id="getAllEmployees" resultType="com.oopsw.model.VO.EmployeeVO">
         select employee_id as employeeId,name,department,rank
         from employee
         order by employee_id
@@ -41,7 +40,7 @@
 
 
 	<!-- 특정 사원 검색 -->
-    <select id="getEmployee" parameterType="String" resultType="com.oopsw.model.EmployeeVO">
+    <select id="getEmployee" parameterType="String" resultType="com.oopsw.model.VO.EmployeeVO">
         select employee_id as employeeId, name,department,rank
         from employee
         where name like '%' || #{keyword} || '%'
@@ -52,7 +51,7 @@
 	
 
 	<!-- 댓글 알림 보내기 -->
-	<insert id="sendNoti" parameterType="com.oopsw.model.CommentNotiVO">
+	<insert id="sendNoti" parameterType="com.oopsw.model.VO.CommentNotiVO">
 		insert into comment_noti (comment_noti_no, comment_no, recipient_id,
 		document_no)
 		select comment_noti_no_seq.nextval, #{commentNo}, emp_id, #{documentNo}
@@ -71,10 +70,10 @@
 
 	
 	
-	<!-- 대결 알림 -->
-	<select id="getApprovalNoti" resultType="com.oopsw.model.AbsenceVO" parameterType="String">
-		select e.name , a.absence_Reason as absenceReason , a.noti_In_Date as
-		notiInDate , a.absence_Read_Status as absenceReadStatus
+	<!-- 대결 알림 조회-->
+	<select id="getApprovalNoti" resultType="com.oopsw.model.VO.AlarmVO" parameterType="String">
+		select a.absence_date_no notiNo, e.name title, a.noti_In_Date as
+		notiInDate , a.absence_Read_Status as readStatus
 		from absence a
 		join employee e on e.employee_id = a.absentee_id
 		where proxy_Id = #{proxyId}
@@ -83,19 +82,36 @@
 	
 
 	<!-- 댓글 알림 (받기) -->
-	<select id="getCommentsNoti" resultType = "com.oopsw.model.CommentVO" parameterType = "String">
-		select e.name writerName, c.comment_contents commentContents, c.comment_in_date commentInDate
+	<select id="getCommentsNoti" resultType = "com.oopsw.model.VO.AlarmVO" parameterType = "String">
+		select cn.comment_noti_no notiNo, e.name || ':' || c.comment_contents as title, c.comment_in_date notiInDate, cn.comment_read_status readStatus, d.document_no documentNo
 		from comment_noti cn
 		join comments c on c.comment_no = cn.comment_no
 		join employee e on c.writer_id = e.employee_id
+		join document d on c.document_no = d.document_no
 		where cn.recipient_id = #{recipientId}
 	</select>
+	
+	<!-- 안읽은 대결 알림 조회-->
+	<select id="getUnReadApprovalNoti" resultType="com.oopsw.model.VO.AlarmVO" parameterType="String">
+		select a.absence_date_no notiNo, e.name title, a.noti_In_Date as
+		notiInDate , a.absence_Read_Status as readStatus
+		from absence a
+		join employee e on e.employee_id = a.absentee_id
+		where proxy_Id = #{proxyId} and a.absence_Read_Status is null
+	</select>
 
-	
-	
-	
+	<!-- 안읽은 댓글 알림 (받기) -->
+	<select id="getUnReadCommentsNoti" resultType = "com.oopsw.model.VO.AlarmVO" parameterType = "String">
+		select cn.comment_noti_no notiNo, e.name || ':' || c.comment_contents as title, c.comment_in_date notiInDate, cn.comment_read_status readStatus, d.document_no documentNo
+		from comment_noti cn
+		join comments c on c.comment_no = cn.comment_no
+		join employee e on c.writer_id = e.employee_id
+		join document d on c.document_no = d.document_no
+		where cn.recipient_id = #{recipientId} and cn.comment_read_status is null
+	</select>
+
 	<!-- 결재선 테이블에서 가져오기 -->
-	<select id = "getApprovalTable" resultType = "com.oopsw.model.ApprovalLineEmployeeVO" parameterType = "int">
+	<select id = "getApprovalTable" resultType = "com.oopsw.model.VO.ApprovalLineEmployeeVO" parameterType = "int">
 		select e.employee_Id as employeeId, e.name as name, e.department as department , e.rank as rank, al.line_order as lineOrder,
 	    al.approval_date as approvalDate, al.approval_status as approvalStatus
 		from approval_line al 
@@ -103,9 +119,8 @@
 		where al.document_no = #{documentNo}
 	</select>
 	
-	
 	<!-- 결재 신청 문서 상세 조회 -->
-	<select id = "getDetailReport" resultType = "com.oopsw.model.DocumentDetailVO" parameterType = "int">
+	<select id = "getDetailReport" resultType = "com.oopsw.model.VO.DocumentDetailVO" parameterType = "int">
 			select d.employee_id as employeeId ,e.name as employeeName ,  e.department as employeeDepartment , e.rank as employeeRank , d.deadline as deadline , d.draft_date as draftDate , d.completion_date as completionDate
 			, d.title as title , df.form_name as formName , d.contents as contents , d.document_no as documentNo
 			from document d
@@ -114,19 +129,28 @@
 			where d.document_no = #{documentNo}
 		
 		</select>
-
-
-
-
-	
 		
-		<!-- 결재선 테이블에서 가져오기 -->
-		<select id = "getApprovalTable" resultType = "com.oopsw.model.ApprovalLineEmployeeVO" parameterType = "int">
-			select e.employee_Id as employeeId, e.name as name, e.department as department , e.rank as rank, al.line_order as lineOrder,
-	    	al.approval_date as approvalDate, al.approval_status as approvalStatus
-			from approval_line al 
-			join employee e on al.approver_id = e.employee_id
-			where al.document_no = #{documentNo}
-		</select>
+		
+	<!-- 결재처리알림 읽음 -->
+	<update id="readProcessNoti" parameterType="int">
+		update approval_process_noti set process_read_status = sysdate
+		where process_noti_no = #{notiNo} and approval_read_status is null
+	</update>
+	<!-- 결재요청알림 읽음 -->
+	<update id="readRequestNoti" parameterType="int">
+		update approval_request_noti set request_read_status = sysdate
+		where request_noti_no = #{notiNo} and request_read_status is null
+	</update>
+	<!-- 댓글알림 읽음 -->
+	<update id="readCommentNoti" parameterType="int">
+		update comment_noti set comment_read_status = sysdate
+		where comment_noti_no = #{notiNo} and comment_read_status is null
+	</update>
+	<!-- 대결알림 읽음 -->
+	<update id="readAbsenceNoti" parameterType="int">
+		update absence set absence_read_status = sysdate
+		where absence_date_no = #{notiNo} and absence_read_status is null
+	</update>
+		
 
 </mapper>
