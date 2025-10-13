@@ -3,10 +3,6 @@ package com.oopsw.model;
 import java.sql.Date;
 
 public class ApprovalLineEmployeeVO {
-<<<<<<< HEAD
-
-=======
->>>>>>> f8dce0232f82c7d5874bb166b2be45dcff177c56
 	private int lineOrder;
 	private Date approvalDate;
 	private String approvalStatus;
@@ -81,13 +77,4 @@ public class ApprovalLineEmployeeVO {
 				+ approvalStatus + ", employeeId=" + employeeId + ", name=" + name + ", department=" + department
 				+ ", rank=" + rank + "]";
 	}
-<<<<<<< HEAD
 }
-=======
-
-
-	
-	
-	
-	}
->>>>>>> f8dce0232f82c7d5874bb166b2be45dcff177c56
