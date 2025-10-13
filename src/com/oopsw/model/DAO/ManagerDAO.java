@@ -35,7 +35,7 @@ public class ManagerDAO {
 		List<FormVO> forms;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		
-		forms = conn.selectList("managerMapper.getForms", vo);
+		forms = conn.selectList("managerMapper.getFormsByKeyword", vo);
 		conn.close();
 		
 		return forms;
