@@ -17,6 +17,7 @@ import com.oopsw.action.draft.SaveTempDocAction;
 import com.oopsw.action.draft.SetFormAction;
 import com.oopsw.action.draft.SubmitDocAction;
 import com.oopsw.action.employee.GetNotiAction;
+import com.oopsw.action.employee.LoginUIAction;
 import com.oopsw.action.manager.GetEmployeesAction;
 import com.oopsw.action.manager.InvertAccessPermissionAction;
 
@@ -85,6 +86,9 @@ public class ActionFactory {
 		case "setForm":
 			a = new SetFormAction();
 			break;
+			
+		default:
+			a = new LoginUIAction();
 		}
 		return a;
 	}

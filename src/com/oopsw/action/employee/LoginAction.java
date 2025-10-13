@@ -14,7 +14,7 @@ public class LoginAction implements Action {
 		
 		
 		
-		return null;
+		return "login.html";
 	}
 
 }

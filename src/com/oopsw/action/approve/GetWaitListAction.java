@@ -19,14 +19,17 @@ public class GetWaitListAction implements Action {
 		 	// 로그인한 사원의 사번 가져오기
 	        // EmployeeVO loginUser = (EmployeeVO) session.getAttribute("loginUser");
 	        // String approverId = loginUser.getEmployeeId();
-
-	        String approverId = request.getParameter("employeeId");
+	        String approverId = (String) session.getAttribute("loginId");
 
 	        ApproverDAO dao = new ApproverDAO();
 	        List<ApproverListVO> waitList = dao.getWaitList(approverId);
 
 	        request.setAttribute("waitList", waitList);
-
+	        
+	        // 페이지네이션
+	        // 요청이 ajax인 것 처리
+//	        const xhr = new XMLHttpRequest();
+	        
 	        return "getApprovalWaitList.jsp";
 	}
 
