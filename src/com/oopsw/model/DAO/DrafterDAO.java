@@ -159,5 +159,13 @@ public class DrafterDAO {
 		conn.close();
 		return list;
 	}
+	
+	public List<AlarmVO> getUnReadApprovalProcessNoti(GetListVO getListVO) {
+		List<AlarmVO> list = null;
+		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+		list = conn.selectList("drafterMapper.getUnReadApprovalProcessNoti", getListVO);
+		conn.close();
+		return list;
+	}
 
 }
