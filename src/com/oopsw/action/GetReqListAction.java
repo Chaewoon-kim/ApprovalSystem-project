@@ -7,9 +7,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.oopsw.model.DocumentVO;
+import com.oopsw.model.DrafterDAO;
 import com.oopsw.model.GetListVO;
-import com.oopsw.model.DAO.DrafterDAO;
-import com.oopsw.model.VO.DocumentVO;
 
 public class GetReqListAction implements Action {
 

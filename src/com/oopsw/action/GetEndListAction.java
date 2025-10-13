@@ -7,8 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.oopsw.model.DAO.ApproverDAO;
-import com.oopsw.model.VO.ApproverListVO;
+import com.oopsw.model.ApproverDAO;
+import com.oopsw.model.ApproverListVO;
 
 public class GetEndListAction implements Action {
 

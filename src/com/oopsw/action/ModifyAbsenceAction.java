@@ -6,8 +6,8 @@ import java.sql.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import com.oopsw.model.DAO.ApproverDAO;
-import com.oopsw.model.VO.AbsenceVO;
+import com.oopsw.model.AbsenceVO;
+import com.oopsw.model.ApproverDAO;
 
 public class ModifyAbsenceAction implements Action {
 

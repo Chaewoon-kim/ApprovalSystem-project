@@ -1,4 +1,4 @@
-package com.oopsw.model.VO;
+package com.oopsw.model;
 
 public class DefaultLineVO {
 	private String name;

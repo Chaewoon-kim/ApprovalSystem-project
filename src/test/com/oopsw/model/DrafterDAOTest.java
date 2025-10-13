@@ -6,11 +6,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.oopsw.model.ApprovalLineVO;
+import com.oopsw.model.DocumentVO;
+import com.oopsw.model.DrafterDAO;
+import com.oopsw.model.GetDefaultLineVO;
 import com.oopsw.model.GetListVO;
-import com.oopsw.model.DAO.DrafterDAO;
-import com.oopsw.model.VO.ApprovalLineVO;
-import com.oopsw.model.VO.DocumentVO;
-import com.oopsw.model.VO.GetDefaultLineVO;
 
 public class DrafterDAOTest {
 	static DrafterDAO d;

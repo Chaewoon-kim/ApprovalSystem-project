@@ -6,8 +6,8 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import com.oopsw.model.DAO.DrafterDAO;
-import com.oopsw.model.VO.ApprovalStatusVO;
+import com.oopsw.model.ApprovalStatusVO;
+import com.oopsw.model.DrafterDAO;
 
 public class GetApprovalStatusAction implements Action {
 

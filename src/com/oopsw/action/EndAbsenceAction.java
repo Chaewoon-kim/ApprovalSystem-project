@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import com.oopsw.model.DAO.ApproverDAO;
+import com.oopsw.model.ApproverDAO;
 
 public class EndAbsenceAction implements Action {
 

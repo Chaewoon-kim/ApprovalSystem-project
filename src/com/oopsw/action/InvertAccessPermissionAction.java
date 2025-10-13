@@ -6,9 +6,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.oopsw.model.DAO.ManagerDAO;
-import com.oopsw.model.VO.EmployeeVO;
-import com.oopsw.model.VO.FormVO;
+import com.oopsw.model.EmployeeVO;
+import com.oopsw.model.FormVO;
+import com.oopsw.model.ManagerDAO;
 
 public class InvertAccessPermissionAction implements Action {
 
@@ -20,7 +20,7 @@ public class InvertAccessPermissionAction implements Action {
 		EmployeeVO employeeVO = new EmployeeVO();
 		employeeVO.setEmployeeId(employeeId);
 		
-		boolean result = new ManagerDAO().invertPermissioin(employeeVO);
+		boolean result = new ManagerDAO().invertPermission(employeeVO);
 		request.setAttribute("result", result);
 		
 		return "invertAccessPermission.jsp";

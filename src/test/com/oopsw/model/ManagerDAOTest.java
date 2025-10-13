@@ -10,10 +10,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.junit.Before;
 import org.junit.Test;
 import com.oopsw.model.DBCP;
-import com.oopsw.model.DAO.ManagerDAO;
-import com.oopsw.model.VO.DefaultApprovalLineVO;
-import com.oopsw.model.VO.EmployeeVO;
-import com.oopsw.model.VO.FormVO;
+import com.oopsw.model.DefaultApprovalLineVO;
+import com.oopsw.model.EmployeeVO;
+import com.oopsw.model.FormVO;
+import com.oopsw.model.ManagerDAO;
 
 public class ManagerDAOTest {
 		
@@ -56,7 +56,7 @@ public class ManagerDAOTest {
 		EmployeeVO vo = new EmployeeVO();
 		vo.setEmployeeId("E25-021");
 		
-		assertTrue(managerDAO.invertPermissioin(vo));
+		assertTrue(managerDAO.invertPermission(vo));
 	}
 
 	@Test
@@ -84,8 +84,8 @@ public class ManagerDAOTest {
 	@Test
 	public void setDefaultApprovalLineTest(){
 		List<DefaultApprovalLineVO> voList = new ArrayList<>();
-		voList.add(new DefaultApprovalLineVO(0, "23", "대리", 1));
-		voList.add(new DefaultApprovalLineVO(0, "23", "과장", 2));
+		voList.add(new DefaultApprovalLineVO(0, "D2", "대리", 1));
+		voList.add(new DefaultApprovalLineVO(0, "D2", "과장", 2));
 		
 		
 		managerDAO.setDefaultApprovalLine(voList);

@@ -6,9 +6,9 @@ import java.sql.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import com.oopsw.model.DAO.DrafterDAO;
-import com.oopsw.model.VO.ApprovalLineVO;
-import com.oopsw.model.VO.DocumentVO;
+import com.oopsw.model.ApprovalLineVO;
+import com.oopsw.model.DocumentVO;
+import com.oopsw.model.DrafterDAO;
 
 public class SubmitTempDocAction implements Action {
 

@@ -1,4 +1,4 @@
-package  com.oopsw.model.DAO;
+package  com.oopsw.model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,14 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
-
-import com.oopsw.model.ApprovalLineEmployeeVO;
-import com.oopsw.model.CommentNotiVO;
-import com.oopsw.model.DBCP;
-import com.oopsw.model.VO.AbsenceVO;
-import com.oopsw.model.VO.CommentVO;
-import com.oopsw.model.VO.DocumentVO;
-import com.oopsw.model.VO.EmployeeVO;
 
 public class EmployeeDAO {
 	

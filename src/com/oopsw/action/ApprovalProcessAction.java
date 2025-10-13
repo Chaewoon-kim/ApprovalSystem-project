@@ -7,10 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.oopsw.model.*;
-import com.oopsw.model.DAO.ApproverDAO;
-import com.oopsw.model.VO.AbsenceVO;
-import com.oopsw.model.VO.ApprovalLineVO;
-import com.oopsw.model.VO.DocumentVO;
 
 public class ApprovalProcessAction implements Action {
 

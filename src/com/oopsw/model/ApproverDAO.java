@@ -1,16 +1,8 @@
-package com.oopsw.model.DAO;
+package com.oopsw.model;
 
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
-
-import com.oopsw.model.DBCP;
-import com.oopsw.model.VO.AbsenceListVO;
-import com.oopsw.model.VO.AbsenceVO;
-import com.oopsw.model.VO.AlarmVO;
-import com.oopsw.model.VO.ApprovalLineVO;
-import com.oopsw.model.VO.ApproverListVO;
-import com.oopsw.model.VO.DocumentVO;
 
 public class ApproverDAO{
 	/// 결재 처리

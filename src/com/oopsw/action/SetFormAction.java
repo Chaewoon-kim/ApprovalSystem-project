@@ -7,10 +7,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.oopsw.model.DAO.DrafterDAO;
-import com.oopsw.model.VO.DefaultLineVO;
-import com.oopsw.model.VO.DocumentFormVO;
-import com.oopsw.model.VO.GetDefaultLineVO;
+import com.oopsw.model.DefaultLineVO;
+import com.oopsw.model.DocumentFormVO;
+import com.oopsw.model.DrafterDAO;
+import com.oopsw.model.GetDefaultLineVO;
 
 public class SetFormAction implements Action {
 

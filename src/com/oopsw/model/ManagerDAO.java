@@ -1,14 +1,9 @@
-package com.oopsw.model.DAO;
+package com.oopsw.model;
 
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
-
-import com.oopsw.model.DBCP;
-import com.oopsw.model.VO.DefaultApprovalLineVO;
-import com.oopsw.model.VO.EmployeeVO;
-import com.oopsw.model.VO.FormVO;
 
 public class ManagerDAO {
 	public List<Map<String, Object>> getEmployees(EmployeeVO vo){
@@ -21,7 +16,7 @@ public class ManagerDAO {
 		return employees;
 	}
 	
-	public boolean invertPermissioin(EmployeeVO employeeVO){
+	public boolean invertPermission(EmployeeVO employeeVO){
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		
 		boolean result = conn.update("managerMapper.invertPermission", employeeVO) == 1;
