@@ -17,8 +17,11 @@ import com.oopsw.action.draft.SaveTempDocAction;
 import com.oopsw.action.draft.SetFormAction;
 import com.oopsw.action.draft.SubmitDocAction;
 import com.oopsw.action.employee.GetNotiAction;
+import com.oopsw.action.manager.AddFormAction;
 import com.oopsw.action.manager.GetEmployeesAction;
+import com.oopsw.action.manager.GetFormAction;
 import com.oopsw.action.manager.InvertAccessPermissionAction;
+import com.oopsw.action.manager.InvertFormUsageAction;
 
 public class ActionFactory {
 	private ActionFactory(){}
@@ -26,6 +29,15 @@ public class ActionFactory {
 		Action a = null;
 		switch(cmd){
 		
+		case "invertFormUsage":
+			a = new InvertFormUsageAction();
+			break;
+		case "getForms":
+			a = new GetFormAction();
+			break;
+		case "addForms":
+			a = new AddFormAction();
+			break;
 		case "getEmployees": 
 			a = new GetEmployeesAction();
 			break;
