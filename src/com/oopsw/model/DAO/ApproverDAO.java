@@ -240,6 +240,7 @@ public class ApproverDAO{
     	}
     	return list;
     }
+
     
     public List<AlarmVO> getUnReadApprovalReqNoti(String approverId){
     	List<AlarmVO> list = null;
@@ -252,9 +253,38 @@ public class ApproverDAO{
     	return list;
     }
 
-    
+
     
 
+    
+    // 부재 상태 변경, 대기 -> 위임
+    public boolean setAbsenceStatusToActive() {
+    	boolean result = false;
+        SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+        try{
+    		int count = conn.update("approverMapper.setAbsenceStatusToActive");
+        	result = count == 1;
+//        	conn.commit();
+    	} finally{
+    		conn.close();
+    	}
+    	return result;
+    }
+    
+    // 부재 상태 변경, 위임 -> 종료
+    public boolean setAbsenceStatusToEnd() {
+    	boolean result = false;
+        SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+        int count = 0;
+        try {
+            count = conn.update("approverMapper.setAbsenceStatusToEnd");
+            result = count == 1;
+//            conn.commit();
+        } finally {
+            conn.close();
+        }
+        return result;
+    }
 
     
 }

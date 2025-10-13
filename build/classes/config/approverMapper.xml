@@ -172,6 +172,20 @@
 
 	</select>
 
+	
+	<!-- 오늘 날짜가 시작일인 부재: 대기 -> 위임 -->
+	<update id="setAbsenceStatusToActive" >
+	    update absence
+	       set absence_usage = '위임'
+	     where absence_start_date = sysdate and absence_usage = '대기'
+	</update>
+
+	<!-- 오늘 날짜가 종료일인 부재: 위임 -> 종료 -->
+	<update id="setAbsenceStatusToEnd" >
+	    update absence
+	       set absence_usage = '종료'
+	     where absence_end_date = sysdate and absence_usage = '위임'
+	</update>
 
 
 </mapper>

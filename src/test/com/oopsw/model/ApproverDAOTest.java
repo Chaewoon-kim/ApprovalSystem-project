@@ -31,6 +31,16 @@ public class ApproverDAOTest {
 		ab = new AbsenceVO();
 		doc = new DocumentVO();
 	}
+	
+//	@Test
+	public void setAbsenceStatusToActiveTest() {
+		assertTrue(dao.setAbsenceStatusToActive());
+	}
+	
+//	@Test
+	public void setAbsenceStatusToEndTest(){
+		assertTrue(dao.setAbsenceStatusToEnd());
+	}
 
 //	@Test
 	public void processApprovalTest() {
