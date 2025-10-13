@@ -83,15 +83,27 @@ public class EmployeeDAOTest {
 	}
 	
 	//대결 알림 조회
-	@Test
+//	@Test
 	public void getApprovalNoti(){
 		System.out.println(dao.getApprovalNoti("E25-001"));
 	}
 	
 	//댓글 알림 (받기)
-	@Test
+//	@Test
 	public void getCommentsNoti(){
 		System.out.println(dao.getCommentsNoti("E25-006"));
+	}
+	
+	//안읽은 대결 알림 조회
+	@Test
+	public void getUnReadApprovalNoti(){
+		System.out.println(dao.getUnReadApprovalNoti("E25-001"));
+	}
+	
+	//안읽은 댓글 알림 (받기)
+	@Test
+	public void getUnReadCommentsNoti(){
+		System.out.println(dao.getUnReadCommentsNoti("E25-002"));
 	}
 	
 	//결재선 테이블에서 가져오기
@@ -119,6 +131,11 @@ public class EmployeeDAOTest {
 //	@Test
 	public void readCommentNotiTest(){
 		assertTrue(dao.readCommentNoti(18));
+	}
+	
+//	@Test
+	public void readAbsenceNotiTest(){
+		assertTrue(dao.readAbsenceNoti(7));
 	}
 
 }

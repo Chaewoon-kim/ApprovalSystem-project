@@ -153,6 +153,24 @@
 		order by an.noti_in_date desc
 
 	</select>
+	
+	<!-- 안읽은 결재요청 알림 조회 -->
+	<select id="getUnReadApprovalReqNoti" parameterType="string" resultType="com.oopsw.model.VO.AlarmVO">
+		select
+			an.request_noti_no as notiNo,
+			d.document_no as documentNo,
+			an.request_read_status as readStatus,
+			an.noti_in_date as notiInDate,
+			d.title as title,
+			d.approved_document_no as approvedDocumentNo,
+			a.approval_status as status
+		from approval_request_noti an
+		join approval_line a on an.approval_line_no = a.approval_line_no
+		join document d on a.document_no = d.document_no
+		where a.approver_id = #{approver_id} and a.approval_status = '결재대기' and request_read_status is null
+		order by an.noti_in_date desc
+
+	</select>
 
 
 

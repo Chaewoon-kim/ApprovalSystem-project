@@ -96,4 +96,13 @@
           and d.process_status = #{processStatus}
         </if>
 	</select>
+	<select id="getUnReadApprovalProcessNoti" parameterType="com.oopsw.model.VO.GetListVO" resultType="com.oopsw.model.VO.AlarmVO" >
+		select a.process_noti_no notiNO, a.document_no documentNo, d.title, d.approved_document_no approvedDocumentNo, process_status status, d.completion_date notiInDate, a.process_read_status readStatus
+		from approval_process_noti a
+		join document d on a.document_no = d.document_no
+		where d.employee_id = #{employeeId} and a.process_read_status is null
+		<if test="processStatus != null and processStatus != ''">
+          and d.process_status = #{processStatus}
+        </if>
+	</select>
 </mapper>

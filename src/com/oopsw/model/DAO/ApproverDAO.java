@@ -240,6 +240,17 @@ public class ApproverDAO{
     	}
     	return list;
     }
+    
+    public List<AlarmVO> getUnReadApprovalReqNoti(String approverId){
+    	List<AlarmVO> list = null;
+    	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+    	try {
+    		list = conn.selectList("approverMapper.getUnReadApprovalReqNoti", approverId);
+    	} finally {
+    		conn.close();
+    	}
+    	return list;
+    }
 
     
     

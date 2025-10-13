@@ -140,7 +140,12 @@ public class ApproverDAOTest {
 
 	@Test
 	public void getApprovalReqNotiTest() {
-		System.out.println(dao.getApprovalReqNoti("E25-013"));
+		System.out.println(dao.getApprovalReqNoti("E25-008"));
+	}
+	
+//	@Test
+	public void getUnReadApprovalReqNotiTest() {
+		System.out.println(dao.getUnReadApprovalReqNoti("E25-008"));
 	}
 	
 	

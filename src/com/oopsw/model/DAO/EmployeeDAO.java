@@ -132,6 +132,31 @@ public class EmployeeDAO {
 		return result;
 	}
 	
+	//대결 알림
+		public List<AlarmVO> getUnReadApprovalNoti(String proxyId) {
+		    List<AlarmVO> result = null;
+		    SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+		    try {
+		        result = conn.selectList("employeeMapper.getUnReadApprovalNoti", proxyId);
+		    } finally {
+		        conn.close();
+		    }
+		    return result;
+		}
+
+	//댓글 알림 (받기)
+	public List<AlarmVO> getUnReadCommentsNoti(String recipientId){
+		List<AlarmVO> result = null;
+		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+		
+		try{
+			result = conn.selectList("employeeMapper.getUnReadCommentsNoti" , recipientId);
+		}finally{
+			conn.close();
+		}
+		return result;
+	}
+	
 	//결재 신청 문서 상세 조회 - 결재선 테이블에서 가져오기
 	public List<ApprovalLineEmployeeVO> getApprvovalTable(int documentNumber){
 		List<ApprovalLineEmployeeVO> result = null;
@@ -178,6 +203,14 @@ public class EmployeeDAO {
 		boolean result = false;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		result = conn.update("employeeMapper.readCommentNoti", notiNo) == 1;
+		return result;
+	}
+
+
+	public boolean readAbsenceNoti(int notiNo) {
+		boolean result = false;
+		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+		result = conn.update("employeeMapper.readAbsenceNoti", notiNo) == 1;
 		return result;
 	}
 	
