@@ -1,12 +1,31 @@
 package com.oopsw.action;
 
+import com.oopsw.action.absence.AddAbsenceAction;
+import com.oopsw.action.absence.DeleteAbsenceAction;
+import com.oopsw.action.absence.EndAbsenceAction;
+import com.oopsw.action.absence.GetAbsenceProxyListAction;
+import com.oopsw.action.absence.ModifyAbsenceAction;
+import com.oopsw.action.approve.ApprovalProcessAction;
+import com.oopsw.action.approve.GetEndListAction;
+import com.oopsw.action.approve.GetWaitListAction;
+import com.oopsw.action.draft.GetApprovalProcessNoti;
+import com.oopsw.action.draft.GetApprovalStatusAction;
+import com.oopsw.action.draft.GetReqListAction;
+import com.oopsw.action.draft.GetTempDocAction;
+import com.oopsw.action.draft.GetTempListAction;
+import com.oopsw.action.draft.SaveTempDocAction;
+import com.oopsw.action.draft.SetFormAction;
+import com.oopsw.action.draft.SubmitDocAction;
+import com.oopsw.action.manager.GetEmployeesAction;
+import com.oopsw.action.manager.InvertAccessPermissionAction;
+
 public class ActionFactory {
 	private ActionFactory(){}
 	public static Action getAction(String cmd){
 		Action a = null;
 		switch(cmd){
 		
-		case "getEmployees":
+		case "getEmployees": 
 			a = new GetEmployeesAction();
 			break;
 		case "invertAccessPermission":
