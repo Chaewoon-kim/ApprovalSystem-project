@@ -9,7 +9,7 @@ public class ActionFactory {
 		case "getEmployees":
 			a = new GetEmployeesAction();
 			break;
-		case "InvertAccessPermission":
+		case "invertAccessPermission":
 			a = new InvertAccessPermissionAction();
 			break;
 		

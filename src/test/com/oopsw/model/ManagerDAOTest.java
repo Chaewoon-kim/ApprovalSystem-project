@@ -107,8 +107,8 @@ public class ManagerDAOTest {
 		
 		assertNotNull(forms);
 
-		for(Object tmp : forms){
-			System.out.println(tmp);
-		}
+//		for(Object tmp : forms){
+//			System.out.println(tmp);
+//		}
 	}
 }
