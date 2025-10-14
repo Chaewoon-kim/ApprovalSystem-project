@@ -61,3 +61,4 @@
 * git push origin \[브랜치명]
 * git status
 * git rm --cached <파일> : 이미 추적중인 파일을 제외한 후 .gitignore에 추가하여 commit 대상에서 제외
+
