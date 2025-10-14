@@ -11,6 +11,13 @@ import com.oopsw.model.VO.EmployeeVO;
 import com.oopsw.model.VO.FormVO;
 
 public class ManagerDAO {
+	public int getEmployeeCount(EmployeeVO employeeVO){
+		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+		String page = conn.selectOne("managerMapper.getEmployeeCount", employeeVO);
+		conn.close();
+		
+		return Integer.parseInt(page);
+	}
 	public List<EmployeeVO> getEmployees(EmployeeVO employeeVO){
 		List<EmployeeVO> employees;
 		
@@ -25,6 +32,7 @@ public class ManagerDAO {
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		
 		boolean result = conn.update("managerMapper.invertPermission", employeeVO) == 1;
+		conn.commit();
 		conn.close();
 		
 		return result;

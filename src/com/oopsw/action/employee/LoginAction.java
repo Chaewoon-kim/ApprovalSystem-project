@@ -12,8 +12,6 @@ public class LoginAction implements Action {
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
 		
-		
-		
 		return null;
 	}
 

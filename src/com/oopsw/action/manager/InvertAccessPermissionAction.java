@@ -16,15 +16,15 @@ public class InvertAccessPermissionAction implements Action {
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
 
-		String employeeId = request.getParameter("employeeId");
+		String employeeId = request.getParameter("empId");
 
 		EmployeeVO employeeVO = new EmployeeVO();
 		employeeVO.setEmployeeId(employeeId);
 		
 		boolean result = new ManagerDAO().invertPermission(employeeVO);
 		request.setAttribute("result", result);
-		
-		return "invertAccessPermission.jsp";
+		System.out.println(result);
+		return "webpage/manager/resultAsync.jsp";
 	}
 
 }

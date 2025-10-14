@@ -1,6 +1,23 @@
 @CHARSET "UTF-8";
 
-.form-list {
+	.page-number {
+		cursor: pointer;
+		margin: 0 2px;
+		color: #333;
+	}
+	.page-number.active {
+		cursor: auto;
+		margin-left: 2px;
+		margin-right: 2px;
+      	font-weight: bold;
+	}
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      text-align: center;
+    }
+	.form-list {
       padding: 30px;
       flex: 1;
     }
@@ -86,10 +103,4 @@
 
     .btn-unuse {
       background: #9E9E9E;
-    }
-
-    .pagination {
-      margin-top: 20px;
-      text-align: center;
-      font-weight: bold;
     }
