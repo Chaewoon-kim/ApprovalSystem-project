@@ -6,7 +6,7 @@
 		from (
 		    select d.*, row_number() over (order by draft_date DESC) as rn
 		    from document d
-		    where d.employee_id = #{employeeId}
+		    where d.employee_id = #{employeeId} and process_status != '임시저장'
 		    <if test="processStatus != null and processStatus != ''">
                and d.process_status = #{processStatus}
             </if>
