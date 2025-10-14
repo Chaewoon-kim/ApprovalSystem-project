@@ -11,6 +11,7 @@ import com.oopsw.action.approve.GetWaitListAction;
 import com.oopsw.action.draft.GetApprovalProcessNoti;
 import com.oopsw.action.draft.GetApprovalStatusAction;
 import com.oopsw.action.draft.GetReqListAction;
+import com.oopsw.action.draft.GetReqListUIAction;
 import com.oopsw.action.draft.GetTempDocAction;
 import com.oopsw.action.draft.GetTempListAction;
 import com.oopsw.action.draft.GetTempListUIAction;
@@ -91,6 +92,9 @@ public class ActionFactory {
 			break;
 		case "submitDoc":
 			a = new SubmitDocAction();
+			break;
+		case "getReqListUI":
+			a = new GetReqListUIAction();
 			break;
 		case "getReqList":
 			a = new GetReqListAction();
