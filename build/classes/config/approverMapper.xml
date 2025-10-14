@@ -73,7 +73,7 @@
 	</select>
 
 	<!-- 결재 처리 목록 조회 (내가 반려한 문서 + 내가 승인한 완료 문서) -->
-<!-- <select id="getEndList" parameterType="string" resultType="com.oopsw.model.VO.ApproverListVO">
+	<!-- <select id="getEndList" parameterType="string" resultType="com.oopsw.model.VO.ApproverListVO">
 		select d.document_no as documentNo, d.approved_document_no as approvedDocumentNo, d.title as title, e1.department as department,
 				d.draft_date as draftDate, d.process_status as processStatus, d.completion_date as completionDate
 		from approval_line al
@@ -84,8 +84,9 @@
 			al.approval_status = '반려' or (al.approval_status = '승인' and d.process_status = '완료')
 			)
 		order by al.approval_date desc, d.draft_date desc
-	</select>  -->
-	<!-- 페이지네이션,, -->
+	</select> -->
+	
+	<!-- 페이지네이션,, 상태필터링 -->
 	<select id="getEndList" parameterType="com.oopsw.model.VO.GetListVO" resultType="com.oopsw.model.VO.ApproverListVO">
     select document_no documentNo, approved_document_no approvedDocumentNo, title, department, draft_date draftDate, process_status processStatus, completion_date completionDate
     from (
@@ -96,15 +97,25 @@
         join employee e on d.employee_id = e.employee_id
         where al.approver_id = #{employeeId}    
           and (
-              al.approval_status = '반려'
-              or (al.approval_status = '승인' and d.process_status = '완료')
+          <choose>
+          <when test="processStatus == null or processStatus == '' or processStatus == 'all'">
+            al.approval_status = '반려' or (al.approval_status = '승인' and d.process_status = '완료')
+          </when>
+          <when test="processStatus == '반려'">
+            al.approval_status = '반려'
+          </when>
+          <when test="processStatus == '완료'">
+            al.approval_status = '승인' and d.process_status = '완료'
+          </when>
+         </choose>
           )
     )
     where rn between (#{page} - 1) * 8 + 1 and #{page} * 8
 	</select>
-
-
-
+	
+	
+	
+		
 	<!-- === 부재 === -->
 	<!-- 부재 목록 조회 -->
 	<select id="getAbsenceList" resultType="com.oopsw.model.VO.AbsenceListVO">

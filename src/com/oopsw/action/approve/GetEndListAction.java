@@ -32,31 +32,39 @@ public class GetEndListAction implements Action {
                 page = 1;
             }
         }
-
+        
         // 결재 상태 필터링 (전체/완료/반려)
         String processStatus = request.getParameter("processStatus");
         if (processStatus == null || processStatus.trim().isEmpty()) {
             processStatus = null; 
         }
-
+        
         GetListVO vo = new GetListVO(employeeId, processStatus, page);
 
-        
         ApproverDAO dao = new ApproverDAO();
         List<ApproverListVO> endList = dao.getEndList(vo);
 
-        request.setAttribute("endList", endList); 
-        request.setAttribute("currentPage", page);
-        request.setAttribute("processStatus", processStatus); 
+        // 전체 문서 수로 전체 페이지 계산
+//        int totalCount = dao.getEndListCount(vo); // count 쿼리 필요
+//        int pageSize = 8; // 한 페이지당 문서 개수
+//        int totalPages = (int) Math.ceil(totalCount / (double) pageSize);
+        int totalPages = 3;
         
-        /*// 페이지네이션, 상태필터링 비동기 
-        if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
-            return "webpage/approve/endListTable.jsp"; // partial만 리턴
-        } else {
-        */	
+        request.setAttribute("endList", endList);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("processStatus", processStatus);
+
+        // AJAX 요청인지 확인
+        boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
+        
+        if (isAjax) {
+            return "webpage/approve/endListTable.jsp";
+        } 
         
         return "webpage/approve/getApprovalEndList.jsp";
 
-	}
+        
+    }
 
 }
