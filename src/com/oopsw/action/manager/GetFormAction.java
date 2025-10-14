@@ -18,7 +18,7 @@ public class GetFormAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-		String url = "GetForms.jsp";
+		String url = "GetForm.jsp";
 		
 		FormVO vo = new FormVO();
 		vo.setKeyword(null);
