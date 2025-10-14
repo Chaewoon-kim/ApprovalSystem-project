@@ -23,7 +23,6 @@ public class GetEndListAction implements Action {
             employeeId = "E25-010"; // 테스트용
         }
         
-        // 현재 페이지 번호 파라미터 처리
         int page = 1;
         if (request.getParameter("page") != null) {
             try {
@@ -33,7 +32,6 @@ public class GetEndListAction implements Action {
             }
         }
         
-        // 결재 상태 필터링 (전체/완료/반려)
         String processStatus = request.getParameter("processStatus");
         if (processStatus == null || processStatus.trim().isEmpty()) {
             processStatus = null; 
@@ -45,7 +43,7 @@ public class GetEndListAction implements Action {
         List<ApproverListVO> endList = dao.getEndList(vo);
 
         // 전체 문서 수로 전체 페이지 계산
-//        int totalCount = dao.getEndListCount(vo); // count 쿼리 필요
+//        int totalCount = dao.getEndListCount(vo); // count 쿼리 필요,, 리팩토링하기
 //        int pageSize = 8; // 한 페이지당 문서 개수
 //        int totalPages = (int) Math.ceil(totalCount / (double) pageSize);
         int totalPages = 3;

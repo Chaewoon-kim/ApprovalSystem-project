@@ -88,8 +88,8 @@
   
   <script type="text/javascript">
   $(function() {
-	  var currentStatus = "all";
-	  var currentPage = 1;
+	  let currentStatus = "all";
+	  let currentPage = 1;
 	  
 	  // 왜 안되니 ? 
 	  function formatDate(dateString) {
@@ -108,9 +108,9 @@
 	      data: { cmd: "getEndList", processStatus: status, page: page },
 	      dataType: "json",
 	      success: function(data) {
-	        var tbody = $("#endListTable");
+	        let tbody = $("#endListTable");
 	        tbody.empty();
-	        var pagination = $(".pagination");
+	        let pagination = $(".pagination");
 	        pagination.empty();
 
 	        if (!data.success) {
@@ -119,10 +119,10 @@
 	        }
 
 	        $.each(data.list, function(index, item) {
-	          var draftDate = formatDate(item.draftDate);
-	          var completionDate = formatDate(item.completionDate);
+	          let draftDate = formatDate(item.draftDate);
+	          let completionDate = formatDate(item.completionDate);
 
-	          var row = 
+	          let row = 
 	            '<tr>' +
 	              '<td>' + draftDate + '</td>' +
 	              '<td>' + completionDate + '</td>' +
@@ -145,7 +145,7 @@
 	        }
 	      },
 	      error: function() {
-	        alert("데이터를 불러오는 중 오류 발생!");
+	        alert("error!");
 	      }
 	    });
 	  }
@@ -162,7 +162,6 @@
 	    loadEndList(currentStatus, currentPage);
 	  });
 
-	  // 페이지 최초 로드
 	  loadEndList(currentStatus, currentPage);
   });
 

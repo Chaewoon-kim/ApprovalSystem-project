@@ -97,12 +97,12 @@ public class ApproverDAOTest {
 
 //	@Test
 	public void getWaitListTest() {
-		System.out.println(dao.getWaitList("E25-000"));
+		System.out.println(dao.getWaitList(new GetListVO("E25-000", null, 1)));
 	}
 
 //	@Test
 	public void getEndListTest() {
-		System.out.println(dao.getEndList(new GetListVO("E25-010", null, 1)));
+		System.out.println(dao.getEndList(new GetListVO("E25-010", "¹Ý·Á", 1)));
 	}
 
 //	@Test

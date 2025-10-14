@@ -127,11 +127,11 @@ public class ApproverDAO{
     
     
  // 결재 대기 목록 조회
-    public List<ApproverListVO> getWaitList(String approverId) {
+    public List<ApproverListVO> getWaitList(GetListVO vo) {
         List<ApproverListVO> list = null;
         SqlSession conn = DBCP.getSqlSessionFactory().openSession();
         try {
-            list = conn.selectList("approverMapper.getWaitList", approverId);
+            list = conn.selectList("approverMapper.getWaitList", vo);
         } finally {
             conn.close();
         }
