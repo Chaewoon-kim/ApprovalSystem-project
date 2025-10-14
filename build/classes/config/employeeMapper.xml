@@ -31,6 +31,7 @@
              SYSDATE, NULL, NULL)
     </insert>
     
+    
     <!-- 전체 사원 검색 -->
     <select id="getAllEmployees" resultType="com.oopsw.model.VO.EmployeeVO">
         select employee_id as employeeId,name,department,rank
@@ -70,46 +71,29 @@
 
 	
 	
-	<!-- 대결 알림 조회-->
-	<select id="getApprovalNoti" resultType="com.oopsw.model.VO.AlarmVO" parameterType="String">
-		select a.absence_date_no notiNo, e.name title, a.noti_In_Date as
-		notiInDate , a.absence_Read_Status as readStatus
+	<!-- 대결 알림 -->
+	<select id="getApprovalNoti" resultType="com.oopsw.model.VO.AbsenceVO" parameterType="String">
+		select e.name , a.absence_Reason as absenceReason , a.noti_In_Date as
+		notiInDate , a.absence_Read_Status as absenceReadStatus
 		from absence a
 		join employee e on e.employee_id = a.absentee_id
-		where proxy_Id = #{proxyId}
+		where proxy_Id = #{proxyId}	
 	</select>
 
 	
 
 	<!-- 댓글 알림 (받기) -->
-	<select id="getCommentsNoti" resultType = "com.oopsw.model.VO.AlarmVO" parameterType = "String">
-		select cn.comment_noti_no notiNo, e.name || ':' || c.comment_contents as title, c.comment_in_date notiInDate, cn.comment_read_status readStatus, d.document_no documentNo
+	<select id="getCommentsNoti" resultType = "com.oopsw.model.VO.CommentVO" parameterType = "String">
+		select e.name writerName, c.comment_contents commentContents, c.comment_in_date commentInDate
 		from comment_noti cn
 		join comments c on c.comment_no = cn.comment_no
 		join employee e on c.writer_id = e.employee_id
-		join document d on c.document_no = d.document_no
 		where cn.recipient_id = #{recipientId}
 	</select>
+
 	
-	<!-- 안읽은 대결 알림 조회-->
-	<select id="getUnReadApprovalNoti" resultType="com.oopsw.model.VO.AlarmVO" parameterType="String">
-		select a.absence_date_no notiNo, e.name title, a.noti_In_Date as
-		notiInDate , a.absence_Read_Status as readStatus
-		from absence a
-		join employee e on e.employee_id = a.absentee_id
-		where proxy_Id = #{proxyId} and a.absence_Read_Status is null
-	</select>
-
-	<!-- 안읽은 댓글 알림 (받기) -->
-	<select id="getUnReadCommentsNoti" resultType = "com.oopsw.model.VO.AlarmVO" parameterType = "String">
-		select cn.comment_noti_no notiNo, e.name || ':' || c.comment_contents as title, c.comment_in_date notiInDate, cn.comment_read_status readStatus, d.document_no documentNo
-		from comment_noti cn
-		join comments c on c.comment_no = cn.comment_no
-		join employee e on c.writer_id = e.employee_id
-		join document d on c.document_no = d.document_no
-		where cn.recipient_id = #{recipientId} and cn.comment_read_status is null
-	</select>
-
+	
+	
 	<!-- 결재선 테이블에서 가져오기 -->
 	<select id = "getApprovalTable" resultType = "com.oopsw.model.VO.ApprovalLineEmployeeVO" parameterType = "int">
 		select e.employee_Id as employeeId, e.name as name, e.department as department , e.rank as rank, al.line_order as lineOrder,
@@ -119,6 +103,7 @@
 		where al.document_no = #{documentNo}
 	</select>
 	
+	
 	<!-- 결재 신청 문서 상세 조회 -->
 	<select id = "getDetailReport" resultType = "com.oopsw.model.VO.DocumentDetailVO" parameterType = "int">
 			select d.employee_id as employeeId ,e.name as employeeName ,  e.department as employeeDepartment , e.rank as employeeRank , d.deadline as deadline , d.draft_date as draftDate , d.completion_date as completionDate
@@ -126,31 +111,8 @@
 			from document d
 			join document_form df on d.form_id = df.form_id
 			join employee e on d.employee_id = e.employee_id
-			where d.document_no = #{documentNo}
-		
-		</select>
-		
-		
-	<!-- 결재처리알림 읽음 -->
-	<update id="readProcessNoti" parameterType="int">
-		update approval_process_noti set process_read_status = sysdate
-		where process_noti_no = #{notiNo} and approval_read_status is null
-	</update>
-	<!-- 결재요청알림 읽음 -->
-	<update id="readRequestNoti" parameterType="int">
-		update approval_request_noti set request_read_status = sysdate
-		where request_noti_no = #{notiNo} and request_read_status is null
-	</update>
-	<!-- 댓글알림 읽음 -->
-	<update id="readCommentNoti" parameterType="int">
-		update comment_noti set comment_read_status = sysdate
-		where comment_noti_no = #{notiNo} and comment_read_status is null
-	</update>
-	<!-- 대결알림 읽음 -->
-	<update id="readAbsenceNoti" parameterType="int">
-		update absence set absence_read_status = sysdate
-		where absence_date_no = #{notiNo} and absence_read_status is null
-	</update>
-		
+			where d.document_no = #{documentNo}	
+	</select>
+	
 
 </mapper>

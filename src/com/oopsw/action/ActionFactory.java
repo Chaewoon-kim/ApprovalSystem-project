@@ -8,7 +8,6 @@ import com.oopsw.action.absence.ModifyAbsenceAction;
 import com.oopsw.action.approve.ApprovalProcessAction;
 import com.oopsw.action.approve.GetEndListAction;
 import com.oopsw.action.approve.GetWaitListAction;
-import com.oopsw.action.draft.GetApprovalProcessNoti;
 import com.oopsw.action.draft.GetApprovalStatusAction;
 import com.oopsw.action.draft.GetReqListAction;
 import com.oopsw.action.draft.GetTempDocAction;
@@ -16,7 +15,10 @@ import com.oopsw.action.draft.GetTempListAction;
 import com.oopsw.action.draft.SaveTempDocAction;
 import com.oopsw.action.draft.SetFormAction;
 import com.oopsw.action.draft.SubmitDocAction;
+import com.oopsw.action.employee.GetAllEmployeesAction;
+import com.oopsw.action.employee.GetDetailReportAction;
 import com.oopsw.action.employee.GetNotiAction;
+import com.oopsw.action.employee.LoginUIAction;
 import com.oopsw.action.manager.GetEmployeesAction;
 import com.oopsw.action.manager.InvertAccessPermissionAction;
 
@@ -26,11 +28,22 @@ public class ActionFactory {
 		Action a = null;
 		switch(cmd){
 		
+		case "loginUI":
+		case "mainUI":
+			a = new LoginUIAction();
+			break;
+		
+		case "getAllEmployees":
+			a = new GetAllEmployeesAction();
+			break;
 		case "getEmployees": 
 			a = new GetEmployeesAction();
 			break;
 		case "invertAccessPermission":
 			a = new InvertAccessPermissionAction();
+			break;
+		case "getDetailReport":
+			a = new GetDetailReportAction();
 			break;
 		
 			
@@ -73,6 +86,7 @@ public class ActionFactory {
 			break;
 		case "getTempDoc":
 			a = new GetTempDocAction();
+			break;
 		case "getTempList":
 			a = new GetTempListAction();
 			break;
@@ -85,6 +99,10 @@ public class ActionFactory {
 		case "setForm":
 			a = new SetFormAction();
 			break;
+		}
+		if(a == null){
+			a = new LoginUIAction();
+			
 		}
 		return a;
 	}

@@ -1,17 +1,20 @@
 package com.oopsw.action.employee;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import com.oopsw.action.Action;
 
-public class LoginUIAction implements Action {
+public class GetAllEmployeesAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-
-		return "webpage/employee/login.html";
+		
+		
+		
+		return "webpage/draft/updateLine.html";
 	}
 
 }

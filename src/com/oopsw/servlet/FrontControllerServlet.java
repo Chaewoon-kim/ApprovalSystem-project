@@ -1,7 +1,6 @@
 package com.oopsw.servlet;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +15,7 @@ import com.oopsw.action.ActionFactory;
  */
 @WebServlet("/controller")
 public class FrontControllerServlet extends HttpServlet {
-	protected void service(HttpServletRequest request, HttpServletResponse reponse)
+	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 			request.setCharacterEncoding("utf-8");
@@ -27,9 +26,10 @@ public class FrontControllerServlet extends HttpServlet {
 			
 			//일할 Action 찾아오기
 			Action action = ActionFactory.getAction(cmd);
+			
 			//결과 페이지로 이동
 			String url = action.execute(request);
-			request.getRequestDispatcher("/"+url).forward(request, reponse);
+			request.getRequestDispatcher("/"+url).forward(request, response);
 		}
 
 }

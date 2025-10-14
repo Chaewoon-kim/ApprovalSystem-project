@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 body {
     font-family: Arial, sans-serif;
 }
@@ -54,7 +56,7 @@ span {
 }
 
 .accordion-container {
-    /* ÃÊ±â¿¡´Â º¸ÀÓ */
+    /* ì´ˆê¸°ì—ëŠ” ë³´ì„ */
 }
 
 .accordion {
