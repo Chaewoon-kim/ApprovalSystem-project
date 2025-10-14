@@ -12,40 +12,8 @@
 </head>
 
 <body>
-  <!-- 헤더 -->
-  <nav class="top-nav">
-    <div class="logo">로고자리</div>
-    <div class="profile">
-      <span class="label">개발팀</span>
-      <span class="label">김채운</span>
-      <span class="label">부장</span>
-      님, 환영합니다.
-      <img class="profile-img" src="https://cdn-icons-png.flaticon.com/512/6522/6522516.png">
-    </div>
-  </nav>
-
-  <div class="container">
-    <!-- 사이드바 -->
-    <nav class="side-nav">
-      <div class="draft"><div class="make">기안서 작성</div></div>
-
-      <div class="menu">
-        <div class="menu-title">▼ 결재 신청</div>
-        <div class="submenu">
-          <a href="controller?cmd=getApplyList">결재 신청 목록</a>
-        </div>
-      </div>
-
-      <div class="menu">
-        <div class="menu-title">▼ 결재 승인</div>
-        <div class="submenu">
-          <a href="controller?cmd=getWaitList">결재 대기 목록</a>
-          <a href="controller?cmd=getEndList" class="active">결재 처리 목록</a>
-        </div>
-      </div>
-
-      <div class="logout">로그아웃</div>
-    </nav>
+  
+<jsp:include page="../employee/common.html" />
 
     <!-- 메인 콘텐츠 -->
     <main class="form-list">
@@ -87,85 +55,88 @@
   </div>
   
   <script type="text/javascript">
-  $(function() {
-	  let currentStatus = "all";
-	  let currentPage = 1;
-	  
-	  // 왜 안되니 ? 
-	  function formatDate(dateString) {
-		    if (!dateString) return ""; // null/undefined 방지
-		    var date = new Date(dateString);
-		    if (isNaN(date)) return dateString; // 파싱 실패 시 원본 그대로
-		    var year = date.getFullYear();
-		    var month = ('0' + (date.getMonth() + 1)).slice(-2);
-		    var day = ('0' + date.getDate()).slice(-2);
-		    return year + '-' + month + '-' + day;
-		  }
-	  
-	  function loadEndList(status, page) {
-	    $.ajax({
-	      url: "controller",
-	      data: { cmd: "getEndList", processStatus: status, page: page },
-	      dataType: "json",
-	      success: function(data) {
-	        let tbody = $("#endListTable");
-	        tbody.empty();
-	        let pagination = $(".pagination");
-	        pagination.empty();
+$(document).ready(function(){
 
-	        if (!data.success) {
-	          tbody.append('<tr><td colspan="6">결재 처리된 문서가 없습니다.</td></tr>');
-	          return;
-	        }
+	let currentStatus = "all";
+	let currentPage = 1;
 
-	        $.each(data.list, function(index, item) {
-	          let draftDate = formatDate(item.draftDate);
-	          let completionDate = formatDate(item.completionDate);
+	
+	function reqEndList(status, page){
+		$.ajax({
+			url: "controller",
+			data: {
+				cmd: "getEndList",
+				processStatus: status,
+				page: page
+			},
+			dataType: "json",
+			success: function(data){
+				setTable(data.list, data.success);
+				setPagination(data.currentPage, data.totalPages);
+			},
+			error: function(){
+				alert("error!");
+			}
+		});
+	}
 
-	          let row = 
-	            '<tr>' +
-	              '<td>' + draftDate + '</td>' +
-	              '<td>' + completionDate + '</td>' +
-	              '<td>' + item.title + '</td>' +
-	              '<td>' + item.department + '</td>' +
-	              '<td>' + item.documentNo + '</td>' +
-	              '<td>' +
-	                '<button class="flag ' + (item.processStatus === "완료" ? "complete" : "reject") + '">' +
-	                  item.processStatus +
-	                '</button>' +
-	              '</td>' +
-	            '</tr>';
-	          tbody.append(row);
-	        });
+	
+	function setTable(list, success){
+		let tbody = $("#endListTable");
+		tbody.empty();
 
-	        // 페이지네이션
-	        for (var i = 1; i <= data.totalPages; i++) {
-	          var activeClass = (i === data.currentPage) ? "active-page" : "";
-	          pagination.append('<a href="#" class="page-link ' + activeClass + '" data-page="' + i + '">' + i + '</a>');
-	        }
-	      },
-	      error: function() {
-	        alert("error!");
-	      }
-	    });
-	  }
+		if(!success || !list || list.length == 0){
+			tbody.append("<tr><td colspan='6'>결재 처리된 문서가 없습니다.</td></tr>");
+			return;
+		}
 
-	  $("#statusSelect").change(function() {
-	    currentStatus = $(this).val();
-	    currentPage = 1;
-	    loadEndList(currentStatus, currentPage);
-	  });
+		$.each(list, function(i, item){
+			let row = "<tr>"
+				+ "<td>" + item.draftDate + "</td>"
+				+ "<td>" + item.completionDate + "</td>"
+				+ "<td>" + item.title + "</td>"
+				+ "<td>" + item.department + "</td>"
+				+ "<td>" + item.documentNo + "</td>"
+				+ "<td><button class='flag " + (item.processStatus == "완료" ? "complete" : "reject") + "'>"
+				+ item.processStatus + "</button></td>"
+				+ "</tr>";
+			tbody.append(row);
+		});
+	}
 
-	  $(document).on("click", ".page-link", function(e) {
-	    e.preventDefault();
-	    currentPage = parseInt($(this).data("page"));
-	    loadEndList(currentStatus, currentPage);
-	  });
+	
+	function setPagination(current, total){
+		let pagination = $(".pagination");
+		pagination.empty();
 
-	  loadEndList(currentStatus, currentPage);
-  });
+		for(var i = 1; i <= total; i++){
+			var activeClass = (i == current) ? "active-page" : "";
+			var pageLink = "<a href='#' class='page-link " + activeClass + "' data-page='" + i + "'>" + i + "</a>";
+			pagination.append(pageLink);
+		}
+	}
 
+	// event
+	// 상태 필터 변경
+	$(document).on("change", "#statusSelect", function(){
+		currentStatus = $(this).val();
+		currentPage = 1;
+		reqEndList(currentStatus, currentPage);
+	});
+
+	// 페이지네이션
+	$(document).on("click", ".page-link", function(e){
+		e.preventDefault();
+		currentPage = parseInt($(this).data("page"));
+		reqEndList(currentStatus, currentPage);
+	});
+
+	
+	reqEndList(currentStatus, currentPage);
+
+});
 </script>
+
   <script src="webpage/employee/common.js"></script>
 </body>
 </html>

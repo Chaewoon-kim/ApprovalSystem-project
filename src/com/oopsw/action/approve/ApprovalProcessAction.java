@@ -27,7 +27,7 @@ public class ApprovalProcessAction implements Action {
         int lineOrder = Integer.parseInt(request.getParameter("lineOrder"));
 
         ApproverDAO dao = new ApproverDAO();
-        String url = "approvalFail.jsp";
+        String url = "webpage/approve/getApprovalWaitList.jsp";
 
         try {
         	// 부재 여부 확인
@@ -63,6 +63,7 @@ public class ApprovalProcessAction implements Action {
                 }
                 request.setAttribute("message", "승인 완료");
                 url = "controller?cmd=getApprovalWaitList";
+                url = "getApprovalWaitList.jsp";
 
             } else if (approvalStatus.equals("반려")) {
                 // 반려 처리 -> 문서 반려 + 알림

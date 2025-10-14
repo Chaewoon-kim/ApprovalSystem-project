@@ -1,12 +1,16 @@
 package com.oopsw.action.approve;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.oopsw.action.Action;
 import com.oopsw.model.DAO.ApproverDAO;
 import com.oopsw.model.VO.ApproverListVO;
@@ -37,29 +41,39 @@ public class GetEndListAction implements Action {
             processStatus = null; 
         }
         
-        GetListVO vo = new GetListVO(employeeId, processStatus, page);
-
         ApproverDAO dao = new ApproverDAO();
+        GetListVO vo = new GetListVO(employeeId, processStatus, page);
         List<ApproverListVO> endList = dao.getEndList(vo);
 
-        // 전체 문서 수로 전체 페이지 계산
-//        int totalCount = dao.getEndListCount(vo); // count 쿼리 필요,, 리팩토링하기
-//        int pageSize = 8; // 한 페이지당 문서 개수
-//        int totalPages = (int) Math.ceil(totalCount / (double) pageSize);
+        // 전체 페이지 수 (임시)
         int totalPages = 3;
-        
+
+        // Gson 변환
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd")   // 원하는 포맷 지정
+                .create();
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("currentPage", page);
+        resultMap.put("totalPages", totalPages);
+        resultMap.put("success", !endList.isEmpty());
+        resultMap.put("list", endList);
+
+        String json = gson.toJson(resultMap);
+        request.setAttribute("result", json);
+
+        boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
+
+        if (isAjax) {
+            // json을 JSP로
+            return "webpage/approve/endListTable.jsp";
+        }
+
+        // 동기일 경우
         request.setAttribute("endList", endList);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("processStatus", processStatus);
 
-        // AJAX 요청인지 확인
-        boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
-        
-        if (isAjax) {
-            return "webpage/approve/endListTable.jsp";
-        } 
-        
         return "webpage/approve/getApprovalEndList.jsp";
 
         

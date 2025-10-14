@@ -1,15 +1,19 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>getDetailReport</title>
-<link rel="stylesheet" href="documentForm.css">
+<link rel="stylesheet" href="webpage/documentForm.css">
 <link rel="stylesheet" href="common.css">
-<link rel="stylesheet" href="report.css">
+<link rel="stylesheet" href="webpage/report.css">
 </head>
 <body>
-<div class="screen">
-	<div>
+<jsp:include page="../employee/common.html" />
+<!-- 
+<div>
 		<nav class="top-nav">
 			<div class="logo">로고자리</div>
 	
@@ -26,30 +30,30 @@
 				<div class="make">기안서 작성</div>
 			</div>
 			<div class="menu">
-				<div class="menu-title">▼ 결재 신청</div>
+				<div class="menu-title">▼ 결제 신청</div>
 				<div class="submenu">
 					<div>결제 신청 목록</div>
 				</div>
 
 			</div>
 			<div class="menu">
-				<div class="menu-title">▼ 결재 승인</div>
+				<div class="menu-title">▼ 결제 승인</div>
 				<div class="submenu">
-					<div>결재 대기 목록</div>
-					<div>결재 처리 목록</div>
+					<div>결제 대기 목록</div>
+					<div>결제 처리 목록</div>
 				</div>
 			</div>
 			<div class="logout">로그아웃</div>
 		</nav>
-
-
+ -->
+<div class="screen">
 		<main class="add-form">
 		<h1>문서상세</h1>
 		<div class="btn-container">
 			<button class="form-btn">
 				<img src="./img/list.png"> <span>목록보기</span>
 			</button>
-			<button class="form-btn">
+			<button class="form-btn" >
 				<img src="./img/airplay.png"> <span>결재상태</span>
 			</button>
 		</div>
