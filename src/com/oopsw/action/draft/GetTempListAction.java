@@ -18,8 +18,9 @@ public class GetTempListAction implements Action {
 		HttpSession session = request.getSession();
 		String employeeId = (String) session.getAttribute("employeeId");
 		List<TempDocumentVO> list = new DrafterDAO().getTempList(employeeId);
-		//setParameter
-		return null;
+		request.setAttribute("result", list);
+		
+		return "webpage/result.jsp";
 	}
 
 }

@@ -13,6 +13,7 @@ import com.oopsw.action.draft.GetApprovalStatusAction;
 import com.oopsw.action.draft.GetReqListAction;
 import com.oopsw.action.draft.GetTempDocAction;
 import com.oopsw.action.draft.GetTempListAction;
+import com.oopsw.action.draft.GetTempListUIAction;
 import com.oopsw.action.draft.SaveTempDocAction;
 import com.oopsw.action.draft.SetFormAction;
 import com.oopsw.action.draft.SubmitDocAction;
@@ -81,6 +82,10 @@ public class ActionFactory {
 			break;
 		case "getTempDoc":
 			a = new GetTempDocAction();
+			break;
+		case "getTempListUI":
+			a = new GetTempListUIAction();
+			break;
 		case "getTempList":
 			a = new GetTempListAction();
 			break;
