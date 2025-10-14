@@ -79,7 +79,7 @@ let renderOrgChart = function(groupData){
     const firstHeader = document.querySelector(".accordion-container > .accordion > .accordion-header");
     if (firstHeader) {
         firstHeader.nextElementSibling.style.display = "block"; 
-        firstHeader.querySelector('img').src = "img/arrow-down.png"; 
+        firstHeader.classList.add('open');  
     }
 }
 
@@ -91,15 +91,16 @@ let setOrgChart = function(result){
 // 아코디언 토글 기능
 let attachAccordionListeners = function(){
 	document.querySelectorAll('.accordion-header').forEach(header => {
-	    header.addEventListener('click', () => {
+	    header.addEventListener('click', function() {
 	        const content = header.nextElementSibling;
-	        const arrowImg = header.querySelector('img');
+	        
 	        if (content.style.display === "block") {
 	            content.style.display = "none";
-	            arrowImg.src = "img/arrow.png";	
+	            this.classList.remove('open');
+
 	        } else {
 	            content.style.display = "block";
-	            arrowImg.src = "img/arrow-down.png";	
+	            this.classList.add('open');	
 	        }
 	    });
 	});
