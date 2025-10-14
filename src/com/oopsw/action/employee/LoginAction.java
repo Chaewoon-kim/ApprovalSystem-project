@@ -25,12 +25,11 @@ public class LoginAction implements Action {
 			session.setAttribute("name", vo.getName());
 			session.setAttribute("department", vo.getDepartment());
 			session.setAttribute("rank", vo.getRank());
-			session.setAttribute("isManager", vo.getManagerPermission());
+			session.setAttribute("isManager", vo.getManagerPermission() == 'Y');
 		
-			url = "webpage/approve/getApprovalWaitList.html";
+			url = "webpage/approve/getApprovalWaitList.jsp";
 			if(vo.getRank().equals("»ç¿ø")){
 				url = "webpage/draft/getReport.jsp";
-//				url = "webpage/employee/common.jsp";
 			}
 		}
 		return url;

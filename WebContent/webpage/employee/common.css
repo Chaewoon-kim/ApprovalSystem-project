@@ -29,6 +29,7 @@
       align-content: center;
       text-align: center;
     }
+
     .profile{
       display: flex;
       align-items: center;
@@ -40,8 +41,7 @@
       font-size: 16px;
       font-weight: bold;
     }
-    .profile-img{
-      width: 50px;
+    .alarm-img{
       padding:0 5px;
     }
 
@@ -98,8 +98,15 @@
     .submenu.open{
       max-height: 500px;
     }
-    .submenu div{
+    .submenu a{
       padding: 5px 0;
+      display: block;
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+    }
+    .submenu a:hover{
+    	color: #F49600;
     }
     .logout{
       margin-top: auto;
@@ -114,3 +121,59 @@
       color: white;
       background-color: #D32F2F;
     }
+    <!-- 관리자 토글-->
+    .change-mode-container{
+    	display:inline-block;
+	  	width: 140px;
+	  	height: 30px;
+	  	position:relative;
+	  	margin-right: auto;
+	 }
+	 .change-mode-container input[type="checkbox"]{
+	  position: absolute;
+	  width: 0px;
+	  height: 0px;
+	  overflow: hidden;
+	}
+	.change-mode-container label{
+	  position: relative;
+	  padding-left: 70px;
+	  line-height: 30px;
+	  font-size: 16px;
+	}
+	.change-mode-container label::after{  
+	  position:absolute;
+	  top:3px;
+	  left:4px;
+	  content:'';
+	  width: 24px;
+	  height: 24px;
+	  background: #d1d1d1;
+	  border-radius: 100%;
+	  transition: all 0.3s
+	    
+	}
+	.change-mode-container label::before{
+	  position:absolute;
+	  top:0;
+	  left:0;
+	  content:'';
+	  width: 60px;
+	  height: 30px;
+	  border:1px solid #d1d1d1;
+	  border-radius: 20px;
+	  background: #f1f1f1;
+	  box-sizing: border-box;
+	}
+	.change-mode-container input[type="checkbox"]:checked + label::after {
+	  transform: translateX(28px);
+	  background: gold;
+	}
+	.change-mode-container input[type="checkbox"]:checked + label::before {
+	  background: #fff;
+	}
+
+	.manager-menu{
+		display: none;
+		margin-top: 20px;
+	}

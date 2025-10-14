@@ -14,3 +14,14 @@ document.querySelectorAll(".menu-title").forEach(function(title) {
     }
   });
 });
+let changeMode = function(isChecked){
+	const managerMenu = document.querySelector(".manager-menu");
+	const employeeMenu = document.querySelector(".employee-menu");
+	
+	managerMenu.style.display = isChecked ? 'block' : 'none';
+	employeeMenu.style.display = isChecked ? 'none' : 'block';
+}
+
+document.querySelector("#changeMode").addEventListener('change', function() {
+	changeMode(this.checked);
+});
