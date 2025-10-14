@@ -35,6 +35,7 @@
     <select id="getAllEmployees" resultType="com.oopsw.model.VO.EmployeeVO">
         select employee_id as employeeId,name,department,rank
         from employee
+        where access_permission = 'Y'
         order by employee_id
     </select>
 
@@ -43,9 +44,10 @@
     <select id="getEmployee" parameterType="String" resultType="com.oopsw.model.VO.EmployeeVO">
         select employee_id as employeeId, name,department,rank
         from employee
-        where name like '%' || #{keyword} || '%'
+        where access_permission = 'Y' and( 
+        	name like '%' || #{keyword} || '%'
            or department like '%' || #{keyword} || '%'
-           or rank like '%' || #{keyword} || '%'
+           or rank like '%' || #{keyword} || '%')
         order by employee_id
     </select>
 	

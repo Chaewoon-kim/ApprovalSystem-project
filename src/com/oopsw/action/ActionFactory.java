@@ -29,12 +29,18 @@ public class ActionFactory {
 	public static Action getAction(String cmd){
 		Action a = null;
 		switch(cmd){
+		case "editLine":
+			a = new EditLineAction();
+			break;
 		case "loginAction":
 			a = new LoginAction();
 			break;
 		case "loginUI":
 		case "mainUI":
 			a = new LoginUIAction();
+			break;
+		case "getAllEmployees":
+			a = new GetAllEmployeesAction();
 			break;
 		case "getEmployees": 
 			a = new GetEmployeesAction();
