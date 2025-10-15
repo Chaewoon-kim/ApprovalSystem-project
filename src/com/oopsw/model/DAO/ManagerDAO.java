@@ -11,6 +11,13 @@ import com.oopsw.model.VO.EmployeeVO;
 import com.oopsw.model.VO.FormVO;
 
 public class ManagerDAO {
+	public int getFormCount(FormVO formVO){
+		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+		String page = conn.selectOne("managerMapper.getFormCount", formVO);
+		conn.close();
+		
+		return Integer.parseInt(page);
+	}
 	public int getEmployeeCount(EmployeeVO employeeVO){
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		String page = conn.selectOne("managerMapper.getEmployeeCount", employeeVO);

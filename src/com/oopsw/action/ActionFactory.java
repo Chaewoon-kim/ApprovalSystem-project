@@ -28,6 +28,7 @@ import com.oopsw.action.manager.AddFormAction;
 import com.oopsw.action.manager.GetEmployeeCount;
 import com.oopsw.action.manager.GetEmployeesAction;
 import com.oopsw.action.manager.GetFormAction;
+import com.oopsw.action.manager.GetFormCount;
 import com.oopsw.action.manager.InvertAccessPermissionAction;
 import com.oopsw.action.manager.InvertFormUsageAction;
 
@@ -36,6 +37,9 @@ public class ActionFactory {
 	public static Action getAction(String cmd){
 		Action a = null;
 		switch(cmd){
+		case "getFormCount":
+			a = new GetFormCount();
+			break;
 		case "getEmployeeCount":
 			a = new GetEmployeeCount();
 			break;
