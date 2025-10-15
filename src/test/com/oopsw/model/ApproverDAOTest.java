@@ -33,7 +33,6 @@ public class ApproverDAOTest {
 		al = new ApprovalLineVO();
 		ab = new AbsenceVO();
 		doc = new DocumentVO();
-		HttpSession session = request.getSession();
 	}
 	
 //	@Test

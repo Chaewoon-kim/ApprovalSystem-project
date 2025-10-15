@@ -54,7 +54,7 @@ public class ActionFactory {
 		case "addAbsence":
 			a = new AddAbsenceAction();
 			break;
-		case "getAbsenceProxyListAction":
+		case "getAbsenceProxyList":
 			a = new GetAbsenceProxyListAction();
 			break;
 		case "approvalProcess":

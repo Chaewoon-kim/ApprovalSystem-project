@@ -40,7 +40,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-  var currentPage = 1;
+  let currentPage = 1;
 
   function reqWaitList(page){
     $.ajax({
@@ -54,16 +54,14 @@ $(document).ready(function(){
         setTable(data.list, data.success);
         setPagination(data.currentPage, data.totalPages);
       },
-      error: function(xhr, status, err){
-        console.log("AJAX Error:", status, err);
-        console.log("응답 내용:", xhr.responseText);
+      error: function(){
         alert("error!");
       }
     });
   }
 
   function setTable(list, success){
-    var tbody = $("#waitListTable");
+    let tbody = $("#waitListTable");
     tbody.empty();
 
     if(!success || !list || list.length == 0){
@@ -72,7 +70,7 @@ $(document).ready(function(){
     }
 
     $.each(list, function(i, item){
-      var row = "<tr>"
+      let row = "<tr>"
         + "<td>" + (item.deadline || '') + "</td>"
         + "<td>" + (item.draftDate || '') + "</td>"
         + "<td>" + (item.name || '') + "</td>"
@@ -86,7 +84,7 @@ $(document).ready(function(){
 
   //  페이지네이션 생성
   function setPagination(current, total){
-    var pagination = $(".pagination");
+    let pagination = $(".pagination");
     pagination.empty();
 
     for(var i = 1; i <= total; i++){
@@ -96,7 +94,7 @@ $(document).ready(function(){
     }
   }
 
-  // 이벤트 등록
+  // event
   $(document).on("click", ".page-link", function(e){
     e.preventDefault();
     currentPage = parseInt($(this).data("page"));
