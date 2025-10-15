@@ -56,6 +56,8 @@
 		order by form_id
 	</select>
 	
+	
+	
 	<!-- 양식 상태 수정 -->
 	<update id="invertFormUsage">
 		update document_form 
@@ -67,11 +69,12 @@
 		where form_id = #{formId}
 	</update>
 	
-	<!-- 양식 검색 -->
 	<select id="getFormsByKeyword" parameterType="com.oopsw.model.VO.FormVO" resultType="com.oopsw.model.VO.FormVO">
 		select form_id formId, form_category formCategory, form_name formName, form_description formDescription, form_usage formUsage
 		from document_form
-		where (#{keyword} is null or form_category = #{keyword} or form_name like '%' || #{keyword} || '%')
+		<if test="keyword != null and keyword != ''">
+			where (#{keyword} is null or form_category = #{keyword} or form_name like '%' || #{keyword} || '%')
+		</if>
 		order by form_id
 	</select>
 	

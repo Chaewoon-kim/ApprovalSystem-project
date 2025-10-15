@@ -21,7 +21,9 @@ import com.oopsw.action.draft.SubmitDocAction;
 import com.oopsw.action.employee.GetNotiAction;
 import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginUIAction;
+import com.oopsw.action.manager.GetFormAction;
 import com.oopsw.action.manager.GetEmployeesAction;
+import com.oopsw.action.manager.GetFormAction;
 import com.oopsw.action.manager.InvertAccessPermissionAction;
 
 public class ActionFactory {
@@ -29,6 +31,9 @@ public class ActionFactory {
 	public static Action getAction(String cmd){
 		Action a = null;
 		switch(cmd){
+		case "getForms":
+			a = new GetFormAction();
+			break;
 		case "editLine":
 			a = new EditLineAction();
 			break;

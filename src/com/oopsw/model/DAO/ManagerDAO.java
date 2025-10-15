@@ -41,11 +41,11 @@ public class ManagerDAO {
 		return employees;
 	}
 
-	public List<Map<String, Object>> getForms(){
-		List<Map<String, Object>> forms;
+	public List<FormVO> getForms(FormVO vo){
+		List<FormVO> forms;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		
-		forms = conn.selectList("managerMapper.getForms");
+		forms = conn.selectList("managerMapper.getFormsByKeyword", vo);
 		conn.close();
 		
 		return forms;

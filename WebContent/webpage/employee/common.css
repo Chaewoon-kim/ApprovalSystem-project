@@ -107,6 +107,9 @@
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.2s ease;
+      display: flex;
+      gap: 2px;
+      flex-direction: column;
     }
     .submenu.open{
       max-height: 500px;
