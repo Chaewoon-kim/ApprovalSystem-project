@@ -23,7 +23,7 @@ public class GetAbsenceProxyListAction implements Action {
 		HttpSession session = request.getSession();
         String approverId = (String) session.getAttribute("employeeId");
         if (approverId == null) {
-            approverId = "E25-009"; // 테스트용
+            approverId = "E25-011"; // 테스트용
         }
         
         int page = 1;
