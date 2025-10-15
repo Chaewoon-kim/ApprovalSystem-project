@@ -19,8 +19,10 @@ public class ApprovalProcessAction implements Action {
     public String execute(HttpServletRequest request) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-        String approverId = (String) session.getAttribute("loginId");
-
+        String approverId = (String) session.getAttribute("employeeId");
+        if (approverId == null) {
+            approverId = "E25-013"; // 테스트용
+        }
         int documentNo = Integer.parseInt(request.getParameter("documentNo"));
         String approvalStatus = request.getParameter("approvalStatus"); // 승인 or 반려
         String opinion = request.getParameter("opinion");
@@ -34,7 +36,7 @@ public class ApprovalProcessAction implements Action {
             AbsenceVO absence = dao.checkAbsence(approverId);
             if (absence != null && !absence.getProxyId().equals(approverId)) {
                 request.setAttribute("message", "현재 부재 설정 중, 대결자만 결재 가능.");
-                return "approvalFail.jsp";
+                return "webpage/approver/getApprovalWaitList.jsp";
             }
 
             ApprovalLineVO vo = new ApprovalLineVO();
@@ -62,8 +64,8 @@ public class ApprovalProcessAction implements Action {
                     dao.sendProcessNoti(vo);
                 }
                 request.setAttribute("message", "승인 완료");
-                url = "controller?cmd=getApprovalWaitList";
-                url = "getApprovalWaitList.jsp";
+//                url = "controller?cmd=getApprovalWaitList";
+                url = "webpage/approver/getApprovalWaitList.jsp";
 
             } else if (approvalStatus.equals("반려")) {
                 // 반려 처리 -> 문서 반려 + 알림
@@ -72,7 +74,9 @@ public class ApprovalProcessAction implements Action {
                 dao.setDocReject(doc);
                 dao.sendProcessNoti(vo);
                 request.setAttribute("message", "반려 처리 완료");
-                url = "controller?cmd=getApprovalWaitList";
+//                url = "controller?cmd=getApprovalWaitList";
+                url = "webpage/approver/getApprovalWaitList.jsp";
+
             }
             
         } catch (Exception e) {

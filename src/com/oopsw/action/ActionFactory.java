@@ -16,6 +16,7 @@ import com.oopsw.action.draft.GetTempListAction;
 import com.oopsw.action.draft.SaveTempDocAction;
 import com.oopsw.action.draft.SetFormAction;
 import com.oopsw.action.draft.SubmitDocAction;
+import com.oopsw.action.employee.GetDetailReportAction;
 import com.oopsw.action.employee.GetNotiAction;
 import com.oopsw.action.employee.LoginUIAction;
 import com.oopsw.action.manager.GetEmployeesAction;
@@ -26,6 +27,10 @@ public class ActionFactory {
 	public static Action getAction(String cmd){
 		Action a = null;
 		switch(cmd){
+		
+		case "getDetailReport":
+			a = new GetDetailReportAction();
+			break;
 		
 		case "getEmployees": 
 			a = new GetEmployeesAction();

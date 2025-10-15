@@ -12,10 +12,9 @@
 <link rel="stylesheet" href="webpage/employee/common.css">
 </head>
 
-<jsp:include page="../employee/common.html" />
 <body>
 
- 
+ <jsp:include page="../employee/common.html" />
  <!-- 메인 콘텐츠 -->
     <main class="form-list">
       <h1>결재 대기 목록</h1>
