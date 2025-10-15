@@ -21,12 +21,21 @@ let changeMode = function(isChecked){
 	
 	managerMenu.style.display = isChecked ? 'block' : 'none';
 	employeeMenu.style.display = isChecked ? 'none' : 'block';
+	
+	localStorage.setItem('isManagerMode', isChecked);
 }
 
 const changeModeToggle = document.querySelector("#changeMode");
 
 if (changeModeToggle) {
- changeModeToggle.addEventListener('change', function() {
-     changeMode(this.checked);
- });
+	 changeModeToggle.addEventListener('change', function() {
+	     changeMode(this.checked);
+	 });
+
+	const savedMode = localStorage.getItem('isManagerMode');
+	const isManagerMode = savedMode === 'true';
+
+	changeModeToggle.checked = isManagerMode;
+
+	changeMode(isManagerMode);
 }
