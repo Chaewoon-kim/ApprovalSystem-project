@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" isELIgnored="true"%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -24,7 +24,7 @@
       <!-- 검색 -->
       <div class="search-box">
         <input id="keyword" type="text" placeholder="카테고리, 양식제목 검색">
-        <div id="keyword-btn">검색</div>
+        <div class="btn-keyword">검색</div>
       </div>
 
       <!-- 목록 테이블 -->
@@ -53,108 +53,140 @@
 <script src="webpage/employee/common.js"></script>
 <script src="webpage/manager/employeeAccess.js"></script>
 <script type="text/javascript">
-		// 최초 실행
-		$(document).ready(function(){
-			reqPage("");
-			reqForm("1", "");
+	let currentKeyword = "";
+	let startPage = 1;
+	let endPage = 1;
+	let totalPage = 1;
+	
+	// 최초 실행
+	$(document).ready(function(){
+		init();
+	});
+	
+	function ajaxRequest(params, success){
+		$.ajax({
+			url: "controller",
+			data: params,
+			success: success,
+			error: function(err){console.error(err); alert("서버 요청 실패");}
 		});
-		// 페이지 정보 획득
-		$(document).on("click", "#keyword-btn", function(e){
-			let keyword = $("#keyword").val();
-			console.log(keyword);
-			reqPage(keyword);
-		});		
-		// 비동기 양식 개수 획득
-		function reqPage(keyword){
-			$.ajax({
-				url : "controller",
-				data : {
-					cmd : "getFormCount",
-					keyword: keyword
-				},
-				success : function(data){
-					setPage(data.result);
-					reqForm("1", keyword);
+	}
+	
+	function init(){
+		// 첫번째 페이지 로드
+		reqPage($("#keyword").val(), true);
+	}
+	
+	// 검색 버튼 이벤트
+	$(document).on("click", ".btn-keyword", function(e){
+		currentKeyword = $("#keyword").val();
+		reqPage(currentKeyword, true);
+	});
+	
+	// 양식 수량 획득
+	function reqPage(keyword, loadFirstPage){
+		ajaxRequest(
+			{
+				cmd: "getFormCount",
+				keyword: keyword
+			},
+			function(data){
+				setPage(data.result);
+				if(loadFirstPage){
+					let firstPage = $(".page-number").eq(0);
+					if(firstPage.length) reqForm(firstPage, keyword);
 				}
-			});
-		}
-		// UI에 페이지네이션 표시
-		function setPage(formCount){
-			let pagination = $(".pagination");
-			pagination.empty();
-			
-			let pageNo = (formCount/8) + (formCount%8==0?0:1);
-			for(var idx = 1; idx <= pageNo; idx++){
-				var row = "<div class='page-number' data-page='"+idx+"'>"+idx+"</div>";
-				pagination.append(row);
 			}
-			clickPage($(".page-number").eq(0));
-		}
-		function clickPage(pageElem){
-			$(".page-number").removeClass("active");
-			pageElem.addClass("active");
-		}
+		);
+	}
+	
+	// UI에 페이지네이션 표시
+	function setPage(formCount){
+		let pagination = $(".pagination");
+		pagination.empty();
 		
-		$(document).on("click", ".page-number", function(e){
-			if(!$(this).hasClass("active")){
-				let pageNo = $(this).data("page");
-				if(pageNo == null) pageNo = 1;
-				let keyword = $("#keyword").val();
-				
-				reqForm(pageNo, keyword);
-				clickPage($(this));
+		totalPage = 1;
+		if(formCount > 0)
+			totalPage = Math.ceil(formCount / 8);
+		
+		endPage = totalPage;
+		if(totalPage > 10) endPage = 10;
+		
+		for(let idx = startPage; idx <= endPage; idx++){
+			pagination.append(`<div class='page-number' data-page='${idx}'>${idx}</div>`);
+		}
+		clickPage($(".page-number").eq(0));
+	}
+	
+	// 페이지 클릭 시 형태 변경
+	function clickPage(pageElem){
+		$(".page-number.active").removeClass("active");
+		pageElem.addClass("active");
+	}
+	
+	// 페이지 번호 클릭 이벤트
+	$(document).on("click", ".page-number", function(e){
+		let pageElem = $(this);
+		if(pageElem.hasClass("active"))
+			return;
+		
+		reqForm(pageElem, currentKeyword);
+	});
+	
+	// 양식 정보 요청(8개)
+	function reqForm(pageElem, keyword){
+		ajaxRequest(
+			{
+				cmd: "getForm",
+				page: pageElem.data("page"),
+				keyword: keyword
+			},
+			function(data){
+				clickPage(pageElem);
+				setTable(data.result);
 			}
-		});
-		
-		function reqForm(page, keyword){
-			$.ajax({
-				url: "controller",
-				data: {
-					cmd: "getForm",
-					page: page,
-					keyword: keyword
-				},
-				success: function(data){
-					setTable(data.result);
-				},
-				error: function(err){
-				      console.error("getEmployee error:", err);
-			    }
-			});
-		}
-		
-		function setTable(data){
-			let tableBody = $(".form-table tbody");
-			tableBody.empty();
-			
-			$.each(data, function(i, form){		    	
-		    	let row = 
-		    	`<tr>
-		            <td>\${form.formId}</td>
-		            <td>\${form.formCategory}</td>
-		            <td>\${form.formName}</td>
-		            <td>\${form.formDescription}</td>
-		            <td><button class="btn btn-use">사용</button></td>
-	          	</tr>`;
-		    	tableBody.append(row);
-			});
-		}
+		);
+	}
+	
+	// 양식 정보를 테이블에 출력
+	function setTable(data){
+		let tableBody = $(".form-table tbody");
+		tableBody.empty();
 
-		function reqInvertFormUsage(formElem, formId){
-			$.ajax({
-				url: "controller",
-				data: {
-					cmd: "invertAccessPermission",
-					empId: empId
-				},
-				success: function(data){
-					setAccessPermission(data.result);
-				}
-			});
-		}
-		function setAccessPermission(result){
-			reqEmployee($(".page-number.active").data("page"), getFilter($("#statusSelect").val()));
-		}
+    	let row = "";
+		$.each(data, function(i, form){
+			row +=`<tr>
+	            <td>${form.formId}</td>
+	            <td>${form.formCategory}</td>
+	            <td>${form.formName}</td>
+	            <td>${form.formDescription}</td>
+	            <td><div class="btn ${form.formUsage == 'Y' ? 'btn-use' : 'btn-unuse'}" data-form-id="${form.formId}">${form.formUsage == 'Y' ? "사용중" : "미사용"}</div></td>
+	      	</tr>`;
+		});
+    	tableBody.append(row);
+	}
+
+	// 양식 사용 변경 이벤트
+	$(document).on("click", ".btn", function(e){
+		let formId = $(this).data("formId");
+		reqInvertFormUsage(formId);
+	});
+	// 양식 사용 변경 요청
+	function reqInvertFormUsage(formId){
+		ajaxRequest(
+			{
+				cmd: "invertFormUsage",
+				formId: formId
+			}, 
+			function(data){
+				setFormUsage(data.result);
+			}
+		);
+	}
+	function setFormUsage(result){
+		if(result)
+			reqForm($(".page-number.active").eq(0), $("#keyword").val());
+	}
 </script>
     
     
