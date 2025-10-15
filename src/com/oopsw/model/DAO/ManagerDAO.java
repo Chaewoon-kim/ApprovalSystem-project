@@ -53,12 +53,13 @@ public class ManagerDAO {
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		
 		boolean result = conn.insert("managerMapper.addForm", formVO) == 1;
+		conn.commit();
 		conn.close();
 		
 		return result;
 	}
 	
-	public boolean setDefaultApprovalLine(List<DefaultApprovalLineVO> approvalList){
+	public boolean addDefaultApprovalLine(List<DefaultApprovalLineVO> approvalList){
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		
 		boolean result = false;
@@ -66,6 +67,7 @@ public class ManagerDAO {
 			 result = conn.insert("managerMapper.addApprovalLine", approvalList.get(i)) == 1;
 			if(!result) break;
 		}
+		conn.commit();
 		conn.close();
 		
 		return result;

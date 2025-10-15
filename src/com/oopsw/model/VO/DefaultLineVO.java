@@ -5,6 +5,7 @@ public class DefaultLineVO {
 	private String department;
 	private String rank;
 	private int lineOrder;
+	
 	public String getName() {
 		return name;
 	}

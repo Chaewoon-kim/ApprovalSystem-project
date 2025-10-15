@@ -45,10 +45,10 @@ public class ActionFactory {
 		case "invertFormUsage":
 			a = new InvertFormUsageAction();
 			break;
-		case "getForms":
+		case "getForm":
 			a = new GetFormAction();
 			break;
-		case "addForms":
+		case "addForm":
 			a = new AddFormAction();
 			break;
 		case "getEmployees": 

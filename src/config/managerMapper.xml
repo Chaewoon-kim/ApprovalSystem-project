@@ -55,8 +55,13 @@
 	
 	<!-- 기본 결재선 설정 -->
 	<insert id="addApprovalLine" parameterType="com.oopsw.model.VO.DefaultApprovalLineVO">
-		insert into default_approval_line(default_approval_line_no, form_id , rank , line_order) 
-		values(default_approval_line_no_seq.nextval , #{formId}, #{rank}, #{lineOrder})
+		insert into default_approval_line(default_approval_line_no, form_id , rank , line_order)
+		values (
+			default_approval_line_no_seq.nextval,
+			#{formId},
+			#{rank},
+			#{lineOrder} 
+		)
 	</insert>
 	
 	<!-- 양식 상태 수정 -->

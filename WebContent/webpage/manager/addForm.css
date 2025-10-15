@@ -52,14 +52,27 @@ textarea {
   justify-content: flex-start;
   gap: 40px; /* 결재선과 내용 양식 사이 간격 */
   margin: 20px 0;
+  flex: 1;
 }
 
 /* 결재선 영역 */
 .approval-line {
+	height: 100%;
   flex: 1;
   display: flex;
   flex-direction: column;
+  algin-items: start;
   gap: 15px;
+}
+.confirm-container{
+	flex: 1;
+	overflow-y: scroll;
+}
+.right-box {
+  flex: 2;
+  display: flex;
+  flex-direction: column; /* 세로 배치 */
+  gap: 20px;
 }
 
 /* 각 결재자 행 */
@@ -112,12 +125,6 @@ textarea {
   font-size: 14px;
 }
 
-.right-box {
-  flex: 1;
-  display: flex;
-  flex-direction: column; /* 세로 배치 */
-  gap: 20px;
-}
 
 /* 설정 버튼 */
 .submit-btn {

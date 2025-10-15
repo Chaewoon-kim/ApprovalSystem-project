@@ -1,0 +1,43 @@
+
+.page-title{
+	font-size: 24px;
+	font-weight: bold;
+	color: #333;
+	
+	border-bottom: 2px solid #F49600;
+	margin: 20px 0;
+	padding: 10px 0;
+}
+.page-container{
+	height: 100%;
+	display: flex;
+	flex-direction:column;
+}
+.content-container{
+	flex: 1;
+	display: flex;
+	flex-direction:column;
+}
+.title-label{
+	font-size: 20px;
+	font-weight: bold;
+	color: #333;
+	
+}
+.content-title{
+	font-size: 16px;
+	font-weight: bold;
+	color: #333;
+	border-bottom: 2px solid #F49600;
+}
+.content-label{
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  
+  margin: 8px 0;
+}
+
+.content-object {
+  margin: 12px 6px;
+}

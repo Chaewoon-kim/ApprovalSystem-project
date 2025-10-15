@@ -23,7 +23,6 @@ public class InvertAccessPermissionAction implements Action {
 		
 		boolean result = new ManagerDAO().invertPermission(employeeVO);
 		request.setAttribute("result", result);
-		System.out.println(result);
 		return "webpage/manager/resultAsync.jsp";
 	}
 

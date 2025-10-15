@@ -1,58 +1,62 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>전자결재 시스템 - 양식 목록</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-  	<link href="webpage/table.css" rel="stylesheet">
-  	<link href="webpage/employee/common.css" rel="stylesheet">
+	<meta charset="UTF-8">
+	<title>접근권한 관리</title>
+	<!-- JQuery JS -->
+	<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	
+	<link href="webpage/table.css" rel="stylesheet">
+	<link href="webpage/employee/common.css" rel="stylesheet">
+	<link href="webpage/employee/integration.css" rel="stylesheet">
 </head>
-	<jsp:include page="../employee/common.html"/>
-
-    <!-- 메인 콘텐츠 -->
-    <main class="form-list">
-      <h1>접근 권한 관리</h1>
-      
-        <!-- 등록상태 필터 -->
-  <div class="status-filter">
-    <label for="statusSelect">등록 상태: </label>
-    <select id="statusSelect">
-      <option value="전체">전체</option>
-      <option value="등록">등록</option>
-      <option value="미등록">미등록</option>
-    </select>
-  </div>
-
-      <!-- 목록 테이블 -->
-      <table class="form-table">
-        <thead>
-          <tr>
-            <th>사번</th>
-            <th>이름</th>
-            <th>부서</th>
-            <th>직급</th>
-            <th>권한 수정</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-		
-		<!-- 페이지네이션 -->
-		<div class="pagination">
+<body>
+	<jsp:include page="../employee/common.html" />
+	
+	<!-- 메인 콘텐츠 -->
+	<main class="form-list">
+		<div class="page-container">
+			<div class="page-title">접근 권한 관리</div>
+			<!-- 등록상태 필터 -->
+			<div class="status-filter">
+				<label for="statusSelect">등록 상태: </label> 
+				<select id="statusSelect">
+					<option value="전체">전체</option>
+					<option value="등록">등록</option>
+					<option value="미등록">미등록</option>
+				</select>
+			</div>
+			
+			<!-- 목록 테이블 -->
+			<div class="content-container">
+			<table class="form-table">
+				<thead>
+					<tr>
+						<th>사번</th>
+						<th>이름</th>
+						<th>부서</th>
+						<th>직급</th>
+						<th>권한 수정</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+			</div>
+			
+			<!-- 페이지네이션 -->
+			<div class="pagination"></div>
 		</div>
-</main>
-  </div>
+	</main>
+</body>
 
-	<script src="webpage/employee/common.js"></script>
-    <script src="webpage/manager/employeeAccess.js" ></script>
-	<script type="text/javascript">		
+<script src="webpage/employee/common.js"></script>
+<script src="webpage/manager/employeeAccess.js"></script>
+<script type="text/javascript">		
 
 		// 최초 실행
 		$(document).ready(function(){
