@@ -1,5 +1,11 @@
 package com.oopsw.action;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+
+import com.oopsw.action.Action;
 import com.oopsw.action.absence.AddAbsenceAction;
 import com.oopsw.action.absence.DeleteAbsenceAction;
 import com.oopsw.action.absence.EndAbsenceAction;
@@ -19,8 +25,7 @@ import com.oopsw.action.draft.SubmitDocAction;
 import com.oopsw.action.employee.GetDetailReportAction;
 import com.oopsw.action.employee.GetNotiAction;
 import com.oopsw.action.employee.LoginUIAction;
-import com.oopsw.action.manager.GetEmployeesAction;
-import com.oopsw.action.manager.InvertAccessPermissionAction;
+import com.oopsw.action.employee.LoginAction;
 
 public class ActionFactory {
 	private ActionFactory(){}
@@ -32,12 +37,7 @@ public class ActionFactory {
 			a = new GetDetailReportAction();
 			break;
 		
-		case "getEmployees": 
-			a = new GetEmployeesAction();
-			break;
-		case "invertAccessPermission":
-			a = new InvertAccessPermissionAction();
-			break;
+		
 		
 			
 		case "deleteAbsence":
@@ -94,6 +94,7 @@ public class ActionFactory {
 			
 		default:
 			a = new LoginUIAction();
+			break;
 		}
 		return a;
 	}

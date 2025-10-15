@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.SqlSession;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -26,6 +27,7 @@ public class ApproverDAOTest {
 	static ApprovalLineVO al; 
 	static AbsenceVO ab;
 	static DocumentVO doc;
+	static SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 	
 	@BeforeClass
 	public static void start() throws Exception{
@@ -33,6 +35,7 @@ public class ApproverDAOTest {
 		al = new ApprovalLineVO();
 		ab = new AbsenceVO();
 		doc = new DocumentVO();
+		
 	}
 	
 //	@Test
@@ -58,38 +61,38 @@ public class ApproverDAOTest {
 	public void setNextApproverToWaitTest() {
 		al.setDocumentNo(20);
 		al.setLineOrder(2);
-		assertTrue(dao.setNextApproverToWait(al));
+		assertTrue(dao.setNextApproverToWait(conn, al));
 	}
 
 //	@Test
 	public void findNextApprovalLineNoTest() {
 		al.setDocumentNo(20); 
 	    al.setLineOrder(2);    
-	    System.out.println(dao.findNextApprovalLineNo(al));
+	    System.out.println(dao.findNextApprovalLineNo(conn, al));
 	}
 
 //	@Test
 	public void sendRequestNotiTest() {
 		al.setApprovalLineNo(28);
-		assertTrue(dao.sendRequestNoti(al));
+		assertTrue(dao.sendRequestNoti(conn, al));
 	}
 
 //	@Test
 	public void sendProcessNotiTest() {
 		al.setDocumentNo(20);
-		assertTrue(dao.sendProcessNoti(al));
+		assertTrue(dao.sendProcessNoti(conn, al));
 	}
 
 //	@Test
 	public void setDocRejectTest() {
 		doc.setDocumentNo(2);
-		assertTrue(dao.setDocReject(doc));
+		assertTrue(dao.setDocReject(conn, doc));
 	}
 
 //	@Test
 	public void setDocCompleteTest() {
 		doc.setDocumentNo(2);
-		assertTrue(dao.setDocComplete(doc));
+		assertTrue(dao.setDocComplete(conn, doc));
 	}
 
 //	@Test
