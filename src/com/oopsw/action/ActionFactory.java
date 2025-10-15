@@ -1,5 +1,10 @@
 package com.oopsw.action;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+
 import com.oopsw.action.absence.AddAbsenceAction;
 import com.oopsw.action.absence.DeleteAbsenceAction;
 import com.oopsw.action.absence.EndAbsenceAction;
@@ -8,6 +13,7 @@ import com.oopsw.action.absence.ModifyAbsenceAction;
 import com.oopsw.action.approve.ApprovalProcessAction;
 import com.oopsw.action.approve.GetEndListAction;
 import com.oopsw.action.approve.GetWaitListAction;
+import com.oopsw.action.draft.EditLineAction;
 import com.oopsw.action.draft.GetApprovalProcessNoti;
 import com.oopsw.action.draft.GetApprovalStatusAction;
 import com.oopsw.action.draft.GetReqListAction;
@@ -21,19 +27,20 @@ import com.oopsw.action.draft.SubmitDocAction;
 import com.oopsw.action.employee.GetNotiAction;
 import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginUIAction;
-import com.oopsw.action.manager.GetFormAction;
+
+import com.oopsw.action.manager.AddFormAction;
+import com.oopsw.action.manager.GetAllEmployeesAction;
+import com.oopsw.action.manager.GetEmployeeCount;
 import com.oopsw.action.manager.GetEmployeesAction;
 import com.oopsw.action.manager.GetFormAction;
 import com.oopsw.action.manager.InvertAccessPermissionAction;
+import com.oopsw.action.manager.InvertFormUsageAction;
 
 public class ActionFactory {
 	private ActionFactory(){}
 	public static Action getAction(String cmd){
 		Action a = null;
 		switch(cmd){
-		case "getForms":
-			a = new GetFormAction();
-			break;
 		case "editLine":
 			a = new EditLineAction();
 			break;
@@ -47,18 +54,27 @@ public class ActionFactory {
 		case "getAllEmployees":
 			a = new GetAllEmployeesAction();
 			break;
+		case "getEmployeeCount":
+			a = new GetEmployeeCount();
+			break;
+		case "invertFormUsage":
+			a = new InvertFormUsageAction();
+			break;
+		case "getForms":
+			a = new GetFormAction();
+			break;
+		case "addForms":
+			a = new AddFormAction();
+			break;
 		case "getEmployees": 
 			a = new GetEmployeesAction();
 			break;
 		case "invertAccessPermission":
 			a = new InvertAccessPermissionAction();
 			break;
-		
-			
 		case "deleteAbsence":
 			a = new DeleteAbsenceAction();
 			break;
-			
 		case "endAbsence":
 			a = new EndAbsenceAction();
 			break;
@@ -81,8 +97,6 @@ public class ActionFactory {
 		case "getEndList":
 			a = new GetEndListAction();
 			break;
-		
-			
 		case "getApprovalProcessNoti":
 			a = new GetNotiAction();
 			break;
@@ -113,7 +127,7 @@ public class ActionFactory {
 		case "setForm":
 			a = new SetFormAction();
 			break;
-		}
+		
 		return a;
 	}
 }

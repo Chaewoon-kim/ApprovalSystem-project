@@ -23,10 +23,10 @@ public class GetFormAction implements Action {
 
 		ManagerDAO dao = new ManagerDAO();
 		List<FormVO> list = dao.getForms(vo);
-		
+
 		request.setAttribute("result", list);
-		System.out.println(list);
 		return "webpage/result.jsp";
 	}
 
 }
+

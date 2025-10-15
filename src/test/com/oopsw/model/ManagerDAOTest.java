@@ -31,7 +31,7 @@ public class ManagerDAOTest {
 		EmployeeVO vo = new EmployeeVO();
 		vo.setPage(1);
 		
-		List<Map<String, Object>> employees = managerDAO.getEmployees(vo);
+		List<EmployeeVO> employees = managerDAO.getEmployees(vo);
 		
 		assertNotNull(employees);
 
@@ -42,7 +42,7 @@ public class ManagerDAOTest {
 	
 	@Test
 	public void getFormsTest(){
-		List<Map<String, Object>> forms = managerDAO.getForms();
+		List<FormVO> forms = managerDAO.getForms(new FormVO());
 		
 		assertNotNull(forms);
 
@@ -64,7 +64,7 @@ public class ManagerDAOTest {
 		EmployeeVO vo = new EmployeeVO();
 		vo.setAccessPermission('Y');
 		
-		List<Map<String, Object>> employees = managerDAO.getEmployeesByPermission(vo);
+		List<EmployeeVO> employees = managerDAO.getEmployees(vo);
 		
 		assertNotNull(employees);
 
@@ -103,7 +103,7 @@ public class ManagerDAOTest {
 	public void getFormsByKeywordTest(){
 		FormVO vo = new FormVO();
 		vo.setKeyword("¾÷¹«");
-		List<Map<String, Object>> forms = managerDAO.getFormsByKeyword(vo);
+		List<FormVO> forms = managerDAO.getForms(vo);
 		
 		assertNotNull(forms);
 
