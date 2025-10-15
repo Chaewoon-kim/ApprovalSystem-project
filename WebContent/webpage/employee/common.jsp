@@ -72,7 +72,7 @@
 						<span>사원 관리</span>
 					</div>
 					<div class="submenu">
-						<a href="#">접근 권한 관리</a>
+						<a href="controller?cmd=getEmployees">접근 권한 관리</a>
 					</div>
 				</div>
 				<div class="menu">

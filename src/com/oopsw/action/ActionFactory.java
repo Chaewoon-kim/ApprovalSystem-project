@@ -127,7 +127,8 @@ public class ActionFactory {
 		case "setForm":
 			a = new SetFormAction();
 			break;
-		
+		}
 		return a;
 	}
 }
+
