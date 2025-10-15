@@ -73,10 +73,13 @@
       font-size: 20px;
       display: flex;
       justify-content: center; 
-      align-items: center; 
+      align-items: center;
+      border: none;
+      border-radius: 3px;
     }
     .make:hover{
-      cursor: pointer; 
+      cursor: pointer;
+      background-color: #FFC362;
     }
 
     .menu{
@@ -89,6 +92,16 @@
       cursor: pointer;
       font-weight: bold;
     }
+    .menu-title img{
+    	cursor: pointer;
+	    width: 14px;
+	    height: 14px;
+	    transition: transform 0.3s ease;
+	    transform: rotate(270deg); 
+    }
+    .menu-title.open img {
+    	transform: rotate(360deg); 
+	}
     .submenu{
       padding-left: 55px;
       max-height: 0;
