@@ -18,17 +18,15 @@ public class GetFormAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-		String url = "GetForm.jsp";
-		
 		FormVO vo = new FormVO();
-		vo.setKeyword(null);
+		vo.setKeyword(request.getParameter("keyword"));
 
 		ManagerDAO dao = new ManagerDAO();
 		List<FormVO> list = dao.getForms(vo);
-		
-		request.setAttribute("formList", list);
-		
-		return url;
+
+		request.setAttribute("result", list);
+		return "webpage/result.jsp";
 	}
 
 }
+

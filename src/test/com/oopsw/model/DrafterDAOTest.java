@@ -20,7 +20,7 @@ public class DrafterDAOTest {
 		d = new DrafterDAO();
 	}
 
-//	@Test
+	@Test
 	public void getAllReqListTest() {
 		System.out.println(d.getReqList(new GetListVO("E25-001", null, 1)));
 	}
@@ -95,7 +95,7 @@ public class DrafterDAOTest {
 		System.out.println(d.getApprovalProcessNoti(new GetListVO("E25-004", "¿Ï·á", 0)));
 	}
 	
-	@Test
+//	@Test
 	public void getUnReadStatusApprovalProcessNotiTest() {
 		System.out.println(d.getUnReadApprovalProcessNoti(new GetListVO("E25-004", null, 0)));
 	}

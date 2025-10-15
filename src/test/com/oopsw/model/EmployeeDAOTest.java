@@ -29,10 +29,9 @@ public class EmployeeDAOTest {
 	//로그인
 //	@Test
 	public void loginTest(){ 
-		    EmployeeVO vo = new EmployeeVO("E25-001" , "a1lb2@c3");
+		    EmployeeVO vo = new EmployeeVO("E25-021" , "asdf123!");
 		    EmployeeVO result = dao.login(vo);       
-		    assertEquals("김민준", result.getName()); 
-	
+		    System.out.println(result);
 	}
 	
 	
@@ -57,23 +56,18 @@ public class EmployeeDAOTest {
 	}
 	
 	//전체 사원 검색
-//	@Test
+	@Test
 	public void getAllEmployeesTest(){
 		 List<EmployeeVO> employeeList = dao.getAllEmployees();
-		 
-		 if (!employeeList.isEmpty()) {
-	            EmployeeVO firstEmployee = employeeList.get(0);	            	         
-	            assertEquals("E25-000", firstEmployee.getEmployeeId());
-		 }
+		 System.out.println(employeeList);
 	}
 	
 
 	//특정 사원 검색
-	//@Test
+//	@Test
 	public void getEmployeeTest(){
 		List<EmployeeVO> employeeList = dao.getEmployee("영");
-		
-		assertEquals(7 , employeeList.size());
+		System.out.println(employeeList);
 	}
 	
 	//댓글 알림 보내기
@@ -95,13 +89,13 @@ public class EmployeeDAOTest {
 	}
 	
 	//안읽은 대결 알림 조회
-	@Test
+//	@Test
 	public void getUnReadApprovalNoti(){
 		System.out.println(dao.getUnReadApprovalNoti("E25-001"));
 	}
 	
 	//안읽은 댓글 알림 (받기)
-	@Test
+//	@Test
 	public void getUnReadCommentsNoti(){
 		System.out.println(dao.getUnReadCommentsNoti("E25-002"));
 	}

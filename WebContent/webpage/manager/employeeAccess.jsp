@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-    
+<%@ include file="../employee/common.jsp" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -13,7 +13,6 @@
   	<link href="webpage/table.css" rel="stylesheet">
   	<link href="webpage/employee/common.css" rel="stylesheet">
 </head>
-	<jsp:include page="../employee/common.html"/>
 
     <!-- 메인 콘텐츠 -->
     <main class="form-list">
@@ -49,8 +48,6 @@
 		</div>
 </main>
   </div>
-
-	<script src="webpage/employee/common.js"></script>
     <script src="webpage/manager/employeeAccess.js" ></script>
 	<script type="text/javascript">		
 
