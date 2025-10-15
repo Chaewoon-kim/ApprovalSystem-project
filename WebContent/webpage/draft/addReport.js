@@ -1,7 +1,6 @@
 const selectList = document.querySelectorAll("select");
 let dt = new Date();
 const currentYear = dt.getFullYear();
-console.log(selectList)
 
 var yearOptions = function(){
 	let content = "<option>년도</option>";

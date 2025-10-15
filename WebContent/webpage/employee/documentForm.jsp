@@ -1,14 +1,51 @@
-document.querySelector("h1").innerText = '${form.formName}';
-document.querySelector(".inputForm").innerHTML = '<p>휴가 종류: 연차</p><p>휴가 기간: 2025년 09월 18일 ~ 20205년 09월 19일</p><p>휴가 사유: 예비군</p>';
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<head>
+    <link rel="stylesheet" href="webpage/employee/documentForm.css">
+</head>
+<div class="documentForm">
+    <h1 class="text-center documentTitle"></h1>
+    <div class="flex-container">
+        <div class="tables">
+        </div>
+
+        <div class="flex-container">
+            <div class="tables">
+            </div>
+
+            <div class="tables">
+                
+            </div>
+        </div>
+    </div>
+
+    <hr>
+	<c:choose>
+	<c:when test="${add}">
+		<textarea class="inputForm"></textarea>
+	</c:when>
+	<c:otherwise>
+		<div class="inputForm"></div>
+	</c:otherwise>
+	</c:choose>
+    
+</div>
+
+<script type="text/javascript">
+const formJson = JSON.parse('${form}');
+$(".documentTitle").data('formId', formJson.formName);
+$(".documentTitle").text(formJson.formName);
+$(".inputForm").html(formJson.formContent);
 let tableList = document.querySelectorAll(".tables");
 
 var getTodayFormatted = function() {
     const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, '0');
-    const date = String(today.getDate()).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
     
-    return `${year}.${month}.${date}`;
+    return year + '-' + month + '-' + day;
 }
 
 var addDrafterTable = function(table, data){
@@ -21,7 +58,7 @@ var addDrafterTable = function(table, data){
     }
     
     for(i = 0; i < 4 ; i++){
-        content += '<tr>'
+        content += '<tr>';
         content += '<th class="table-bgColor draft-th">'+ tablehead[i]+'</th>';
         content += '<td class="input-table">'+ inputData[i]+'</td>';
         content += '</tr>';
@@ -66,24 +103,10 @@ var addApprovalTable = function(table, data){
     return content;
 }
 
-// Data
-const drafterTableData = { name: "지연우", department: "개발팀", rank: "사원" };
-const approvalTableData1 = [
-    {rank: "대리"},
-    {rank: "과장"},
-    {rank: "부장"}
-];
-const approvalTableData2 = [
-    { name: "배성윤", department: "개발팀", rank: "대리" },
-    { name: "성민서 ", department: "개발팀", rank: "과장" },
-    { name: "김채운", department: "개발팀", rank: "부장" }
-];
-//양식 생성할때
-//tableList[0].innerHTML = addDrafterTable(tableList[0]);
-//tableList[1].innerHTML = addProposalTable(tableList[1]);
-//tableList[2].innerHTML = addApprovalTable(tableList[2], approvalTableData1);
+const drafterTableData = { name: '${name}', department: '${department}', rank: '${rank}'};
+const approvalTableData = ${defaultlines};
 
-//양식 작성할때
  tableList[0].innerHTML = addDrafterTable(tableList[0], drafterTableData);
  tableList[1].innerHTML = addProposalTable(tableList[1], drafterTableData);
- tableList[2].innerHTML = addApprovalTable(tableList[2], approvalTableData2);
+ tableList[2].innerHTML = addApprovalTable(tableList[2], approvalTableData);
+</script>

@@ -13,7 +13,7 @@
 		)
 		where rn between (#{page} - 1) * 8 + 1 and #{page} * 8
 	</select>
-	<select id="setForm" parameterType="String" resultType="com.oopsw.model.VO.DocumentFormVO">
+	<select id="setForm" parameterType="String" resultType="com.oopsw.model.VO.FormVO">
 		select form_name formName, form_content formContent
 		from document_form
 		where form_usage = 'Y' and form_id = #{formId}

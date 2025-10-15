@@ -9,7 +9,7 @@ import com.oopsw.model.VO.AlarmVO;
 import com.oopsw.model.VO.ApprovalLineVO;
 import com.oopsw.model.VO.ApprovalStatusVO;
 import com.oopsw.model.VO.DefaultLineVO;
-import com.oopsw.model.VO.DocumentFormVO;
+import com.oopsw.model.VO.FormVO;
 import com.oopsw.model.VO.DocumentVO;
 import com.oopsw.model.VO.GetDefaultLineVO;
 import com.oopsw.model.VO.GetListVO;
@@ -25,8 +25,8 @@ public class DrafterDAO {
 		return list;
 	}
 
-	public DocumentFormVO setForm(String formId) {
-		DocumentFormVO result = null;
+	public FormVO setForm(String formId) {
+		FormVO result = null;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		result = conn.selectOne("drafterMapper.setForm", formId);
 		conn.close();
