@@ -27,7 +27,7 @@
       </table>
 
       <div class="modal-buttons">
-        <button type="button" class="btn-cancel" onclick="closeModal('approvalModal')">취소</button>
+        <button type="button" class="btn-cancel" onclick="closeModal(approvalModal)">취소</button>
         <button type="submit" class="btn-submit">결재</button>
       </div>
     </form>

@@ -13,7 +13,7 @@
 
 <body>
   
-<jsp:include page="../employee/common.html" />
+<%@ include file="../employee/common.jsp" %>
 
     <!-- 메인 콘텐츠 -->
     <main class="form-list">
@@ -94,9 +94,9 @@ $(document).ready(function(){
 			let row = "<tr>"
 				+ "<td>" + item.draftDate + "</td>"
 				+ "<td>" + item.completionDate + "</td>"
-				+ "<td>" + item.title + "</td>"
+				+  "<td><a href='controller?cmd=getDetailReport&documentNo="+item.documentNo+"'>" +(item.title)+"</a></td>"
 				+ "<td>" + item.department + "</td>"
-				+ "<td>" + item.documentNo + "</td>"
+				+ "<td>" + (item.approvedDocumentNo || '') + "</td>"
 				+ "<td><button class='flag " + (item.processStatus == "완료" ? "complete" : "reject") + "'>"
 				+ item.processStatus + "</button></td>"
 				+ "</tr>";
@@ -136,7 +136,5 @@ $(document).ready(function(){
 
 });
 </script>
-
-  <script src="webpage/employee/common.js"></script>
 </body>
 </html>

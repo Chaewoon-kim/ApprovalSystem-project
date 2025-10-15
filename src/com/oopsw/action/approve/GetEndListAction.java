@@ -45,12 +45,10 @@ public class GetEndListAction implements Action {
         GetListVO vo = new GetListVO(employeeId, processStatus, page);
         List<ApproverListVO> endList = dao.getEndList(vo);
 
-        // 전체 페이지 수 (임시)
         int totalPages = 3;
 
-        // Gson 변환
         Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd")   // 원하는 포맷 지정
+                .setDateFormat("yyyy-MM-dd")   
                 .create();
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("currentPage", page);
@@ -64,11 +62,9 @@ public class GetEndListAction implements Action {
         boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
 
         if (isAjax) {
-            // json을 JSP로
             return "webpage/approve/endListTable.jsp";
         }
 
-        // 동기일 경우
         request.setAttribute("endList", endList);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);

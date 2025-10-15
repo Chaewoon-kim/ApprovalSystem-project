@@ -26,14 +26,13 @@ public class LoginAction implements Action {
 			session.setAttribute("department", vo.getDepartment());
 			session.setAttribute("rank", vo.getRank());
 			session.setAttribute("isManager", vo.getManagerPermission() == 'Y');
-			System.out.println(vo.getName());
+
 			url = "webpage/approve/getApprovalWaitList.jsp";
 			if(vo.getRank().equals("»ç¿ø")){
 				url = "webpage/draft/getReport.jsp";
 			}
 		}
 		return url;
-		
 	}
 
 }

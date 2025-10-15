@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<jsp:include page="../employee/common.html" />
+<%@ include file="../employee/common.jsp" %>
 
 <main class="form-list">
   <h1>부재 일정</h1>

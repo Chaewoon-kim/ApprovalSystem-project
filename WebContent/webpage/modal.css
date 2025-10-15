@@ -1,3 +1,4 @@
+@CHARSET "UTF-8";
 .modal-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -106,7 +107,7 @@
   transition: all 0.2s ease;
 }
 
-/* Ãë¼Ò ¹öÆ° */
+/* ì·¨ì†Œ ë²„íŠ¼ */
 .modal-buttons .btn-cancel {
   background-color: #fff;
   border: 1px solid #ccc;
@@ -117,7 +118,7 @@
   background-color: #f5f5f5;
 }
 
-/* °áÀç ¹öÆ° */
+/* ê²°ìž¬ ë²„íŠ¼ */
 .modal-buttons .btn-submit {
   background-color: #F49600;
   

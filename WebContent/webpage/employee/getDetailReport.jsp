@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ include file="../employee/common.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,7 @@
 <title>문서상세</title>
 <base href="<%=request.getContextPath()%>/">
 <!-- 글깨짐 현상 <base>태그로 해결 -->
-<link rel="stylesheet" href="webpage/documentForm.css">
+<link rel="stylesheet" href="webpage/employee/documentForm.css">
 <link rel="stylesheet" href="webpage/modal.css">
 <link rel="stylesheet" href="webpage/employee/common.css">
 <link rel="stylesheet" href="webpage/report.css">
@@ -18,7 +19,6 @@
 
 </head>
 <body>
-<jsp:include page="../employee/common.html" />
 	
 			<main class="add-form">
 			<h1>문서상세</h1>
@@ -26,12 +26,31 @@
 			<div class="message-area">${message}</div>
 			 
 			<div class="btn-container">
-				<button class="form-btn">
+				<button class="form-btn" type="button" onclick="history.back()">
 					<img src="img/list.png"> <span>목록보기</span>
 				</button>
-				<button class="form-btn" type="button" onclick="openModal('approvalModal')">
-					<img src="img/airplay.png"> <span>결재하기</span>
-				</button>
+				<c:choose>
+			    <c:when test="${approvalStatus eq '결재대기'}">
+			        <button class="form-btn" type="button" onclick="openModal(approvalModal)">
+			            <img src="img/airplay.png">
+			            <span>결재하기</span>
+			        </button>
+			    </c:when>
+			
+			    <c:when test="${approvalStatus eq '승인' or approvalStatus eq '반려'}">
+			        <button class="form-btn" type="button" onclick="openModal(approvalStatusModal)">
+			            <img src="img/airplay.png">
+			            <span>결재현황</span>
+			        </button>
+			    </c:when>
+			
+			    <c:otherwise>
+			        <button class="form-btn" type="button" disabled>
+			            <span>결재불가</span>
+			        </button>
+			    </c:otherwise>
+				</c:choose>
+
 			</div>
 
 			<hr>
@@ -188,22 +207,5 @@
 		</div>
 	</div>
 
-	<script>
-    document.querySelectorAll(".menu-title").forEach(title =>{
-      title.addEventListener("click", () => {
-        const submenu = title.nextElementSibling;
-        if(submenu.classList.contains("open")){
-          submenu.style.maxHeight = submenu.scrollHeight + "px";
-          requestAnimationFrame(() => {
-            submenu.style.maxHeight = "0";
-          })
-          submenu.classList.remove("open");
-        } else{
-          submenu.style.maxHeight = submenu.scrollHeight + "px";
-          submenu.classList.add("open");
-        }
-      });
-    });
-  </script>
 </body>
 </html>

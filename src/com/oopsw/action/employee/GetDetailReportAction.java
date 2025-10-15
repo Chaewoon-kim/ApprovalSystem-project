@@ -49,17 +49,20 @@ public class GetDetailReportAction implements Action {
 		
 		// 현재 로그인한 결재자의 lineOrder 찾기
 	    List<ApprovalLineEmployeeVO> approvalLines = employee.getApprvovalTable(documentNumber);
-	    							
-	    int lineOrder = -1;
+	    
+	    int lineOrder = 0;
+	    String approvalStatus = null;
 	    for (ApprovalLineEmployeeVO line : approvalLines) {
 	        if (line.getEmployeeId().equals(employeeId)) {
 	            lineOrder = line.getLineOrder();
+	            approvalStatus = line.getApprovalStatus();
 	            break;
 	        }
 	    }
-	    System.out.println(lineOrder);
+//	    System.out.println(lineOrder);
 	    request.setAttribute("approvalLines", approvalLines);
 	    request.setAttribute("approverLineOrder", lineOrder);
+	    request.setAttribute("approvalStatus", approvalStatus);
 		
 		
 	    

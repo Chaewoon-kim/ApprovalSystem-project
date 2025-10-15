@@ -14,11 +14,14 @@ import com.oopsw.action.absence.ModifyAbsenceAction;
 import com.oopsw.action.approve.ApprovalProcessAction;
 import com.oopsw.action.approve.GetEndListAction;
 import com.oopsw.action.approve.GetWaitListAction;
+import com.oopsw.action.draft.EditLineAction;
 import com.oopsw.action.draft.GetApprovalProcessNoti;
 import com.oopsw.action.draft.GetApprovalStatusAction;
 import com.oopsw.action.draft.GetReqListAction;
+import com.oopsw.action.draft.GetReqListUIAction;
 import com.oopsw.action.draft.GetTempDocAction;
 import com.oopsw.action.draft.GetTempListAction;
+import com.oopsw.action.draft.GetTempListUIAction;
 import com.oopsw.action.draft.SaveTempDocAction;
 import com.oopsw.action.draft.SetFormAction;
 import com.oopsw.action.draft.SubmitDocAction;
@@ -26,6 +29,16 @@ import com.oopsw.action.employee.GetDetailReportAction;
 import com.oopsw.action.employee.GetNotiAction;
 import com.oopsw.action.employee.LoginUIAction;
 import com.oopsw.action.employee.LoginAction;
+import com.oopsw.action.employee.LoginAction;
+import com.oopsw.action.employee.LoginUIAction;
+
+import com.oopsw.action.manager.AddFormAction;
+import com.oopsw.action.manager.GetAllEmployeesAction;
+import com.oopsw.action.manager.GetEmployeeCount;
+import com.oopsw.action.manager.GetEmployeesAction;
+import com.oopsw.action.manager.GetFormAction;
+import com.oopsw.action.manager.InvertAccessPermissionAction;
+import com.oopsw.action.manager.InvertFormUsageAction;
 
 public class ActionFactory {
 	private ActionFactory(){}
@@ -40,10 +53,40 @@ public class ActionFactory {
 		
 		
 			
+		case "editLine":
+			a = new EditLineAction();
+			break;
+		case "loginAction":
+			a = new LoginAction();
+			break;
+		case "loginUI":
+		case "mainUI":
+			a = new LoginUIAction();
+			break;
+		case "getAllEmployees":
+			a = new GetAllEmployeesAction();
+			break;
+		case "getEmployeeCount":
+			a = new GetEmployeeCount();
+			break;
+		case "invertFormUsage":
+			a = new InvertFormUsageAction();
+			break;
+		case "getForms":
+			a = new GetFormAction();
+			break;
+		case "addForms":
+			a = new AddFormAction();
+			break;
+		case "getEmployees": 
+			a = new GetEmployeesAction();
+			break;
+		case "invertAccessPermission":
+			a = new InvertAccessPermissionAction();
+			break;
 		case "deleteAbsence":
 			a = new DeleteAbsenceAction();
 			break;
-			
 		case "endAbsence":
 			a = new EndAbsenceAction();
 			break;
@@ -66,8 +109,6 @@ public class ActionFactory {
 		case "getEndList":
 			a = new GetEndListAction();
 			break;
-		
-			
 		case "getApprovalProcessNoti":
 			a = new GetNotiAction();
 			break;
@@ -79,11 +120,18 @@ public class ActionFactory {
 			break;
 		case "getTempDoc":
 			a = new GetTempDocAction();
+			break;
+		case "getTempListUI":
+			a = new GetTempListUIAction();
+			break;
 		case "getTempList":
 			a = new GetTempListAction();
 			break;
 		case "submitDoc":
 			a = new SubmitDocAction();
+			break;
+		case "getReqListUI":
+			a = new GetReqListUIAction();
 			break;
 		case "getReqList":
 			a = new GetReqListAction();
@@ -99,3 +147,4 @@ public class ActionFactory {
 		return a;
 	}
 }
+

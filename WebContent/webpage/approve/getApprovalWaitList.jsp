@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ include file="../employee/common.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,12 +9,9 @@
 <title>결재 대기 목록</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <link rel="stylesheet" href="webpage/table.css">
-<link rel="stylesheet" href="webpage/employee/common.css">
 </head>
 
 <body>
-
-<jsp:include page="../employee/common.html" />
 
 <main class="form-list">
   <h1>결재 대기 목록</h1>
@@ -74,7 +72,7 @@ $(document).ready(function(){
         + "<td>" + (item.deadline || '') + "</td>"
         + "<td>" + (item.draftDate || '') + "</td>"
         + "<td>" + (item.name || '') + "</td>"
-        + "<td><a href='#'>" + item.title + "</a></td>"
+        + "<td><a href='controller?cmd=getDetailReport&documentNo="+item.documentNo+"'>" +(item.title)+"</a></td>"
         + "<td>" + (item.department || '') + "</td>"
         + "<td><button class='flag'>" + item.approvalStatus + "</button></td>"
         + "</tr>";
@@ -105,7 +103,5 @@ $(document).ready(function(){
 
 });
 </script>
-
-<script src="webpage/employee/common.js"></script>
 </body>
 </html>

@@ -11,11 +11,18 @@ import com.oopsw.model.VO.EmployeeVO;
 import com.oopsw.model.VO.FormVO;
 
 public class ManagerDAO {
-	public List<Map<String, Object>> getEmployees(EmployeeVO vo){
-		List<Map<String, Object>> employees;
+	public int getEmployeeCount(EmployeeVO employeeVO){
+		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+		String page = conn.selectOne("managerMapper.getEmployeeCount", employeeVO);
+		conn.close();
+		
+		return Integer.parseInt(page);
+	}
+	public List<EmployeeVO> getEmployees(EmployeeVO employeeVO){
+		List<EmployeeVO> employees;
 		
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
-		employees = conn.selectList("managerMapper.getEmployees", vo);
+		employees = conn.selectList("managerMapper.getEmployees", employeeVO);
 		conn.close();
 		
 		return employees;
@@ -25,27 +32,18 @@ public class ManagerDAO {
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		
 		boolean result = conn.update("managerMapper.invertPermission", employeeVO) == 1;
+		conn.commit();
 		conn.close();
 		
 		return result;
 	}
 	
-	public List<Map<String, Object>> getEmployeesByPermission(EmployeeVO employeeVO){
-		List<Map<String, Object>> employees;
-		
-		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
-		
-		employees = conn.selectList("managerMapper.getEmployeesByPermission", employeeVO);
-		conn.close();
-		
-		return employees;
-	}
 
-	public List<Map<String, Object>> getForms(){
-		List<Map<String, Object>> forms;
+	public List<FormVO> getForms(FormVO vo){
+		List<FormVO> forms;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		
-		forms = conn.selectList("managerMapper.getForms");
+		forms = conn.selectList("managerMapper.getFormsByKeyword", vo);
 		conn.close();
 		
 		return forms;
@@ -80,15 +78,5 @@ public class ManagerDAO {
 		conn.close();
 		
 		return result;
-	}
-	
-	public List<Map<String, Object>> getFormsByKeyword(FormVO formVO){
-		List<Map<String, Object>> forms;
-		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
-		
-		forms = conn.selectList("managerMapper.getFormsByKeyword", formVO);
-		conn.close();
-		
-		return forms;
 	}
 }

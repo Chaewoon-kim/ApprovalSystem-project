@@ -18,12 +18,13 @@ public class GetReqListAction implements Action {
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String employeeId = (String) session.getAttribute("employeeId");
-		String processStatus = request.getParameter("processStatus");
-		int page = Integer.parseInt(request.getParameter("page"));
-		
+		String processStatus = request.getParameter("processStatus").isEmpty() ? null : request.getParameter("processStatus");
+		int page = Integer.parseInt(request.getParameter("page"));		
 		List<DocumentVO> list = new DrafterDAO().getReqList(new GetListVO(employeeId, processStatus, page));
-		//setParameter로 넘겨줘야함
-		return "getReport.jsp";
+		
+		request.setAttribute("result", list);
+		
+		return "webpage/result.jsp";
 	}
 
 }
