@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div id="approvalModal" class="modal-overlay" style="display:none;">
   <div class="modal-content">
     <h2>결재하기</h2>
-    <form action="controller?cmd=approvalProcessAction" method="post">
+    <form action="controller?cmd=approvalProcess" method="post">
       <!-- 필수 파라미터들 -->
       <input type="hidden" name="documentNo" value="${documentDetail.documentNo}">
       <input type="hidden" name="lineOrder" value="${approverLineOrder}">
@@ -26,7 +27,7 @@
       </table>
 
       <div class="modal-buttons">
-        <button type="button" class="btn-cancel" onclick="closeModal()">취소</button>
+        <button type="button" class="btn-cancel" onclick="closeModal('approvalModal')">취소</button>
         <button type="submit" class="btn-submit">결재</button>
       </div>
     </form>

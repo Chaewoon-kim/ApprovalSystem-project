@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +13,7 @@
 <link rel="stylesheet" href="webpage/employee/common.css">
 <link rel="stylesheet" href="webpage/report.css">
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="webpage/modal.js"></script>
 
 </head>
@@ -27,7 +29,7 @@
 				<button class="form-btn">
 					<img src="img/list.png"> <span>목록보기</span>
 				</button>
-				<button class="form-btn" type="button" onclick="openModal()">
+				<button class="form-btn" type="button" onclick="openModal('approvalModal')">
 					<img src="img/airplay.png"> <span>결재하기</span>
 				</button>
 			</div>

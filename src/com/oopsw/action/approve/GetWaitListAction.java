@@ -1,89 +1,83 @@
 package com.oopsw.action.approve;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.oopsw.action.Action;
 import com.oopsw.model.DAO.ApproverDAO;
 import com.oopsw.model.VO.ApproverListVO;
 import com.oopsw.model.VO.GetListVO;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-
 
 public class GetWaitListAction implements Action {
 
-	@Override
-	
-	public String execute(HttpServletRequest request) throws ServletException, IOException {
-			
-		 	// 로그인한 사원의 사번 가져오기
-		 	HttpSession session = request.getSession();
-	        String employeeId = (String) session.getAttribute("employeeId");
-	        if (employeeId == null) {
-	            employeeId = "E25-000"; // 테스트용
-	        }
-	        
-	        int page = 1;
-	        if (request.getParameter("page") != null) {
-	            try {
-	                page = Integer.parseInt(request.getParameter("page"));
-	            } catch (NumberFormatException e) {
-	                page = 1;
-	            }
-	        }
-	        
-	        String processStatus = request.getParameter("processStatus");
-	        if (processStatus == null || processStatus.trim().isEmpty()) {
-	            processStatus = null; 
-	        }
-	        
-	        GetListVO vo = new GetListVO(employeeId, processStatus, page);
+    @Override
+    public String execute(HttpServletRequest request) throws ServletException, IOException {
 
-	        ApproverDAO dao = new ApproverDAO();
-	        List<ApproverListVO> waitList = dao.getWaitList(vo);
-	        request.setAttribute("success", !waitList.isEmpty());
+        // 로그인한 사원
+        HttpSession session = request.getSession();
+        String employeeId = (String) session.getAttribute("employeeId");
+        if (employeeId == null) {
+            System.out.println("테스트 사원 로그인됨");
+            employeeId = "E25-000";
+        }
 
-	        // 전체페이지수 일단 고정 -> 추후 리팩토링
-	        int totalPages = 3;
-	        
-	        request.setAttribute("currentPage", page);
-	        request.setAttribute("totalPages", totalPages);
-	        request.setAttribute("processStatus", processStatus);
-	        
-//	        Map<String, Object> responseMap = new HashMap<>();
-//	        responseMap.put("currentPage", page);
-//	        responseMap.put("totalPages", totalPages);
-//	        responseMap.put("success", !waitList.isEmpty());
-//	        responseMap.put("list", waitList);
-	        
-//	        Gson gson = new GsonBuilder();
-//            String waitListGson = gson.toJson(waitList);
-            
-            Gson gson = new GsonBuilder()
-                    .setDateFormat("yyyy-MM-dd")   // 원하는 포맷 지정
-                    .create();
-            String waitListGson = gson.toJson(waitList);
-            
-            // 리스트
-            request.setAttribute("waitListGson", waitListGson);
-            request.setAttribute("success", !waitList.isEmpty());
+        // 페이지 파라미터 처리
+        int page = 1;
+        if (request.getParameter("page") != null) {
+            try {
+                page = Integer.parseInt(request.getParameter("page"));
+            } catch (NumberFormatException e) {
+                page = 1;
+            }
+        }
 
-	        boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
+        // 상태 필터
+        String processStatus = request.getParameter("processStatus");
+        if (processStatus == null || processStatus.trim().isEmpty()) {
+            processStatus = null;
+        }
 
-	        if (isAjax) {
-	            return "webpage/approve/waitListTable.jsp";
-	        } 
-	        
-	        return "webpage/approve/getApprovalWaitList.jsp";
+        // DAO 호출
+        ApproverDAO dao = new ApproverDAO();
+        GetListVO vo = new GetListVO(employeeId, processStatus, page);
+        List<ApproverListVO> waitList = dao.getWaitList(vo);
 
-	}
+        int totalPages = 3; // (임시)
 
+        // Gson 변환 준비
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd")
+                .create();
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("currentPage", page);
+        resultMap.put("totalPages", totalPages);
+        resultMap.put("success", !waitList.isEmpty());
+        resultMap.put("list", waitList);
+
+        String json = gson.toJson(resultMap);
+        request.setAttribute("result", json);
+
+        // AJAX 요청 확인
+        boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
+        if (isAjax) {
+            return "webpage/approve/waitListTable.jsp"; // JSON JSP
+        }
+
+        // 동기요청 (초기 페이지)
+        request.setAttribute("waitList", waitList);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("processStatus", processStatus);
+
+        return "webpage/approve/getApprovalWaitList.jsp";
+    }
 }
-

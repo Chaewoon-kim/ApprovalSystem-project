@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.sql.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -31,6 +33,7 @@ public class ApproverDAOTest {
 		al = new ApprovalLineVO();
 		ab = new AbsenceVO();
 		doc = new DocumentVO();
+		HttpSession session = request.getSession();
 	}
 	
 //	@Test
@@ -49,7 +52,7 @@ public class ApproverDAOTest {
 		al.setApproverId("E25-014");
 		al.setApprovalStatus("승인");
 		al.setOpinion("테스트 의견");
-		assertTrue(dao.processApproval(al));
+		assertTrue(dao.processApproval(conn, al));
 	}
 
 //	@Test
