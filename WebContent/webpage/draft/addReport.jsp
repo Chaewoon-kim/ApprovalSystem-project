@@ -15,7 +15,7 @@
 			<button class="form-btn" id="submitBtn" type="submit" form="approveDoc">
 				<img src="./img/check-square.png"> <span>결재요청</span>
 			</button>
-			<button class="form-btn">
+			<button class="form-btn" onclick="openModal(updateLine)">
 				<img src="./img/user-plus.png"> <span>결재선수정</span>
 			</button>
 			<button class="form-btn" id="tempSaveBtn" type="submit" form="approveDoc">
@@ -49,4 +49,5 @@
 			</form>
 		<hr>
     </main>
+    <jsp:include page="./updateLine.jsp" />
     <script src="webpage/draft/addReport.js"></script>

@@ -24,6 +24,7 @@ import com.oopsw.action.draft.GetTempListUIAction;
 import com.oopsw.action.draft.SaveTempDocAction;
 import com.oopsw.action.draft.SetFormAction;
 import com.oopsw.action.draft.SubmitDocAction;
+import com.oopsw.action.employee.DefaultLineAction;
 import com.oopsw.action.employee.GetNotiAction;
 import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginUIAction;
@@ -41,6 +42,9 @@ public class ActionFactory {
 	public static Action getAction(String cmd){
 		Action a = null;
 		switch(cmd){
+		case "getDefaultLine":
+			a = new DefaultLineAction();
+			break;
 		case "editLine":
 			a = new EditLineAction();
 			break;

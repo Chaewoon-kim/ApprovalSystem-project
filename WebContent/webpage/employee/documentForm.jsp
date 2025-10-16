@@ -113,11 +113,17 @@ const addApprovalTable = function(table, data){
     return content;
 };
 
-const drafterTableData = { name: '${name}', department: '${department}', rank: '${rank}'};
-const approvalTableData = ${defaultlines};
+const editApprovalLine = function(newApprovers){
+	currentApprovers = newApprovers;
+	tableList[2].innerHTML = addApprovalTable(tableList[2], currentApprovers);
+	getApproverIds(currentApprovers);
+	$("#updateLine").hide();
+};
+const drafter = { name: '${name}', department: '${department}', rank: '${rank}'};
+let currentApprovers = ${defaultlines};
 
-tableList[0].innerHTML = addDrafterTable(tableList[0], drafterTableData);
-tableList[1].innerHTML = addProposalTable(tableList[1], drafterTableData);
-tableList[2].innerHTML = addApprovalTable(tableList[2], approvalTableData);
-getApproverIds(approvalTableData);
+tableList[0].innerHTML = addDrafterTable(tableList[0], drafter);
+tableList[1].innerHTML = addProposalTable(tableList[1], drafter);
+tableList[2].innerHTML = addApprovalTable(tableList[2], currentApprovers);
+getApproverIds(currentApprovers);
 </script>
