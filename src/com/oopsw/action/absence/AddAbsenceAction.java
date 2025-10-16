@@ -2,6 +2,7 @@ package com.oopsw.action.absence;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +16,9 @@ public class AddAbsenceAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-		String url = "webpage/absence/getAbsenceList.jsp"; // fail page
-
+		String absenceListPage = "webpage/absence/getAbsenceList.jsp"; // fail page
+		String addAbsencePage = "webpage/absence/addAbsence.jsp";
+		
         HttpSession session = request.getSession();
         String approverId = (String) session.getAttribute("employeeId");
         if (approverId == null) {
@@ -28,32 +30,45 @@ public class AddAbsenceAction implements Action {
         String reason = request.getParameter("reason");
         String proxyId = request.getParameter("proxyId");
         
-        System.out.println(proxyId);
-        System.out.println(reason);
-        System.out.println(startDateStr);
-        System.out.println(endDateStr);
+//        System.out.println(proxyId);
+//        System.out.println(reason);
+//        System.out.println(startDateStr);
+//        System.out.println(endDateStr);
         
         Date startDate = Date.valueOf(startDateStr);
         Date endDate = Date.valueOf(endDateStr);
         Date today = new Date(System.currentTimeMillis());
         
-        // 부재기간 유효성검사?
-        if (startDate.before(today)) {
-            request.setAttribute("message", "시작일은 오늘 이후로 설정해야 합니다.");
-            return "webpage/absence/addAbsence.jsp";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        String start = sdf.format(startDate); 
+        String todayStr = sdf.format(today); 
+
+        if (start.compareTo(todayStr) < 0) {
+            request.setAttribute("message", "시작일은 오늘 또는 이후로 설정해야 합니다.");
+            return addAbsencePage;
         }
+
         if (endDate.before(startDate)) {
             request.setAttribute("message", "종료일은 시작일 이후여야 합니다.");
-            return "webpage/absence/addAbsence.jsp";
+            return addAbsencePage;
         }
+        
+//        if(reason == null){
+//        	request.setAttribute("message", "부재 이유를 작성해주세요.");
+//        	return url;
+//        }
+//        if(proxyId == null){
+//        	request.setAttribute("message", "대결자를 지정해주세요.");
+//        	return url;
+//        }
         
         // 부재 상태 
         String usage = "대기";
-        if (startDate.equals(today)) {
+        if (start.equals(todayStr)) {
             usage = "위임"; // 시작일이 오늘일 경우
         }
         
-        System.out.println(usage);
         AbsenceVO vo = new AbsenceVO();
         vo.setAbsenteeId(approverId);
         vo.setProxyId(proxyId);
@@ -72,7 +87,7 @@ public class AddAbsenceAction implements Action {
             request.setAttribute("message", "부재 등록 중 오류가 발생했습니다.");
         }
 
-        return url;
+        return absenceListPage;
 	}
 
 }

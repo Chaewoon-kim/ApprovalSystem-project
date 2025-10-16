@@ -11,11 +11,13 @@
 <link rel="stylesheet" href="webpage/report.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
+
+<!--
 <c:if test="${not empty message}">
   <script>alert('${message}');</script>
   <c:remove var="message" scope="session"/>
 </c:if>
-
+  -->
 </head>
 <body>
 
@@ -26,8 +28,8 @@
 
   <div class="btn-container">
     <button class="form-btn" type="button" onclick="location.href='controller?cmd=getAddAbsenceUI'"><img src="./img/list.png">부재추가</button>
-    <button class="form-btn" type="button"><img src="./img/x.png"> <span>조기종료</span></button>
-    <button class="form-btn"><img src="./img/x.png"> <span>삭제</span></button>
+    <button class="form-btn" type="button" id="endAbsenceBtn"><img src="./img/x.png"> <span>조기종료</span></button>
+    <button class="form-btn" type="button" id="deleteAbsenceBtn"><img src="./img/x.png"> <span>삭제</span></button>
   </div>
 
   <table class="form-table">
@@ -42,18 +44,16 @@
       </tr>
     </thead>
     <tbody id="absenceTableBody">
-      <!-- 비동기 데이터 렌더링 -->
+    
     </tbody>
   </table>
 
-  <!-- 페이지네이션 -->
-  <div class="pagination"></div>
+  <div class="pagination absencePagination"></div>
 
   <h1>대결 일정</h1>
   <table class="form-table">
     <thead>
       <tr>
-        <th><input type="checkbox" id="checkAllProxy"></th>
         <th>대결 시작</th>
         <th>대결 종료</th>
         <th>위임자</th>
@@ -61,31 +61,33 @@
       </tr>
     </thead>
     <tbody id="proxyTableBody">
-      <!-- 비동기 데이터 렌더링 -->
     </tbody>
   </table>
-  <!-- 페이지네이션 -->
-  <div class="pagination"></div>
+  <div class="pagination proxyPagination"></div>
 </main>
 
 
 <script type="text/javascript">
 $(document).ready(function(){
 
-  let currentPage = 1;
+  let absencePage = 1;
+  let proxyPage = 1;
 
-  function reqAbsenceList(page){
+  function reqAbsenceList(aPage, pPage){
     $.ajax({
       url: "controller",
       data: {
         cmd: "getAbsenceProxyList",
-        page: page
+        absencePage: aPage,
+        proxyPage: pPage
       },
       dataType: "json",
       success: function(data){
         renderAbsenceTable(data.absenceList);
+        setAbsencePagination(data.absenceCurrentPage, data.absenceTotalPages);
+
         renderProxyTable(data.proxyList);
-        setPagination(data.currentPage, data.totalPages);
+        setProxyPagination(data.proxyCurrentPage, data.proxyTotalPages);
       },
       error: function(){
         alert("AJAX error!");
@@ -103,20 +105,24 @@ $(document).ready(function(){
     }
 
     $.each(list, function(i, item){
+      let disabled = "";
+      if (item.absenceUsage === "종료") { disabled = "disabled"; }
+
       let row = "<tr>"
-        + "<td><input type='checkbox' class='row-check'></td>"
+        + "<td><input type='checkbox' class='row-check' data-absencedateno='" + item.absenceDateNo + "' data-absenceusage='" + item.absenceUsage + "' " + disabled + "></td>"
         + "<td>" + (item.absenceStartDate || '') + "</td>"
         + "<td>" + (item.absenceEndDate || '') + "</td>"
-        + "<td>" + (item.proxyName + ' ' + item.proxyRank) + "</td>"
+        + "<td>" + ((item.proxyName || '') + ' ' + (item.proxyRank || '')) + "</td>"
         + "<td>" + (item.absenceReason || '') + "</td>"
         + "<td><button class='flag complete'>" + (item.absenceUsage || '') + "</button></td>"
         + "</tr>";
+
       tbody.append(row);
     });
   }
 
   function renderProxyTable(list){
-    var tbody = $("#proxyTableBody");
+    let tbody = $("#proxyTableBody");
     tbody.empty();
 
     if(!list || list.length == 0){
@@ -125,8 +131,7 @@ $(document).ready(function(){
     }
 
     $.each(list, function(i, item){
-      var row = "<tr>"
-        + "<td><input type='checkbox' class='row-check-proxy'></td>"
+      let row = "<tr>"
         + "<td>" + (item.absenceStartDate || '') + "</td>"
         + "<td>" + (item.absenceEndDate || '') + "</td>"
         + "<td>" + (item.absenteeName + ' ' + item.absenteeRank) + "</td>"
@@ -136,29 +141,150 @@ $(document).ready(function(){
     });
   }
 
-  function setPagination(current, total){
-    let pagination = $(".pagination");
+  function setAbsencePagination(current, total){
+    let pagination = $(".absencePagination");
     pagination.empty();
 
-    for(var i = 1; i <= total; i++){
-      var activeClass = (i == current) ? "active-page" : "";
-      var pageLink = "<a href='#' class='page-link " + activeClass + "' data-page='" + i + "'>" + i + "</a>";
-      pagination.append(pageLink);
+    for (var i = 1; i <= total; i++) {
+      let activeClass = (i == current) ? "active-page" : "";
+      pagination.append("<a href='#' class='page-link absence-page " + activeClass + "' data-page='" + i + "'>" + i + "</a>");
     }
   }
 
-  // event
-  $(document).on("click", ".page-link", function(e){
+  function setProxyPagination(current, total){
+    let pagination = $(".proxyPagination");
+    pagination.empty();
+
+    for (var i = 1; i <= total; i++) {
+      let activeClass = (i == current) ? "active-page" : "";
+      pagination.append("<a href='#' class='page-link proxy-page " + activeClass + "' data-page='" + i + "'>" + i + "</a>");
+    }
+  }
+
+  $(document).on("click", ".absence-page", function(e){
     e.preventDefault();
-    currentPage = parseInt($(this).data("page"));
-    reqAbsenceList(currentPage);
+    absencePage = parseInt($(this).data("page"));
+    reqAbsenceList(absencePage, proxyPage); // 부재만 바꿔서 요청
   });
 
-  reqAbsenceList(currentPage);
+  $(document).on("click", ".proxy-page", function(e){
+    e.preventDefault();
+    proxyPage = parseInt($(this).data("page"));
+    reqAbsenceList(absencePage, proxyPage); // 대결만 바꿔서 요청
+  });
 
+  $(document).on('change', '#checkAll', function() {
+    let isChecked = $(this).is(':checked');
+    $('.row-check').prop('checked', isChecked);
+  });
+
+  $(document).on('change', '.row-check', function() {
+    let allChecked = $('.row-check').length === $('.row-check:checked').length;
+    $('#checkAll').prop('checked', allChecked);
+  });
+
+  // 조기종료 (endAbsence)
+  $(document).on("click", "#endAbsenceBtn", function() {
+    let checkedRows = $(".row-check:checked");
+    if (checkedRows.length === 0) {
+      alert("조기종료할 일정을 선택하세요.");
+      return;
+    }
+
+    let hasWaiting = false;
+    let endTargets = [];
+
+    checkedRows.each(function() {
+      let usage = $(this).data("absenceusage");
+      let no = $(this).data("absencedateno");
+
+      if (usage === "대기") {
+        hasWaiting = true;
+      } else if (usage === "위임") {
+        endTargets.push(no);
+      }
+    });
+
+    if (hasWaiting) {
+      alert("대기중 일정은 조기종료할 수 없습니다. (삭제만 가능)");
+      return;
+    }
+
+    if (endTargets.length === 0) {
+      alert("위임중인 일정만 조기종료할 수 있습니다.");
+      return;
+    }
+
+    $.ajax({
+      url: "controller",
+      type: "POST",
+      data: {
+        cmd: "endAbsence",
+        absenceDateNo: endTargets[0]
+      },
+      dataType: "json",
+      success: function(response) {
+        alert(response.message);
+        if (response.success) {
+          reqAbsenceList(absencePage, proxyPage); 
+        }
+      },
+      error: function() {
+        alert("조기종료 처리 중 오류가 발생했습니다.");
+      }
+    });
+  });
+
+ 
+
+//삭제 버튼 클릭
+$(document).on("click", "#deleteAbsenceBtn", function() {
+  let checkedRows = $(".row-check:checked");
+  if (checkedRows.length === 0) {
+    alert("삭제할 부재 일정을 선택하세요.");
+    return;
+  }
+
+  let deleteTargets = [];
+  checkedRows.each(function() {
+    if ($(this).data("absenceusage") === "대기") {
+      deleteTargets.push($(this).data("absencedateno"));
+    }
+  });
+
+  if (deleteTargets.length === 0) {
+    alert("대기중인 일정만 삭제할 수 있습니다.");
+    return;
+  }
+
+  if (!confirm(deleteTargets.length + "건의 부재 일정을 삭제하시겠습니까?")) return;
+
+  
+  $.ajax({
+    url: "controller",
+    type: "POST",
+    traditional: true, // 배열 전송시 필요
+    data: {
+      cmd: "deleteAbsence",
+      absenceDateNos: deleteTargets
+    },
+    dataType: "json",
+    success: function(response) {
+      alert(response.message);
+      if (response.success) {
+        reqAbsenceList(absencePage, proxyPage); // 목록 새로고침
+      }
+    },
+    error: function() {
+      alert("삭제 중 오류가 발생했습니다.");
+    }
+  });
 });
+  reqAbsenceList(absencePage, proxyPage);
+});
+
+
 </script>
 
-<script src="webpage/employee/common.js"></script>
 </body>
 </html>

@@ -121,11 +121,11 @@ public class ApproverDAO{
     }
     
     // 부재 목록 조회
-    public List<AbsenceListVO> getAbsenceList(String absenteeId){
+    public List<AbsenceListVO> getAbsenceList(GetListVO vo){
     	List<AbsenceListVO> list = null;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
     	 try {
-             list = conn.selectList("approverMapper.getAbsenceList", absenteeId);
+             list = conn.selectList("approverMapper.getAbsenceList", vo);
          } finally {
              conn.close();
          }
@@ -133,11 +133,11 @@ public class ApproverDAO{
     }
     
     // 대결 목록 조회
-    public List<AbsenceListVO> getProxyList(String proxyId){
+    public List<AbsenceListVO> getProxyList(GetListVO vo){
     	List<AbsenceListVO> list = null;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
     	 try {
-             list = conn.selectList("approverMapper.getProxyList", proxyId);
+             list = conn.selectList("approverMapper.getProxyList", vo);
          } finally {
              conn.close();
          }

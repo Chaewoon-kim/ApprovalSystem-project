@@ -3,10 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="../employee/common.jsp" %>
 
-<c:if test="${not empty sessionScope.message}">
-  <script>
-    alert("${sessionScope.message}");
-  </script>
+<c:if test="${not empty message}">
+  <script>alert('${message}');</script>
   <c:remove var="message" scope="session"/>
 </c:if>
 

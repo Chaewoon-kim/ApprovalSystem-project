@@ -141,7 +141,7 @@
 	
 		
 	<!-- === 부재 === -->
-	<!-- 부재 목록 조회 -->
+	<!-- 부재 목록 조회 
 	<select id="getAbsenceList" resultType="com.oopsw.model.VO.AbsenceListVO">
 		select a.absence_date_no as absenceDateNo, a.absence_start_date as absenceStartDate, a.absence_end_date as absenceEndDate,
 				e.name as proxyName, e.rank as proxyRank, a.absence_reason as absenceReason, a.absence_usage as absenceUsage
@@ -149,18 +149,59 @@
 		join employee e on a.proxy_id = e.employee_id
 		where a.absentee_id = #{absenteeId}
 		order by a.absence_start_date desc
-	</select>
+	</select>-->
+	
+	
+	<select id="getAbsenceList" parameterType="com.oopsw.model.VO.GetListVO" resultType="com.oopsw.model.VO.AbsenceListVO">
+	select absenceDateNo, absenceStartDate, absenceEndDate,
+	       proxyName, proxyRank, absenceReason, absenceUsage
+	from (
+		select a.absence_date_no as absenceDateNo,
+		       a.absence_start_date as absenceStartDate,
+		       a.absence_end_date as absenceEndDate,
+		       e.name as proxyName,
+		       e.rank as proxyRank,
+		       a.absence_reason as absenceReason,
+		       a.absence_usage as absenceUsage,
+		       row_number() over (
+		           order by 
+		               case a.absence_usage 
+		                   when '종료' then 2 
+		                   else 1 
+		               end asc,              
+		               a.absence_start_date asc 
+		       ) as rn
+		from absence a
+		join employee e on a.proxy_id = e.employee_id
+		where a.absentee_id = #{employeeId}
+	)
+	where rn between (#{page} - 1) * 8 + 1 and #{page} * 8
+</select>
+
+
+
+
 	
 	
 	<!-- 대결 목록 조회 -->
-	<select id="getProxyList" resultType="com.oopsw.model.VO.AbsenceListVO">
-		select a.absence_date_no as absenceDateNo, a.absence_start_date as absenceStartDate, a.absence_end_date as absenceEndDate,
-				e.name as absenteeName, e.rank as absenteeRank, a.absence_reason as absenceReason
+	<select id="getProxyList" parameterType="com.oopsw.model.VO.GetListVO" resultType="com.oopsw.model.VO.AbsenceListVO">
+	select absenceDateNo, absenceStartDate, absenceEndDate,
+	       absenteeName, absenteeRank, absenceReason
+	from (
+		select a.absence_date_no as absenceDateNo,
+		       a.absence_start_date as absenceStartDate,
+		       a.absence_end_date as absenceEndDate,
+		       e.name as absenteeName,
+		       e.rank as absenteeRank,
+		       a.absence_reason as absenceReason,
+		       row_number() over (order by a.absence_start_date desc) as rn
 		from absence a
 		join employee e on a.absentee_id = e.employee_id
-		where a.proxy_id = #{proxyId}
-		order by a.absence_start_date desc
-	</select>
+		where a.proxy_id = #{employeeId}
+	)
+	where rn between (#{page} - 1) * 8 + 1 and #{page} * 8
+</select>
+
 
 	<!-- 부재 추가 (+ 대결알림) -->
 	<insert id="addAbsence" parameterType="com.oopsw.model.VO.AbsenceVO">
@@ -170,7 +211,7 @@
 			#{absenceUsage}, sysdate, null)
 	</insert>
 
-	<!-- 위임 철회 (사용여부가 위임중일때만) -->
+	<!-- 조기종료 (사용여부가 위임중일때만) -->
 	<update id="endAbsence" parameterType="int">
 		update absence
 		set absence_end_date = trunc(sysdate), absence_usage = '종료'
