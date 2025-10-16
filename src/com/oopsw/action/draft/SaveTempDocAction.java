@@ -37,14 +37,19 @@ public class SaveTempDocAction implements Action {
 	
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession(false);
 		try {
-			int documentNo = (documentNoStr != null) ? Integer.parseInt(documentNoStr) : 0;
-			if(documentNoStr != null){
+			int documentNo = 0;
+			boolean isUpdate = false;
+			if (documentNoStr != null && !documentNoStr.trim().isEmpty()) {
+                documentNo = Integer.parseInt(documentNoStr);
+                isUpdate = true;
+            }
+			if(documentNo != 0){
 				d.editTempDoc(new DocumentVO(documentNo, title, contents, deadline), conn);
 			}else{
 				documentNo = d.saveTempDoc(new DocumentVO(employeeId, formId, title, contents, deadline), conn);
 			}
 			
-			if(documentNoStr != null){
+			if(isUpdate){
 				int count = d.removeApprovers(documentNo, conn);
 			}
 
@@ -53,8 +58,9 @@ public class SaveTempDocAction implements Action {
 			}
 			
 			conn.commit();
-			url = "webpage/draft/getReport.jsp";
+			url = "webpage/draft/getSaveList.jsp";
 		} catch (Exception e) {
+			e.printStackTrace();
 			request.setAttribute("message", "임시저장을 실패하였습니다.");
 			conn.rollback();
 		}finally{

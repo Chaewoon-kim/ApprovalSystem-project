@@ -124,7 +124,7 @@
 	<!-- 결재 신청 문서 상세 조회 -->
 	<select id = "getDetailReport" resultType = "com.oopsw.model.VO.DocumentDetailVO" parameterType = "int">
 			select d.employee_id as employeeId ,e.name as employeeName ,  e.department as employeeDepartment , e.rank as employeeRank , d.deadline as deadline , d.draft_date as draftDate , d.completion_date as completionDate
-			, d.title as title , df.form_name as formName , d.contents as contents , d.document_no as documentNo
+			, d.title as title ,df.form_id as formId, df.form_name as formName , d.contents as contents , d.document_no as documentNo
 			from document d
 			join document_form df on d.form_id = df.form_id
 			join employee e on d.employee_id = e.employee_id

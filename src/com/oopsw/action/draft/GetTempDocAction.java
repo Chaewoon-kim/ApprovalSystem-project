@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.oopsw.action.Action;
 import com.oopsw.model.DAO.EmployeeDAO;
 import com.oopsw.model.VO.ApprovalLineEmployeeVO;
@@ -31,29 +33,30 @@ public class GetTempDocAction implements Action {
 			return url;
 		}
 		
-		int documentNumber = 0;
+		int documentNo = 0;
 		try{
-			documentNumber = Integer.parseInt(documentParam);			
+			documentNo = Integer.parseInt(documentParam);			
 		}catch(Exception e){
 			request.setAttribute("message", "문서 번호 형식이 올바르지 않습니다.");
 			return url;
 		}
 		
-	    List<ApprovalLineEmployeeVO> approvalLines = employee.getApprvovalTable(documentNumber);
+	    List<ApprovalLineEmployeeVO> approvalLines = employee.getApprvovalTable(documentNo);
 	    
-	    request.setAttribute("approvalLines", approvalLines);
+	    Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+	    request.setAttribute("defaultlines", gson.toJson(approvalLines));
 
 		DocumentDetailVO detailDoc = null;
 		try{
-			detailDoc = employee.getDetailReport(documentNumber);
+			detailDoc = employee.getDetailReport(documentNo);
 
 			if (detailDoc == null) {
-				request.setAttribute("message", "문서 번호 " + documentNumber + "에 해당하는 문서가 없습니다.");
+				request.setAttribute("message", "문서 번호 " + documentNo + "에 해당하는 문서가 없습니다.");
 				return url;
 			}
-
-			request.setAttribute("documentDetail", detailDoc);
-
+			detailDoc.setDocumentNo(documentNo);
+			request.setAttribute("documentDetail", gson.toJson(detailDoc));
+			request.setAttribute("add", true);
 			url = "webpage/draft/addReport.jsp";
 			return url;
 

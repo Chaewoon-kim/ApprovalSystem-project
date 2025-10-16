@@ -30,14 +30,26 @@
 	</c:otherwise>
 	</c:choose>
     <div id="approverIds"></div>
+    <input name="documentNo" type="hidden" id="draftDocNo" value="">
     <input name="formId" type="hidden" id="draftFormId" value="">
 </div>
 
 <script type="text/javascript">
-const formJson = JSON.parse('${form}');
+//form이 있으면 기안서 작성, documentDetail은 상세조회or임시문서수정 
+const formJsonString = '${not empty form ? form : documentDetail}';
+const formJson= JSON.parse(formJsonString);
+
 $(".documentTitle").text(formJson.formName);
-$(".inputForm").html(formJson.formContent);
 $("#draftFormId").val(formJson.formId);
+//어떤 모드냐에 따라 태그안의 값 설정
+if(${not empty form}){
+	$(".inputForm").html(formJson.formContent);
+}else{
+	$("#draftDocNo").val(formJson.documentNo);
+	$("input[name=title]").val(formJson.title);
+	$(".inputForm").html(formJson.contents);
+};
+
 let tableList = document.querySelectorAll(".tables");
 
 
@@ -100,6 +112,7 @@ const addApprovalTable = function(table, data){
     let nameCells = '';
     let signCells = '';
     for(i = 0;  i < data.length ; i++){
+    	console.log(data[i]);
         const department = data[i].department ? data[i].department + '/' : '';
         const name = data[i].name ? data[i].name : '';
         rankCells += '<td class="input-table">' + department + data[i].rank + '</td>';

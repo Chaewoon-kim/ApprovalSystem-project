@@ -37,9 +37,14 @@ public class SubmitDocAction implements Action {
 		
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession(false);
 		try {
-			int documentNo = (documentNoStr != null) ? Integer.parseInt(documentNoStr) : 0;
+			int documentNo = 0;
+			boolean isUpdate = false;
+			if (documentNoStr != null && !documentNoStr.trim().isEmpty()) {
+                documentNo = Integer.parseInt(documentNoStr);
+                isUpdate = true;
+            }
 			
-			if(documentNoStr != null){
+			if(isUpdate){
 				d.submitTempDoc(new DocumentVO(documentNo, title, contents, deadline), conn);
 			}else{
 				documentNo = d.addDoc(new DocumentVO(employeeId, formId, title, contents, deadline), conn);
@@ -47,7 +52,7 @@ public class SubmitDocAction implements Action {
 			
 			int firstApprovalLineNo = 0;
 			
-			if(documentNoStr != null){
+			if(isUpdate){
 				d.removeApprovers(documentNo, conn);
 			}
 			

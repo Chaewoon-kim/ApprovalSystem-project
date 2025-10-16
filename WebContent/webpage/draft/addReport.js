@@ -9,25 +9,27 @@ let selectedMonth = currentMonth;
 const isLeap = function(year) {
     return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
 };
-const yearOptions = function(){
-	let content = "<option value='' disabled selected>년도</option>";
+const yearOptions = function(initYear){
+	let content = "<option value='' disabled>년도</option>";
 	for (var year = currentYear; year < currentYear+10; year++) {
-		content += "<option value=" + year + ">" + year +"년" + "</option>";
+		const isSelected = (year === initYear) ? 'selected' : '';
+		content += `<option value="${year}" ${isSelected}>${year}년</option>`;
 	}
 	selectList[0].innerHTML = content;
 };
 
-const monthOptions = function(year){
+const monthOptions = function(year, initMonth){
 	const startMonth = (year === currentYear) ? currentMonth : 1;
-	let content = "<option value='' disabled selected>월</option>";
+	let content = "<option value='' disabled>월</option>";
 	for (var month = startMonth; month <= 12; month++) {
-		content += "<option value=" + month+ ">" + month + "월" + "</option>";
+		const isSelected = (month === initMonth) ? 'selected' : '';
+        content += `<option value="${month}" ${isSelected}>${month}월</option>`;
 	}
 	selectList[1].innerHTML = content;
 };
 
-const dayOptions = function(year, month){
-	let content = "<option value='' disabled selected>일</option>";
+const dayOptions = function(year, month, initDay){
+	let content = "<option value='' disabled>일</option>";
 	let days = 31;
 	const startDay = (year === currentYear && month === currentMonth) ? currentDay : 1;
 	switch (month){
@@ -38,23 +40,46 @@ const dayOptions = function(year, month){
 			days = isLeap(year) ? 29 : 28;
 			break;
 	}
-	for (var day = startDay; day <= days; day++) {
-		content += "<option value= " + day+ ">" + day + "일" + "</option>";
+	for (day = startDay; day <= days; day++) {
+		const isSelected = (day === initDay) ? 'selected' : '';
+        content += `<option value="${day}" ${isSelected}>${day}일</option>`;
 	}
 	selectList[2].innerHTML = content;
 };
 
-yearOptions();
-monthOptions(currentYear);
-dayOptions(currentYear, currentMonth);
-selectList[0].addEventListener('change', function(e) {
-    selectedYear = parseInt(e.target.value); 
-    monthOptions(selectedYear); 
-});
-selectList[1].addEventListener('change', function(e) {
-    selectedMonth = parseInt(e.target.value); 
-    dayOptions(selectedYear, selectedMonth); 
-});
+//yearOptions();
+//monthOptions(currentYear);
+//dayOptions(currentYear, currentMonth);
+//selectList[0].addEventListener('change', function(e) {
+//    selectedYear = parseInt(e.target.value); 
+//    monthOptions(selectedYear); 
+//});
+//selectList[1].addEventListener('change', function(e) {
+//    selectedMonth = parseInt(e.target.value); 
+//    dayOptions(selectedYear, selectedMonth); 
+//});
+
+const setInitDate = function(deadline){
+	const parts = deadline.split('-');
+	const initYear = parseInt(parts[0]);
+    const initMonth = parseInt(parts[1]);
+    const initDay = parseInt(parts[2]);
+    
+    selectedYear = initYear;
+    selectedMonth = initMonth;
+    yearOptions(initYear);
+    monthOptions(initYear, initMonth);
+    dayOptions(initYear, initMonth, initDay);
+}
+
+if (formJson && formJson.deadline) {
+	setInitDate(formJson.deadline);
+} else {
+    yearOptions(currentYear);
+    monthOptions(currentYear, currentMonth);
+    dayOptions(currentYear, currentMonth, currentDay);
+}
+
 const handleFormSubmission = function(e){
 	e.preventDefault();
     const form = $(this);

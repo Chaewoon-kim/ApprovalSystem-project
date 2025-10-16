@@ -12,7 +12,7 @@ import com.oopsw.model.DAO.DrafterDAO;
 import com.oopsw.model.VO.DefaultLineVO;
 import com.oopsw.model.VO.GetDefaultLineVO;
 
-public class DefaultLineAction implements Action {
+public class GetDefaultLineAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
