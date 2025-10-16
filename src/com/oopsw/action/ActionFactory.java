@@ -28,7 +28,7 @@ import com.oopsw.action.employee.GetDefaultLineAction;
 import com.oopsw.action.employee.GetNotiAction;
 import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginUIAction;
-
+import com.oopsw.action.employee.LogoutAction;
 import com.oopsw.action.manager.AddFormAction;
 import com.oopsw.action.manager.GetAllEmployeesAction;
 import com.oopsw.action.manager.GetEmployeeCount;
@@ -42,6 +42,9 @@ public class ActionFactory {
 	public static Action getAction(String cmd){
 		Action a = null;
 		switch(cmd){
+		case "logoutAction":
+			a = new LogoutAction();
+			break;
 		case "getDefaultLine":
 			a = new GetDefaultLineAction();
 			break;
