@@ -150,21 +150,25 @@ public class ApproverDAO{
         SqlSession conn = DBCP.getSqlSessionFactory().openSession();
         try {
             int count = conn.insert("approverMapper.addAbsence", vo);
-            result = count == 1;
-        } finally {
-            conn.close();
-        }
+            if(result = count == 1) conn.commit();
+        } catch(Exception e){
+    		conn.rollback();
+    	} finally{
+    		conn.close();
+    	}
         return result;
     }
     
+  
     // 부재 수정
     public boolean modifyAbsence(AbsenceVO vo){
     	boolean result = false;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
     	try{
     		int count = conn.update("approverMapper.modifyAbsence", vo);
-        	result = count == 1;
-//        	conn.commit();
+        	if(result = count == 1) conn.commit();
+    	} catch(Exception e){
+    		conn.rollback();
     	} finally{
     		conn.close();
     	}
@@ -177,8 +181,9 @@ public class ApproverDAO{
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
     	try{
     		int count = conn.update("approverMapper.endAbsence", absenceDateNo);
-        	result = count == 1;
-//        	conn.commit();
+        	if(result = count == 1) conn.commit();
+    	} catch(Exception e){
+    		conn.rollback();
     	} finally{
     		conn.close();
     	}
@@ -191,8 +196,9 @@ public class ApproverDAO{
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
     	try{
     		int count = conn.update("approverMapper.deleteAbsence", absenceDateNo);
-        	result = count == 1;
-//        	conn.commit();
+        	if(result = count == 1) conn.commit();
+    	} catch(Exception e){
+    		conn.rollback();
     	} finally{
     		conn.close();
     	}
@@ -234,8 +240,9 @@ public class ApproverDAO{
         SqlSession conn = DBCP.getSqlSessionFactory().openSession();
         try{
     		int count = conn.update("approverMapper.setAbsenceStatusToActive");
-        	result = count == 1;
-//        	conn.commit();
+        	if(result = count == 1) conn.commit();
+    	} catch(Exception e){
+    		conn.rollback();
     	} finally{
     		conn.close();
     	}

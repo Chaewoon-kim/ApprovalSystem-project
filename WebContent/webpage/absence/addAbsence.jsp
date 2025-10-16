@@ -1,103 +1,70 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="../employee/common.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>addAbsence</title>
-<link rel="stylesheet" href="documentForm.css">
-<link rel="stylesheet" href="common.css">
-<link rel="stylesheet" href="addAbsence.css">
-<link rel="stylesheet" href="popup.css">
+<link rel="stylesheet" href="webpage/employee/documentForm.css">
+<link rel="stylesheet" href="webpage/employee/common.css">
+<link rel="stylesheet" href="webpage/absence/addAbsence.css">
+<link rel="stylesheet" href="webpage/popup.css">
+<link rel="stylesheet" href="webpage/modal.css">
+<link rel="stylesheet" href="webpage/line.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="webpage/modal.js"></script>
+<script src="webpage/absence/searchProxy.js"></script>
+
+<c:if test="${not empty message}">
+  <script>alert('${message}');</script>
+  <c:remove var="message" scope="session"/>
+</c:if>
+
 </head>
 <body>
-  <nav class="top-nav">
-    <div class="logo">
-      로고자리
-    </div>
-
-    <div class="profile">
-      <span class="label">개발팀</span>
-      <span class="label">홍길동</span>
-      <span class="label">사원</span>
-      님, 환영합니다.
-
-      <img class="profile-img" src="https://cdn-icons-png.flaticon.com/512/6522/6522516.png">
-    </div>
-  </nav>
-
-  <div class="container">
-    <nav class="side-nav">
-      <div class="draft">
-        <div class="make">기안서 작성</div>
-      </div>
-      <div class="menu">
-        <div class="menu-title">▼ 결제 신청</div>
-        <div class="submenu">
-          <div>결제 신청 목록</div>  
-        </div>
-      </div>   
-      <div class="logout">
-        로그아웃
-      </div>
-    </nav>
-
 
     <main class="add-absence">
       <h1>
       	부재/위임 설정
       </h1>
 		<hr class="mt"/>
-			<form>
-				<label>
-					<span>부재 기간</span>
-					<input name="statDate" type="date" />
-					<div>~</div>
-					<input name="endDate" type="date" />
-				</label>
-				<label>
-					<span>부재 사유</span>
-					<textarea name="reason"></textarea>
-				</label>
-				<label>
-					<span>대결자</span>
-					<div id="proxyName">
-						<div class="proxy">
-							<span>배성윤</span>
-							<span>대리</span>
-							<img src="./img/orange_x.png">
-						</div>
-					</div>
-					<button class="form-btn">
-						<img src="./img/user-plus.png"> <span>대결자 선택</span>
-					</button>
-				</label>
-			</form>
-		<hr class="mb"/>
-		<div class="popup-btns">
-			<button class="popup-btn-true" type="submit">확인</button>
-			<button class="popup-btn-false" type="reset">취소</button>
-		</div>
+		<form action="controller?cmd=addAbsence" method="post">
+		  <input type="hidden" name="proxyId" id="proxyId">
+		
+		  <label>
+		    <span>부재 기간</span>
+		    <input name="startDate" type="date" />
+		    <div>~</div>
+		    <input name="endDate" type="date" />
+		  </label>
+		
+		  <label>
+		    <span>부재 사유</span>
+		    <textarea name="reason"></textarea>
+		  </label>
+		
+		  <div class="proxy-container">
+		    <label class="proxy-label">대결자</label>
+		
+		    <div class="proxy">
+		      <span style="color:#aaa;">대결자 없음</span>
+		    </div>
+		
+		    <button class="form-btn" type="button" onclick="openModal(searchProxyModal)">
+		      <img src="./img/user-plus.png" alt=""> <span>대결자 선택</span>
+		    </button>
+		  </div>
+		
+		  <hr class="mb"/>
+		  <div class="popup-btns">
+		    <button class="popup-btn-true" type="submit">확인</button>
+		    <button class="popup-btn-false" type="reset" onclick="history.back()">취소</button>
+		  </div>
+		</form>
+
     </main>
-  </div>
+    <jsp:include page="searchProxy.jsp" />
 
-
-  <script>
-    document.querySelectorAll(".menu-title").forEach(title =>{
-      title.addEventListener("click", () => {
-        const submenu = title.nextElementSibling;
-        if(submenu.classList.contains("open")){
-          submenu.style.maxHeight = submenu.scrollHeight + "px";
-          requestAnimationFrame(() => {
-            submenu.style.maxHeight = "0";
-          })
-          submenu.classList.remove("open");
-        } else{
-          submenu.style.maxHeight = submenu.scrollHeight + "px";
-          submenu.classList.add("open");
-        }
-      });
-    });
-  </script>
 </body>
+
 </html>

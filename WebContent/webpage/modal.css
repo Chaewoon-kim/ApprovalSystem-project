@@ -13,7 +13,7 @@
   background: #fff;
   border-radius: 12px;
   padding: 28px 32px;
-  width: 420px;
+  min-width: 420px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
   animation: fadeIn 0.25s ease;
   font-family: "Pretendard", "Noto Sans KR", sans-serif;

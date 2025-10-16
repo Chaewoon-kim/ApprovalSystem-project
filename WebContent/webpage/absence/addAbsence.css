@@ -1,4 +1,6 @@
 .add-absence{
+	min-height: 0;
+	overflow:auto;
 	padding: 50px;
 	flex:1;
 }
@@ -59,3 +61,42 @@
 	width: 20px;
 	height: 20px;
 }
+
+.proxy-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.proxy-label {
+  font-weight: bold;
+  min-width: 60px;
+}
+
+.proxy {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f8f8f8;
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+
+.proxy img {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+.form-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: orange;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+

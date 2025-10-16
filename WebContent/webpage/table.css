@@ -18,6 +18,8 @@
       text-align: center;
     }
 	.form-list {
+	  min-height: 0;
+	  overflow:auto;
       padding: 30px;
       flex: 1;
     }

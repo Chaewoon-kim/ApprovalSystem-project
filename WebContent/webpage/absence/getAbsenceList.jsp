@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%@ include file="../employee/common.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,17 +10,23 @@
 <link href="webpage/employee/common.css" rel="stylesheet">
 <link rel="stylesheet" href="webpage/report.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<c:if test="${not empty message}">
+  <script>alert('${message}');</script>
+  <c:remove var="message" scope="session"/>
+</c:if>
+
 </head>
 <body>
 
-<%@ include file="../employee/common.jsp" %>
+
 
 <main class="form-list">
   <h1>부재 일정</h1>
 
   <div class="btn-container">
-    <button class="form-btn"><img src="./img/list.png"> <span>부재추가</span></button>
-    <button class="form-btn"><img src="./img/x.png"> <span>위임철회</span></button>
+    <button class="form-btn" type="button" onclick="location.href='controller?cmd=getAddAbsenceUI'"><img src="./img/list.png">부재추가</button>
+    <button class="form-btn" type="button"><img src="./img/x.png"> <span>조기종료</span></button>
     <button class="form-btn"><img src="./img/x.png"> <span>삭제</span></button>
   </div>
 

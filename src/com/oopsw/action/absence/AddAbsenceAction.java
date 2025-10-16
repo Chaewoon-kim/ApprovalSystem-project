@@ -15,19 +15,23 @@ public class AddAbsenceAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-		String url = "getAbsenceList.jsp"; // 부재/대결 목록 페이지로 이동
+		String url = "webpage/absence/getAbsenceList.jsp"; // fail page
 
-        HttpSession session = request.getSession(true);
-
-        // 로그인 정보 가져오기 (임시)
-        // 로그인 연동 후 session에서 가져오기
-        // String absenteeId = (String) session.getAttribute("loginId");
-        String absenteeId = "E25-007";  // 테스트용
+        HttpSession session = request.getSession();
+        String approverId = (String) session.getAttribute("employeeId");
+        if (approverId == null) {
+            approverId = "E25-000"; // 테스트용
+        }
 
         String startDateStr = request.getParameter("startDate");
         String endDateStr = request.getParameter("endDate");
         String reason = request.getParameter("reason");
         String proxyId = request.getParameter("proxyId");
+        
+        System.out.println(proxyId);
+        System.out.println(reason);
+        System.out.println(startDateStr);
+        System.out.println(endDateStr);
         
         Date startDate = Date.valueOf(startDateStr);
         Date endDate = Date.valueOf(endDateStr);
@@ -36,23 +40,22 @@ public class AddAbsenceAction implements Action {
         // 부재기간 유효성검사?
         if (startDate.before(today)) {
             request.setAttribute("message", "시작일은 오늘 이후로 설정해야 합니다.");
-            return url;
+            return "webpage/absence/addAbsence.jsp";
         }
         if (endDate.before(startDate)) {
             request.setAttribute("message", "종료일은 시작일 이후여야 합니다.");
-            return url;
+            return "webpage/absence/addAbsence.jsp";
         }
         
         // 부재 상태 
-        String usage;
+        String usage = "대기";
         if (startDate.equals(today)) {
             usage = "위임"; // 시작일이 오늘일 경우
-        } else {
-            usage = "대기중";
         }
         
+        System.out.println(usage);
         AbsenceVO vo = new AbsenceVO();
-        vo.setAbsenteeId(absenteeId);
+        vo.setAbsenteeId(approverId);
         vo.setProxyId(proxyId);
         vo.setAbsenceStartDate(Date.valueOf(startDateStr));
         vo.setAbsenceEndDate(Date.valueOf(endDateStr));

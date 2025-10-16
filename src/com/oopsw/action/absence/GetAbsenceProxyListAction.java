@@ -19,7 +19,8 @@ public class GetAbsenceProxyListAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-
+		
+		String url = "webpage/absence/getAbsenceList.jsp";
 		HttpSession session = request.getSession();
         String approverId = (String) session.getAttribute("employeeId");
         if (approverId == null) {
@@ -70,7 +71,7 @@ public class GetAbsenceProxyListAction implements Action {
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
 
-        return "webpage/absence/getAbsenceList.jsp";
+        return url;
     
 	}
 

@@ -1,3 +1,5 @@
+@CHARSET "UTF-8";
+
     body{
       margin: 0;
     }
@@ -135,6 +137,7 @@
       color: white;
       background-color: #D32F2F;
     }
+    <!-- 관리자 토글-->
     .change-mode-container{
     	display:inline-block;
 	  	width: 140px;

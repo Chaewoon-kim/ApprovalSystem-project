@@ -2,6 +2,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="../employee/common.jsp" %>
+
+<c:if test="${not empty sessionScope.message}">
+  <script>
+    alert("${sessionScope.message}");
+  </script>
+  <c:remove var="message" scope="session"/>
+</c:if>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,9 +17,13 @@
 <title>결재 대기 목록</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <link rel="stylesheet" href="webpage/table.css">
+
+
+
 </head>
 
 <body>
+
 
 <main class="form-list">
   <h1>결재 대기 목록</h1>
