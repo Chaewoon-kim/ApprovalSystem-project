@@ -12,6 +12,7 @@
 <body>
 	<!-- 헤더 -->
 	<nav class="top-nav">
+
 		<div class="logo">로고자리</div>
 		<div class="profile">
 			<c:if test="${isManager}">
@@ -50,8 +51,9 @@
 							<span>결재 승인</span>
 						</div>
 						<div class="submenu">
-							<a href="#">결재 대기 목록</a> <a href="#">결재 처리 목록</a> <a href="#">부재/위임
-								설정</a>
+							<a href="controller?cmd=getWaitList">결재 대기 목록</a> 
+							<a href="controller?cmd=getEndList">결재 처리 목록</a> 
+							<a href="controller?cmd=getAbsenceProxyList">부재/위임 설정</a>
 						</div>
 					</div>
 				</c:if>

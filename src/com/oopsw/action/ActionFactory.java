@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import com.oopsw.action.Action;
 import com.oopsw.action.absence.AddAbsenceAction;
 import com.oopsw.action.absence.DeleteAbsenceAction;
 import com.oopsw.action.absence.EndAbsenceAction;
@@ -24,7 +25,10 @@ import com.oopsw.action.draft.GetTempListUIAction;
 import com.oopsw.action.draft.SaveTempDocAction;
 import com.oopsw.action.draft.SetFormAction;
 import com.oopsw.action.draft.SubmitDocAction;
+import com.oopsw.action.employee.GetDetailReportAction;
 import com.oopsw.action.employee.GetNotiAction;
+import com.oopsw.action.employee.LoginUIAction;
+import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginUIAction;
 
@@ -41,6 +45,14 @@ public class ActionFactory {
 	public static Action getAction(String cmd){
 		Action a = null;
 		switch(cmd){
+		
+		case "getDetailReport":
+			a = new GetDetailReportAction();
+			break;
+		
+		
+		
+			
 		case "editLine":
 			a = new EditLineAction();
 			break;
@@ -85,7 +97,7 @@ public class ActionFactory {
 		case "addAbsence":
 			a = new AddAbsenceAction();
 			break;
-		case "getAbsenceProxyListAction":
+		case "getAbsenceProxyList":
 			a = new GetAbsenceProxyListAction();
 			break;
 		case "approvalProcess":
@@ -126,6 +138,10 @@ public class ActionFactory {
 			break;
 		case "setForm":
 			a = new SetFormAction();
+			break;
+			
+		default:
+			a = new LoginUIAction();
 			break;
 		}
 		return a;

@@ -5,6 +5,9 @@ import static org.junit.Assert.*;
 import java.sql.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.ibatis.session.SqlSession;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -16,6 +19,7 @@ import com.oopsw.model.VO.AlarmVO;
 import com.oopsw.model.VO.ApprovalLineVO;
 import com.oopsw.model.VO.ApproverListVO;
 import com.oopsw.model.VO.DocumentVO;
+import com.oopsw.model.VO.GetListVO;
 
 public class ApproverDAOTest {
 	
@@ -23,6 +27,7 @@ public class ApproverDAOTest {
 	static ApprovalLineVO al; 
 	static AbsenceVO ab;
 	static DocumentVO doc;
+	static SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 	
 	@BeforeClass
 	public static void start() throws Exception{
@@ -30,6 +35,7 @@ public class ApproverDAOTest {
 		al = new ApprovalLineVO();
 		ab = new AbsenceVO();
 		doc = new DocumentVO();
+		
 	}
 	
 //	@Test
@@ -48,45 +54,45 @@ public class ApproverDAOTest {
 		al.setApproverId("E25-014");
 		al.setApprovalStatus("승인");
 		al.setOpinion("테스트 의견");
-		assertTrue(dao.processApproval(al));
+		assertTrue(dao.processApproval(conn, al));
 	}
 
 //	@Test
 	public void setNextApproverToWaitTest() {
 		al.setDocumentNo(20);
 		al.setLineOrder(2);
-		assertTrue(dao.setNextApproverToWait(al));
+		assertTrue(dao.setNextApproverToWait(conn, al));
 	}
 
 //	@Test
 	public void findNextApprovalLineNoTest() {
 		al.setDocumentNo(20); 
 	    al.setLineOrder(2);    
-	    System.out.println(dao.findNextApprovalLineNo(al));
+	    System.out.println(dao.findNextApprovalLineNo(conn, al));
 	}
 
 //	@Test
 	public void sendRequestNotiTest() {
 		al.setApprovalLineNo(28);
-		assertTrue(dao.sendRequestNoti(al));
+		assertTrue(dao.sendRequestNoti(conn, al));
 	}
 
 //	@Test
 	public void sendProcessNotiTest() {
 		al.setDocumentNo(20);
-		assertTrue(dao.sendProcessNoti(al));
+		assertTrue(dao.sendProcessNoti(conn, al));
 	}
 
 //	@Test
 	public void setDocRejectTest() {
 		doc.setDocumentNo(2);
-		assertTrue(dao.setDocReject(doc));
+		assertTrue(dao.setDocReject(conn, doc));
 	}
 
 //	@Test
 	public void setDocCompleteTest() {
 		doc.setDocumentNo(2);
-		assertTrue(dao.setDocComplete(doc));
+		assertTrue(dao.setDocComplete(conn, doc));
 	}
 
 //	@Test
@@ -96,12 +102,12 @@ public class ApproverDAOTest {
 
 //	@Test
 	public void getWaitListTest() {
-		System.out.println(dao.getWaitList("E25-000"));
+		System.out.println(dao.getWaitList(new GetListVO("E25-000", null, 1)));
 	}
 
 //	@Test
 	public void getEndListTest() {
-		System.out.println(dao.getEndList("E25-010"));
+		System.out.println(dao.getEndList(new GetListVO("E25-010", "반려", 1)));
 	}
 
 //	@Test

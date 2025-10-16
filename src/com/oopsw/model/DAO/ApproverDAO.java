@@ -11,105 +11,65 @@ import com.oopsw.model.VO.AlarmVO;
 import com.oopsw.model.VO.ApprovalLineVO;
 import com.oopsw.model.VO.ApproverListVO;
 import com.oopsw.model.VO.DocumentVO;
+import com.oopsw.model.VO.GetListVO;
 
 public class ApproverDAO{
 	/// 결재 처리
 	// 1. 결재 하기
-    public boolean processApproval(ApprovalLineVO vo) {
+    public boolean processApproval(SqlSession conn, ApprovalLineVO vo) {
     	boolean result = false;
-    	
-    	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
-    	try{
-    		int count = conn.update("approverMapper.processApproval", vo);
-        	result = count == 1;
-//        	conn.commit();
-    	} finally{
-    		conn.close();
-    	}
+    	int count = conn.update("approverMapper.processApproval", vo);
+    	result = count == 1;
     	return result;
     }
     
  // 2. 다음 결재자 상태를 '결재대기'로 변경
-    public boolean setNextApproverToWait(ApprovalLineVO vo) {
-        boolean result = false;
-        
-        SqlSession conn = DBCP.getSqlSessionFactory().openSession();
-        try {
-            int count = conn.update("approverMapper.setNextApproverToWait", vo);
-            result = count == 1;
-        } finally {
-            conn.close();
-        }
-        return result;
+    public boolean setNextApproverToWait(SqlSession conn, ApprovalLineVO vo) {
+    	boolean result = false;
+    	int count = conn.update("approverMapper.setNextApproverToWait", vo);
+    	result = count == 1;
+    	return result;
     }
 
     // 3. 다음 결재자 line_no 조회
-    public Integer findNextApprovalLineNo(ApprovalLineVO vo) {
+    public Integer findNextApprovalLineNo(SqlSession conn, ApprovalLineVO vo) {
     	Integer nextLineNo;
-    	
-        SqlSession conn = DBCP.getSqlSessionFactory().openSession();
-        try {
-            nextLineNo = conn.selectOne("approverMapper.findNextApprovalLineNo", vo);
-        } finally {
-            conn.close();
-        }
-        return nextLineNo;
+    	nextLineNo = conn.selectOne("approverMapper.findNextApprovalLineNo", vo);
+    	return nextLineNo;
     }
 
 
     // 4. 다음 결재자 결재요청알림 insert 
-    public boolean sendRequestNoti(ApprovalLineVO vo) {
-        boolean result = false;
-        SqlSession conn = DBCP.getSqlSessionFactory().openSession();
-        try {
-            int count = conn.insert("approverMapper.sendRequestNoti", vo);
-            result = count == 1;
-        } finally {
-            conn.close();
-        }
-        return result;
+    public boolean sendRequestNoti(SqlSession conn, ApprovalLineVO vo) {
+    	boolean result = false;
+    	int count = conn.insert("approverMapper.sendRequestNoti", vo);
+    	result = count == 1;
+    	return result;
     }
     
     // 5. 마지막 결재자일시, 결재처리알림 insert
-    public boolean sendProcessNoti(ApprovalLineVO vo) {
+    public boolean sendProcessNoti(SqlSession conn, ApprovalLineVO vo) {
     	boolean result = false;
-        SqlSession conn = DBCP.getSqlSessionFactory().openSession();
-        try{
-        	int count = conn.insert("approverMapper.sendProcessNoti", vo);
-        	result = count == 1;
-        } finally{
-        	conn.close();
-        }
-        return result;
+    	int count = conn.insert("approverMapper.sendProcessNoti", vo);
+    	result = count == 1;
+    	return result;
     }
     
     /// 문서 상태변경
     // 6. 문서 반려 처리
-    public boolean setDocReject(DocumentVO doc) {
+    public boolean setDocReject(SqlSession conn, DocumentVO doc) {
     	boolean result = false;
-    	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
-    	try{
-    		int count = conn.update("approverMapper.setDocReject", doc);
-    		result = count == 1;
-    	} finally{
-    		conn.close();
-    	}
+    	int count = conn.update("approverMapper.setDocReject", doc);
+    	result = count == 1;
     	return result;
     }
 
     // 7. 문서 완료 처리 (마지막 결재자 승인 시)
-    public boolean setDocComplete(DocumentVO doc) {
+    public boolean setDocComplete(SqlSession conn, DocumentVO doc) {
     	boolean result = false;
-    	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
-    	try{
-    		//doc.setApprovedDocumentNo(generateApprovedDocNo()); // 문서번호 생성
-    		int count = conn.update("approverMapper.setDocComplete", doc);
-    		result = count == 1;
-    	} finally{
-    		conn.close();
-    	}
-    	
-        return result;
+    	int count = conn.update("approverMapper.setDocComplete", doc);
+    	result = count == 1;
+    	return result;
     }
     
     // 8. 부재 여부 확인
@@ -126,11 +86,11 @@ public class ApproverDAO{
     
     
  // 결재 대기 목록 조회
-    public List<ApproverListVO> getWaitList(String approverId) {
+    public List<ApproverListVO> getWaitList(GetListVO vo) {
         List<ApproverListVO> list = null;
-        SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+        SqlSession conn = DBCP.getSqlSessionFactory().openSession(true);
         try {
-            list = conn.selectList("approverMapper.getWaitList", approverId);
+            list = conn.selectList("approverMapper.getWaitList", vo);
         } finally {
             conn.close();
         }
@@ -138,13 +98,24 @@ public class ApproverDAO{
     }
     
  // 결재 처리 목록 조회 (내가 반려한 문서 + 내가 승인한 완료 문서)
-    public List<ApproverListVO> getEndList(String approverId) {
-        List<ApproverListVO> list = null;
+//    public List<ApproverListVO> getEndList(String approverId) {
+//        List<ApproverListVO> list = null;
+//        SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+//        try {
+//            list = conn.selectList("approverMapper.getEndList", approverId);
+//        } finally {
+//            conn.close();
+//        }
+//        return list;
+//    }
+    
+    public List<ApproverListVO> getEndList(GetListVO vo) {
+    	List<ApproverListVO> list = null;
         SqlSession conn = DBCP.getSqlSessionFactory().openSession();
-        try {
-            list = conn.selectList("approverMapper.getEndList", approverId);
-        } finally {
-            conn.close();
+        try{
+        	 list = conn.selectList("approverMapper.getEndList", vo);
+        } finally{
+        	conn.close();
         }
         return list;
     }
