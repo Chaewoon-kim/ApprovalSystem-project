@@ -23,32 +23,42 @@
     <hr>
 	<c:choose>
 	<c:when test="${add}">
-		<textarea class="inputForm"></textarea>
+		<textarea class="inputForm" name="contents"></textarea>
 	</c:when>
 	<c:otherwise>
 		<div class="inputForm"></div>
 	</c:otherwise>
 	</c:choose>
-    
+    <div id="approverIds"></div>
+    <input name="formId" type="hidden" id="draftFormId" value="">
 </div>
 
 <script type="text/javascript">
 const formJson = JSON.parse('${form}');
-$(".documentTitle").data('formId', formJson.formName);
 $(".documentTitle").text(formJson.formName);
 $(".inputForm").html(formJson.formContent);
+$("#draftFormId").val(formJson.formId);
 let tableList = document.querySelectorAll(".tables");
 
-var getTodayFormatted = function() {
+
+const getApproverIds = function(data){
+	let content = '';
+	 for(i = 0;  i < data.length ; i++){
+		content += "<input type='hidden' name='approverId' value=" + data[i].employeeId + ">";
+     };
+     $("#approverIds").html(content);
+};
+
+const getTodayFormatted = function() {
     const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const day = String(today.getDate()).padStart(2, '0');
     
     return year + '-' + month + '-' + day;
-}
+};
 
-var addDrafterTable = function(table, data){
+const addDrafterTable = function(table, data){
     let content = '<table class="table-bordered">';
     const tablehead = ["기안자", "소속", "기안일", "문서번호"];
     let inputData = ["","","",""];
@@ -65,9 +75,9 @@ var addDrafterTable = function(table, data){
     }
     content += '</table>';
     return content;
-}
+};
 
-var addProposalTable = function(table, data){
+const addProposalTable = function(table, data){
     let content = '<table class="table-bordered">';
     let inputData = ["","",""];
     if(data != null){
@@ -81,9 +91,9 @@ var addProposalTable = function(table, data){
     }
     content += '</table>';
     return content;
-}
+};
 
-var addApprovalTable = function(table, data){
+const addApprovalTable = function(table, data){
     let content = '<table class="table-bordered">';
     content += '<tr><th rowspan="4" class="table-bgColor rotated-text">승인</th></tr>';
     let rankCells = '';
@@ -101,12 +111,13 @@ var addApprovalTable = function(table, data){
     content += '<tr>' + signCells + '</tr>';
     content += '</table>';
     return content;
-}
+};
 
 const drafterTableData = { name: '${name}', department: '${department}', rank: '${rank}'};
 const approvalTableData = ${defaultlines};
 
- tableList[0].innerHTML = addDrafterTable(tableList[0], drafterTableData);
- tableList[1].innerHTML = addProposalTable(tableList[1], drafterTableData);
- tableList[2].innerHTML = addApprovalTable(tableList[2], approvalTableData);
+tableList[0].innerHTML = addDrafterTable(tableList[0], drafterTableData);
+tableList[1].innerHTML = addProposalTable(tableList[1], drafterTableData);
+tableList[2].innerHTML = addApprovalTable(tableList[2], approvalTableData);
+getApproverIds(approvalTableData);
 </script>

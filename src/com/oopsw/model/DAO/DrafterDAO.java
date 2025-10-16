@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.oopsw.exception.DatabaseTransactionException;
 import com.oopsw.model.DBCP;
 import com.oopsw.model.VO.AlarmVO;
 import com.oopsw.model.VO.ApprovalLineVO;
@@ -41,58 +42,28 @@ public class DrafterDAO {
 		return line;
 	}
 
-	public int addDoc(DocumentVO documentVO) {
-		int newDocumentNo = 0;
-		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+	public int addDoc(DocumentVO documentVO, SqlSession conn) throws DatabaseTransactionException {
 		int count = conn.insert("drafterMapper.addDoc", documentVO);
-		if(count == 1){
-			 newDocumentNo = documentVO.getDocumentNo();
-			 conn.commit();
-		}else{
-			conn.rollback();
-		}
-		conn.close();
-		return newDocumentNo;
+		if(count != 1) throw new DatabaseTransactionException("문서 등록 실패: 예상과 다른 행 수(" + count + ")가 반영됨.");
+		return documentVO.getDocumentNo();
 	}
 
-	public int addApprovers(ApprovalLineVO approvalLineVO) {
-		int newApprovalLineNo = 0;
-		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+	public int addApprovers(ApprovalLineVO approvalLineVO, SqlSession conn) throws DatabaseTransactionException {
 		int count = conn.insert("drafterMapper.addApprovers", approvalLineVO);
-		if(count == 1){
-			newApprovalLineNo = approvalLineVO.getApprovalLineNo();
-			conn.commit();
-		}else{
-			conn.rollback();
-		}
-		conn.close();
-		return newApprovalLineNo;
+		if(count != 1) throw new DatabaseTransactionException("결재자 등록 실패: 예상과 다른 행 수(" + count + ")가 반영됨.");
+		return approvalLineVO.getApprovalLineNo();
 	}
 
-	public int sendFirstReqNoti(int firstApprovalLineNo) {
-		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+	public boolean sendFirstReqNoti(int firstApprovalLineNo, SqlSession conn) throws DatabaseTransactionException {
 		int count = conn.insert("drafterMapper.sendFirstReqNoti", firstApprovalLineNo);
-		if(count == 1){
-			conn.commit();
-		}else{
-			conn.rollback();
-		}
-		conn.close();
-		return count;
+		if(count != 1) throw new DatabaseTransactionException("알림 등록 실패: 예상과 다른 행 수(" + count + ")가 반영됨.");
+		return true;
 	}
 
-	public int saveTempDoc(DocumentVO documentVO) {
-		int newDocumentNo = 0;
-		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+	public int saveTempDoc(DocumentVO documentVO, SqlSession conn) throws DatabaseTransactionException {
 		int count = conn.insert("drafterMapper.saveTempDoc", documentVO);
-		if(count == 1){
-			 newDocumentNo = documentVO.getDocumentNo();
-			 conn.commit();
-		}else{
-			conn.rollback();
-		}
-		conn.close();
-		return newDocumentNo;
+		if(count != 1) throw new DatabaseTransactionException("문서 임시저장 실패: 예상과 다른 행 수(" + count + ")가 반영됨.");
+		return documentVO.getDocumentNo();
 	}
 
 	public List<TempDocumentVO> getTempList(String employeeId) {
@@ -103,45 +74,23 @@ public class DrafterDAO {
 		return list;
 	}
 
-	public boolean editTempDoc(DocumentVO documentVO) {
-		boolean result = false;
-		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+	public boolean editTempDoc(DocumentVO documentVO, SqlSession conn) throws DatabaseTransactionException {
 		int count = conn.update("drafterMapper.editTempDoc", documentVO);
-		if(count == 1){
-			result = true;
-			conn.commit();
-		}else{
-			conn.rollback();
-		}
-		conn.close();
-		return result;
+		if(count != 1) throw new DatabaseTransactionException("문서 임시저장 실패: 예상과 다른 행 수(" + count + ")가 반영됨.");
+			
+		return true;
 	}
 
-	public boolean submitTempDoc(DocumentVO documentVO) {
-		boolean result = false;
-		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+	public boolean submitTempDoc(DocumentVO documentVO, SqlSession conn) throws DatabaseTransactionException {
 		int count = conn.update("drafterMapper.submitTempDoc", documentVO);
-		if(count == 1){
-			result = true;
-			conn.commit();
-		}else{
-			conn.rollback();
-		}
-		conn.close();
-		return result;
+		if(count != 1) throw new DatabaseTransactionException("문서 등록 실패: 예상과 다른 행 수(" + count + ")가 반영됨.");
+		return true;
 	}
 
-	public int removeApprovers(int documentNo) {
-		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+	public int removeApprovers(int documentNo, SqlSession conn) throws DatabaseTransactionException {
 		int count = conn.delete("drafterMapper.removeApprovers", documentNo);
-		if(count > 0){
-			conn.commit();
-		}else{
-			conn.rollback();
-		}
-		conn.close();
+		if(count == 0) throw new DatabaseTransactionException("결재자 삭제 실패: 예상과 다른 행 수(" + count + ")가 반영됨.");
 		return count;
-		
 	}
 
 	public List<ApprovalStatusVO> getApprovalStatus(int documentNo) {

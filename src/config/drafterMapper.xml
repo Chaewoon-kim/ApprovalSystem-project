@@ -19,7 +19,7 @@
 		where form_usage = 'Y' and form_id = #{formId}
 	</select>
 	<select id="getDefaultLine" parameterType="com.oopsw.model.VO.GetDefaultLineVO" resultType="com.oopsw.model.VO.DefaultLineVO">
-		select e2.name, e2.department, d.rank, d.line_order lineOrder
+		select e2.employee_id employeeId, e2.name, e2.department, d.rank, d.line_order lineOrder
 		from employee e1
 		join default_approval_line d on d.form_id = #{formId}
 		join employee e2 on e2.rank = d.rank
