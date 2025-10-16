@@ -62,11 +62,11 @@ const handleFormSubmission = function(e){
     if(clickedButtonId == "tempSaveBtn"){
       e.preventDefault();
       form.attr("action", "controller?cmd=saveTempDoc");
-      form.off('submit', handleFormSubmission); 
-      form.submit();
-      form.on('submit', handleFormSubmission); 
-      form.attr("action", "controller?cmd=submitDoc");
     }
+    form.off('submit', handleFormSubmission); 
+    form.submit();
+    form.on('submit', handleFormSubmission);
+    form.attr("action", "controller?cmd=submitDoc");
 }
 $("#approveDoc").on('submit', handleFormSubmission);
 

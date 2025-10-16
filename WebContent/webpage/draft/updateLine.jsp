@@ -54,7 +54,7 @@
 
 			<div class="popup-btns">
 				<button class="popup-btn-true" id="editApprover">확인</button>
-				<button type="button" class="popup-btn-false" onclick="closeModal(updateLine)")>취소</button>
+				<button type="button" class="popup-btn-false" onclick="closeModal(updateLine)">취소</button>
 			</div>
 		</form>
 		</div>

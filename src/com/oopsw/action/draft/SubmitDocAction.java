@@ -66,6 +66,7 @@ public class SubmitDocAction implements Action {
 			}
 			url = "webpage/draft/getReport.jsp";
 		} catch (Exception e) {
+			e.printStackTrace();
 			request.setAttribute("message", "결재 요청이 실패하었습니다.");
 			conn.rollback();
 		}finally{
