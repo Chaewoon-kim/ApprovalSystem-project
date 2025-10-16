@@ -8,18 +8,20 @@ import javax.servlet.http.HttpServletRequest;
 import com.oopsw.action.Action;
 import com.oopsw.model.DAO.ManagerDAO;
 import com.oopsw.model.VO.EmployeeVO;
+import com.oopsw.model.VO.FormVO;
 
-public class GetEmployeeCount implements Action {
+public class GetFormCountAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-		String url = "webpage/manager/getEmployeeCount.jsp";
-		String filter = request.getParameter("filter");
+		String url = "webpage/manager/resultAsync.jsp";
+		String keyword = request.getParameter("keyword");
+		FormVO vo = new FormVO();
+		if(!keyword.isEmpty())
+			vo.setKeyword(keyword);
 		
-		EmployeeVO vo = new EmployeeVO();
-		if(!filter.isEmpty())
-			vo.setAccessPermission(filter.toCharArray()[0]);
-		request.setAttribute("empCount", new ManagerDAO().getEmployeeCount(vo));
+		int page = new ManagerDAO().getFormCount(vo);
+		request.setAttribute("result", page);
 		
 		return url;
 	}

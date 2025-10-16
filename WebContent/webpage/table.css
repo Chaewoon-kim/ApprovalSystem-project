@@ -18,8 +18,10 @@
       text-align: center;
     }
 	.form-list {
-      padding: 30px;
-      flex: 1;
+		width: 100%;
+		min-height: 80vh;
+	    padding: 30px;
+	    box-sizing: border-box;
     }
 
     .form-list h1 {
@@ -66,9 +68,11 @@
     }
 
     .btn {
+      display: inline-block;
+      width: 70px;
       padding: 5px 12px;
-      border: none;
-      border-radius: 4px;
+      border: solid 1px #808080;
+      border-radius: 5px;
       color: white;
       cursor: pointer;
       font-size: 14px;

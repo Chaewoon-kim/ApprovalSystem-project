@@ -1,26 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" isELIgnored="true"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>전자결재 시스템 - 양식 목록</title>
+  <title>문서양식 목록</title>
+	<!-- JQuery JS -->
 	<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	
 	<link href="webpage/table.css" rel="stylesheet">
 	<link href="webpage/employee/common.css" rel="stylesheet">
 	<link href="webpage/employee/integration.css" rel="stylesheet">
-  	
 </head>
 <body>
-
 	<jsp:include page="../employee/common.html" />
 
     <!-- 메인 콘텐츠 -->
     <main class="form-list">
       <h1>양식 목록</h1>
-
       <!-- 검색 -->
       <div class="search-box">
         <input id="keyword" type="text" placeholder="카테고리, 양식제목 검색">
@@ -45,8 +44,7 @@
       </div>
 
       <!-- 페이지네이션 -->
-      <div class="pagination">
-      </div>
+      <div class="pagination"></div>
     </main>
   </div>
 

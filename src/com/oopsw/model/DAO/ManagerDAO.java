@@ -84,6 +84,7 @@ public class ManagerDAO {
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		
 		boolean result = conn.update("managerMapper.invertFormUsage", formVO) == 1;
+		conn.commit();
 		conn.close();
 		
 		return result;

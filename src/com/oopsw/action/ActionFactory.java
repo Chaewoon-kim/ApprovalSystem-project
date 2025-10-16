@@ -25,10 +25,10 @@ import com.oopsw.action.employee.GetNotiAction;
 import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginUIAction;
 import com.oopsw.action.manager.AddFormAction;
-import com.oopsw.action.manager.GetEmployeeCount;
+import com.oopsw.action.manager.GetEmployeeCountAction;
 import com.oopsw.action.manager.GetEmployeesAction;
 import com.oopsw.action.manager.GetFormAction;
-import com.oopsw.action.manager.GetFormCount;
+import com.oopsw.action.manager.GetFormCountAction;
 import com.oopsw.action.manager.InvertAccessPermissionAction;
 import com.oopsw.action.manager.InvertFormUsageAction;
 
@@ -38,10 +38,10 @@ public class ActionFactory {
 		Action a = null;
 		switch(cmd){
 		case "getFormCount":
-			a = new GetFormCount();
+			a = new GetFormCountAction();
 			break;
 		case "getEmployeeCount":
-			a = new GetEmployeeCount();
+			a = new GetEmployeeCountAction();
 			break;
 		case "loginUI":
 			a = new LoginUIAction();

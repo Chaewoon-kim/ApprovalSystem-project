@@ -1,5 +1,7 @@
 package com.oopsw.action.manager;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,13 +45,21 @@ public class AddFormAction implements Action {
 		formVO.setFormDescription(data.get("formDescription").toString());
 		formVO.setFormUsage('Y');
 
-		// 양식 등록
-		SqlSession session = DBCP.getSqlSessionFactory().openSession(true);
+		// Add Form
 		ManagerDAO dao = new ManagerDAO();
 		boolean result = dao.addForm(formVO);
 
-		// 기본 결재선 등록		
-		List<String> confirmerList = (List<String>)data.get("confirmer");
+		// Add Default Approval Line
+		List<String> confirmerList = new ArrayList<>();
+		Object object = data.get("confirmer");
+		if (object instanceof List<?>) {
+			for(Object obj : (List<?>)object){
+				if(obj instanceof String){
+					confirmerList.add((String)obj);
+				}
+			}
+		}
+		
 		List<DefaultApprovalLineVO> approvalList = new ArrayList<>();
 		for(int i = 0; i < confirmerList.size(); i++){
 			DefaultApprovalLineVO defaultApprovalLineVO = new DefaultApprovalLineVO();
@@ -59,10 +69,8 @@ public class AddFormAction implements Action {
 			approvalList.add(defaultApprovalLineVO);
 		}
 
-		result = dao.addDefaultApprovalLine(approvalList);
-		session.close();
-		
-		request.setAttribute("result", result);	
+		result = dao.addDefaultApprovalLine(approvalList);		
+		request.setAttribute("result", result);
 		
 		return url;
 	}

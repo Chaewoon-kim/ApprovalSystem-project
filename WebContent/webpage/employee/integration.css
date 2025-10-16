@@ -1,4 +1,10 @@
 
+.page-container{
+	flex: 1;
+	height: 100%;
+	display: flex;
+	flex-direction:column;
+}
 .page-title{
 	font-size: 24px;
 	font-weight: bold;
@@ -7,11 +13,6 @@
 	border-bottom: 2px solid #F49600;
 	margin: 20px 0;
 	padding: 10px 0;
-}
-.page-container{
-	height: 100%;
-	display: flex;
-	flex-direction:column;
 }
 .content-container{
 	flex: 1;
