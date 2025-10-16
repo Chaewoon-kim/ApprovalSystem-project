@@ -1,44 +1,26 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" isELIgnored="true"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>부재/위임 설정</title>
-	<link href="table.css" rel="stylesheet">
-	<link href="common.css" rel="stylesheet">
-	<link rel="stylesheet" href="report.css">
+	<meta charset="UTF-8">
+	<title>부재/위임 설정</title>
+	<!-- JQuery JS -->
+	<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	
+	<link href="webpage/table.css" rel="stylesheet">
+	<link href="webpage/employee/common.css" rel="stylesheet">
+	<link href="webpage/report.css" rel="stylesheet" >
+	<link href="webpage/employee/integration.css" rel="stylesheet">
 </head>
 <body>
-<!-- 헤더 -->
-  <nav class="top-nav">
-    <div class="logo">로고자리</div>
-    <div class="profile">
-      <span class="label">개발팀</span>
-      <span class="label">지연우</span>
-      <span class="label">사원</span>
-      님, 환영합니다.
-      <img class="profile-img" src="https://cdn-icons-png.flaticon.com/512/6522/6522516.png">
-    </div>
-  </nav>
+	<!-- 헤더 -->
+	<jsp:include page="/webpage/employee/common.jsp"/>
 
-  <div class="container">
-    <!-- 사이드바 -->
-    <nav class="side-nav">
-      <div class="draft">
-        <div class="make">기안서 작성</div>
-      </div>
-      <div class="menu">
-        <div class="menu-title">▼ 결재 신청</div>
-        <div class="submenu">
-          <div>결재 신청 목록</div>  
-        </div>
-      </div>  
-      <div class="logout">로그아웃</div>
-    </nav>
-
-
- <!-- 메인 콘텐츠 -->
+ 	<!-- 메인 콘텐츠 -->
     <main class="form-list">
-      <h1>알림 수신 목록</h1>
+		<div class="page-title">알림 수신 목록</div>
 
 		<!-- 결재 상태 필터 -->
 		<div class="status-filter">
@@ -54,15 +36,14 @@
 			<button class="form-btn">
 				<span>읽음 처리</span>
 			</button>
-			
 		</div>
       
-  		 <table class="form-table">
+  		<table class="form-table">
         <thead>
           <tr>
           	<th><input type="checkbox" id="checkAll"></th> <!-- 전체 선택 -->
             <th>읽음상태</th>
-            <th>알림생성날짜</th>
+            <th>알림 날짜</th>
             <th>알림 유헝</th>
             <th>제목</th>
             <th>문서 번호</th>

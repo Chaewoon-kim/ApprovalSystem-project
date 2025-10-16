@@ -63,7 +63,7 @@
 						<span>알림목록</span>
 					</div>
 					<div class="submenu">
-						<a href="#">수신목록</a>
+						<a href="controller?cmd=getNotiList">수신목록</a>
 					</div>
 				</div>
 			</div>

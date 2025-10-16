@@ -12,10 +12,6 @@ import com.oopsw.model.VO.DocumentDetailVO;
 import com.oopsw.model.VO.EmployeeVO;
 
 public class EmployeeDAO {
-	
-	
-
-	
 	//로그인
 	public EmployeeVO login(EmployeeVO vo) {
 	    SqlSession session = DBCP.getSqlSessionFactory().openSession();
@@ -27,7 +23,26 @@ public class EmployeeDAO {
 	    }
 	    return result;
 	}
-	
+	public String getAllNotiCount(AlarmVO vo){
+		SqlSession session = DBCP.getSqlSessionFactory().openSession();
+		String result = null;
+		try{
+			result = session.selectOne("employeeMapper.getAllNotiCount", vo);
+		}finally{
+			session.close();
+		}
+		return result;
+	}
+	public List<AlarmVO> getAllNoti(AlarmVO vo){
+		SqlSession session = DBCP.getSqlSessionFactory().openSession();
+		List<AlarmVO> result = null;
+		try{
+			result = session.selectList("employeeMapper.getAllNoti", vo);
+		}finally{
+			session.close();
+		}
+		return result;
+	}
 	
 	//댓글 조회
 	public List<CommentVO> getComments(int documentNumber) {

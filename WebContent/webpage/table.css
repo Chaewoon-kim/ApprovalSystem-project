@@ -7,8 +7,8 @@
       text-align: center;
     }
 	.form-list {
-      padding: 30px;
       flex: 1;
+      padding: 30px;
     }
 
     .form-list h1 {

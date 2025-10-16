@@ -27,6 +27,7 @@ import com.oopsw.action.draft.SetFormAction;
 import com.oopsw.action.draft.SubmitDocAction;
 import com.oopsw.action.employee.GetDetailReportAction;
 import com.oopsw.action.employee.GetNotiAction;
+import com.oopsw.action.employee.GetNotiCountAction;
 import com.oopsw.action.employee.LoginUIAction;
 import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginAction;
@@ -46,6 +47,12 @@ public class ActionFactory {
 	public static Action getAction(String cmd){
 		Action a = null;
 		switch(cmd){
+		case "getNotiList":
+			a = new GetNotiAction();
+			break;
+		case "getNotiCount":
+			a = new GetNotiCountAction();
+			break;
 		case "getFormCount":
 			a = new GetFormCountAction();
 			break;
