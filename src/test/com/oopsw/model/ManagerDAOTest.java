@@ -75,17 +75,17 @@ public class ManagerDAOTest {
 	
 	@Test
 	public void addFormTest(){
-		FormVO vo = new FormVO(null, "E25-000", "¾÷¹«", "Å×½ºÆ®Á¦¸ñ", "Å×½ºÆ®¾ç½Ä", "Å×½ºÆ®¼³¸í", 'Y');
+		FormVO vo = new FormVO(null, "E25-000", "ì—…ë¬´", "í…ŒìŠ¤íŠ¸ì œëª©", "í…ŒìŠ¤íŠ¸ì–‘ì‹", "í…ŒìŠ¤íŠ¸ì„¤ëª…", 'Y');
 		assertTrue(managerDAO.addForm(vo));
 		
-//		System.out.println(vo.getFormId()); // insert ÀÌÈÄ pk ¹Ş¾Æ¿Ã ¼ö ÀÖÀ½
+//		System.out.println(vo.getFormId()); // insert ì´í›„ pk ë°›ì•„ì˜¬ ìˆ˜ ìˆìŒ
 	}
 	
 	@Test
 	public void setDefaultApprovalLineTest(){
 		List<DefaultApprovalLineVO> voList = new ArrayList<>();
-		voList.add(new DefaultApprovalLineVO(0, "D2", "´ë¸®", 1));
-		voList.add(new DefaultApprovalLineVO(0, "D2", "°úÀå", 2));
+		voList.add(new DefaultApprovalLineVO(0, "D2", "ëŒ€ë¦¬", 1));
+		voList.add(new DefaultApprovalLineVO(0, "D2", "ê³¼ì¥", 2));
 		
 		
 		managerDAO.setDefaultApprovalLine(voList);
@@ -102,7 +102,7 @@ public class ManagerDAOTest {
 	@Test
 	public void getFormsByKeywordTest(){
 		FormVO vo = new FormVO();
-		vo.setKeyword("¾÷¹«");
+		vo.setKeyword("ì—…ë¬´");
 		List<FormVO> forms = managerDAO.getForms(vo);
 		
 		assertNotNull(forms);

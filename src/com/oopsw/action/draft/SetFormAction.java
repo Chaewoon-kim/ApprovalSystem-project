@@ -22,7 +22,7 @@ public class SetFormAction implements Action {
 		String formId = request.getParameter("formId");
 		DocumentFormVO form = new DrafterDAO().setForm(formId);
 		List<DefaultLineVO> lines = new DrafterDAO().getDefaultLine(new GetDefaultLineVO(employeeId, formId));
-		//setParameter ÇØ¾ßÇÔ
+		//setParameter í•´ì•¼í•¨
 		return "addReport.jsp";
 	}
 

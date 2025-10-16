@@ -16,7 +16,7 @@ public class EmployeeDAO {
 	
 
 	
-	//·Î±×ÀÎ
+	//ë¡œê·¸ì¸
 	public EmployeeVO login(EmployeeVO vo) {
 	    SqlSession session = DBCP.getSqlSessionFactory().openSession();
 	    EmployeeVO result = null;
@@ -29,7 +29,7 @@ public class EmployeeDAO {
 	}
 	
 	
-	//´ñ±Û Á¶È¸
+	//ëŒ“ê¸€ ì¡°íšŒ
 	public List<CommentVO> getComments(int documentNumber) {
 	    SqlSession session = DBCP.getSqlSessionFactory().openSession();
 	    List<CommentVO> commentList = null;
@@ -45,9 +45,9 @@ public class EmployeeDAO {
 
 	
 	
-	//´ñ±Û ÀÛ¼º
+	//ëŒ“ê¸€ ì‘ì„±
 	public boolean writeComment(CommentVO comment) {
-	    SqlSession session = DBCP.getSqlSessionFactory().openSession(true); // ÀÚµ¿ Ä¿¹Ô true
+	    SqlSession session = DBCP.getSqlSessionFactory().openSession(true); // ìë™ ì»¤ë°‹ true
 	    boolean result = false;
 
 	    try {
@@ -63,7 +63,7 @@ public class EmployeeDAO {
 	}
 	
 
-	//ÀüÃ¼ »ç¿ø °Ë»ö
+	//ì „ì²´ ì‚¬ì› ê²€ìƒ‰
 	public List<EmployeeVO> getAllEmployees() {
         SqlSession session = DBCP.getSqlSessionFactory().openSession();
         List<EmployeeVO> employeeList = null;
@@ -77,7 +77,7 @@ public class EmployeeDAO {
         return employeeList;
     }
 	
-	//Æ¯Á¤ »ç¿ø °Ë»ö
+	//íŠ¹ì • ì‚¬ì› ê²€ìƒ‰
 	public List<EmployeeVO> getEmployee(String keyword) {
         SqlSession session = DBCP.getSqlSessionFactory().openSession();
         List<EmployeeVO> employeeList = null;
@@ -93,7 +93,7 @@ public class EmployeeDAO {
 	
 	
 	
-	//´ñ±Û ¾Ë¸² º¸³»±â
+	//ëŒ“ê¸€ ì•Œë¦¼ ë³´ë‚´ê¸°
 	public int sendNoti(CommentNotiVO notiVo){
 		int result = 0;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -107,7 +107,7 @@ public class EmployeeDAO {
 		return result;
 	}
 	
-	//´ë°á ¾Ë¸²
+	//ëŒ€ê²° ì•Œë¦¼
 	public List<AlarmVO> getApprovalNoti(String proxyId) {
 	    List<AlarmVO> result = null;
 	    SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -119,7 +119,7 @@ public class EmployeeDAO {
 	    return result;
 	}
 
-	//´ñ±Û ¾Ë¸² (¹Ş±â)
+	//ëŒ“ê¸€ ì•Œë¦¼ (ë°›ê¸°)
 	public List<AlarmVO> getCommentsNoti(String recipientId){
 		List<AlarmVO> result = null;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -132,7 +132,7 @@ public class EmployeeDAO {
 		return result;
 	}
 	
-	//´ë°á ¾Ë¸²
+	//ëŒ€ê²° ì•Œë¦¼
 		public List<AlarmVO> getUnReadApprovalNoti(String proxyId) {
 		    List<AlarmVO> result = null;
 		    SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -144,7 +144,7 @@ public class EmployeeDAO {
 		    return result;
 		}
 
-	//´ñ±Û ¾Ë¸² (¹Ş±â)
+	//ëŒ“ê¸€ ì•Œë¦¼ (ë°›ê¸°)
 	public List<AlarmVO> getUnReadCommentsNoti(String recipientId){
 		List<AlarmVO> result = null;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -157,7 +157,7 @@ public class EmployeeDAO {
 		return result;
 	}
 	
-	//°áÀç ½ÅÃ» ¹®¼­ »ó¼¼ Á¶È¸ - °áÀç¼± Å×ÀÌºí¿¡¼­ °¡Á®¿À±â
+	//ê²°ì¬ ì‹ ì²­ ë¬¸ì„œ ìƒì„¸ ì¡°íšŒ - ê²°ì¬ì„  í…Œì´ë¸”ì—ì„œ ê°€ì ¸ì˜¤ê¸°
 	public List<ApprovalLineEmployeeVO> getApprvovalTable(int documentNumber){
 		List<ApprovalLineEmployeeVO> result = null;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -171,7 +171,7 @@ public class EmployeeDAO {
 		return result;
 	}
 	
-	//°áÀç ½ÅÃ» ¹®¼­ »ó¼¼ Á¶È¸
+	//ê²°ì¬ ì‹ ì²­ ë¬¸ì„œ ìƒì„¸ ì¡°íšŒ
 	public DocumentDetailVO getDetailReport(int documentNumber){
 		DocumentDetailVO result = null;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();

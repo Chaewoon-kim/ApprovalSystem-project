@@ -14,8 +14,8 @@ import com.oopsw.model.VO.DocumentVO;
 import com.oopsw.model.VO.GetListVO;
 
 public class ApproverDAO{
-	/// °áÀç Ã³¸®
-	// 1. °áÀç ÇÏ±â
+	/// ê²°ì¬ ì²˜ë¦¬
+	// 1. ê²°ì¬ í•˜ê¸°
     public boolean processApproval(SqlSession conn, ApprovalLineVO vo) {
     	boolean result = false;
     	int count = conn.update("approverMapper.processApproval", vo);
@@ -23,7 +23,7 @@ public class ApproverDAO{
     	return result;
     }
     
- // 2. ´ÙÀ½ °áÀçÀÚ »óÅÂ¸¦ '°áÀç´ë±â'·Î º¯°æ
+ // 2. ë‹¤ìŒ ê²°ì¬ì ìƒíƒœë¥¼ 'ê²°ì¬ëŒ€ê¸°'ë¡œ ë³€ê²½
     public boolean setNextApproverToWait(SqlSession conn, ApprovalLineVO vo) {
     	boolean result = false;
     	int count = conn.update("approverMapper.setNextApproverToWait", vo);
@@ -31,7 +31,7 @@ public class ApproverDAO{
     	return result;
     }
 
-    // 3. ´ÙÀ½ °áÀçÀÚ line_no Á¶È¸
+    // 3. ë‹¤ìŒ ê²°ì¬ì line_no ì¡°íšŒ
     public Integer findNextApprovalLineNo(SqlSession conn, ApprovalLineVO vo) {
     	Integer nextLineNo;
     	nextLineNo = conn.selectOne("approverMapper.findNextApprovalLineNo", vo);
@@ -39,7 +39,7 @@ public class ApproverDAO{
     }
 
 
-    // 4. ´ÙÀ½ °áÀçÀÚ °áÀç¿äÃ»¾Ë¸² insert 
+    // 4. ë‹¤ìŒ ê²°ì¬ì ê²°ì¬ìš”ì²­ì•Œë¦¼ insert 
     public boolean sendRequestNoti(SqlSession conn, ApprovalLineVO vo) {
     	boolean result = false;
     	int count = conn.insert("approverMapper.sendRequestNoti", vo);
@@ -47,7 +47,7 @@ public class ApproverDAO{
     	return result;
     }
     
-    // 5. ¸¶Áö¸· °áÀçÀÚÀÏ½Ã, °áÀçÃ³¸®¾Ë¸² insert
+    // 5. ë§ˆì§€ë§‰ ê²°ì¬ìì¼ì‹œ, ê²°ì¬ì²˜ë¦¬ì•Œë¦¼ insert
     public boolean sendProcessNoti(SqlSession conn, ApprovalLineVO vo) {
     	boolean result = false;
     	int count = conn.insert("approverMapper.sendProcessNoti", vo);
@@ -55,8 +55,8 @@ public class ApproverDAO{
     	return result;
     }
     
-    /// ¹®¼­ »óÅÂº¯°æ
-    // 6. ¹®¼­ ¹İ·Á Ã³¸®
+    /// ë¬¸ì„œ ìƒíƒœë³€ê²½
+    // 6. ë¬¸ì„œ ë°˜ë ¤ ì²˜ë¦¬
     public boolean setDocReject(SqlSession conn, DocumentVO doc) {
     	boolean result = false;
     	int count = conn.update("approverMapper.setDocReject", doc);
@@ -64,7 +64,7 @@ public class ApproverDAO{
     	return result;
     }
 
-    // 7. ¹®¼­ ¿Ï·á Ã³¸® (¸¶Áö¸· °áÀçÀÚ ½ÂÀÎ ½Ã)
+    // 7. ë¬¸ì„œ ì™„ë£Œ ì²˜ë¦¬ (ë§ˆì§€ë§‰ ê²°ì¬ì ìŠ¹ì¸ ì‹œ)
     public boolean setDocComplete(SqlSession conn, DocumentVO doc) {
     	boolean result = false;
     	int count = conn.update("approverMapper.setDocComplete", doc);
@@ -72,7 +72,7 @@ public class ApproverDAO{
     	return result;
     }
     
-    // 8. ºÎÀç ¿©ºÎ È®ÀÎ
+    // 8. ë¶€ì¬ ì—¬ë¶€ í™•ì¸
     public AbsenceVO checkAbsence(String approverId) {
     	AbsenceVO vo = null;
         SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -85,7 +85,7 @@ public class ApproverDAO{
     }
     
     
- // °áÀç ´ë±â ¸ñ·Ï Á¶È¸
+ // ê²°ì¬ ëŒ€ê¸° ëª©ë¡ ì¡°íšŒ
     public List<ApproverListVO> getWaitList(GetListVO vo) {
         List<ApproverListVO> list = null;
         SqlSession conn = DBCP.getSqlSessionFactory().openSession(true);
@@ -97,7 +97,7 @@ public class ApproverDAO{
         return list;
     }
     
- // °áÀç Ã³¸® ¸ñ·Ï Á¶È¸ (³»°¡ ¹İ·ÁÇÑ ¹®¼­ + ³»°¡ ½ÂÀÎÇÑ ¿Ï·á ¹®¼­)
+ // ê²°ì¬ ì²˜ë¦¬ ëª©ë¡ ì¡°íšŒ (ë‚´ê°€ ë°˜ë ¤í•œ ë¬¸ì„œ + ë‚´ê°€ ìŠ¹ì¸í•œ ì™„ë£Œ ë¬¸ì„œ)
 //    public List<ApproverListVO> getEndList(String approverId) {
 //        List<ApproverListVO> list = null;
 //        SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -120,7 +120,7 @@ public class ApproverDAO{
         return list;
     }
     
-    // ºÎÀç ¸ñ·Ï Á¶È¸
+    // ë¶€ì¬ ëª©ë¡ ì¡°íšŒ
     public List<AbsenceListVO> getAbsenceList(String absenteeId){
     	List<AbsenceListVO> list = null;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -132,7 +132,7 @@ public class ApproverDAO{
     	return list;
     }
     
-    // ´ë°á ¸ñ·Ï Á¶È¸
+    // ëŒ€ê²° ëª©ë¡ ì¡°íšŒ
     public List<AbsenceListVO> getProxyList(String proxyId){
     	List<AbsenceListVO> list = null;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -144,7 +144,7 @@ public class ApproverDAO{
     	return list;
     }
     
-    // ºÎÀç Ãß°¡
+    // ë¶€ì¬ ì¶”ê°€
     public boolean addAbsence(AbsenceVO vo) {
         boolean result = false;
         SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -157,7 +157,7 @@ public class ApproverDAO{
         return result;
     }
     
-    // ºÎÀç ¼öÁ¤
+    // ë¶€ì¬ ìˆ˜ì •
     public boolean modifyAbsence(AbsenceVO vo){
     	boolean result = false;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -171,7 +171,7 @@ public class ApproverDAO{
     	return result;
     }
     
-    // ºÎÀç Á¶±âÁ¾·á
+    // ë¶€ì¬ ì¡°ê¸°ì¢…ë£Œ
     public boolean endAbsence(int absenceDateNo) {
     	boolean result = false;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -185,7 +185,7 @@ public class ApproverDAO{
     	return result;
     }
     
-    // ºÎÀç »èÁ¦
+    // ë¶€ì¬ ì‚­ì œ
     public boolean deleteAbsence(int absenceDateNo) {
     	boolean result = false;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -200,7 +200,7 @@ public class ApproverDAO{
     }
     
     
-    // ¾Ë¸² ¼ö½Å ¸ñ·Ï Á¶È¸ (°áÀç ¿äÃ»)
+    // ì•Œë¦¼ ìˆ˜ì‹  ëª©ë¡ ì¡°íšŒ (ê²°ì¬ ìš”ì²­)
     public List<AlarmVO> getApprovalReqNoti(String approverId){
     	List<AlarmVO> list = null;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -228,7 +228,7 @@ public class ApproverDAO{
     
 
     
-    // ºÎÀç »óÅÂ º¯°æ, ´ë±â -> À§ÀÓ
+    // ë¶€ì¬ ìƒíƒœ ë³€ê²½, ëŒ€ê¸° -> ìœ„ì„
     public boolean setAbsenceStatusToActive() {
     	boolean result = false;
         SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -242,7 +242,7 @@ public class ApproverDAO{
     	return result;
     }
     
-    // ºÎÀç »óÅÂ º¯°æ, À§ÀÓ -> Á¾·á
+    // ë¶€ì¬ ìƒíƒœ ë³€ê²½, ìœ„ì„ -> ì¢…ë£Œ
     public boolean setAbsenceStatusToEnd() {
     	boolean result = false;
         SqlSession conn = DBCP.getSqlSessionFactory().openSession();

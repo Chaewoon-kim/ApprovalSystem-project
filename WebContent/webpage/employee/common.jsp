@@ -83,8 +83,8 @@
 						<span>양식 관리</span>
 					</div>
 					<div class="submenu">
-						<a href="#">양식 설정</a>
-						<a href="#">양식 목록</a>
+						<a href="controller?cmd=addForm">양식 설정</a>
+						<a href="controller?cmd=getForm">양식 목록</a>
 					</div>
 				</div>
 			</div>
@@ -92,6 +92,7 @@
 
 			<div class="logout">로그아웃</div>
 		</nav>
+
 		<jsp:include page="../draft/searchFormPopup.jsp" />
 		<script src="webpage/employee/common.js"></script>
 </body>

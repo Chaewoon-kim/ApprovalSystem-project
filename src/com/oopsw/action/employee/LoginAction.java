@@ -14,12 +14,12 @@ public class LoginAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-		String url = "webpage/employee/login.html";//½ÇÆĞÆäÀÌÁö
+		String url = "webpage/employee/login.html";//ì‹¤íŒ¨í˜ì´ì§€
 		String employeeId = request.getParameter("employeeId");
 		String password = request.getParameter("password");
 		
 		EmployeeVO vo = new EmployeeDAO().login(new EmployeeVO(employeeId, password));
-		if (vo != null){//·Î±×ÀÎ ¼º°ø½Ã
+		if (vo != null){//ë¡œê·¸ì¸ ì„±ê³µì‹œ
 			HttpSession session = request.getSession(true);
 			session.setAttribute("employeeId", employeeId);
 			session.setAttribute("name", vo.getName());
@@ -28,7 +28,7 @@ public class LoginAction implements Action {
 			session.setAttribute("isManager", vo.getManagerPermission() == 'Y');
 
 			url = "webpage/approve/getApprovalWaitList.jsp";
-			if(vo.getRank().equals("»ç¿ø")){
+			if(vo.getRank().equals("ì‚¬ì›")){
 				url = "webpage/draft/getReport.jsp";
 			}
 		}

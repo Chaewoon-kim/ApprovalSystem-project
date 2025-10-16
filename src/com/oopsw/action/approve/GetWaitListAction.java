@@ -21,15 +21,15 @@ public class GetWaitListAction implements Action {
     @Override
     public String execute(HttpServletRequest request) throws ServletException, IOException {
 
-        // ·Î±×ÀÎÇÑ »ç¿ø
+        // ë¡œê·¸ì¸í•œ ì‚¬ì›
         HttpSession session = request.getSession();
         String employeeId = (String) session.getAttribute("employeeId");
         if (employeeId == null) {
-            System.out.println("Å×½ºÆ® »ç¿ø ·Î±×ÀÎµÊ");
+            System.out.println("í…ŒìŠ¤íŠ¸ ì‚¬ì› ë¡œê·¸ì¸ë¨");
             employeeId = "E25-000";
         }
 
-        // ÆäÀÌÁö ÆÄ¶ó¹ÌÅÍ Ã³¸®
+        // í˜ì´ì§€ íŒŒë¼ë¯¸í„° ì²˜ë¦¬
         int page = 1;
         if (request.getParameter("page") != null) {
             try {
@@ -39,20 +39,20 @@ public class GetWaitListAction implements Action {
             }
         }
 
-        // »óÅÂ ÇÊÅÍ
+        // ìƒíƒœ í•„í„°
         String processStatus = request.getParameter("processStatus");
         if (processStatus == null || processStatus.trim().isEmpty()) {
             processStatus = null;
         }
 
-        // DAO È£Ãâ
+        // DAO í˜¸ì¶œ
         ApproverDAO dao = new ApproverDAO();
         GetListVO vo = new GetListVO(employeeId, processStatus, page);
         List<ApproverListVO> waitList = dao.getWaitList(vo);
 
-        int totalPages = 3; // (ÀÓ½Ã)
+        int totalPages = 3; // (ì„ì‹œ)
 
-        // Gson º¯È¯ ÁØºñ
+        // Gson ë³€í™˜ ì¤€ë¹„
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd")
                 .create();
@@ -66,13 +66,13 @@ public class GetWaitListAction implements Action {
         String json = gson.toJson(resultMap);
         request.setAttribute("result", json);
 
-        // AJAX ¿äÃ» È®ÀÎ
+        // AJAX ìš”ì²­ í™•ì¸
         boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
         if (isAjax) {
             return "webpage/approve/waitListTable.jsp"; // JSON JSP
         }
 
-        // µ¿±â¿äÃ» (ÃÊ±â ÆäÀÌÁö)
+        // ë™ê¸°ìš”ì²­ (ì´ˆê¸° í˜ì´ì§€)
         request.setAttribute("waitList", waitList);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);

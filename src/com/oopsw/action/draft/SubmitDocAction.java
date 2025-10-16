@@ -19,7 +19,7 @@ public class SubmitDocAction implements Action {
 		String url = null;
 		DrafterDAO d = new DrafterDAO();
 		HttpSession session = request.getSession();
-		String documentNoStr = request.getParameter("documentNo");//ÀÓ½ÃÀúÀå ¾ÈÇß¾úÀ¸¸é null
+		String documentNoStr = request.getParameter("documentNo");//ì„ì‹œì €ì¥ ì•ˆí–ˆì—ˆìœ¼ë©´ null
 		String employeeId = (String) session.getAttribute("employeeId");
 		String formId = request.getParameter("formId");
 		String title = request.getParameter("title");
@@ -32,37 +32,37 @@ public class SubmitDocAction implements Action {
 		Date deadline = java.sql.Date.valueOf(year + "-" + formattedMonth+ "-" + formattedDay);
 		String[] approverIds = request.getParameterValues("approverId");
 		boolean result = false;
-		//1. ¹®¼­µî·Ï
+		//1. ë¬¸ì„œë“±ë¡
 		int documentNo = (documentNoStr != null) ? Integer.parseInt(documentNoStr) : 0;
 		
 		if(documentNoStr != null){
-			//ÀÓ½ÃÀúÀåÇß´ø ¹®¼­ÀÎ °æ¿ì
+			//ì„ì‹œì €ì¥í–ˆë˜ ë¬¸ì„œì¸ ê²½ìš°
 			result = d.submitTempDoc(new DocumentVO(documentNo, title, contents, deadline));
 		}else{
-			//Ã³À½ ÀÛ¼ºÇÏ´Â ¹®¼­ÀÎ °æ¿ì
+			//ì²˜ìŒ ì‘ì„±í•˜ëŠ” ë¬¸ì„œì¸ ê²½ìš°
 			documentNo = d.addDoc(new DocumentVO(employeeId, formId, title, contents, deadline));
 		}
-		//2. °áÀçÀÚ µî·Ï
+		//2. ê²°ì¬ì ë“±ë¡
 		int firstApprovalLineNo = 0;
 		
-		//ÀÓ½ÃÀúÀåµÈ ¹®¼­¿´´ø °æ¿ì ±âÁ¸ °áÀçÀÚ »èÁ¦
+		//ì„ì‹œì €ì¥ëœ ë¬¸ì„œì˜€ë˜ ê²½ìš° ê¸°ì¡´ ê²°ì¬ì ì‚­ì œ
 		if(documentNoStr != null){
 			int count = d.removeApprovers(documentNo);
 		}
 		
 		for (int i = 1; i <= approverIds.length; i++) {
 			if(i == 1){
-				firstApprovalLineNo = d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i, "°áÀç´ë±â"));
+				firstApprovalLineNo = d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i, "ê²°ì¬ëŒ€ê¸°"));
 			}else{
-				d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i, "´ë±âÁß"));
+				d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i, "ëŒ€ê¸°ì¤‘"));
 			}
 		}
 		
-		//Ã¹¹øÂ° °áÀçÀÚ ¾Ë¸²
+		//ì²«ë²ˆì§¸ ê²°ì¬ì ì•Œë¦¼
 		int count = 0; 
 		if(firstApprovalLineNo != 0){
 			count = d.sendFirstReqNoti(firstApprovalLineNo);
-			if(count == 1) request.setAttribute("message", "°áÀç¿äÃ»µÇ¾ú½À´Ï´Ù.");
+			if(count == 1) request.setAttribute("message", "ê²°ì¬ìš”ì²­ë˜ì—ˆìŠµë‹ˆë‹¤.");
 		}
 		return url;
 	}

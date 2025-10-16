@@ -26,7 +26,7 @@ public class EmployeeDAOTest {
 	}
 	
 
-	//·Î±×ÀÎ
+	//ë¡œê·¸ì¸
 //	@Test
 	public void loginTest(){ 
 		    EmployeeVO vo = new EmployeeVO("E25-021" , "asdf123!");
@@ -35,27 +35,27 @@ public class EmployeeDAOTest {
 	}
 	
 	
-	//´ñ±Û Á¶È¸ Å×½ºÆ®
+	//ëŒ“ê¸€ ì¡°íšŒ í…ŒìŠ¤íŠ¸
 	//@Test
 	public void getCommentTest(){
 		List<CommentVO> resultList = dao.getComments(1);
 		
 		CommentVO firstComment = resultList.get(0);
 		assertEquals("E25-007", firstComment.getwriterId());
-	    assertEquals("Á¶Àº¼­", firstComment.getWriterName());
+	    assertEquals("ì¡°ì€ì„œ", firstComment.getWriterName());
 			
 	}
 
-	//´ñ±Û ÀÛ¼º
+	//ëŒ“ê¸€ ì‘ì„±
 	//@Test 
 	public void writeCommentTest(){
-		CommentVO comment = new CommentVO(1 , "E25-013" ,"½ÂÀÎÇß½À´Ï´Ù.");
+		CommentVO comment = new CommentVO(1 , "E25-013" ,"ìŠ¹ì¸í–ˆìŠµë‹ˆë‹¤.");
 		boolean result = dao.writeComment(comment);
 		assertEquals(true , result);
 		
 	}
 	
-	//ÀüÃ¼ »ç¿ø °Ë»ö
+	//ì „ì²´ ì‚¬ì› ê²€ìƒ‰
 	@Test
 	public void getAllEmployeesTest(){
 		 List<EmployeeVO> employeeList = dao.getAllEmployees();
@@ -63,50 +63,50 @@ public class EmployeeDAOTest {
 	}
 	
 
-	//Æ¯Á¤ »ç¿ø °Ë»ö
+	//íŠ¹ì • ì‚¬ì› ê²€ìƒ‰
 //	@Test
 	public void getEmployeeTest(){
-		List<EmployeeVO> employeeList = dao.getEmployee("¿µ");
+		List<EmployeeVO> employeeList = dao.getEmployee("ì˜");
 		System.out.println(employeeList);
 	}
 	
-	//´ñ±Û ¾Ë¸² º¸³»±â
+	//ëŒ“ê¸€ ì•Œë¦¼ ë³´ë‚´ê¸°
 //	@Test
 	public void sendNoti(){
 		System.out.println(dao.sendNoti(new CommentNotiVO(9 , "E25-001" , 3)));
 	}
 	
-	//´ë°á ¾Ë¸² Á¶È¸
+	//ëŒ€ê²° ì•Œë¦¼ ì¡°íšŒ
 //	@Test
 	public void getApprovalNoti(){
 		System.out.println(dao.getApprovalNoti("E25-001"));
 	}
 	
-	//´ñ±Û ¾Ë¸² (¹Ş±â)
+	//ëŒ“ê¸€ ì•Œë¦¼ (ë°›ê¸°)
 //	@Test
 	public void getCommentsNoti(){
 		System.out.println(dao.getCommentsNoti("E25-006"));
 	}
 	
-	//¾ÈÀĞÀº ´ë°á ¾Ë¸² Á¶È¸
+	//ì•ˆì½ì€ ëŒ€ê²° ì•Œë¦¼ ì¡°íšŒ
 //	@Test
 	public void getUnReadApprovalNoti(){
 		System.out.println(dao.getUnReadApprovalNoti("E25-001"));
 	}
 	
-	//¾ÈÀĞÀº ´ñ±Û ¾Ë¸² (¹Ş±â)
+	//ì•ˆì½ì€ ëŒ“ê¸€ ì•Œë¦¼ (ë°›ê¸°)
 //	@Test
 	public void getUnReadCommentsNoti(){
 		System.out.println(dao.getUnReadCommentsNoti("E25-002"));
 	}
 	
-	//°áÀç¼± Å×ÀÌºí¿¡¼­ °¡Á®¿À±â
+	//ê²°ì¬ì„  í…Œì´ë¸”ì—ì„œ ê°€ì ¸ì˜¤ê¸°
 //	@Test
 	public void getApprovalTable(){
 		System.out.println(dao.getApprvovalTable(2));
 	}
 	
-	//°áÀç ½ÅÃ» ¹®¼­ »ó¼¼ Á¶È¸
+	//ê²°ì¬ ì‹ ì²­ ë¬¸ì„œ ìƒì„¸ ì¡°íšŒ
 //	@Test
 	public void getDetailReport(){
 		System.out.println(dao.getDetailReport(2));

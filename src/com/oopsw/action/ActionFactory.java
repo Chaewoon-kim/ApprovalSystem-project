@@ -33,10 +33,11 @@ import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginUIAction;
 
 import com.oopsw.action.manager.AddFormAction;
+import com.oopsw.action.manager.GetEmployeeCountAction;
 import com.oopsw.action.manager.GetAllEmployeesAction;
-import com.oopsw.action.manager.GetEmployeeCount;
 import com.oopsw.action.manager.GetEmployeesAction;
 import com.oopsw.action.manager.GetFormAction;
+import com.oopsw.action.manager.GetFormCountAction;
 import com.oopsw.action.manager.InvertAccessPermissionAction;
 import com.oopsw.action.manager.InvertFormUsageAction;
 
@@ -45,14 +46,15 @@ public class ActionFactory {
 	public static Action getAction(String cmd){
 		Action a = null;
 		switch(cmd){
-		
+		case "getFormCount":
+			a = new GetFormCountAction();
+			break;
+		case "getEmployeeCount":
+			a = new GetEmployeeCountAction();
+			break;
 		case "getDetailReport":
 			a = new GetDetailReportAction();
 			break;
-		
-		
-		
-			
 		case "editLine":
 			a = new EditLineAction();
 			break;
@@ -66,16 +68,13 @@ public class ActionFactory {
 		case "getAllEmployees":
 			a = new GetAllEmployeesAction();
 			break;
-		case "getEmployeeCount":
-			a = new GetEmployeeCount();
-			break;
 		case "invertFormUsage":
 			a = new InvertFormUsageAction();
 			break;
-		case "getForms":
+		case "getForm":
 			a = new GetFormAction();
 			break;
-		case "addForms":
+		case "addForm":
 			a = new AddFormAction();
 			break;
 		case "getEmployees": 

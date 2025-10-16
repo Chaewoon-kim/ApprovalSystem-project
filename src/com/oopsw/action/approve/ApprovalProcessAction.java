@@ -23,24 +23,24 @@ public class ApprovalProcessAction implements Action {
         HttpSession session = request.getSession();
         String approverId = (String) session.getAttribute("employeeId");
         if (approverId == null) {
-            approverId = "E25-000"; // Å×½ºÆ®¿ë
+            approverId = "E25-000"; // í…ŒìŠ¤íŠ¸ìš©
         }
         int documentNo = Integer.parseInt(request.getParameter("documentNo"));
-        String approvalStatus = request.getParameter("approvalStatus"); // ½ÂÀÎ or ¹Ý·Á
+        String approvalStatus = request.getParameter("approvalStatus"); // ìŠ¹ì¸ or ë°˜ë ¤
         String opinion = request.getParameter("opinion");
         int lineOrder = Integer.parseInt(request.getParameter("lineOrder"));
 
         ApproverDAO dao = new ApproverDAO();
         
-        // ÇÏ³ªÀÇ ¼¼¼Ç °øÀ¯ (Æ®·£Àè¼Ç)
+        // í•˜ë‚˜ì˜ ì„¸ì…˜ ê³µìœ  (íŠ¸ëžœìž­ì…˜)
         SqlSession conn = DBCP.getSqlSessionFactory().openSession(false);
         String url = "webpage/approve/getApprovalWaitList.jsp";
 
         try {
-        	// ºÎÀç ¿©ºÎ È®ÀÎ
+        	// ë¶€ìž¬ ì—¬ë¶€ í™•ì¸
             AbsenceVO absence = dao.checkAbsence(approverId);
             if (absence != null && !absence.getProxyId().equals(approverId)) {
-                request.setAttribute("message", "ÇöÀç ºÎÀç ¼³Á¤ Áß, ´ë°áÀÚ¸¸ °áÀç °¡´É.");
+                request.setAttribute("message", "í˜„ìž¬ ë¶€ìž¬ ì„¤ì • ì¤‘, ëŒ€ê²°ìžë§Œ ê²°ìž¬ ê°€ëŠ¥.");
                 return url;
             }
 
@@ -53,36 +53,36 @@ public class ApprovalProcessAction implements Action {
             
             dao.processApproval(conn, vo); 
 
-            if (approvalStatus.equals("½ÂÀÎ")) {
+            if (approvalStatus.equals("ìŠ¹ì¸")) {
                 Integer nextLineNo = dao.findNextApprovalLineNo(conn, vo);
                 System.out.println(nextLineNo);
                 if (nextLineNo != null) {
-                    // ´ÙÀ½ °áÀçÀÚ Á¸Àç -> °áÀç´ë±â Ã³¸® + ¾Ë¸²
+                    // ë‹¤ìŒ ê²°ìž¬ìž ì¡´ìž¬ -> ê²°ìž¬ëŒ€ê¸° ì²˜ë¦¬ + ì•Œë¦¼
                     dao.setNextApproverToWait(conn,vo);
                     vo.setApprovalLineNo(nextLineNo);
                     dao.sendRequestNoti(conn,vo);
-                    request.setAttribute("message", "´ÙÀ½°áÀçÀÚ¿¡°Ô Àü´Þ");
+                    request.setAttribute("message", "ë‹¤ìŒê²°ìž¬ìžì—ê²Œ ì „ë‹¬");
                 } else {
-                    // ¸¶Áö¸· °áÀçÀÚ -> ¹®¼­ ¿Ï·á Ã³¸® + ¾Ë¸²
+                    // ë§ˆì§€ë§‰ ê²°ìž¬ìž -> ë¬¸ì„œ ì™„ë£Œ ì²˜ë¦¬ + ì•Œë¦¼
                     DocumentVO doc = new DocumentVO();
                     doc.setDocumentNo(documentNo);
                     dao.setDocComplete(conn,doc);
                     dao.sendProcessNoti(conn,vo);
-                    request.setAttribute("message", "ÃÖÁ¾ ½ÂÀÎ ¿Ï·á");
+                    request.setAttribute("message", "ìµœì¢… ìŠ¹ì¸ ì™„ë£Œ");
 
                 }
                 conn.commit();
 //                url = "controller?cmd=getWaitList";
                 return url;
 
-            } else if (approvalStatus.equals("¹Ý·Á")) {
-                // ¹Ý·Á Ã³¸® -> ¹®¼­ ¹Ý·Á + ¾Ë¸²
+            } else if (approvalStatus.equals("ë°˜ë ¤")) {
+                // ë°˜ë ¤ ì²˜ë¦¬ -> ë¬¸ì„œ ë°˜ë ¤ + ì•Œë¦¼
                 DocumentVO doc = new DocumentVO();
                 doc.setDocumentNo(documentNo);
                 dao.setDocReject(conn, doc);
                 dao.sendProcessNoti(conn, vo);
                 conn.commit();
-                request.setAttribute("message", "¹Ý·Á Ã³¸® ¿Ï·á");
+                request.setAttribute("message", "ë°˜ë ¤ ì²˜ë¦¬ ì™„ë£Œ");
                 return url;
 
             }
@@ -90,7 +90,7 @@ public class ApprovalProcessAction implements Action {
         } catch (Exception e) {
         	conn.rollback();
             e.printStackTrace();
-            request.setAttribute("message", "°áÀç ½ÇÆÐ");
+            request.setAttribute("message", "ê²°ìž¬ ì‹¤íŒ¨");
         } finally {
         	conn.close();
         }

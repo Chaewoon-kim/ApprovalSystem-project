@@ -27,7 +27,7 @@ public class DrafterDAOTest {
 	
 //	@Test
 	public void getStatusReqListTest() {
-		System.out.println(d.getReqList(new GetListVO("E25-001", "¿Ï·á", 1)));
+		System.out.println(d.getReqList(new GetListVO("E25-001", "ì™„ë£Œ", 1)));
 	}
 	
 //	@Test
@@ -42,12 +42,12 @@ public class DrafterDAOTest {
 	
 //	@Test
 	public void addDocTest(){
-		System.out.println(d.addDoc(new DocumentVO("E25-001", "D2", "Å×½ºÆ®Á¦¸ñ", "Å×½ºÆ®³»¿ë", java.sql.Date.valueOf("2025-10-05"))));
+		System.out.println(d.addDoc(new DocumentVO("E25-001", "D2", "í…ŒìŠ¤íŠ¸ì œëª©", "í…ŒìŠ¤íŠ¸ë‚´ìš©", java.sql.Date.valueOf("2025-10-05"))));
 	}
 	
 //	@Test
 	public void addApproverTest(){
-		System.out.println(d.addApprovers(new ApprovalLineVO(41, "E25-008", 1, "´ë±âÁß")));
+		System.out.println(d.addApprovers(new ApprovalLineVO(41, "E25-008", 1, "ëŒ€ê¸°ì¤‘")));
 	}
 	
 //	@Test
@@ -57,7 +57,7 @@ public class DrafterDAOTest {
 	
 //	@Test
 	public void saveTempDocTest(){
-		System.out.println(d.saveTempDoc(new DocumentVO("E25-001", "D2", "ÀÓ½ÃÀúÀåÅ×½ºÆ®Á¦¸ñ", "ÀÓ½ÃÀúÀåÅ×½ºÆ®³»¿ë",java.sql.Date.valueOf("2025-10-05"))));
+		System.out.println(d.saveTempDoc(new DocumentVO("E25-001", "D2", "ì„ì‹œì €ì¥í…ŒìŠ¤íŠ¸ì œëª©", "ì„ì‹œì €ì¥í…ŒìŠ¤íŠ¸ë‚´ìš©",java.sql.Date.valueOf("2025-10-05"))));
 	}
 	
 //	@Test
@@ -67,12 +67,12 @@ public class DrafterDAOTest {
 	
 //	@Test
 	public void editTempDocTest(){
-		assertTrue(d.editTempDoc(new DocumentVO(51, "Á¦¸ñ¼öÁ¤", "ÀÓ½ÃÀúÀå³»¿ë", java.sql.Date.valueOf("2025-10-09"))));
+		assertTrue(d.editTempDoc(new DocumentVO(51, "ì œëª©ìˆ˜ì •", "ì„ì‹œì €ì¥ë‚´ìš©", java.sql.Date.valueOf("2025-10-09"))));
 	}
 	
 //	@Test
 	public void submitTempDocTest(){
-		assertTrue(d.submitTempDoc(new DocumentVO(51, "ÀÓ½ÃÀúÀåÁ¦Ãâ", "ÀÓ½ÃÀúÀå³»¿ë", java.sql.Date.valueOf("2025-10-09"))));
+		assertTrue(d.submitTempDoc(new DocumentVO(51, "ì„ì‹œì €ì¥ì œì¶œ", "ì„ì‹œì €ì¥ë‚´ìš©", java.sql.Date.valueOf("2025-10-09"))));
 	}
 	
 //	@Test
@@ -92,7 +92,7 @@ public class DrafterDAOTest {
 	
 //	@Test
 	public void getStatusApprovalProcessNotiTest() {
-		System.out.println(d.getApprovalProcessNoti(new GetListVO("E25-004", "¿Ï·á", 0)));
+		System.out.println(d.getApprovalProcessNoti(new GetListVO("E25-004", "ì™„ë£Œ", 0)));
 	}
 	
 //	@Test
