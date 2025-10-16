@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" isELIgnored="true"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-    
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -15,6 +14,8 @@
 	<link href="webpage/employee/integration.css" rel="stylesheet">
 </head>
 <body>
+	<jsp:include page="/webpage/employee/common.jsp" />
+	
 	<main class="form-list">
 			<div class="page-title">접근 권한 관리</div>
 			<!-- 등록상태 필터 -->
@@ -171,7 +172,7 @@
 		        <td>${emp.name}</td>
 		        <td>${emp.department}</td>
 		        <td>${emp.rank}</td>
-		        <td><div class="btn ${emp.accessPermission == 'Y' ? 'btn-unuse' : 'btn-use'} access-btn" data-name="${emp.employeeId}">${emp.accessPermission == 'Y' ? '해제':'등록'}</div></td>
+		        <td><div class="btn ${emp.accessPermission == 'Y' ? 'btn-event' : 'btn-event active'} access-btn" data-name="${emp.employeeId}">${emp.accessPermission == 'Y' ? '해제':'등록'}</div></td>
 		        
 		    	</tr>`;
 		    	tableBody.append(row);

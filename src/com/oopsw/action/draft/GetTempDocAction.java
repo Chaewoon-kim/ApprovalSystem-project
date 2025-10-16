@@ -12,7 +12,7 @@ public class GetTempDocAction implements Action {
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
 		String documentNo = request.getParameter("documentNo");
-		//¼¼ºÎ»ó¼¼Á¶È¸¿Í °°À¸´Ï ³ªÁß¿¡
+		//ì„¸ë¶€ìƒì„¸ì¡°íšŒì™€ ê°™ìœ¼ë‹ˆ ë‚˜ì¤‘ì—
 		return null;
 	}
 

@@ -15,15 +15,17 @@
 	<link href="webpage/employee/integration.css" rel="stylesheet">
 </head>
 <body>
-	<jsp:include page="../employee/common.html" />
+	<jsp:include page="/webpage/employee/common.jsp" />
 
     <!-- 메인 콘텐츠 -->
     <main class="form-list">
       <h1>양식 목록</h1>
       <!-- 검색 -->
-      <div class="search-box">
-        <input id="keyword" type="text" placeholder="카테고리, 양식제목 검색">
-        <div class="btn-keyword">검색</div>
+      <div class="flex right">
+	      <div class="search-box">
+	        <input id="keyword" type="text" placeholder="카테고리, 양식제목 검색">
+	        <div class="btn-keyword">검색</div>
+	      </div>
       </div>
 
       <!-- 목록 테이블 -->
@@ -75,10 +77,14 @@
 		reqPage($("#keyword").val(), true);
 	}
 	
-	// 검색 버튼 이벤트
-	$(document).on("click", ".btn-keyword", function(e){
+	function searchAction(){
 		currentKeyword = $("#keyword").val();
 		reqPage(currentKeyword, true);
+	}
+	// 검색 버튼 이벤트
+	$(".btn-keyword").on("click", searchAction);	
+	$("#keyword").on("keypress", function(e){
+		if(e.which == 13) searchAction();
 	});
 	
 	// 양식 수량 획득
@@ -158,7 +164,7 @@
 	            <td>${form.formCategory}</td>
 	            <td>${form.formName}</td>
 	            <td>${form.formDescription}</td>
-	            <td><div class="btn ${form.formUsage == 'Y' ? 'btn-use' : 'btn-unuse'}" data-form-id="${form.formId}">${form.formUsage == 'Y' ? "사용중" : "미사용"}</div></td>
+	            <td><div class="btn ${form.formUsage == 'Y' ? 'btn-event' : 'btn-event active'}" data-form-id="${form.formId}">${form.formUsage == 'Y' ? "해제" : "등록"}</div></td>
 	      	</tr>`;
 		});
     	tableBody.append(row);

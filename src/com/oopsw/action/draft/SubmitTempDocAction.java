@@ -29,25 +29,25 @@ public class SubmitTempDocAction implements Action {
 		}else{
 			result = d.editTempDoc(new DocumentVO(documentNo, title, contents, deadLine));
 		}
-		//°áÀç¼± ¼öÁ¤(»èÁ¦ ÈÄ ´Ù½Ã ÀÔ·Â)
+		//ê²°ìž¬ì„  ìˆ˜ì •(ì‚­ì œ í›„ ë‹¤ì‹œ ìž…ë ¥)
 		int firstApprovalLineNo = 0;
 		if(approverIds != null && approverIds.length > 0){
 			int count = d.removeApprovers(documentNo);
 			for (int i = 1; i <= approverIds.length; i++) {
 				if(isTemp == null && i == 1){
-					firstApprovalLineNo = d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i, "°áÀç´ë±â"));
+					firstApprovalLineNo = d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i, "ê²°ìž¬ëŒ€ê¸°"));
 				}else{
-					d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i, "´ë±âÁß"));
+					d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i, "ëŒ€ê¸°ì¤‘"));
 				}
 			}
 		}
 		
 		
-		//Ã¹¹øÂ° °áÀçÀÚ ¾Ë¸²
+		//ì²«ë²ˆì§¸ ê²°ìž¬ìž ì•Œë¦¼
 		int count = 0; 
 		if(firstApprovalLineNo != 0){
 			count = d.sendFirstReqNoti(firstApprovalLineNo);
-			if(count == 1) request.setAttribute("message", "°áÀç¿äÃ»µÇ¾ú½À´Ï´Ù.");
+			if(count == 1) request.setAttribute("message", "ê²°ìž¬ìš”ì²­ë˜ì—ˆìŠµë‹ˆë‹¤.");
 		}
 		
 		return null;

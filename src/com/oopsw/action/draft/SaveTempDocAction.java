@@ -19,7 +19,7 @@ public class SaveTempDocAction implements Action {
 		String url = null;
 		DrafterDAO d = new DrafterDAO();
 		HttpSession session = request.getSession();
-		String documentNoStr = request.getParameter("documentNo");//ÀÓ½ÃÀúÀå ¾ÈÇß¾úÀ¸¸é null
+		String documentNoStr = request.getParameter("documentNo");//ì„ì‹œì €ì¥ ì•ˆí–ˆì—ˆìœ¼ë©´ null
 		String employeeId = (String) session.getAttribute("employeeId");
 		String formId = request.getParameter("formId");
 		String title = request.getParameter("title");
@@ -32,23 +32,23 @@ public class SaveTempDocAction implements Action {
 		Date deadline = java.sql.Date.valueOf(year + "-" + formattedMonth+ "-" + formattedDay);
 		String[] approverIds = request.getParameterValues("approverId");
 		boolean result = false;
-		//ÀÓ½ÃÀúÀå
+		//ì„ì‹œì €ì¥
 		int documentNo = (documentNoStr != null) ? Integer.parseInt(documentNoStr) : 0;
 		if(documentNoStr != null){
-			//ÀÓ½ÃÀúÀå ¹®¼­¸¦ ´Ù½Ã ÀúÀå
+			//ì„ì‹œì €ì¥ ë¬¸ì„œë¥¼ ë‹¤ì‹œ ì €ì¥
 			result = d.editTempDoc(new DocumentVO(documentNo, title, contents, deadline));
 		}else{
-			//Ã³À½ ÀÓ½ÃÀúÀå
+			//ì²˜ìŒ ì„ì‹œì €ì¥
 			documentNo = d.saveTempDoc(new DocumentVO(employeeId, formId, title, contents, deadline));
 		}
 		
-		//ÀÓ½ÃÀúÀåµÈ ¹®¼­¿´´ø °æ¿ì ±âÁ¸ °áÀçÀÚ »èÁ¦
+		//ì„ì‹œì €ì¥ëœ ë¬¸ì„œì˜€ë˜ ê²½ìš° ê¸°ì¡´ ê²°ì¬ì ì‚­ì œ
 		if(documentNoStr != null){
 			int count = d.removeApprovers(documentNo);
 		}
-		//°áÀçÀÚµî·Ï
+		//ê²°ì¬ìë“±ë¡
 		for (int i = 1; i <= approverIds.length; i++) {
-			d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i, "´ë±âÁß"));
+			d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i, "ëŒ€ê¸°ì¤‘"));
 		}
 		
 		return url;

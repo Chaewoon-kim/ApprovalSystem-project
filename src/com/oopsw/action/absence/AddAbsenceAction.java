@@ -15,14 +15,14 @@ public class AddAbsenceAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-		String url = "getAbsenceList.jsp"; // ºÎÀç/´ë°á ¸ñ·Ï ÆäÀÌÁö·Î ÀÌµ¿
+		String url = "getAbsenceList.jsp"; // ë¶€ì¬/ëŒ€ê²° ëª©ë¡ í˜ì´ì§€ë¡œ ì´ë™
 
         HttpSession session = request.getSession(true);
 
-        // ·Î±×ÀÎ Á¤º¸ °¡Á®¿À±â (ÀÓ½Ã)
-        // ·Î±×ÀÎ ¿¬µ¿ ÈÄ session¿¡¼­ °¡Á®¿À±â
+        // ë¡œê·¸ì¸ ì •ë³´ ê°€ì ¸ì˜¤ê¸° (ì„ì‹œ)
+        // ë¡œê·¸ì¸ ì—°ë™ í›„ sessionì—ì„œ ê°€ì ¸ì˜¤ê¸°
         // String absenteeId = (String) session.getAttribute("loginId");
-        String absenteeId = "E25-007";  // Å×½ºÆ®¿ë
+        String absenteeId = "E25-007";  // í…ŒìŠ¤íŠ¸ìš©
 
         String startDateStr = request.getParameter("startDate");
         String endDateStr = request.getParameter("endDate");
@@ -33,22 +33,22 @@ public class AddAbsenceAction implements Action {
         Date endDate = Date.valueOf(endDateStr);
         Date today = new Date(System.currentTimeMillis());
         
-        // ºÎÀç±â°£ À¯È¿¼º°Ë»ç?
+        // ë¶€ì¬ê¸°ê°„ ìœ íš¨ì„±ê²€ì‚¬?
         if (startDate.before(today)) {
-            request.setAttribute("message", "½ÃÀÛÀÏÀº ¿À´Ã ÀÌÈÄ·Î ¼³Á¤ÇØ¾ß ÇÕ´Ï´Ù.");
+            request.setAttribute("message", "ì‹œì‘ì¼ì€ ì˜¤ëŠ˜ ì´í›„ë¡œ ì„¤ì •í•´ì•¼ í•©ë‹ˆë‹¤.");
             return url;
         }
         if (endDate.before(startDate)) {
-            request.setAttribute("message", "Á¾·áÀÏÀº ½ÃÀÛÀÏ ÀÌÈÄ¿©¾ß ÇÕ´Ï´Ù.");
+            request.setAttribute("message", "ì¢…ë£Œì¼ì€ ì‹œì‘ì¼ ì´í›„ì—¬ì•¼ í•©ë‹ˆë‹¤.");
             return url;
         }
         
-        // ºÎÀç »óÅÂ 
+        // ë¶€ì¬ ìƒíƒœ 
         String usage;
         if (startDate.equals(today)) {
-            usage = "À§ÀÓ"; // ½ÃÀÛÀÏÀÌ ¿À´ÃÀÏ °æ¿ì
+            usage = "ìœ„ì„"; // ì‹œì‘ì¼ì´ ì˜¤ëŠ˜ì¼ ê²½ìš°
         } else {
-            usage = "´ë±âÁß";
+            usage = "ëŒ€ê¸°ì¤‘";
         }
         
         AbsenceVO vo = new AbsenceVO();
@@ -58,15 +58,15 @@ public class AddAbsenceAction implements Action {
         vo.setAbsenceEndDate(Date.valueOf(endDateStr));
         vo.setAbsenceReason(reason);
         vo.setAbsenceUsage(usage); 
-        // noti_in_date, read_status´Â DB¿¡¼­ sysdate/null ÀÚµ¿ Ã³¸®
+        // noti_in_date, read_statusëŠ” DBì—ì„œ sysdate/null ìë™ ì²˜ë¦¬
 
         ApproverDAO dao = new ApproverDAO();
         boolean result = dao.addAbsence(vo);
 
         if (result) {
-            request.setAttribute("message", "ºÎÀç µî·ÏÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+            request.setAttribute("message", "ë¶€ì¬ ë“±ë¡ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
         } else {
-            request.setAttribute("message", "ºÎÀç µî·Ï Áß ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.");
+            request.setAttribute("message", "ë¶€ì¬ ë“±ë¡ ì¤‘ ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.");
         }
 
         return url;

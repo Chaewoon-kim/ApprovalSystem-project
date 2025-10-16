@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import com.oopsw.action.Action;
 import com.oopsw.action.absence.AddAbsenceAction;
 import com.oopsw.action.absence.DeleteAbsenceAction;
 import com.oopsw.action.absence.EndAbsenceAction;
@@ -13,19 +14,27 @@ import com.oopsw.action.absence.ModifyAbsenceAction;
 import com.oopsw.action.approve.ApprovalProcessAction;
 import com.oopsw.action.approve.GetEndListAction;
 import com.oopsw.action.approve.GetWaitListAction;
+import com.oopsw.action.draft.EditLineAction;
 import com.oopsw.action.draft.GetApprovalProcessNoti;
 import com.oopsw.action.draft.GetApprovalStatusAction;
 import com.oopsw.action.draft.GetReqListAction;
+import com.oopsw.action.draft.GetReqListUIAction;
 import com.oopsw.action.draft.GetTempDocAction;
 import com.oopsw.action.draft.GetTempListAction;
+import com.oopsw.action.draft.GetTempListUIAction;
 import com.oopsw.action.draft.SaveTempDocAction;
 import com.oopsw.action.draft.SetFormAction;
 import com.oopsw.action.draft.SubmitDocAction;
+import com.oopsw.action.employee.GetDetailReportAction;
 import com.oopsw.action.employee.GetNotiAction;
+import com.oopsw.action.employee.LoginUIAction;
+import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginUIAction;
+
 import com.oopsw.action.manager.AddFormAction;
 import com.oopsw.action.manager.GetEmployeeCountAction;
+import com.oopsw.action.manager.GetAllEmployeesAction;
 import com.oopsw.action.manager.GetEmployeesAction;
 import com.oopsw.action.manager.GetFormAction;
 import com.oopsw.action.manager.GetFormCountAction;
@@ -43,8 +52,21 @@ public class ActionFactory {
 		case "getEmployeeCount":
 			a = new GetEmployeeCountAction();
 			break;
+		case "getDetailReport":
+			a = new GetDetailReportAction();
+			break;
+		case "editLine":
+			a = new EditLineAction();
+			break;
+		case "loginAction":
+			a = new LoginAction();
+			break;
 		case "loginUI":
+		case "mainUI":
 			a = new LoginUIAction();
+			break;
+		case "getAllEmployees":
+			a = new GetAllEmployeesAction();
 			break;
 		case "invertFormUsage":
 			a = new InvertFormUsageAction();
@@ -61,12 +83,9 @@ public class ActionFactory {
 		case "invertAccessPermission":
 			a = new InvertAccessPermissionAction();
 			break;
-		
-			
 		case "deleteAbsence":
 			a = new DeleteAbsenceAction();
 			break;
-			
 		case "endAbsence":
 			a = new EndAbsenceAction();
 			break;
@@ -77,7 +96,7 @@ public class ActionFactory {
 		case "addAbsence":
 			a = new AddAbsenceAction();
 			break;
-		case "getAbsenceProxyListAction":
+		case "getAbsenceProxyList":
 			a = new GetAbsenceProxyListAction();
 			break;
 		case "approvalProcess":
@@ -89,8 +108,6 @@ public class ActionFactory {
 		case "getEndList":
 			a = new GetEndListAction();
 			break;
-		
-			
 		case "getApprovalProcessNoti":
 			a = new GetNotiAction();
 			break;
@@ -102,11 +119,18 @@ public class ActionFactory {
 			break;
 		case "getTempDoc":
 			a = new GetTempDocAction();
+			break;
+		case "getTempListUI":
+			a = new GetTempListUIAction();
+			break;
 		case "getTempList":
 			a = new GetTempListAction();
 			break;
 		case "submitDoc":
 			a = new SubmitDocAction();
+			break;
+		case "getReqListUI":
+			a = new GetReqListUIAction();
 			break;
 		case "getReqList":
 			a = new GetReqListAction();
@@ -114,16 +138,12 @@ public class ActionFactory {
 		case "setForm":
 			a = new SetFormAction();
 			break;
-		case "mainUI":
+			
 		default:
-			a = new Action() {
-				@Override
-				public String execute(HttpServletRequest request) throws ServletException, IOException {
-					return "webpage/manager/employeeAccess.html";
-				}
-			};
+			a = new LoginUIAction();
 			break;
 		}
 		return a;
 	}
 }
+

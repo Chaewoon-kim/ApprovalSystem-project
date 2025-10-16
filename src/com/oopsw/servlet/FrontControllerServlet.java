@@ -25,9 +25,9 @@ public class FrontControllerServlet extends HttpServlet {
 				cmd = "mainUI";
 			}
 			
-			//ÀÏÇÒ Action Ã£¾Æ¿À±â
+			//ì¼í•  Action ì°¾ì•„ì˜¤ê¸°
 			Action action = ActionFactory.getAction(cmd);
-			//°á°ú ÆäÀÌÁö·Î ÀÌµ¿
+			//ê²°ê³¼ í˜ì´ì§€ë¡œ ì´ë™
 			String url = action.execute(request);
 			request.getRequestDispatcher("/"+url).forward(request, reponse);
 		}

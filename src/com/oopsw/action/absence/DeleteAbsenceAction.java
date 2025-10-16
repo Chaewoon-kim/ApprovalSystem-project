@@ -20,9 +20,9 @@ public class DeleteAbsenceAction implements Action {
         boolean result = dao.deleteAbsence(absenceDateNo);
 
         if (result) {
-            request.setAttribute("message", " ºÎÀç°¡ ¼º°øÀûÀ¸·Î »èÁ¦µÇ¾ú½À´Ï´Ù.");
+            request.setAttribute("message", " ë¶€ì¬ê°€ ì„±ê³µì ìœ¼ë¡œ ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤.");
         } else {
-            request.setAttribute("message", "ºÎÀç »èÁ¦ ºÒ°¡ (ÀÌ¹Ì ½ÃÀÛµÇ¾ú°Å³ª Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.)");
+            request.setAttribute("message", "ë¶€ì¬ ì‚­ì œ ë¶ˆê°€ (ì´ë¯¸ ì‹œì‘ë˜ì—ˆê±°ë‚˜ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.)");
         }
 
         return url;
