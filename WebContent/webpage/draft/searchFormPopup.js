@@ -38,7 +38,7 @@ const groupForm = function(result){
 		$.ajax({
 			url: "controller",
 			data: {
-				cmd: "getForms",
+				cmd: "getDraftForm",
 				keyword: keyword 
 			},
 			dataType: "json",

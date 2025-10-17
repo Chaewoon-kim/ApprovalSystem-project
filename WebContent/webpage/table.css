@@ -5,6 +5,7 @@
       justify-content: center;
       margin-top: 20px;
       text-align: center;
+      gap: 10px;
     }
 	.form-list {
       padding: 30px;
@@ -16,7 +17,13 @@
       margin-bottom: 20px;
     }
 
-
+	.page-number{
+		cursor: pointer;
+	}
+	
+	.pagination .active{
+		font-weight: bold;
+	}
 
     .form-table {
       width: 100%;

@@ -77,6 +77,9 @@ public class ActionFactory {
 		case "invertFormUsage":
 			a = new InvertFormUsageAction();
 			break;
+		case "getDraftForm":
+			a = new GetDraftForm();
+			break;
 		case "getForm":
 			a = new GetFormAction();
 			break;

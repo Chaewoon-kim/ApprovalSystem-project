@@ -26,7 +26,7 @@ public class ApprovalProcessAction implements Action {
             approverId = "E25-000";
         }
         int documentNo = Integer.parseInt(request.getParameter("documentNo"));
-        String approvalStatus = request.getParameter("approvalStatus"); // �듅�씤 or 諛섎젮
+        String approvalStatus = request.getParameter("approvalStatus");
         String opinion = request.getParameter("opinion");
         int lineOrder = Integer.parseInt(request.getParameter("lineOrder"));
 
@@ -78,7 +78,7 @@ public class ApprovalProcessAction implements Action {
                 dao.setDocReject(conn, doc);
                 dao.sendProcessNoti(conn, vo);
                 conn.commit();
-                request.setAttribute("message", "결재 실패");
+                request.setAttribute("message", "반려 처리 완료");
                 return url;
 
             }
@@ -86,7 +86,7 @@ public class ApprovalProcessAction implements Action {
         } catch (Exception e) {
         	conn.rollback();
             e.printStackTrace();
-            request.setAttribute("message", "寃곗옱 �떎�뙣");
+            request.setAttribute("message", "결재 실패");
         } finally {
         	conn.close();
         }

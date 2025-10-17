@@ -16,7 +16,6 @@ public class setAbsenceStatusAction {
         boolean ended = dao.setAbsenceStatusToEnd();
 
 
-        // �쓳�떟 �븘�슂?
         request.setAttribute("activated", activated);
         request.setAttribute("ended", ended);
 
