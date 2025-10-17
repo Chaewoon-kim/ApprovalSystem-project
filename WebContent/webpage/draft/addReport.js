@@ -94,4 +94,8 @@ const handleFormSubmission = function(e){
     form.attr("action", "controller?cmd=submitDoc");
 }
 $("#approveDoc").on('submit', handleFormSubmission);
-
+$("#cancelBtn").on('click', function(e){
+	e.preventDefault();
+	console.log("동작")
+	window.location.href = "controller?cmd=getReqListUI"
+})

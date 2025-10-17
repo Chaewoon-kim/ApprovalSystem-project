@@ -135,7 +135,7 @@ let setApprovalLine = function(result){
         // 다음 요소를 삽입 노드로 지정하여 순서대로 삽입되도록 함
         insertBeforeNode = newRow.nextSibling;
     });
-    console.log("초기 결재선 로드 완료. ID:", selectedApprovers);
+  
 };
 
 // 아코디언 토글 기능
@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 approvalTableBody.appendChild(newRow);
             }
-            console.log(selectedApprovers);
+     
         }
         
         const deleteBtn = event.target.closest('.delete-btn');
@@ -259,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (index > -1) {
             	selectedApprovers.splice(index, 1);
-                console.log(`ID ${idToRemove} 제거됨. 현재 ID 목록: ${selectedApprovers}`);
+               
             } else {
                 console.warn(`경고: ID ${idToRemove}는 배열에 없었습니다.`);
             }

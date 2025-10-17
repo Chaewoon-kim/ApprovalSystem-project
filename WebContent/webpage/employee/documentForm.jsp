@@ -112,7 +112,6 @@ const addApprovalTable = function(table, data){
     let nameCells = '';
     let signCells = '';
     for(i = 0;  i < data.length ; i++){
-    	console.log(data[i]);
         const department = data[i].department ? data[i].department + '/' : '';
         const name = data[i].name ? data[i].name : '';
         rankCells += '<td class="input-table">' + department + data[i].rank + '</td>';
