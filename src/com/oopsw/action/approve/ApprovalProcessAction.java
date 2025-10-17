@@ -38,9 +38,13 @@ public class ApprovalProcessAction implements Action {
 
         try {
         	// 부재 여부 확인
-            AbsenceVO absence = dao.checkAbsence(approverId);
-            if (absence != null && !absence.getProxyId().equals(approverId)) {
-                request.setAttribute("message", "현재 부재 설정 중, 대결자만 결재 가능.");
+//            AbsenceVO absence = dao.checkAbsence(approverId);
+//            if (absence != null && !absence.getProxyId().equals(approverId)) {
+//                request.setAttribute("message", "현재 부재 설정 중, 대결자만 결재 가능.");
+//                return url;
+//            }
+            if (dao.isAbsentToday(approverId)) {
+                request.setAttribute("message", "현재 부재(위임) 상태입니다. 대결자만 결재할 수 있습니다.");
                 return url;
             }
 

@@ -84,6 +84,17 @@ public class ApproverDAO{
         return vo;
     }
     
+    // 현재(오늘) 위임 상태인지 여부
+    public boolean isAbsentToday(String approverId) {
+        SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+        try {
+            Integer cnt = conn.selectOne("approverMapper.countActiveAbsenceFor", approverId);
+            return cnt != null && cnt > 0;
+        } finally {
+            conn.close();
+        }
+    }
+
     
  // 결재 대기 목록 조회
     public List<ApproverListVO> getWaitList(GetListVO vo) {

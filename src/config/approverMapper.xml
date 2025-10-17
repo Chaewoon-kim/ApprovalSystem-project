@@ -59,6 +59,14 @@
 		where a.absentee_id = #{approverId} and a.absence_usage = '위임'
 	</select>
 
+<!-- 오늘 기준 위임 건수 -->
+<select id="countActiveAbsenceFor" parameterType="string" resultType="int">
+  select count(*)
+  from absence a
+  where a.absentee_id = #{approverId}
+    and a.absence_usage = '위임'
+    and TRUNC(SYSDATE) BETWEEN a.absence_start_date AND a.absence_end_date
+</select>
 
 
 	<!-- 결재 대기 목록 조회 

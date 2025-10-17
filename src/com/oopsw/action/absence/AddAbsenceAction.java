@@ -65,7 +65,7 @@ public class AddAbsenceAction implements Action {
         if (start.compareTo(todayStr) < 0) {
             jsonResult.put("success", false);
             jsonResult.put("message", "시작일은 오늘 또는 이후로 설정해야 합니다.");
-            return null;
+            return addAbsencePage;
         }
 
         if (endDate.before(startDate)) {
