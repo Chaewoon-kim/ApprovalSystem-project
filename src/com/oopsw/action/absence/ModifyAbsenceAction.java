@@ -28,11 +28,11 @@ public class ModifyAbsenceAction implements Action {
 
         String usage;
         if (today.before(startDate)) {
-            usage = "ëŒ€ê¸°ì¤‘";
+            usage = "´ë±âÁß";
         } else if (today.after(endDate)) {
-            usage = "ì¢…ë£Œ";
+            usage = "Á¾·á";
         } else {
-            usage = "ìœ„ì„ì¤‘";
+            usage = "À§ÀÓÁß";
         }
 
         AbsenceVO vo = new AbsenceVO();
@@ -47,9 +47,9 @@ public class ModifyAbsenceAction implements Action {
         boolean result = dao.modifyAbsence(vo);
 
         if (result) {
-            request.setAttribute("message", "ë¶€ì¬ ì •ë³´ê°€ ì„±ê³µì ìœ¼ë¡œ ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤.");
+            request.setAttribute("message", "ºÎÀç Á¤º¸°¡ ¼º°øÀûÀ¸·Î ¼öÁ¤µÇ¾ú½À´Ï´Ù.");
         } else {
-            request.setAttribute("message", "ë¶€ì¬ ìˆ˜ì • ì¤‘ ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.");
+            request.setAttribute("message", "ºÎÀç ¼öÁ¤ Áß ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.");
         }
 
         return url;

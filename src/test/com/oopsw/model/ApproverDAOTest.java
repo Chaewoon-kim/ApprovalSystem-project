@@ -38,118 +38,116 @@ public class ApproverDAOTest {
 		
 	}
 	
-//	@Test
+	@Test
 	public void setAbsenceStatusToActiveTest() {
 		assertTrue(dao.setAbsenceStatusToActive());
 	}
 	
-//	@Test
+	@Test
 	public void setAbsenceStatusToEndTest(){
 		assertTrue(dao.setAbsenceStatusToEnd());
 	}
 
-//	@Test
+	@Test
 	public void processApprovalTest() {
 		al.setDocumentNo(20);
 		al.setApproverId("E25-014");
-		al.setApprovalStatus("ìŠ¹ì¸");
-		al.setOpinion("í…ŒìŠ¤íŠ¸ ì˜ê²¬");
+		al.setApprovalStatus("½ÂÀÎ");
+		al.setOpinion("Å×½ºÆ® ÀÇ°ß");
 		assertTrue(dao.processApproval(conn, al));
 	}
 
-//	@Test
+	@Test
 	public void setNextApproverToWaitTest() {
 		al.setDocumentNo(20);
 		al.setLineOrder(2);
 		assertTrue(dao.setNextApproverToWait(conn, al));
 	}
 
-//	@Test
+	@Test
 	public void findNextApprovalLineNoTest() {
 		al.setDocumentNo(20); 
 	    al.setLineOrder(2);    
 	    System.out.println(dao.findNextApprovalLineNo(conn, al));
 	}
 
-//	@Test
+	@Test
 	public void sendRequestNotiTest() {
 		al.setApprovalLineNo(28);
 		assertTrue(dao.sendRequestNoti(conn, al));
 	}
 
-//	@Test
+	@Test
 	public void sendProcessNotiTest() {
 		al.setDocumentNo(20);
 		assertTrue(dao.sendProcessNoti(conn, al));
 	}
 
-//	@Test
+	@Test
 	public void setDocRejectTest() {
 		doc.setDocumentNo(2);
 		assertTrue(dao.setDocReject(conn, doc));
 	}
 
-//	@Test
+	@Test
 	public void setDocCompleteTest() {
 		doc.setDocumentNo(2);
 		assertTrue(dao.setDocComplete(conn, doc));
 	}
 
-//	@Test
+	@Test
 	public void checkAbsenceTest() {
 		System.out.println(dao.checkAbsence("E25-003"));
 	}
 
-//	@Test
+	@Test
 	public void getWaitListTest() {
 		System.out.println(dao.getWaitList(new GetListVO("E25-000", null, 1)));
 	}
 
-//	@Test
+	@Test
 	public void getEndListTest() {
-		System.out.println(dao.getEndList(new GetListVO("E25-010", "ë°˜ë ¤", 1)));
+		System.out.println(dao.getEndList(new GetListVO("E25-010", "¹İ·Á", 1)));
 	}
 
-//	@Test
+	@Test
 	public void getAbsenceListTest() {
 		System.out.println(dao.getAbsenceList("E25-005"));
 	}
 
-//	@Test
+	@Test
 	public void getProxyListTest() {
 		System.out.println(dao.getProxyList("E25-013"));
 	}
 
-//	@Test
+	@Test
 	public void addAbsenceTest() {
 		ab.setAbsenteeId("E25-001");
 		ab.setProxyId("E25-002");
 		ab.setAbsenceStartDate(java.sql.Date.valueOf("2025-10-12"));
 		ab.setAbsenceEndDate(java.sql.Date.valueOf("2025-10-20"));
-		ab.setAbsenceReason("ì¶œì¥");
-		ab.setAbsenceUsage("ëŒ€ê¸°");
+		ab.setAbsenceReason("ÃâÀå");
+		ab.setAbsenceUsage("´ë±â");
 		assertTrue(dao.addAbsence(ab));
 	}
 
-//	@Test
+	@Test
 	public void modifyAbsenceTest() {
 		ab.setAbsenceDateNo(1);
 		ab.setProxyId("E25-020");
 		ab.setAbsenceStartDate(java.sql.Date.valueOf("2025-10-12"));
 		ab.setAbsenceEndDate(java.sql.Date.valueOf("2025-10-20"));
-		ab.setAbsenceReason("íœ´ê°€ ì¼ì • ë³€ê²½");
-		ab.setAbsenceUsage("ëŒ€ê¸°");
+		ab.setAbsenceReason("ÈŞ°¡ ÀÏÁ¤ º¯°æ");
+		ab.setAbsenceUsage("´ë±â");
 		assertTrue(dao.modifyAbsence(ab));
 	}
 	
-	// ë¶€ì¬ ì¡°ê¸°ì¢…ë£Œ (ìœ„ì„ì¤‘ì¼ë•Œë§Œ)
 	@Test
 	public void endAbsenceTest() {
 		assertTrue(dao.endAbsence(10));
 	}
 	
-	// ë¶€ì¬ ì‚­ì œ (ëŒ€ê¸°ì¤‘ì¼ë•Œë§Œ)
-//	@Test
+	@Test
 	public void deleteAbsenceTest() {
 		assertTrue(dao.deleteAbsence(13));
 	}
@@ -159,13 +157,13 @@ public class ApproverDAOTest {
 		System.out.println(dao.getApprovalReqNoti("E25-008"));
 	}
 	
-//	@Test
+	@Test
 	public void getUnReadApprovalReqNotiTest() {
 		System.out.println(dao.getUnReadApprovalReqNoti("E25-008"));
 	}
 	
 	
-	//@Test
+	@Test
 	public void DBCPtest(){
 		System.out.println(DBCP.getSqlSessionFactory());
 		System.out.println(DBCP.getSqlSessionFactory().openSession());

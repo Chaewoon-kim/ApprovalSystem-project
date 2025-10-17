@@ -15,14 +15,11 @@ public class AddAbsenceAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-		String url = "getAbsenceList.jsp"; // 부재/대결 목록 페이지로 이동
+		String url = "getAbsenceList.jsp";
 
         HttpSession session = request.getSession(true);
-
-        // 로그인 정보 가져오기 (임시)
-        // 로그인 연동 후 session에서 가져오기
         // String absenteeId = (String) session.getAttribute("loginId");
-        String absenteeId = "E25-007";  // 테스트용
+        String absenteeId = "E25-007";
 
         String startDateStr = request.getParameter("startDate");
         String endDateStr = request.getParameter("endDate");
@@ -33,7 +30,6 @@ public class AddAbsenceAction implements Action {
         Date endDate = Date.valueOf(endDateStr);
         Date today = new Date(System.currentTimeMillis());
         
-        // 부재기간 유효성검사?
         if (startDate.before(today)) {
             request.setAttribute("message", "시작일은 오늘 이후로 설정해야 합니다.");
             return url;
@@ -43,10 +39,9 @@ public class AddAbsenceAction implements Action {
             return url;
         }
         
-        // 부재 상태 
         String usage;
         if (startDate.equals(today)) {
-            usage = "위임"; // 시작일이 오늘일 경우
+            usage = "위임";
         } else {
             usage = "대기중";
         }
@@ -58,7 +53,7 @@ public class AddAbsenceAction implements Action {
         vo.setAbsenceEndDate(Date.valueOf(endDateStr));
         vo.setAbsenceReason(reason);
         vo.setAbsenceUsage(usage); 
-        // noti_in_date, read_status는 DB에서 sysdate/null 자동 처리
+        // noti_in_date, read_status�뒗 DB�뿉�꽌 sysdate/null �옄�룞 泥섎━
 
         ApproverDAO dao = new ApproverDAO();
         boolean result = dao.addAbsence(vo);

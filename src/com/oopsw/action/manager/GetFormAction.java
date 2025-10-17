@@ -12,7 +12,6 @@ import com.google.gson.Gson;
 import com.oopsw.action.Action;
 import com.oopsw.model.DBCP;
 import com.oopsw.model.DAO.ManagerDAO;
-import com.oopsw.model.VO.DocumentFormVO;
 import com.oopsw.model.VO.FormVO;
 
 public class GetFormAction implements Action {

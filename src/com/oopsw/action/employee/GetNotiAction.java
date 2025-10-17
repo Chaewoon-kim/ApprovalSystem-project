@@ -22,7 +22,6 @@ public class GetNotiAction implements Action {
 		String processStatus = request.getParameter("processStatus");
 		
 		List<AlarmVO> list = new DrafterDAO().getApprovalProcessNoti(new GetListVO(employeeId, processStatus, 0));
-		//setParameter필요
 		return url;
 	}
 

@@ -20,9 +20,9 @@ public class EndAbsenceAction implements Action {
 		boolean result = dao.endAbsence(absenceDateNo);
 
 		if (result) {
-			request.setAttribute("message", "ìœ„ì„ì´ ì„±ê³µì ìœ¼ë¡œ ì² íšŒë˜ì—ˆìŠµë‹ˆë‹¤.");
+			request.setAttribute("message", "À§ÀÓÀÌ ¼º°øÀûÀ¸·Î Ã¶È¸µÇ¾ú½À´Ï´Ù.");
 		} else {
-			request.setAttribute("message", "ìœ„ì„ ì² íšŒ ë¶ˆê°€ (ì´ë¯¸ ì¢…ë£Œë˜ì—ˆê±°ë‚˜ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.)");
+			request.setAttribute("message", "À§ÀÓ Ã¶È¸ ºÒ°¡ (ÀÌ¹Ì Á¾·áµÇ¾ú°Å³ª Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.)");
 		}
 
 		return url;

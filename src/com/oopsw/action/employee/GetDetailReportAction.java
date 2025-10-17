@@ -13,7 +13,7 @@ import com.oopsw.model.VO.ApprovalLineEmployeeVO;
 import com.oopsw.model.VO.DocumentDetailVO;
 import com.oopsw.model.VO.EmployeeVO;
 
-/* 결재하기(approvalProcess) 테스트용  Action */
+/* test  Action */
 public class GetDetailReportAction implements Action {
 
 	@Override
@@ -24,7 +24,7 @@ public class GetDetailReportAction implements Action {
 //		EmployeeVO user = null;
         String employeeId = (String) session.getAttribute("employeeId");
         if (employeeId == null) {
-            employeeId = "E25-000"; // 테스트용
+            employeeId = "E25-000";
         }
 
         
@@ -46,8 +46,6 @@ public class GetDetailReportAction implements Action {
 			return url;
 		}
 		
-		
-		// 현재 로그인한 결재자의 lineOrder 찾기
 	    List<ApprovalLineEmployeeVO> approvalLines = employee.getApprvovalTable(documentNumber);
 	    
 	    int lineOrder = 0;

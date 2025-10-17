@@ -39,3 +39,7 @@ if (changeModeToggle) {
 
 	changeMode(isManagerMode);
 }
+
+$(".logout").on('click', function(){
+	window.location.href="controller?cmd=logoutAction";
+})

@@ -21,15 +21,13 @@ public class GetWaitListAction implements Action {
     @Override
     public String execute(HttpServletRequest request) throws ServletException, IOException {
 
-        // 로그인한 사원
         HttpSession session = request.getSession();
         String employeeId = (String) session.getAttribute("employeeId");
         if (employeeId == null) {
-            System.out.println("테스트 사원 로그인됨");
+            System.out.println("�׽�Ʈ ��� �α��ε�");
             employeeId = "E25-000";
         }
 
-        // 페이지 파라미터 처리
         int page = 1;
         if (request.getParameter("page") != null) {
             try {
@@ -39,20 +37,19 @@ public class GetWaitListAction implements Action {
             }
         }
 
-        // 상태 필터
         String processStatus = request.getParameter("processStatus");
         if (processStatus == null || processStatus.trim().isEmpty()) {
             processStatus = null;
         }
 
-        // DAO 호출
+        // DAO
         ApproverDAO dao = new ApproverDAO();
         GetListVO vo = new GetListVO(employeeId, processStatus, page);
         List<ApproverListVO> waitList = dao.getWaitList(vo);
 
-        int totalPages = 3; // (임시)
+        int totalPages = 3;
 
-        // Gson 변환 준비
+        // Gson
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd")
                 .create();
@@ -66,13 +63,12 @@ public class GetWaitListAction implements Action {
         String json = gson.toJson(resultMap);
         request.setAttribute("result", json);
 
-        // AJAX 요청 확인
+        // AJAX
         boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
         if (isAjax) {
             return "webpage/approve/waitListTable.jsp"; // JSON JSP
         }
 
-        // 동기요청 (초기 페이지)
         request.setAttribute("waitList", waitList);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);

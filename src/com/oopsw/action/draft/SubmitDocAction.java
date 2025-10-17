@@ -7,7 +7,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.SqlSession;
+
 import com.oopsw.action.Action;
+import com.oopsw.model.DBCP;
 import com.oopsw.model.DAO.DrafterDAO;
 import com.oopsw.model.VO.ApprovalLineVO;
 import com.oopsw.model.VO.DocumentVO;
@@ -16,10 +19,10 @@ public class SubmitDocAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-		String url = null;
+		String url = "webpage/draft/addReport.jsp";
 		DrafterDAO d = new DrafterDAO();
 		HttpSession session = request.getSession();
-		String documentNoStr = request.getParameter("documentNo");//임시저장 안했었으면 null
+		String documentNoStr = request.getParameter("documentNo");//�엫�떆���옣 �븞�뻽�뿀�쑝硫� null
 		String employeeId = (String) session.getAttribute("employeeId");
 		String formId = request.getParameter("formId");
 		String title = request.getParameter("title");
@@ -31,39 +34,50 @@ public class SubmitDocAction implements Action {
 		String formattedDay = String.format("%02d", Integer.parseInt(day));
 		Date deadline = java.sql.Date.valueOf(year + "-" + formattedMonth+ "-" + formattedDay);
 		String[] approverIds = request.getParameterValues("approverId");
-		boolean result = false;
-		//1. 문서등록
-		int documentNo = (documentNoStr != null) ? Integer.parseInt(documentNoStr) : 0;
-		
-		if(documentNoStr != null){
-			//임시저장했던 문서인 경우
-			result = d.submitTempDoc(new DocumentVO(documentNo, title, contents, deadline));
-		}else{
-			//처음 작성하는 문서인 경우
-			documentNo = d.addDoc(new DocumentVO(employeeId, formId, title, contents, deadline));
-		}
-		//2. 결재자 등록
-		int firstApprovalLineNo = 0;
-		
-		//임시저장된 문서였던 경우 기존 결재자 삭제
-		if(documentNoStr != null){
-			int count = d.removeApprovers(documentNo);
-		}
-		
-		for (int i = 1; i <= approverIds.length; i++) {
-			if(i == 1){
-				firstApprovalLineNo = d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i, "결재대기"));
+	
+		SqlSession conn = DBCP.getSqlSessionFactory().openSession(false);
+		try {
+			int documentNo = 0;
+			boolean isUpdate = false;
+			if (documentNoStr != null && !documentNoStr.trim().isEmpty()) {
+                documentNo = Integer.parseInt(documentNoStr);
+                isUpdate = true;
+            }
+			
+			if(isUpdate){
+				d.submitTempDoc(new DocumentVO(documentNo, title, contents, deadline), conn);
 			}else{
-				d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i, "대기중"));
+				documentNo = d.addDoc(new DocumentVO(employeeId, formId, title, contents, deadline), conn);
 			}
+			
+			int firstApprovalLineNo = 0;
+			
+			if(isUpdate){
+				d.removeApprovers(documentNo, conn);
+			}
+			
+			for (int i = 0; i < approverIds.length; i++) {
+				if(i == 0){
+					firstApprovalLineNo = d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i+1, "결재대기"), conn);
+				}else{
+					d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i+1, "대기중"), conn);
+				}
+			}
+		
+			if(firstApprovalLineNo != 0){
+				d.sendFirstReqNoti(firstApprovalLineNo, conn);
+				conn.commit();
+				request.setAttribute("message", "결재 요청이 완료되었습니다.");
+			}
+			url = "webpage/draft/getReport.jsp";
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("message", "결재 요청이 실패하었습니다.");
+			conn.rollback();
+		}finally{
+			conn.close();
 		}
 		
-		//첫번째 결재자 알림
-		int count = 0; 
-		if(firstApprovalLineNo != 0){
-			count = d.sendFirstReqNoti(firstApprovalLineNo);
-			if(count == 1) request.setAttribute("message", "결재요청되었습니다.");
-		}
 		return url;
 	}
 

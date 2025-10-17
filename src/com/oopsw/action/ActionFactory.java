@@ -15,7 +15,6 @@ import com.oopsw.action.approve.ApprovalProcessAction;
 import com.oopsw.action.approve.GetEndListAction;
 import com.oopsw.action.approve.GetWaitListAction;
 import com.oopsw.action.draft.EditLineAction;
-import com.oopsw.action.draft.GetApprovalProcessNoti;
 import com.oopsw.action.draft.GetApprovalStatusAction;
 import com.oopsw.action.draft.GetReqListAction;
 import com.oopsw.action.draft.GetReqListUIAction;
@@ -25,13 +24,14 @@ import com.oopsw.action.draft.GetTempListUIAction;
 import com.oopsw.action.draft.SaveTempDocAction;
 import com.oopsw.action.draft.SetFormAction;
 import com.oopsw.action.draft.SubmitDocAction;
+import com.oopsw.action.employee.GetDefaultLineAction;
 import com.oopsw.action.employee.GetDetailReportAction;
 import com.oopsw.action.employee.GetNotiAction;
 import com.oopsw.action.employee.LoginUIAction;
 import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginUIAction;
-
+import com.oopsw.action.employee.LogoutAction;
 import com.oopsw.action.manager.AddFormAction;
 import com.oopsw.action.manager.GetEmployeeCountAction;
 import com.oopsw.action.manager.GetAllEmployeesAction;
@@ -46,6 +46,12 @@ public class ActionFactory {
 	public static Action getAction(String cmd){
 		Action a = null;
 		switch(cmd){
+		case "logoutAction":
+			a = new LogoutAction();
+			break;
+		case "getDefaultLine":
+			a = new GetDefaultLineAction();
+			break;
 		case "getFormCount":
 			a = new GetFormCountAction();
 			break;
@@ -108,7 +114,7 @@ public class ActionFactory {
 		case "getEndList":
 			a = new GetEndListAction();
 			break;
-		case "getApprovalProcessNoti":
+		case "getNotiList":
 			a = new GetNotiAction();
 			break;
 		case "getApprovalStatus":

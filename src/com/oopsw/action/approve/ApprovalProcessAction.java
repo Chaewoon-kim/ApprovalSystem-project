@@ -23,21 +23,19 @@ public class ApprovalProcessAction implements Action {
         HttpSession session = request.getSession();
         String approverId = (String) session.getAttribute("employeeId");
         if (approverId == null) {
-            approverId = "E25-000"; // 테스트용
+            approverId = "E25-000";
         }
         int documentNo = Integer.parseInt(request.getParameter("documentNo"));
-        String approvalStatus = request.getParameter("approvalStatus"); // 승인 or 반려
+        String approvalStatus = request.getParameter("approvalStatus"); // �듅�씤 or 諛섎젮
         String opinion = request.getParameter("opinion");
         int lineOrder = Integer.parseInt(request.getParameter("lineOrder"));
 
         ApproverDAO dao = new ApproverDAO();
         
-        // 하나의 세션 공유 (트랜잭션)
         SqlSession conn = DBCP.getSqlSessionFactory().openSession(false);
         String url = "webpage/approve/getApprovalWaitList.jsp";
 
         try {
-        	// 부재 여부 확인
             AbsenceVO absence = dao.checkAbsence(approverId);
             if (absence != null && !absence.getProxyId().equals(approverId)) {
                 request.setAttribute("message", "현재 부재 설정 중, 대결자만 결재 가능.");
@@ -57,13 +55,11 @@ public class ApprovalProcessAction implements Action {
                 Integer nextLineNo = dao.findNextApprovalLineNo(conn, vo);
                 System.out.println(nextLineNo);
                 if (nextLineNo != null) {
-                    // 다음 결재자 존재 -> 결재대기 처리 + 알림
                     dao.setNextApproverToWait(conn,vo);
                     vo.setApprovalLineNo(nextLineNo);
                     dao.sendRequestNoti(conn,vo);
                     request.setAttribute("message", "다음결재자에게 전달");
                 } else {
-                    // 마지막 결재자 -> 문서 완료 처리 + 알림
                     DocumentVO doc = new DocumentVO();
                     doc.setDocumentNo(documentNo);
                     dao.setDocComplete(conn,doc);
@@ -82,7 +78,7 @@ public class ApprovalProcessAction implements Action {
                 dao.setDocReject(conn, doc);
                 dao.sendProcessNoti(conn, vo);
                 conn.commit();
-                request.setAttribute("message", "반려 처리 완료");
+                request.setAttribute("message", "결재 실패");
                 return url;
 
             }
@@ -90,7 +86,7 @@ public class ApprovalProcessAction implements Action {
         } catch (Exception e) {
         	conn.rollback();
             e.printStackTrace();
-            request.setAttribute("message", "결재 실패");
+            request.setAttribute("message", "寃곗옱 �떎�뙣");
         } finally {
         	conn.close();
         }

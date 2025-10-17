@@ -1,11 +1,18 @@
 package com.oopsw.model.VO;
 
 public class DefaultLineVO {
+	private String employeeId;
 	private String name;
 	private String department;
 	private String rank;
 	private int lineOrder;
 	
+	public String getEmployeeId() {
+		return employeeId;
+	}
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
+	}
 	public String getName() {
 		return name;
 	}
@@ -32,8 +39,8 @@ public class DefaultLineVO {
 	}
 	@Override
 	public String toString() {
-		return "DefaultLineVO [name=" + name + ", department=" + department + ", rank=" + rank + ", lineOrder="
-				+ lineOrder + "]\n";
+		return "DefaultLineVO [employeeId=" + employeeId + ", name=" + name + ", department=" + department + ", rank="
+				+ rank + ", lineOrder=" + lineOrder + "]";
 	}
 	
 	

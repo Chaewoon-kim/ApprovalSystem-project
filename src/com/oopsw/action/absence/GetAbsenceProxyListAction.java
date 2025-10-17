@@ -23,7 +23,7 @@ public class GetAbsenceProxyListAction implements Action {
 		HttpSession session = request.getSession();
         String approverId = (String) session.getAttribute("employeeId");
         if (approverId == null) {
-            approverId = "E25-011"; // 테스트용
+            approverId = "E25-011";
         }
         
         int page = 1;
@@ -40,7 +40,6 @@ public class GetAbsenceProxyListAction implements Action {
         List<AbsenceListVO> absenceList = dao.getAbsenceList(approverId);
         List<AbsenceListVO> proxyList = dao.getProxyList(approverId);
         
-        // 총 페이지 수 (임시)
         int totalPages = 3;
 
         Gson gson = new GsonBuilder()

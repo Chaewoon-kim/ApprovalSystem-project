@@ -24,7 +24,7 @@ public class GetEndListAction implements Action {
         HttpSession session = request.getSession();
         String employeeId = (String) session.getAttribute("employeeId");
         if (employeeId == null) {
-            employeeId = "E25-000"; // ев╫╨ф╝©К
+            employeeId = "E25-000";
         }
         
         int page = 1;
