@@ -29,6 +29,7 @@ import com.oopsw.action.employee.GetDetailReportAction;
 import com.oopsw.action.employee.GetNotiAction;
 import com.oopsw.action.employee.GetNotiCountAction;
 import com.oopsw.action.employee.LoginUIAction;
+import com.oopsw.action.employee.readNotiAction;
 import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginUIAction;
@@ -47,6 +48,9 @@ public class ActionFactory {
 	public static Action getAction(String cmd){
 		Action a = null;
 		switch(cmd){
+		case "readNoti":
+			a = new readNotiAction();
+			break;
 		case "getNotiList":
 			a = new GetNotiAction();
 			break;

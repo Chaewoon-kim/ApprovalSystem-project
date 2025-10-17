@@ -5,7 +5,7 @@
 <html lang="ko">
 <head>
 	<meta charset="UTF-8">
-	<title>부재/위임 설정</title>
+	<title>알림 목록</title>
 	<!-- JQuery JS -->
 	<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	
@@ -166,7 +166,6 @@
 					filter: filter
 				},
 				function(data){
-					console.log(data.result);
 					setTable(data.result);
 				}
 			);
@@ -181,24 +180,66 @@
 				  const notiDate = noti.notiInDate || "";
 				  const notiType = getFilterName(noti.notiType || "");
 				  const title = noti.title || "";
-				  const approvedDoc = noti.approvedDocumentNo || "";
+				  const approvedDoc = noti.approvedDocumentNo || "-";
 				  const status = noti.status || "";
+				  const documentNo = noti.documentNo || "";
 
 				  row += `
-				    <tr>
+				    <tr class="${readStatus == "읽음" ? "" : "bold"}"
+				    	data-document-no="${documentNo}"
+				    	data-emp-id="${noti.empId}"
+				    	data-noti-type="${noti.notiType}"
+				    	data-noti-no="${noti.notiNo}"
+				    	data-read-status="${readStatus}""> 
 				      <td><input type="checkbox" class="row-check"></td>
 				      <td>${readStatus}</td>
 				      <td>${notiDate}</td>
 				      <td>${notiType}</td>
-				      <td><div>${title}</div></td>
+				      <td><div><span class="text-link">${title}</span></div></td>
 				      <td>${approvedDoc}</td>
-				      <td><button class="flag">${status}</button></td>
+				      <td><div ${status == ""? "" : "class='flag'"}>${status}</div></td>
 				    </tr>
 				  `;
 				});
 			tableBody.append(row);
 		}
-		
+		$(document).on("click", ".text-link", function(){
+			reqReadNoti($(this).closest("tr"));
+		});
+		function reqReadNoti(notiElem){
+			console.log(notiElem.data("notiNo"));
+			const readStatus = notiElem.data("readStatus")=="읽음";
+			const notiType = notiElem.data("notiType");
+			const notiNo = notiElem.data("notiNo");
+			
+			if(readStatus) {
+				clickNoti(notiElem);
+				return;
+			}
+			
+			ajaxRequest(
+				{
+					cmd: "readNoti",
+					notiType: notiType,
+					notiNo: notiNo
+				},
+				(data)=>{
+					if(data.result) clickNoti(notiElem);
+				}
+			);
+		}
+		function clickNoti(notiElem){
+			switch(notiElem.data("notiType")){
+			case "A":
+				window.location.href="controller?cmd=getAbsenceProxyList";
+				break;
+			case "C":
+			case "R":
+			case "P":
+				window.location.href = "controller?cmd=getDetailReport&documentNo="+notiElem.data("documentNo");
+				break;
+			}
+		}
 		function clickPage(pageElem){
 			$(".page-number.active").removeClass("active");
 			pageElem.addClass("active");

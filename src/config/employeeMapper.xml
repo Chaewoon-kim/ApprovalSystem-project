@@ -19,7 +19,7 @@
 	<select id="getAllNoti" parameterType="com.oopsw.model.VO.AlarmVO" resultType="com.oopsw.model.VO.AlarmVO">
 		select notiType, notiNo, title, notiInDate, readStatus, documentNo, status, approvedDocumentNo, empId
 		from (
-			select e.*, ROW_NUMBER() over (order by readStatus desc, notiInDate desc) as rn
+			select e.*, ROW_NUMBER() over (order by readStatus nulls first, notiInDate desc) as rn
 			from v_notification e 
 			where empId = #{empId} 
 			<if test="notiType != null and notiType != ''">
@@ -156,7 +156,7 @@
 	<!-- 결재처리알림 읽음 -->
 	<update id="readProcessNoti" parameterType="int">
 		update approval_process_noti set process_read_status = sysdate
-		where process_noti_no = #{notiNo} and approval_read_status is null
+		where process_noti_no = #{notiNo} and process_read_status is null
 	</update>
 	<!-- 결재요청알림 읽음 -->
 	<update id="readRequestNoti" parameterType="int">

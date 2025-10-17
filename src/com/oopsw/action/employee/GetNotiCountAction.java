@@ -17,8 +17,13 @@ public class GetNotiCountAction implements Action {
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
 		String url = "webpage/manager/resultAsync.jsp";
-		HttpSession session = request.getSession(true);
 		
+		HttpSession session = request.getSession(false);
+		System.out.println(request);
+		if(session == null) {
+			return "webpage/employee/login.html";
+		}
+
 		String empId = (String) session.getAttribute("employeeId");
 		String filter = request.getParameter("filter");
 		

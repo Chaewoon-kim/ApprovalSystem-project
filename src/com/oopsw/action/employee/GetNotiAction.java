@@ -20,6 +20,8 @@ public class GetNotiAction implements Action {
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
 		String url = "webpage/manager/resultAsync.jsp";
+		
+		if(request.getSession(false) == null) return "webpage/employee/login.html";
 
 		// Ajax 비동기 통신이 아닌 경우
 		String ajax = request.getHeader("X-Requested-With");
@@ -40,6 +42,7 @@ public class GetNotiAction implements Action {
 		
 		
 		List<AlarmVO> list = dao.getAllNoti(vo);
+		System.out.println(list);
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		String result = gson.toJson(list);
 		
