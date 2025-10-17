@@ -1,4 +1,4 @@
-package com.oopsw.action.draft;
+package com.oopsw.action.employee;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,21 +9,19 @@ import javax.servlet.http.HttpSession;
 
 import com.oopsw.action.Action;
 import com.oopsw.model.DAO.DrafterDAO;
-import com.oopsw.model.VO.AlarmVO;
-import com.oopsw.model.VO.GetListVO;
+import com.oopsw.model.VO.DefaultLineVO;
+import com.oopsw.model.VO.GetDefaultLineVO;
 
-public class GetApprovalProcessNoti implements Action {
+public class GetDefaultLineAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-		String url = null;
 		HttpSession session = request.getSession();
 		String employeeId = (String) session.getAttribute("employeeId");
-		String processStatus = request.getParameter("processStatus");
-		
-		List<AlarmVO> list = new DrafterDAO().getApprovalProcessNoti(new GetListVO(employeeId, processStatus, 0));
-		//setParameter« ø‰
-		return url;
+		String formId = request.getParameter("formId");
+		List<DefaultLineVO> lines = new DrafterDAO().getDefaultLine(new GetDefaultLineVO(employeeId, formId));
+		request.setAttribute("result", lines);
+		return "webpage/result.jsp";
 	}
 
 }

@@ -7,7 +7,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.SqlSession;
+
 import com.oopsw.action.Action;
+import com.oopsw.model.DBCP;
 import com.oopsw.model.DAO.DrafterDAO;
 import com.oopsw.model.VO.ApprovalLineVO;
 import com.oopsw.model.VO.DocumentVO;
@@ -16,10 +19,10 @@ public class SubmitDocAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-		String url = null;
+		String url = "webpage/draft/addReport.jsp";
 		DrafterDAO d = new DrafterDAO();
 		HttpSession session = request.getSession();
-		String documentNoStr = request.getParameter("documentNo");//¿”Ω√¿˙¿Â æ»«ﬂæ˙¿∏∏È null
+		String documentNoStr = request.getParameter("documentNo");
 		String employeeId = (String) session.getAttribute("employeeId");
 		String formId = request.getParameter("formId");
 		String title = request.getParameter("title");
@@ -31,39 +34,50 @@ public class SubmitDocAction implements Action {
 		String formattedDay = String.format("%02d", Integer.parseInt(day));
 		Date deadline = java.sql.Date.valueOf(year + "-" + formattedMonth+ "-" + formattedDay);
 		String[] approverIds = request.getParameterValues("approverId");
-		boolean result = false;
-		//1. πÆº≠µÓ∑œ
-		int documentNo = (documentNoStr != null) ? Integer.parseInt(documentNoStr) : 0;
-		
-		if(documentNoStr != null){
-			//¿”Ω√¿˙¿Â«ﬂ¥¯ πÆº≠¿Œ ∞ÊøÏ
-			result = d.submitTempDoc(new DocumentVO(documentNo, title, contents, deadline));
-		}else{
-			//√≥¿Ω ¿€º∫«œ¥¬ πÆº≠¿Œ ∞ÊøÏ
-			documentNo = d.addDoc(new DocumentVO(employeeId, formId, title, contents, deadline));
-		}
-		//2. ∞·¿Á¿⁄ µÓ∑œ
-		int firstApprovalLineNo = 0;
-		
-		//¿”Ω√¿˙¿Âµ» πÆº≠ø¥¥¯ ∞ÊøÏ ±‚¡∏ ∞·¿Á¿⁄ ªË¡¶
-		if(documentNoStr != null){
-			int count = d.removeApprovers(documentNo);
-		}
-		
-		for (int i = 1; i <= approverIds.length; i++) {
-			if(i == 1){
-				firstApprovalLineNo = d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i, "∞·¿Á¥Î±‚"));
+	
+		SqlSession conn = DBCP.getSqlSessionFactory().openSession(false);
+		try {
+			int documentNo = 0;
+			boolean isUpdate = false;
+			if (documentNoStr != null && !documentNoStr.trim().isEmpty()) {
+                documentNo = Integer.parseInt(documentNoStr);
+                isUpdate = true;
+            }
+			
+			if(isUpdate){
+				d.submitTempDoc(new DocumentVO(documentNo, title, contents, deadline), conn);
 			}else{
-				d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i, "¥Î±‚¡ﬂ"));
+				documentNo = d.addDoc(new DocumentVO(employeeId, formId, title, contents, deadline), conn);
 			}
+			
+			int firstApprovalLineNo = 0;
+			
+			if(isUpdate){
+				d.removeApprovers(documentNo, conn);
+			}
+			
+			for (int i = 0; i < approverIds.length; i++) {
+				if(i == 0){
+					firstApprovalLineNo = d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i+1, "Í≤∞Ïû¨ÎåÄÍ∏∞"), conn);
+				}else{
+					d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i+1, "ÎåÄÍ∏∞Ï§ë"), conn);
+				}
+			}
+		
+			if(firstApprovalLineNo != 0){
+				d.sendFirstReqNoti(firstApprovalLineNo, conn);
+				conn.commit();
+				request.setAttribute("message", "Í≤∞Ïû¨ ÏöîÏ≤≠Ïù¥ ÏôÑÎ£åÎêòÏóàÏäµÎãàÎã§.");
+			}
+			url = "webpage/draft/getReport.jsp";
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("message", "Í≤∞Ïû¨ ÏöîÏ≤≠Ïù¥ Ïã§Ìå®ÌïòÏóàÏäµÎãàÎã§.");
+			conn.rollback();
+		}finally{
+			conn.close();
 		}
 		
-		//√ππ¯¬∞ ∞·¿Á¿⁄ æÀ∏≤
-		int count = 0; 
-		if(firstApprovalLineNo != 0){
-			count = d.sendFirstReqNoti(firstApprovalLineNo);
-			if(count == 1) request.setAttribute("message", "∞·¿Áø‰√ªµ«æ˙Ω¿¥œ¥Ÿ.");
-		}
 		return url;
 	}
 

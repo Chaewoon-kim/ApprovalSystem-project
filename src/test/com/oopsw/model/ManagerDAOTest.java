@@ -82,13 +82,13 @@ public class ManagerDAOTest {
 	}
 	
 	@Test
-	public void setDefaultApprovalLineTest(){
+	public void addDefaultApprovalLineTest(){
 		List<DefaultApprovalLineVO> voList = new ArrayList<>();
 		voList.add(new DefaultApprovalLineVO(0, "D2", "대리", 1));
 		voList.add(new DefaultApprovalLineVO(0, "D2", "과장", 2));
 		
 		
-		managerDAO.setDefaultApprovalLine(voList);
+		managerDAO.addDefaultApprovalLine(voList);
 	}
 
 	@Test

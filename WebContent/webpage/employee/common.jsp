@@ -1,6 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+    response.setDateHeader("Expires", 0);
+    
+    HttpSession currentSession = request.getSession(false); 
+    
+    if (currentSession == null || currentSession.getAttribute("employeeId") == null) {
+        response.sendRedirect("controller?cmd=loginUI");
+        return; 
+    }
+%>
 <head>
 <link href="webpage/employee/common.css" rel="stylesheet">
 <link href="webpage/draft/searchFormPopup.css" rel="stylesheet">
@@ -83,8 +95,8 @@
 						<span>양식 관리</span>
 					</div>
 					<div class="submenu">
-						<a href="#">양식 설정</a>
-						<a href="#">양식 목록</a>
+						<a href="controller?cmd=addForm">양식 설정</a>
+						<a href="controller?cmd=getForm">양식 목록</a>
 					</div>
 				</div>
 			</div>
@@ -92,6 +104,7 @@
 
 			<div class="logout">로그아웃</div>
 		</nav>
+
 		<jsp:include page="../draft/searchFormPopup.jsp" />
 		<script src="webpage/employee/common.js"></script>
 </body>

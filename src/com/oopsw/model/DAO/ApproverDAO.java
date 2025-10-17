@@ -14,8 +14,6 @@ import com.oopsw.model.VO.DocumentVO;
 import com.oopsw.model.VO.GetListVO;
 
 public class ApproverDAO{
-	/// 결재 처리
-	// 1. 결재 하기
     public boolean processApproval(SqlSession conn, ApprovalLineVO vo) {
     	boolean result = false;
     	int count = conn.update("approverMapper.processApproval", vo);
@@ -23,7 +21,6 @@ public class ApproverDAO{
     	return result;
     }
     
- // 2. 다음 결재자 상태를 '결재대기'로 변경
     public boolean setNextApproverToWait(SqlSession conn, ApprovalLineVO vo) {
     	boolean result = false;
     	int count = conn.update("approverMapper.setNextApproverToWait", vo);
@@ -31,15 +28,12 @@ public class ApproverDAO{
     	return result;
     }
 
-    // 3. 다음 결재자 line_no 조회
     public Integer findNextApprovalLineNo(SqlSession conn, ApprovalLineVO vo) {
     	Integer nextLineNo;
     	nextLineNo = conn.selectOne("approverMapper.findNextApprovalLineNo", vo);
     	return nextLineNo;
     }
 
-
-    // 4. 다음 결재자 결재요청알림 insert 
     public boolean sendRequestNoti(SqlSession conn, ApprovalLineVO vo) {
     	boolean result = false;
     	int count = conn.insert("approverMapper.sendRequestNoti", vo);
@@ -47,7 +41,6 @@ public class ApproverDAO{
     	return result;
     }
     
-    // 5. 마지막 결재자일시, 결재처리알림 insert
     public boolean sendProcessNoti(SqlSession conn, ApprovalLineVO vo) {
     	boolean result = false;
     	int count = conn.insert("approverMapper.sendProcessNoti", vo);
@@ -55,8 +48,6 @@ public class ApproverDAO{
     	return result;
     }
     
-    /// 문서 상태변경
-    // 6. 문서 반려 처리
     public boolean setDocReject(SqlSession conn, DocumentVO doc) {
     	boolean result = false;
     	int count = conn.update("approverMapper.setDocReject", doc);
@@ -64,7 +55,6 @@ public class ApproverDAO{
     	return result;
     }
 
-    // 7. 문서 완료 처리 (마지막 결재자 승인 시)
     public boolean setDocComplete(SqlSession conn, DocumentVO doc) {
     	boolean result = false;
     	int count = conn.update("approverMapper.setDocComplete", doc);
@@ -72,7 +62,6 @@ public class ApproverDAO{
     	return result;
     }
     
-    // 8. 부재 여부 확인
     public AbsenceVO checkAbsence(String approverId) {
     	AbsenceVO vo = null;
         SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -96,7 +85,6 @@ public class ApproverDAO{
     }
 
     
- // 결재 대기 목록 조회
     public List<ApproverListVO> getWaitList(GetListVO vo) {
         List<ApproverListVO> list = null;
         SqlSession conn = DBCP.getSqlSessionFactory().openSession(true);
@@ -107,18 +95,6 @@ public class ApproverDAO{
         }
         return list;
     }
-    
- // 결재 처리 목록 조회 (내가 반려한 문서 + 내가 승인한 완료 문서)
-//    public List<ApproverListVO> getEndList(String approverId) {
-//        List<ApproverListVO> list = null;
-//        SqlSession conn = DBCP.getSqlSessionFactory().openSession();
-//        try {
-//            list = conn.selectList("approverMapper.getEndList", approverId);
-//        } finally {
-//            conn.close();
-//        }
-//        return list;
-//    }
     
     public List<ApproverListVO> getEndList(GetListVO vo) {
     	List<ApproverListVO> list = null;
@@ -155,7 +131,6 @@ public class ApproverDAO{
     	return list;
     }
     
-    // 부재 추가
     public boolean addAbsence(AbsenceVO vo) {
         boolean result = false;
         SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -186,7 +161,6 @@ public class ApproverDAO{
     	return result;
     }
     
-    // 부재 조기종료
     public boolean endAbsence(int absenceDateNo) {
     	boolean result = false;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -201,7 +175,6 @@ public class ApproverDAO{
     	return result;
     }
     
-    // 부재 삭제
     public boolean deleteAbsence(int absenceDateNo) {
     	boolean result = false;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -217,7 +190,6 @@ public class ApproverDAO{
     }
     
     
-    // 알림 수신 목록 조회 (결재 요청)
     public List<AlarmVO> getApprovalReqNoti(String approverId){
     	List<AlarmVO> list = null;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -242,10 +214,6 @@ public class ApproverDAO{
     }
 
 
-    
-
-    
-    // 부재 상태 변경, 대기 -> 위임
     public boolean setAbsenceStatusToActive() {
     	boolean result = false;
         SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -260,7 +228,6 @@ public class ApproverDAO{
     	return result;
     }
     
-    // 부재 상태 변경, 위임 -> 종료
     public boolean setAbsenceStatusToEnd() {
     	boolean result = false;
         SqlSession conn = DBCP.getSqlSessionFactory().openSession();

@@ -16,7 +16,6 @@ import com.oopsw.action.approve.ApprovalProcessAction;
 import com.oopsw.action.approve.GetEndListAction;
 import com.oopsw.action.approve.GetWaitListAction;
 import com.oopsw.action.draft.EditLineAction;
-import com.oopsw.action.draft.GetApprovalProcessNoti;
 import com.oopsw.action.draft.GetApprovalStatusAction;
 import com.oopsw.action.draft.GetReqListAction;
 import com.oopsw.action.draft.GetReqListUIAction;
@@ -26,18 +25,20 @@ import com.oopsw.action.draft.GetTempListUIAction;
 import com.oopsw.action.draft.SaveTempDocAction;
 import com.oopsw.action.draft.SetFormAction;
 import com.oopsw.action.draft.SubmitDocAction;
+import com.oopsw.action.employee.GetDefaultLineAction;
 import com.oopsw.action.employee.GetDetailReportAction;
 import com.oopsw.action.employee.GetNotiAction;
 import com.oopsw.action.employee.LoginUIAction;
 import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginUIAction;
-
+import com.oopsw.action.employee.LogoutAction;
 import com.oopsw.action.manager.AddFormAction;
+import com.oopsw.action.manager.GetEmployeeCountAction;
 import com.oopsw.action.manager.GetAllEmployeesAction;
-import com.oopsw.action.manager.GetEmployeeCount;
 import com.oopsw.action.manager.GetEmployeesAction;
 import com.oopsw.action.manager.GetFormAction;
+import com.oopsw.action.manager.GetFormCountAction;
 import com.oopsw.action.manager.InvertAccessPermissionAction;
 import com.oopsw.action.manager.InvertFormUsageAction;
 
@@ -46,7 +47,18 @@ public class ActionFactory {
 	public static Action getAction(String cmd){
 		Action a = null;
 		switch(cmd){
-		
+		case "logoutAction":
+			a = new LogoutAction();
+			break;
+		case "getDefaultLine":
+			a = new GetDefaultLineAction();
+			break;
+		case "getFormCount":
+			a = new GetFormCountAction();
+			break;
+		case "getEmployeeCount":
+			a = new GetEmployeeCountAction();
+			break;
 		case "getDetailReport":
 			a = new GetDetailReportAction();
 			break;
@@ -74,16 +86,16 @@ public class ActionFactory {
 		case "getAllEmployees":
 			a = new GetAllEmployeesAction();
 			break;
-		case "getEmployeeCount":
-			a = new GetEmployeeCount();
-			break;
 		case "invertFormUsage":
 			a = new InvertFormUsageAction();
 			break;
-		case "getForms":
+		case "getDraftForm":
+			a = new GetDraftForm();
+			break;
+		case "getForm":
 			a = new GetFormAction();
 			break;
-		case "addForms":
+		case "addForm":
 			a = new AddFormAction();
 			break;
 		case "getEmployees": 
@@ -117,7 +129,7 @@ public class ActionFactory {
 		case "getEndList":
 			a = new GetEndListAction();
 			break;
-		case "getApprovalProcessNoti":
+		case "getNotiList":
 			a = new GetNotiAction();
 			break;
 		case "getApprovalStatus":

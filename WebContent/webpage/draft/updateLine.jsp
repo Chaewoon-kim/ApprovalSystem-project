@@ -6,8 +6,9 @@
 <link rel="stylesheet" href="webpage/popup.css">
 </head>
 <body>
-	<div class="container">
-		<h2>결재선 수정</h2>
+	<div id="updateLine" class="modal-overlay" style="display:none;">
+		<div class="modal-content">
+			<h2>결재선 수정</h2>
 		<form action="#" method="post">
 			<div class="flex">
 
@@ -52,11 +53,12 @@
 			</div>
 
 			<div class="popup-btns">
-				<button class="popup-btn-true">확인</button>
-				<button class="popup-btn-false">취소</button>
+				<button class="popup-btn-true" id="editApprover">확인</button>
+				<button type="button" class="popup-btn-false" onclick="closeModal(updateLine)">취소</button>
 			</div>
 		</form>
+		</div>
 	</div>
-
+	
 	<script src="webpage/draft/updateLine.js"></script>
 </body>

@@ -13,7 +13,7 @@ import com.oopsw.model.VO.ApprovalLineEmployeeVO;
 import com.oopsw.model.VO.DocumentDetailVO;
 import com.oopsw.model.VO.EmployeeVO;
 
-/* °áÀçÇÏ±â(approvalProcess) Å×½ºÆ®¿ë  Action */
+/* test  Action */
 public class GetDetailReportAction implements Action {
 
 	@Override
@@ -24,7 +24,7 @@ public class GetDetailReportAction implements Action {
 //		EmployeeVO user = null;
         String employeeId = (String) session.getAttribute("employeeId");
         if (employeeId == null) {
-            employeeId = "E25-000"; // Å×½ºÆ®¿ë
+            employeeId = "E25-000";
         }
 
         
@@ -35,19 +35,17 @@ public class GetDetailReportAction implements Action {
 		int documentNumber = 0;
 
 		if(documentParam == null || documentParam.trim().isEmpty()){
-			request.setAttribute("message", "Á¶È¸ÇÒ ¹®¼­ ¹øÈ£°¡ ´©¶ôµÇ¾ú½À´Ï´Ù.");
+			request.setAttribute("message", "ì¡°íšŒí•  ë¬¸ì„œ ë²ˆí˜¸ê°€ ëˆ„ë½ë˜ì—ˆìŠµë‹ˆë‹¤.");
 			return url;
 		}
 
 		try{
 			documentNumber = Integer.parseInt(documentParam);			
 		}catch(Exception e){
-			request.setAttribute("message", "¹®¼­ ¹øÈ£ Çü½ÄÀÌ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù.");
+			request.setAttribute("message", "ë¬¸ì„œ ë²ˆí˜¸ í˜•ì‹ì´ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			return url;
 		}
 		
-		
-		// ÇöÀç ·Î±×ÀÎÇÑ °áÀçÀÚÀÇ lineOrder Ã£±â
 	    List<ApprovalLineEmployeeVO> approvalLines = employee.getApprvovalTable(documentNumber);
 	    
 	    int lineOrder = 0;
@@ -71,7 +69,7 @@ public class GetDetailReportAction implements Action {
 			detailDoc = employee.getDetailReport(documentNumber);
 
 			if (detailDoc == null) {
-				request.setAttribute("message", "¹®¼­ ¹øÈ£ " + documentNumber + "¿¡ ÇØ´çÇÏ´Â °áÀç ¹®¼­°¡ ¾ø½À´Ï´Ù.");
+				request.setAttribute("message", "ë¬¸ì„œ ë²ˆí˜¸ " + documentNumber + "ì— í•´ë‹¹í•˜ëŠ” ê²°ì¬ ë¬¸ì„œê°€ ì—†ìŠµë‹ˆë‹¤.");
 				return url;
 			}
 
@@ -82,7 +80,7 @@ public class GetDetailReportAction implements Action {
 
 		}catch(Exception e){
 			e.printStackTrace();
-			request.setAttribute("message", "¹®¼­ Á¶È¸ Áß ¿À·ù ¹ß»ı");
+			request.setAttribute("message", "ë¬¸ì„œ ì¡°íšŒ ì¤‘ ì˜¤ë¥˜ ë°œìƒ");
 
 			return url;
 		}
