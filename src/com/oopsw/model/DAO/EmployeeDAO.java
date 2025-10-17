@@ -46,12 +46,12 @@ public class EmployeeDAO {
 	
 	
 	//댓글 작성
-	public boolean writeComment(CommentVO comment) {
+	public boolean addComment(CommentVO comment) {
 	    SqlSession session = DBCP.getSqlSessionFactory().openSession(true); // 자동 커밋 true
 	    boolean result = false;
 
 	    try {
-	        int count = session.insert("employeeMapper.writeComment", comment);
+	        int count = session.insert("employeeMapper.addComment", comment);
 	        if (count == 1) {
 	            result = true;
 	        }
@@ -158,7 +158,7 @@ public class EmployeeDAO {
 	}
 	
 	//결재 신청 문서 상세 조회 - 결재선 테이블에서 가져오기
-	public List<ApprovalLineEmployeeVO> getApprvovalTable(int documentNumber){
+	public List<ApprovalLineEmployeeVO> getApprovalTable(int documentNumber){
 		List<ApprovalLineEmployeeVO> result = null;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		

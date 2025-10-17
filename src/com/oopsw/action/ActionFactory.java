@@ -17,6 +17,7 @@ import com.oopsw.action.draft.SetFormAction;
 import com.oopsw.action.draft.SubmitDocAction;
 import com.oopsw.action.employee.GetAllEmployeesAction;
 import com.oopsw.action.employee.GetDetailReportAction;
+import com.oopsw.action.employee.GetDetailReportUIAction;
 import com.oopsw.action.employee.GetNotiAction;
 import com.oopsw.action.employee.LoginUIAction;
 import com.oopsw.action.manager.GetEmployeesAction;
@@ -46,7 +47,9 @@ public class ActionFactory {
 			a = new GetDetailReportAction();
 			break;
 		
-			
+		case "getDetailReportUIAction":
+			a = new GetDetailReportUIAction();
+			break;
 		case "deleteAbsence":
 			a = new DeleteAbsenceAction();
 			break;

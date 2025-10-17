@@ -23,7 +23,7 @@
     </select>
     
     <!-- 댓글 작성 -->
-    <insert id="writeComment" parameterType="com.oopsw.model.VO.CommentVO">
+    <insert id="addComment" parameterType="com.oopsw.model.VO.CommentVO">
         insert into comments 
             (comment_no, document_no, writer_id, comment_contents, comment_in_date, comment_up_date, del_status)
         values

@@ -49,9 +49,9 @@ public class EmployeeDAOTest {
 
 	//댓글 작성
 	//@Test 
-	public void writeCommentTest(){
+	public void addCommentTest(){
 		CommentVO comment = new CommentVO(1 , "E25-013" ,"승인했습니다.");
-		boolean result = dao.writeComment(comment);
+		boolean result = dao.addComment(comment);
 		assertEquals(true , result);
 		
 	}
@@ -109,7 +109,7 @@ public class EmployeeDAOTest {
 	//결재선 테이블에서 가져오기
 //	@Test
 	public void getApprovalTable(){
-		System.out.println(dao.getApprvovalTable(2));
+		System.out.println(dao.getApprovalTable(2));
 	}
 	
 	//결재 신청 문서 상세 조회
