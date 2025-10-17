@@ -38,17 +38,6 @@ public class GetFormAction implements Action {
 		request.setAttribute("result", new Gson().toJson(formList));
 		
 		return url;
-		
-		
-		
-//		FormVO vo = new FormVO();
-//		vo.setKeyword(request.getParameter("keyword"));
-//
-//		ManagerDAO dao = new ManagerDAO();
-//		List<FormVO> list = dao.getForms(vo);
-//
-//		request.setAttribute("result", list);
-//		return "webpage/result.jsp";
 	}
 
 }
