@@ -2,9 +2,10 @@
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="drafterMapper">
 	<select id="getReqList" parameterType="com.oopsw.model.VO.GetListVO" resultType="com.oopsw.model.VO.DocumentVO">
-		select document_no documentNo, deadline, draft_date draftDate, completion_date completionDate, approved_document_no approvedDocumentNo, title, process_status processStatus
+		select document_no documentNo, deadline, draft_date draftDate, completion_date completionDate, approved_document_no approvedDocumentNo, title, process_status processStatus, total_count totalCount
 		from (
-		    select d.*, row_number() over (order by draft_date DESC) as rn
+		    select d.*, row_number() over (order by draft_date DESC) as rn,
+		    count(*) over() as total_count
 		    from document d
 		    where d.employee_id = #{employeeId} and process_status != '임시저장'
 		    <if test="processStatus != null and processStatus != ''">

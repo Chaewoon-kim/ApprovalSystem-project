@@ -14,6 +14,7 @@ public class DocumentVO {
 	private Date completionDate;
 	private Date temporarySaveDate;
 	private Date deadline;
+	private int totalCount;
 	
 	public DocumentVO(){}
 	
@@ -136,13 +137,21 @@ public class DocumentVO {
 	public void setDeadline(Date deadline) {
 		this.deadline = deadline;
 	}
+	
+	public int getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
+	}
 
 	@Override
 	public String toString() {
 		return "DocumentVO [documentNo=" + documentNo + ", employeeId=" + employeeId + ", formId=" + formId + ", title="
 				+ title + ", contents=" + contents + ", draftDate=" + draftDate + ", approvedDocumentNo="
 				+ approvedDocumentNo + ", processStatus=" + processStatus + ", completionDate=" + completionDate
-				+ ", temporarySaveDate=" + temporarySaveDate + ", deadline=" + deadline + "]\n";
+				+ ", temporarySaveDate=" + temporarySaveDate + ", deadline=" + deadline + ", totalCount=" + totalCount + "]\n";
 	};
 	
 

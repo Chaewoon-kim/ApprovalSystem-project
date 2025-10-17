@@ -1,6 +1,42 @@
+let status = '';
+let startPage = 1;
+let endPage = 1;
+let totalPage = 1;
+
 const reqListTbody = document.querySelector(".form-table tbody");
 
-let getReport = function(result){
+function setPage(totalCount, currentPage = 1){ 
+	let pagination = $(".pagination");
+	pagination.empty();
+	
+	totalPage = 1;
+	if(totalCount > 0)
+		totalPage = Math.ceil(totalCount / 8);
+	
+	endPage = totalPage;
+	if(totalPage > 10) endPage = 10;
+	
+	for(let idx = startPage; idx <= endPage; idx++){
+        const isActive = (idx == currentPage) ? ' active' : '';
+		pagination.append(`<div class='page-number${isActive}' data-page='${idx}'>${idx}</div>`);
+	}
+    
+}
+
+$(document).on("click", ".page-number", function(e){
+	let pageElem = $(this);
+	if(pageElem.hasClass("active"))
+		return;
+	
+	loadPageData(pageElem, status); 
+});
+
+
+let getReport = function(result, currentPage){
+	const totalCount = result.length > 0 && result[0].totalCount ? result[0].totalCount : 0;
+    
+	setPage(totalCount, currentPage); 
+    
 	content = '';
 	result.forEach(report => {
 		statusStyle = ''
@@ -17,7 +53,7 @@ let getReport = function(result){
 			<td>${report.deadline}</td>
 			<td>${report.draftDate || '-'}</td>
 			<td>${report.completionDate || '-'}</td>
-			<td><a class="doc-link" href="#" data-doc-no="${report.documentNo}">${report.title}</a> </td>
+			<td><a class="doc-link" href="#" data-doc-no="${report.documentNo}">${report.title}</a> </td>
 			<td>${report.approvedDocumentNo || '-'}</td>
 			<td><button class="flag ${statusStyle}">${report.processStatus}</button></td>
 		</tr>
@@ -38,34 +74,43 @@ let getDetailReport = function(){
 		})
 	})
 }
-let loadPageData = function(page, status){
+
+let loadPageData = function(pageInfo, status){
+    let pageNum;
+    let pageElem;
+    
+    if (typeof pageInfo === 'object' && pageInfo.jquery) {
+        pageElem = pageInfo;
+        pageNum = pageElem.data("page");
+    } else {
+        pageNum = pageInfo;
+    }
+
 	$.ajax({
 		url: "controller",
 		data: {
 			cmd: "getReqList",
 			processStatus: status,
-			page: page
+			page: pageNum
 		},
 		dataType: "json",
-		success: getReport
+		success: function(result){
+			getReport(result, pageNum); 
+            
+            if (pageElem) {
+            	$(".page-number.active").removeClass("active");
+                $(`.page-number[data-page='${pageNum}']`).addClass("active");
+            }
+		}
 	});
 }
+
 $(document).ready(function(){
-	loadPageData(1, '');
-	const pageNumbers = document.querySelectorAll(".page-number");
+	loadPageData(1, ''); 
 	
-	//페이지네이션
-	pageNumbers.forEach(num => {
-		num.addEventListener('click', function(e){
-			e.preventDefault();
-			const pageNum = this.innerText;
-			loadPageData(pageNum, '');
-		});
-	});
-	
-	//상태별 조회
 	const statusSelect = document.querySelector("#statusSelect");
 	statusSelect.addEventListener('change', function(e){
+		status = e.target.value;
 		loadPageData(1, e.target.value);
 	})
 });

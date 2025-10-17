@@ -22,7 +22,7 @@ public class SubmitDocAction implements Action {
 		String url = "webpage/draft/addReport.jsp";
 		DrafterDAO d = new DrafterDAO();
 		HttpSession session = request.getSession();
-		String documentNoStr = request.getParameter("documentNo");//�엫�떆���옣 �븞�뻽�뿀�쑝硫� null
+		String documentNoStr = request.getParameter("documentNo");
 		String employeeId = (String) session.getAttribute("employeeId");
 		String formId = request.getParameter("formId");
 		String title = request.getParameter("title");

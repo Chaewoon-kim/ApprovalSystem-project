@@ -37,7 +37,7 @@ public class EmployeeDAO {
 	}
 
 	public boolean writeComment(CommentVO comment) {
-	    SqlSession session = DBCP.getSqlSessionFactory().openSession(true); // �옄�룞 而ㅻ컠 true
+	    SqlSession session = DBCP.getSqlSessionFactory().openSession(true);
 	    boolean result = false;
 
 	    try {
