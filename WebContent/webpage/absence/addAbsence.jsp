@@ -15,46 +15,36 @@
 <script src="webpage/modal.js"></script>
 <script src="webpage/absence/searchProxy.js"></script>
 
-<c:if test="${not empty message}">
-  <script>alert('${message}');</script>
-  <c:remove var="message" scope="session"/>
-</c:if>
-
 </head>
 <body>
 
-   <main class="add-absence">
+  <main class="add-absence">
   <h1>부재/위임 설정</h1>
   <hr class="mt"/>
 
   <form id="absenceForm" method="post">
-    <!-- 수정 모드일 경우 absenceDateNo hidden 추가 -->
+    <!-- modifyAbsence mode -->
     <c:if test="${not empty absence}">
       <input type="hidden" name="absenceDateNo" value="${absence.absenceDateNo}">
     </c:if>
 
-    <!-- 대결자 ID -->
     <input type="hidden" name="proxyId" id="proxyId" value="${absence.proxyId}">
 
-    <!-- 부재 기간 -->
     <label>
       <span>부재 기간</span>
       <input name="startDate" type="date" value="${absence.absenceStartDate}" />
       <div>~</div>
       <input name="endDate" type="date" value="${absence.absenceEndDate}" />
     </label>
-
-    <!-- 부재 사유 -->
+    
     <label>
       <span>부재 사유</span>
       <textarea name="reason">${absence.absenceReason}</textarea>
     </label>
 
-    <!-- 대결자 -->
 <div class="proxy-container">
   <label class="proxy-label">대결자</label>
 
-  <!-- 표시 영역 -->
   <div class="proxy">
     <c:choose>
       <c:when test="${empty absence.proxyId}">
@@ -72,7 +62,6 @@
 
     <hr class="mb"/>
 
-    <!-- 버튼 -->
     <div class="popup-btns">
       <button class="popup-btn-true" type="submit">
         <c:choose>
@@ -85,7 +74,7 @@
   </form>
 </main>
 
-    <jsp:include page="searchProxy.jsp" />
+<jsp:include page="searchProxy.jsp" />
     
 <script>
 $(document).ready(function() {
@@ -95,7 +84,6 @@ $(document).ready(function() {
 
 		  var usage = "${absence.absenceUsage}";
 		  
-		  // usage가 비어 있지 않고 '대기'가 아닐 경우
 		  if (usage && usage.trim() !== "대기") {
 		    alert("‘대기’ 상태인 부재 일정만 수정할 수 있습니다.");
 		    return;
@@ -130,7 +118,6 @@ $(document).ready(function() {
 		  });
 		});
 
-
   
   let proxyId = $("#proxyId").val();
   if (proxyId) {
@@ -161,7 +148,5 @@ $(document).ready(function() {
 
 });
 </script>
-
 </body>
-
 </html>

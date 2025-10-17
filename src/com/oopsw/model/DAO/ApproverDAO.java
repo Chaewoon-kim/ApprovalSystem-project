@@ -263,7 +263,8 @@ public class ApproverDAO{
         }
         return result;
     }
-
+    
+    // 부재수정 상세 조회
     public AbsenceVO getAbsenceDetail(int absenceDateNo) {
         SqlSession conn = DBCP.getSqlSessionFactory().openSession();
         AbsenceVO vo = null;

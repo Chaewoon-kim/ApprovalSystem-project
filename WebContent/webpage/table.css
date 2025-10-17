@@ -5,6 +5,12 @@
   transition: background-color 0.2s;
 }
 
+.wait-row:hover {
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
 	.page-number {
 		cursor: pointer;
 		margin: 0 2px;

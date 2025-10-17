@@ -29,27 +29,22 @@ public class GetEndListAction implements Action {
         
         int page = 1;
         if (request.getParameter("page") != null) {
-            try {
-                page = Integer.parseInt(request.getParameter("page"));
-            } catch (NumberFormatException e) {
-                page = 1;
-            }
+        	page = Integer.parseInt(request.getParameter("page"));
         }
         
         String processStatus = request.getParameter("processStatus");
-        if (processStatus == null || processStatus.trim().isEmpty()) {
-            processStatus = null; 
-        }
+        if (processStatus == null) { processStatus = null; }
         
         ApproverDAO dao = new ApproverDAO();
         GetListVO vo = new GetListVO(employeeId, processStatus, page);
         List<ApproverListVO> endList = dao.getEndList(vo);
 
-        int totalPages = 3;
+        int totalPages = 3; // юс╫ц
 
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd")   
                 .create();
+        
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("currentPage", page);
         resultMap.put("totalPages", totalPages);
@@ -62,7 +57,7 @@ public class GetEndListAction implements Action {
         boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
 
         if (isAjax) {
-            return "webpage/approve/endListTable.jsp";
+            return "webpage/approve/listTable.jsp";
         }
 
         request.setAttribute("endList", endList);

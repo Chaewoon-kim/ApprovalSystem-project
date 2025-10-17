@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ include file="../employee/common.jsp" %>
 <!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
@@ -10,17 +10,13 @@
 <link rel="stylesheet" href="webpage/table.css">
 <link rel="stylesheet" href="webpage/employee/common.css">
 </head>
-
 <body>
-  
-<%@ include file="../employee/common.jsp" %>
 
-    <!-- 메인 콘텐츠 -->
     <main class="form-list">
       <h1>결재 처리 목록</h1>
-
-      <!-- 결재 상태 필터 -->
-      <form method="get" action="controller">
+	  
+	  <!-- filtering -->
+      <form action="controller">
         <input type="hidden" name="cmd" value="getEndList">
         <label for="statusSelect">결재 상태:</label>
         <select id="statusSelect" name="processStatus">
@@ -30,7 +26,7 @@
         </select>
       </form>
 
-      <!-- 목록 테이블 -->
+      <!-- table -->
       <table class="form-table">
         <thead>
           <tr>
@@ -42,19 +38,15 @@
             <th>결재상태</th>
           </tr>
         </thead>
-        <tbody id="endListTable">
-        </tbody>
+        
+        <tbody id="endListTable"></tbody>
       </table>
 	
-	
-      <!-- 페이지네이션 -->
-      <div class="pagination">
-      </div>
+      <div class="pagination"></div>
       
     </main>
-  </div>
   
-  <script type="text/javascript">
+<script type="text/javascript">
 $(document).ready(function(){
 
 	let currentStatus = "all";
@@ -91,10 +83,10 @@ $(document).ready(function(){
 		}
 
 		$.each(list, function(i, item){
-			let row = "<tr>"
+			let row = "<tr class='end-row' data-documentno='" + item.documentNo + "'>"
 				+ "<td>" + item.draftDate + "</td>"
 				+ "<td>" + item.completionDate + "</td>"
-				+  "<td><a href='controller?cmd=getDetailReport&documentNo="+item.documentNo+"'>" +(item.title)+"</a></td>"
+				+  "<td>" + item.title + "</td>"
 				+ "<td>" + item.department + "</td>"
 				+ "<td>" + (item.approvedDocumentNo || '') + "</td>"
 				+ "<td><button class='flag " + (item.processStatus == "완료" ? "complete" : "reject") + "'>"
@@ -103,7 +95,6 @@ $(document).ready(function(){
 			tbody.append(row);
 		});
 	}
-
 	
 	function setPagination(current, total){
 		let pagination = $(".pagination");
@@ -117,20 +108,24 @@ $(document).ready(function(){
 	}
 
 	// event
-	// 상태 필터 변경
 	$(document).on("change", "#statusSelect", function(){
 		currentStatus = $(this).val();
 		currentPage = 1;
 		reqEndList(currentStatus, currentPage);
 	});
 
-	// 페이지네이션
 	$(document).on("click", ".page-link", function(e){
 		e.preventDefault();
 		currentPage = parseInt($(this).data("page"));
 		reqEndList(currentStatus, currentPage);
 	});
 
+	$(document).on("click", ".end-row", function(e){
+		    if ($(e.target).is("button")) return;
+
+		    let documentNo = $(this).data("documentno");
+		    location.href = "controller?cmd=getDetailReport&documentNo=" + documentNo;
+		  });
 	
 	reqEndList(currentStatus, currentPage);
 

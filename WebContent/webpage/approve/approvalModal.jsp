@@ -4,12 +4,11 @@
   <div class="modal-content">
     <h2>결재하기</h2>
     <form action="controller?cmd=approvalProcess" method="post">
-      <!-- 필수 파라미터들 -->
+
       <input type="hidden" name="documentNo" value="${documentDetail.documentNo}">
       <input type="hidden" name="lineOrder" value="${approverLineOrder}">
-      
       <!-- <input type="hidden" name="approverId" value="${sessionScope.loginId}"> -->
-
+     
       <table>
         <tr>
           <th>결재 상태</th>

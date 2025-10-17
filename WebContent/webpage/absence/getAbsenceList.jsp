@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
 <%@ include file="../employee/common.jsp" %>
 <!DOCTYPE html>
 <html>
@@ -11,17 +10,8 @@
 <link rel="stylesheet" href="webpage/report.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-
-<!--
-<c:if test="${not empty message}">
-  <script>alert('${message}');</script>
-  <c:remove var="message" scope="session"/>
-</c:if>
-  -->
 </head>
 <body>
-
-
 
 <main class="form-list">
   <h1>부재 일정</h1>
@@ -43,11 +33,8 @@
         <th>상태</th>
       </tr>
     </thead>
-    <tbody id="absenceTableBody">
-    
-    </tbody>
+    <tbody id="absenceTableBody"></tbody>
   </table>
-
   <div class="pagination absencePagination"></div>
 
   <h1>대결 일정</h1>
@@ -60,8 +47,7 @@
         <th>부재 사유</th>
       </tr>
     </thead>
-    <tbody id="proxyTableBody">
-    </tbody>
+    <tbody id="proxyTableBody"></tbody>
   </table>
   <div class="pagination proxyPagination"></div>
 </main>
@@ -108,21 +94,20 @@ $(document).ready(function(){
 	    let disabled = "";
 	    if (item.absenceUsage === "종료") { disabled = "disabled"; }
 
-	    // absenceUsage도 data 속성에 추가
 	    let row = "<tr class='absence-row' data-absencedateno='" + item.absenceDateNo + "' data-absenceusage='" + item.absenceUsage + "'>"
 	      + "<td><input type='checkbox' class='row-check' data-absencedateno='" + item.absenceDateNo + "' data-absenceusage='" + item.absenceUsage + "' " + disabled + "></td>"
 	      + "<td>" + (item.absenceStartDate || '') + "</td>"
 	      + "<td>" + (item.absenceEndDate || '') + "</td>"
 	      + "<td>" + ((item.proxyName || '') + ' ' + (item.proxyRank || '')) + "</td>"
 	      + "<td>" + (item.absenceReason || '') + "</td>"
-	      + "<td><button class='flag complete'>" + (item.absenceUsage || '') + "</button></td>"
-	      + "</tr>";
-
+	      + "<td><button class='" 
+	      + (item.absenceUsage === "위임" ? "flag" : "flag complete") + "'>" 
+	      + (item.absenceUsage || '') 
+	      + "</button></td></tr>";
 	    tbody.append(row);
 	  });
 	}
 
-	// 수정 클릭 제한
 	$(document).on("click", ".absence-row", function(e) {
 	  if ($(e.target).is("input[type='checkbox']")) return;
 
@@ -151,8 +136,7 @@ $(document).ready(function(){
         + "<td>" + (item.absenceStartDate || '') + "</td>"
         + "<td>" + (item.absenceEndDate || '') + "</td>"
         + "<td>" + (item.absenteeName + ' ' + item.absenteeRank) + "</td>"
-        + "<td>" + (item.absenceReason || '') + "</td>"
-        + "</tr>";
+        + "<td>" + (item.absenceReason || '') + "</td></tr>";
       tbody.append(row);
     });
   }
@@ -180,13 +164,13 @@ $(document).ready(function(){
   $(document).on("click", ".absence-page", function(e){
     e.preventDefault();
     absencePage = parseInt($(this).data("page"));
-    reqAbsenceList(absencePage, proxyPage); // 부재만 바꿔서 요청
+    reqAbsenceList(absencePage, proxyPage); 
   });
 
   $(document).on("click", ".proxy-page", function(e){
     e.preventDefault();
     proxyPage = parseInt($(this).data("page"));
-    reqAbsenceList(absencePage, proxyPage); // 대결만 바꿔서 요청
+    reqAbsenceList(absencePage, proxyPage);
   });
 
   $(document).on('change', '#checkAll', function() {
@@ -199,7 +183,7 @@ $(document).ready(function(){
     $('#checkAll').prop('checked', allChecked);
   });
 
-  // 조기종료 (endAbsence)
+  // endAbsence
   $(document).on("click", "#endAbsenceBtn", function() {
     let checkedRows = $(".row-check:checked");
     if (checkedRows.length === 0) {
@@ -251,7 +235,7 @@ $(document).ready(function(){
     });
   });
 
-//삭제 버튼 클릭
+//deleteAbsence
 $(document).on("click", "#deleteAbsenceBtn", function() {
   let checkedRows = $(".row-check:checked");
   if (checkedRows.length === 0) {
@@ -277,7 +261,7 @@ $(document).on("click", "#deleteAbsenceBtn", function() {
   $.ajax({
     url: "controller",
     type: "POST",
-    traditional: true, // 배열 전송시 필요
+    traditional: true, // 배열 전송시 필요,,
     data: {
       cmd: "deleteAbsence",
       absenceDateNos: deleteTargets

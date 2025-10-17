@@ -26,7 +26,7 @@ public class GetAbsenceProxyListAction implements Action {
         HttpSession session = request.getSession();
         String approverId = (String) session.getAttribute("employeeId");
         if (approverId == null) {
-            approverId = "E25-011"; // 테스트용
+            approverId = "E25-011";
         }
 
         int absencePage = 1;
@@ -71,7 +71,7 @@ public class GetAbsenceProxyListAction implements Action {
 
         boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
         if (isAjax) {
-            return "webpage/absence/absenceProxyTable.jsp";
+            return "webpage/absence/absenceResult.jsp";
         }
 
         request.setAttribute("absenceList", absenceList);

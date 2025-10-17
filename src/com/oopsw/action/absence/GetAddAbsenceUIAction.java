@@ -13,12 +13,12 @@ public class GetAddAbsenceUIAction implements Action {
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
 		
-		String url = "webpage/absence/getAbsenceList.jsp"; //fail page
+		String url = "webpage/absence/getAbsenceList.jsp"; 
 
         HttpSession session = request.getSession();
         String approverId = (String) session.getAttribute("employeeId");
         if (approverId == null) {
-            approverId = "E25-000"; // 테스트용
+            approverId = "E25-000"; 
         } else {
         	url = "webpage/absence/addAbsence.jsp";
         }

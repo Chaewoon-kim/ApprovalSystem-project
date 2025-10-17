@@ -112,12 +112,12 @@ public class ApproverDAOTest {
 
 //	@Test
 	public void getAbsenceListTest() {
-		System.out.println(dao.getAbsenceList("E25-005"));
+		System.out.println(dao.getAbsenceList(new GetListVO("E25-015", "반려", 1)));
 	}
 
 //	@Test
 	public void getProxyListTest() {
-		System.out.println(dao.getProxyList("E25-013"));
+		System.out.println(dao.getProxyList(new GetListVO("E25-015", "반려", 1)));
 	}
 
 //	@Test

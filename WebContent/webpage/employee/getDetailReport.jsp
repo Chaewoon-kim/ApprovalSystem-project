@@ -19,7 +19,6 @@
 
 </head>
 <body>
-	
 			<main class="add-form">
 			<h1>문서상세</h1>
 
@@ -50,8 +49,8 @@
 			        </button>
 			    </c:otherwise>
 				</c:choose>
-
 			</div>
+
 
 			<hr>
 			<div class="document-content">
@@ -201,11 +200,8 @@
 				</div>
 			</div>
 
-
 			</main>
-			<jsp:include page="approvalModal.jsp" />
-		</div>
-	</div>
+	<jsp:include page="/webpage/approve/approvalModal.jsp" />
 
 </body>
 </html>
