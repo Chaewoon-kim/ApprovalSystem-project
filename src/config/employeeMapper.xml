@@ -12,14 +12,14 @@
 	<select id="getAllNotiCount" parameterType="com.oopsw.model.VO.AlarmVO" resultType="String">
 		select count(*) from v_notification where empId = #{empId}
 		<if test="notiType != null and notiType != ''">
-			where (#{notiType} is null or notiType = #{notiType})
+			and (#{notiType} is null or notiType = #{notiType})
 		</if>
 	</select>
     <!-- 알림 조회 -->
 	<select id="getAllNoti" parameterType="com.oopsw.model.VO.AlarmVO" resultType="com.oopsw.model.VO.AlarmVO">
 		select notiType, notiNo, title, notiInDate, readStatus, documentNo, status, approvedDocumentNo, empId
 		from (
-			select e.*, ROW_NUMBER() over (order by readStatus nulls first, notiInDate desc) as rn
+			select e.*, ROW_NUMBER() over (order by case when readStatus is null then 0 else 1 end, notiInDate desc) as rn
 			from v_notification e 
 			where empId = #{empId} 
 			<if test="notiType != null and notiType != ''">

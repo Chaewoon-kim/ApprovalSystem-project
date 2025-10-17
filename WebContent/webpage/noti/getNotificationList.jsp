@@ -35,7 +35,7 @@
 		</div>
 		
 		<div class="btn-container">
-			<button class="form-btn">
+			<button id="readAll" class="form-btn">
 				<span>읽음 처리</span>
 			</button>
 		</div>
@@ -53,16 +53,6 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td><input type="checkbox" class="row-check"></td>
-      		<td>안읽음</td>
-      		<td>2025-09-26</td>
-      		<td>결재요청</td>
-      		<td><a class="doc-link" href="#">비아이지스틸_소재처리 방안 보고</a></td>
-      		<td>-</td>
-      		<td><button class="flag">결재대기</button></td>
-          </tr>          
-        </tbody>
       </table>
   		
       
@@ -73,6 +63,7 @@
 	<script src="common.js"></script>
 	<script type="text/javascript">
 		let currentSelect = '';
+		let currentPage = 1;
 		let startPage = 1;
 		let endPage = 10;
 		let totalPage = 1;
@@ -91,8 +82,8 @@
 				  "전체": "",
 				  "대결": "A",
 				  "댓글": "C",
-				  "결재결과": "R",
-				  "결재요청": "P"
+				  "결재요청": "R",
+				  "결재결과": "P"
 				};
 
 		// 역매핑 자동 생성
@@ -120,7 +111,7 @@
 				let pageNo = $(this).data("page");
 				if(pageNo == null) pageNo = 1;
 				
-				reqEmployee(pageNo, currentSelect);
+				reqNoti(pageNo, currentSelect);
 				clickPage($(this));
 			}
 		});
@@ -198,54 +189,56 @@
 				      <td><div><span class="text-link">${title}</span></div></td>
 				      <td>${approvedDoc}</td>
 				      <td><div ${status == ""? "" : "class='flag'"}>${status}</div></td>
-				    </tr>
-				  `;
+				    </tr>`;
 				});
 			tableBody.append(row);
 		}
+		
 		$(document).on("click", ".text-link", function(){
-			reqReadNoti($(this).closest("tr"));
+			let notiObj = $(this).closest("tr");
+			notiList = [];
+			notiList.push(notiObj.data());
+			reqReadNoti(notiList, true);
 		});
-		function reqReadNoti(notiElem){
-			console.log(notiElem.data("notiNo"));
-			const readStatus = notiElem.data("readStatus")=="읽음";
-			const notiType = notiElem.data("notiType");
-			const notiNo = notiElem.data("notiNo");
 			
-			if(readStatus) {
-				clickNoti(notiElem);
+			
+		function reqReadNoti(notiList, isClicked){
+			if(notiList == null || notiList.length == 0) return;
+						
+			// 읽은 알림을 눌렀을 때
+			if(isClicked && (notiList.at(0).readStatus == "읽음")) {
+				clickNoti(notiList.at(0));
 				return;
 			}
 			
 			ajaxRequest(
 				{
 					cmd: "readNoti",
-					notiType: notiType,
-					notiNo: notiNo
+					notiList: JSON.stringify(notiList)
 				},
 				(data)=>{
-					if(data.result) clickNoti(notiElem);
+					if(isClicked && data.result) clickNoti(notiList.at(0));
+					reqNoti(currentPage, currentSelect);
 				}
 			);
 		}
-		function clickNoti(notiElem){
-			switch(notiElem.data("notiType")){
+		function clickNoti(notiInfo){
+			switch(notiInfo["notiType"]){
 			case "A":
 				window.location.href="controller?cmd=getAbsenceProxyList";
 				break;
 			case "C":
 			case "R":
 			case "P":
-				window.location.href = "controller?cmd=getDetailReport&documentNo="+notiElem.data("documentNo");
+				window.location.href = "controller?cmd=getDetailReport&documentNo="+notiInfo["documentNo"];
 				break;
 			}
 		}
 		function clickPage(pageElem){
 			$(".page-number.active").removeClass("active");
 			pageElem.addClass("active");
+			currentPage = pageElem.data("page");
 		}
-		
-		
 		
 		function ajaxRequest(params, success){
 			$.ajax({
@@ -254,6 +247,25 @@
 				success: success,
 				error: function(err){console.error(err); alert("서버 요청 실패");}
 			});
+		}
+		$(document).on("click", "#readAll", ()=>{
+			readAll();
+		});
+		
+		const readAll = ()=>{			
+			let tableBody = $(".form-table tbody");
+			
+			notiList = [];
+			tableBody.find(".row-check").each(function(i, noti) {
+				if($(this).is(":checked")) {
+					let notiObj = $(this).closest("tr");
+					
+					if(notiObj.data("readStatus") == "읽음") return;
+					notiList.push(notiObj.data());
+				}
+			});
+			
+			reqReadNoti(notiList);
 		}
 	
 	</script>
