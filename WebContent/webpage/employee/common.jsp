@@ -24,6 +24,7 @@
 <body>
 	<!-- 헤더 -->
 	<nav class="top-nav">
+
 		<div class="logo">로고자리</div>
 		<div class="profile">
 			<c:if test="${isManager}">
@@ -62,8 +63,9 @@
 							<span>결재 승인</span>
 						</div>
 						<div class="submenu">
-							<a href="#">결재 대기 목록</a> <a href="#">결재 처리 목록</a> <a href="#">부재/위임
-								설정</a>
+							<a href="controller?cmd=getWaitList">결재 대기 목록</a> 
+							<a href="controller?cmd=getEndList">결재 처리 목록</a> 
+							<a href="controller?cmd=getAbsenceProxyList">부재/위임 설정</a>
 						</div>
 					</div>
 				</c:if>
@@ -93,8 +95,8 @@
 						<span>양식 관리</span>
 					</div>
 					<div class="submenu">
-						<a href="#">양식 설정</a>
-						<a href="#">양식 목록</a>
+						<a href="controller?cmd=addForm">양식 설정</a>
+						<a href="controller?cmd=getForm">양식 목록</a>
 					</div>
 				</div>
 			</div>
@@ -102,6 +104,7 @@
 
 			<div class="logout">로그아웃</div>
 		</nav>
+
 		<jsp:include page="../draft/searchFormPopup.jsp" />
 		<script src="webpage/employee/common.js"></script>
 </body>

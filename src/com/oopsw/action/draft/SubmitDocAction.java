@@ -22,7 +22,7 @@ public class SubmitDocAction implements Action {
 		String url = "webpage/draft/addReport.jsp";
 		DrafterDAO d = new DrafterDAO();
 		HttpSession session = request.getSession();
-		String documentNoStr = request.getParameter("documentNo");//ÀÓ½ÃÀúÀå ¾ÈÇß¾úÀ¸¸é null
+		String documentNoStr = request.getParameter("documentNo");//ï¿½ì—«ï¿½ë–†ï¿½ï¿½ï¿½ì˜£ ï¿½ë¸ï¿½ë»½ï¿½ë¿€ï¿½ì‘ï§ï¿½ null
 		String employeeId = (String) session.getAttribute("employeeId");
 		String formId = request.getParameter("formId");
 		String title = request.getParameter("title");
@@ -34,7 +34,7 @@ public class SubmitDocAction implements Action {
 		String formattedDay = String.format("%02d", Integer.parseInt(day));
 		Date deadline = java.sql.Date.valueOf(year + "-" + formattedMonth+ "-" + formattedDay);
 		String[] approverIds = request.getParameterValues("approverId");
-		
+	
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession(false);
 		try {
 			int documentNo = 0;
@@ -58,21 +58,21 @@ public class SubmitDocAction implements Action {
 			
 			for (int i = 0; i < approverIds.length; i++) {
 				if(i == 0){
-					firstApprovalLineNo = d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i+1, "°áÀç´ë±â"), conn);
+					firstApprovalLineNo = d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i+1, "ê²°ì¬ëŒ€ê¸°"), conn);
 				}else{
-					d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i+1, "´ë±âÁß"), conn);
+					d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i+1, "ëŒ€ê¸°ì¤‘"), conn);
 				}
 			}
 		
 			if(firstApprovalLineNo != 0){
 				d.sendFirstReqNoti(firstApprovalLineNo, conn);
 				conn.commit();
-				request.setAttribute("message", "°áÀç ¿äÃ»ÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+				request.setAttribute("message", "ê²°ì¬ ìš”ì²­ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 			}
 			url = "webpage/draft/getReport.jsp";
 		} catch (Exception e) {
 			e.printStackTrace();
-			request.setAttribute("message", "°áÀç ¿äÃ»ÀÌ ½ÇÆĞÇÏ¾ú½À´Ï´Ù.");
+			request.setAttribute("message", "ê²°ì¬ ìš”ì²­ì´ ì‹¤íŒ¨í•˜ì—ˆìŠµë‹ˆë‹¤.");
 			conn.rollback();
 		}finally{
 			conn.close();

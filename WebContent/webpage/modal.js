@@ -1,4 +1,3 @@
-
 function openModal(id) {
   id.style.display = 'flex';
 }

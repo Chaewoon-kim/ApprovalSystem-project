@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.oopsw.model.DAO.ApproverDAO;
 
-/* ÀÏ´Ü ¸¸µé¾îº» ºÎÀç »óÅÂ º¯°æ ¾×¼Ç,, */
+/*ì¼ë‹¨ ë§Œë“¤ì–´ë³¸ ë¶€ì¬ ìƒíƒœ ë³€ê²½ ì•¡ì…˜,, */
 public class setAbsenceStatusAction {
     public String execute(HttpServletRequest request) throws ServletException, IOException {
         ApproverDAO dao = new ApproverDAO();
@@ -16,7 +16,7 @@ public class setAbsenceStatusAction {
         boolean ended = dao.setAbsenceStatusToEnd();
 
 
-        // ÀÀ´ä ÇÊ¿ä?
+        // ï¿½ì“³ï¿½ë–Ÿ ï¿½ë¸˜ï¿½ìŠ‚?
         request.setAttribute("activated", activated);
         request.setAttribute("ended", ended);
 

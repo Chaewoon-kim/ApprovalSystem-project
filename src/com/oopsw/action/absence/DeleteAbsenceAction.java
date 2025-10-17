@@ -20,7 +20,7 @@ public class DeleteAbsenceAction implements Action {
         boolean result = dao.deleteAbsence(absenceDateNo);
 
         if (result) {
-            request.setAttribute("message", " 부재가 성공적으로 삭제되었습니다.");
+            request.setAttribute("message", "부재가 성공적으로 삭제되었습니다.");
         } else {
             request.setAttribute("message", "부재 삭제 불가 (이미 시작되었거나 존재하지 않습니다.)");
         }

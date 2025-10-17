@@ -85,7 +85,6 @@ public class AbsenceVO {
 		this.absenceReadStatus = absenceReadStatus;
 	}
 
-
 	@Override
 	public String toString() {
 		return "AbsenceVO [absenceDateNo=" + absenceDateNo + ", absenteeId=" + absenteeId + ", proxyId=" + proxyId

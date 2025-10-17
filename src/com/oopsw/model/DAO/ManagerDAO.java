@@ -11,6 +11,13 @@ import com.oopsw.model.VO.EmployeeVO;
 import com.oopsw.model.VO.FormVO;
 
 public class ManagerDAO {
+	public int getFormCount(FormVO formVO){
+		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+		String page = conn.selectOne("managerMapper.getFormCount", formVO);
+		conn.close();
+		
+		return Integer.parseInt(page);
+	}
 	public int getEmployeeCount(EmployeeVO employeeVO){
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		String page = conn.selectOne("managerMapper.getEmployeeCount", employeeVO);
@@ -53,12 +60,13 @@ public class ManagerDAO {
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		
 		boolean result = conn.insert("managerMapper.addForm", formVO) == 1;
+		conn.commit();
 		conn.close();
 		
 		return result;
 	}
 	
-	public boolean setDefaultApprovalLine(List<DefaultApprovalLineVO> approvalList){
+	public boolean addDefaultApprovalLine(List<DefaultApprovalLineVO> approvalList){
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		
 		boolean result = false;
@@ -66,6 +74,7 @@ public class ManagerDAO {
 			 result = conn.insert("managerMapper.addApprovalLine", approvalList.get(i)) == 1;
 			if(!result) break;
 		}
+		conn.commit();
 		conn.close();
 		
 		return result;
@@ -75,6 +84,7 @@ public class ManagerDAO {
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		
 		boolean result = conn.update("managerMapper.invertFormUsage", formVO) == 1;
+		conn.commit();
 		conn.close();
 		
 		return result;

@@ -31,7 +31,7 @@ public class DrafterDAOTest {
 	
 	@Test
 	public void getStatusReqListTest() {
-		System.out.println(d.getReqList(new GetListVO("E25-001", "¿Ï·á", 1)));
+		System.out.println(d.getReqList(new GetListVO("E25-001", "ì™„ë£Œ", 1)));
 	}
 	
 	@Test
@@ -46,12 +46,7 @@ public class DrafterDAOTest {
 	
 	@Test
 	public void addDocTest() throws DatabaseTransactionException{
-		System.out.println(d.addDoc(new DocumentVO("E25-001", "D2", "Å×½ºÆ®Á¦¸ñ", "Å×½ºÆ®³»¿ë", java.sql.Date.valueOf("2025-10-05")), conn));
-	}
-	
-	@Test
-	public void addApproverTest() throws DatabaseTransactionException{
-		System.out.println(d.addApprovers(new ApprovalLineVO(41, "E25-008", 1, "´ë±âÁß"), conn));
+		System.out.println(d.addDoc(new DocumentVO("E25-001", "D2", "í…ŒìŠ¤íŠ¸ì œëª©", "í…ŒìŠ¤íŠ¸ë‚´ìš©", java.sql.Date.valueOf("2025-10-05")), conn));
 	}
 	
 	@Test
@@ -60,8 +55,13 @@ public class DrafterDAOTest {
 	}
 	
 	@Test
+	public void addApproverTest() throws DatabaseTransactionException{
+		System.out.println(d.addApprovers(new ApprovalLineVO(41, "E25-008", 1, "ëŒ€ê¸°ì¤‘"), conn));
+	}
+	
+	@Test
 	public void saveTempDocTest() throws DatabaseTransactionException{
-		System.out.println(d.saveTempDoc(new DocumentVO("E25-001", "D2", "ÀÓ½ÃÀúÀåÅ×½ºÆ®Á¦¸ñ", "ÀÓ½ÃÀúÀåÅ×½ºÆ®³»¿ë",java.sql.Date.valueOf("2025-10-05")), conn));
+		System.out.println(d.saveTempDoc(new DocumentVO("E25-001", "D2", "ìž„ì‹œì €ìž¥í…ŒìŠ¤íŠ¸ì œëª©", "ìž„ì‹œì €ìž¥í…ŒìŠ¤íŠ¸ë‚´ìš©",java.sql.Date.valueOf("2025-10-05")), conn));
 	}
 	
 	@Test
@@ -71,12 +71,12 @@ public class DrafterDAOTest {
 	
 	@Test
 	public void editTempDocTest() throws DatabaseTransactionException{
-		assertTrue(d.editTempDoc(new DocumentVO(41, "Á¦¸ñ¼öÁ¤", "ÀÓ½ÃÀúÀå³»¿ë", java.sql.Date.valueOf("2025-10-09")), conn));
+		assertTrue(d.editTempDoc(new DocumentVO(41, "ì œëª©ìˆ˜ì •", "ìž„ì‹œì €ìž¥ë‚´ìš©", java.sql.Date.valueOf("2025-10-09")), conn));
 	}
 	
 	@Test
 	public void submitTempDocTest() throws DatabaseTransactionException{
-		assertTrue(d.submitTempDoc(new DocumentVO(41, "ÀÓ½ÃÀúÀåÁ¦Ãâ", "ÀÓ½ÃÀúÀå³»¿ë", java.sql.Date.valueOf("2025-10-09")), conn));
+		assertTrue(d.submitTempDoc(new DocumentVO(41, "ìž„ì‹œì €ìž¥ì œì¶œ", "ìž„ì‹œì €ìž¥ë‚´ìš©", java.sql.Date.valueOf("2025-10-09")), conn));
 	}
 	
 	@Test
@@ -96,7 +96,7 @@ public class DrafterDAOTest {
 	
 	@Test
 	public void getStatusApprovalProcessNotiTest() {
-		System.out.println(d.getApprovalProcessNoti(new GetListVO("E25-004", "¿Ï·á", 0)));
+		System.out.println(d.getApprovalProcessNoti(new GetListVO("E25-004", "ì™„ë£Œ", 0)));
 	}
 	
 	@Test

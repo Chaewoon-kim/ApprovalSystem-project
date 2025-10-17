@@ -20,14 +20,14 @@ public class GetEmployeesAction implements Action {
 		ManagerDAO dao = new ManagerDAO();
 		EmployeeVO vo = new EmployeeVO();
 		
-		// ÆäÀÌÁö Á¤º¸
+		// í˜ì´ì§€ ì •ë³´
 		String pageParam = request.getParameter("page");
 		String permission = request.getParameter("filter");
 		
-		// ÆäÀÌÁö ¼³Á¤
+		// í˜ì´ì§€ ì„¤ì •
 		if(pageParam != null && !pageParam.equals("")) 
 			vo.setPage(Integer.parseInt(pageParam));
-		// »óÅÂ ¼³Á¤
+		// ìƒíƒœ ì„¤ì •
 		if(permission != null && !permission.equals("")) 
 			vo.setAccessPermission(permission.toCharArray()[0]);
 		
@@ -36,7 +36,7 @@ public class GetEmployeesAction implements Action {
 		String ajax = request.getHeader("X-Requested-With");
 		boolean isAjax = "XMLHttpRequest".equals(ajax);
 
-		// »ç¿ëÀÚ ¸®½ºÆ®
+		// ì‚¬ìš©ì ë¦¬ìŠ¤íŠ¸
 		request.setAttribute("result", empJson);
 		
 		if(isAjax){

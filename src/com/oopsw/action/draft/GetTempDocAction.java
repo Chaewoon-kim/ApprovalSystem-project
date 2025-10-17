@@ -15,7 +15,7 @@ import com.oopsw.model.VO.ApprovalLineEmployeeVO;
 import com.oopsw.model.VO.DocumentDetailVO;
 import com.oopsw.model.VO.EmployeeVO;
 
-/* 결재하기(approvalProcess) 테스트용  Action */
+
 public class GetTempDocAction implements Action {
 
 	@Override

@@ -22,7 +22,7 @@ public class SaveTempDocAction implements Action {
 		String url = "webpage/draft/addReport.jsp";
 		DrafterDAO d = new DrafterDAO();
 		HttpSession session = request.getSession();
-		String documentNoStr = request.getParameter("documentNo");//임시저장 안했었으면 null
+		String documentNoStr = request.getParameter("documentNo");
 		String employeeId = (String) session.getAttribute("employeeId");
 		String formId = request.getParameter("formId");
 		String title = request.getParameter("title");
@@ -60,7 +60,6 @@ public class SaveTempDocAction implements Action {
 			conn.commit();
 			url = "webpage/draft/getSaveList.jsp";
 		} catch (Exception e) {
-			e.printStackTrace();
 			request.setAttribute("message", "임시저장을 실패하였습니다.");
 			conn.rollback();
 		}finally{
