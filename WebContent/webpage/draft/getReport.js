@@ -5,7 +5,7 @@ let totalPage = 1;
 
 const reqListTbody = document.querySelector(".form-table tbody");
 
-function setPage(totalCount, currentPage = 1){ 
+let setPage = function(totalCount, currentPage = 1){ 
 	let pagination = $(".pagination");
 	pagination.empty();
 	
@@ -34,10 +34,11 @@ $(document).on("click", ".page-number", function(e){
 
 let getReport = function(result, currentPage){
 	const totalCount = result.length > 0 && result[0].totalCount ? result[0].totalCount : 0;
-    
+	
 	setPage(totalCount, currentPage); 
     
 	content = '';
+	
 	result.forEach(report => {
 		statusStyle = ''
 		switch(report.processStatus){
@@ -48,6 +49,7 @@ let getReport = function(result, currentPage){
 			statusStyle = 'complete';
 			break;
 		}
+
 		let row = `
 		<tr>
 			<td>${report.deadline}</td>
@@ -60,6 +62,9 @@ let getReport = function(result, currentPage){
 		`;
 		content += row;
 	});
+	if(!result || result.length == 0){
+		content = "<tr><td colspan='6'>결재 신청된 문서가 없습니다.</td></tr>";
+	}
 	reqListTbody.innerHTML = content;
 	getDetailReport();
 }
@@ -78,7 +83,7 @@ let getDetailReport = function(){
 let loadPageData = function(pageInfo, status){
     let pageNum;
     let pageElem;
-    
+   
     if (typeof pageInfo === 'object' && pageInfo.jquery) {
         pageElem = pageInfo;
         pageNum = pageElem.data("page");
