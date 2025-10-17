@@ -27,11 +27,11 @@ public class ModifyAbsenceAction implements Action {
 	        Date endDate = Date.valueOf(endDateStr);
 	        Date today = new Date(System.currentTimeMillis());
 
-	        String usage = "À§ÀÓ";
+	        String usage = "ìœ„ì„";
 	        if (today.before(startDate)) {
-	            usage = "´ë±â";
+	            usage = "ëŒ€ê¸°";
 	        } else if (today.after(endDate)) {
-	            usage = "Á¾·á";
+	            usage = "ì¢…ë£Œ";
 	        }
 
 	        AbsenceVO vo = new AbsenceVO();
@@ -48,12 +48,12 @@ public class ModifyAbsenceAction implements Action {
 	        Map<String, Object> jsonResult = new HashMap<>();
 	        if (result) {
 	            jsonResult.put("success", true);
-	            jsonResult.put("message", "ºÎÀç Á¤º¸°¡ ¼º°øÀûÀ¸·Î ¼öÁ¤µÇ¾ú½À´Ï´Ù.");
+	            jsonResult.put("message", "ë¶€ì¬ ì •ë³´ê°€ ì„±ê³µì ìœ¼ë¡œ ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	        } else {
 	            jsonResult.put("success", false);
-	            jsonResult.put("message", "ºÎÀç ¼öÁ¤ Áß ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.");
+	            jsonResult.put("message", "ë¶€ì¬ ìˆ˜ì • ì¤‘ ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.");
 	        }
-
+	        
 	        Gson gson = new Gson();
 	        String json = gson.toJson(jsonResult);
 

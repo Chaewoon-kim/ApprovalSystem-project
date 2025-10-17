@@ -49,10 +49,9 @@ public class GetAbsenceProxyListAction implements Action {
         List<AbsenceListVO> absenceList = dao.getAbsenceList(absenceVO);
         List<AbsenceListVO> proxyList = dao.getProxyList(proxyVO);
         
-        // юс╫ц
         int absenceTotalPages = 3;
         int proxyTotalPages = 3;
-
+    
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd")
                 .create();

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="approverMapper">
 
-	<!-- 결재처리 1-8 -->
+	<!-- approvalProcess 1-8 -->
 	<!-- 1. 현재 결재자 승인 처리 -->
 	<update id="processApproval" parameterType="com.oopsw.model.VO.ApprovalLineVO">
 		update approval_line
@@ -36,7 +36,6 @@
 		values (process_noti_no_seq.nextval, #{documentNo}, null)
 	</insert>
 
-
 	<!-- 6. 문서상태변경, 반려 -->
 	<update id="setDocReject" parameterType="com.oopsw.model.VO.DocumentVO">
 		update document
@@ -59,32 +58,17 @@
 		where a.absentee_id = #{approverId} and a.absence_usage = '위임'
 	</select>
 
-<!-- 오늘 기준 위임 건수 -->
-<select id="countActiveAbsenceFor" parameterType="string" resultType="int">
-  select count(*)
-  from absence a
-  where a.absentee_id = #{approverId}
-    and a.absence_usage = '위임'
-    and TRUNC(SYSDATE) BETWEEN a.absence_start_date AND a.absence_end_date
-</select>
+	<!-- 오늘 기준 위임 건수 -->
+	<select id="countActiveAbsenceFor" parameterType="string"
+		resultType="int">
+		select count(*)
+		from absence a
+		where a.absentee_id = #{approverId}
+		and a.absence_usage = '위임'
+		and trunc(sysdate) between a.absence_start_date and a.absence_end_date
+	</select>
 
 
-	<!-- 결재 대기 목록 조회 
-	<select id="getWaitList" parameterType="com.oopsw.model.VO.GetListVO" resultType="com.oopsw.model.VO.ApproverListVO">
-		select d.document_no as documentNo, d.title as title, d.deadline as deadline, d.draft_date as draftDate,
-				e1.name as name, e1.department as department, al.approval_status as approvalStatus
-		from( select d.document_no as documentNo, d.title as title, d.deadline as deadline, d.draft_date as draftDate,
-				e1.name as name, e1.department as department, al.approval_status as approvalStatus, 
-				row_number() over (order by d.draft_date desc) as rn
-			from approval_line al
-			join document d on al.document_no = d.document_no
-			join employee e1 on d.employee_id = e1.employee_id
-			where al.approver_id = #{employeeId} and al.approval_status = '결재대기'
-		)
-		where rn between (#{page} - 1) * 8 + 1 and #{page} * 8
-	</select>-->
-	
-	
 	<select id="getWaitList" parameterType="com.oopsw.model.VO.GetListVO" resultType="com.oopsw.model.VO.ApproverListVO">
   select documentNo, title, deadline, draftDate, name, department, approvalStatus
   from (
@@ -103,23 +87,9 @@
       and al.approval_status = '결재대기'
   )
   where rn between (#{page} - 1) * 8 + 1 and #{page} * 8
-</select>
+	</select>
 	
 	<!-- 결재 처리 목록 조회 (내가 반려한 문서 + 내가 승인한 완료 문서) -->
-	<!-- <select id="getEndList" parameterType="string" resultType="com.oopsw.model.VO.ApproverListVO">
-		select d.document_no as documentNo, d.approved_document_no as approvedDocumentNo, d.title as title, e1.department as department,
-				d.draft_date as draftDate, d.process_status as processStatus, d.completion_date as completionDate
-		from approval_line al
-		join document d on al.document_no = d.document_no
-		join employee e1 on d.employee_id = e1.employee_id
-		where al.approver_id = #{approverId}
-			and (
-			al.approval_status = '반려' or (al.approval_status = '승인' and d.process_status = '완료')
-			)
-		order by al.approval_date desc, d.draft_date desc
-	</select> -->
-	
-	<!-- 페이지네이션,, 상태필터링 -->
 	<select id="getEndList" parameterType="com.oopsw.model.VO.GetListVO" resultType="com.oopsw.model.VO.ApproverListVO">
     select document_no documentNo, approved_document_no approvedDocumentNo, title, department, draft_date draftDate, process_status processStatus, completion_date completionDate
     from (
@@ -145,21 +115,7 @@
     )
     where rn between (#{page} - 1) * 8 + 1 and #{page} * 8
 	</select>
-	
-	
-		
-	<!-- === 부재 === -->
-	<!-- 부재 목록 조회 
-	<select id="getAbsenceList" resultType="com.oopsw.model.VO.AbsenceListVO">
-		select a.absence_date_no as absenceDateNo, a.absence_start_date as absenceStartDate, a.absence_end_date as absenceEndDate,
-				e.name as proxyName, e.rank as proxyRank, a.absence_reason as absenceReason, a.absence_usage as absenceUsage
-		from absence a
-		join employee e on a.proxy_id = e.employee_id
-		where a.absentee_id = #{absenteeId}
-		order by a.absence_start_date desc
-	</select>-->
-	
-	
+
 	<select id="getAbsenceList" parameterType="com.oopsw.model.VO.GetListVO" resultType="com.oopsw.model.VO.AbsenceListVO">
 	select absenceDateNo, absenceStartDate, absenceEndDate,
 	       proxyName, proxyRank, absenceReason, absenceUsage
@@ -184,12 +140,8 @@
 		where a.absentee_id = #{employeeId}
 	)
 	where rn between (#{page} - 1) * 8 + 1 and #{page} * 8
-</select>
+	</select>
 
-
-
-
-	
 	
 	<!-- 대결 목록 조회 -->
 	<select id="getProxyList" parameterType="com.oopsw.model.VO.GetListVO" resultType="com.oopsw.model.VO.AbsenceListVO">
@@ -208,10 +160,8 @@
 		where a.proxy_id = #{employeeId}
 	)
 	where rn between (#{page} - 1) * 8 + 1 and #{page} * 8
-</select>
+	</select>
 
-
-	<!-- 부재 추가 (+ 대결알림) -->
 	<insert id="addAbsence" parameterType="com.oopsw.model.VO.AbsenceVO">
 		insert into absence (absence_date_no, absentee_id, proxy_id, absence_start_date, absence_end_date, absence_reason,
 			absence_usage, noti_in_date, absence_read_status)
@@ -219,27 +169,32 @@
 			#{absenceUsage}, sysdate, null)
 	</insert>
 
-	<!-- 조기종료 (사용여부가 위임중일때만) -->
 	<update id="endAbsence" parameterType="int">
 		update absence
 		set absence_end_date = trunc(sysdate), absence_usage = '종료'
 		where absence_date_no = #{absenceDateNo} and absence_usage = '위임'
 	</update>
 
-	<!-- 부재 수정 -->
 	<update id="modifyAbsence" parameterType="com.oopsw.model.VO.AbsenceVO">
 		update absence
 		set proxy_id = #{proxyId}, absence_start_date = #{absenceStartDate}, absence_end_date = #{absenceEndDate}, absence_reason = #{absenceReason}, absence_usage = #{absenceUsage}
 		where absence_date_no = #{absenceDateNo}
 	</update>
 
-	<!-- 부재 삭제 (사용여부가 대기중일때만) -->
 	<delete id="deleteAbsence" parameterType="int">
 		delete from absence where absence_date_no = #{absenceDateNo} and absence_usage = '대기'
 	</delete>
+	
+	<select id="checkOverlapAbsence" parameterType="com.oopsw.model.VO.AbsenceVO" resultType="int">
+	  select count(*)
+	  from absence
+	  where absentee_id = #{absenteeId}
+	    and (trunc(absence_start_date) &lt;= trunc(#{absenceEndDate})
+    	and trunc(absence_end_date) &gt;= trunc(#{absenceStartDate}))
+	    and absence_usage != '종료'
+	</select>
+	
 
-
-	<!-- 알림 수신 목록 조회 (결재요청) -->
 	<select id="getApprovalReqNoti" parameterType="string" resultType="com.oopsw.model.VO.AlarmVO">
 		select
 			an.request_noti_no as notiNo,
@@ -257,7 +212,20 @@
 
 	</select>
 	
-	<!-- 안읽은 결재요청 알림 조회 -->
+	<select id="getAbsenceDetail" parameterType="int" resultType="com.oopsw.model.VO.AbsenceVO">
+	  select
+	      absence_date_no      AS absenceDateNo,
+	      absentee_id          AS absenteeId,
+	      proxy_id             AS proxyId,
+	      absence_start_date   AS absenceStartDate,
+	      absence_end_date     AS absenceEndDate,
+	      absence_reason       AS absenceReason,
+	      absence_usage        AS absenceUsage
+	  from absence
+	  where absence_date_no = #{absenceDateNo}
+		</select>
+	
+	
 	<select id="getUnReadApprovalReqNoti" parameterType="string" resultType="com.oopsw.model.VO.AlarmVO">
 		select
 			an.request_noti_no as notiNo,
@@ -276,31 +244,17 @@
 	</select>
 
 	
-	<!-- 오늘 날짜가 시작일인 부재: 대기 -> 위임 -->
 	<update id="setAbsenceStatusToActive" >
 	    update absence
 	       set absence_usage = '위임'
 	     where absence_start_date = sysdate and absence_usage = '대기'
 	</update>
 
-	<!-- 오늘 날짜가 종료일인 부재: 위임 -> 종료 -->
 	<update id="setAbsenceStatusToEnd" >
 	    update absence
 	       set absence_usage = '종료'
 	     where absence_end_date = sysdate and absence_usage = '위임'
 	</update>
 	
-	<select id="getAbsenceDetail" parameterType="int" resultType="com.oopsw.model.VO.AbsenceVO">
-  select
-      absence_date_no      AS absenceDateNo,
-      absentee_id          AS absenteeId,
-      proxy_id             AS proxyId,
-      absence_start_date   AS absenceStartDate,
-      absence_end_date     AS absenceEndDate,
-      absence_reason       AS absenceReason,
-      absence_usage        AS absenceUsage
-  from absence
-  where absence_date_no = #{absenceDateNo}
-</select>
 
 </mapper>

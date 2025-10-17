@@ -117,6 +117,8 @@ function setOrgChart(result) {
 
 // 문서 로드 후 실행
 $(document).ready(function() {
+	const loginId = "${sessionScope.employeeId}"; 
+	console.log(loginId);
 	getAllEmployees();
 
 	let searchInput = $('.search-input');
@@ -162,6 +164,12 @@ $(document).ready(function() {
 		let employeeId = user.data('employeeid');
 		let proxy = $('.proxy');
 
+		// 부재추가/수정에서 자기자신 대결자선택시 알림 
+		if (employeeId === loginId) {
+	      alert("자기 자신은 대결자로 지정할 수 없습니다.");
+	      return;
+	    }
+		
 		if (proxy.find('.name').length) {
 			alert('이미 대결자가 지정되어 있습니다.');
 			return;

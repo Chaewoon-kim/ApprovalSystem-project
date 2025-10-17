@@ -37,10 +37,10 @@ public class DeleteAbsenceAction implements Action {
         Map<String, Object> result = new HashMap<>();
         if (successCount > 0) {
             result.put("success", true);
-            result.put("message", "∫Œ¿Á ¿œ¡§ " + successCount + "∞« ªË¡¶ øœ∑·");
+            result.put("message", "ÏÇ≠Ï†ú ÏÑ±Í≥µ " + successCount + "Í±¥");
         } else {
             result.put("success", false);
-            result.put("message", "ªË¡¶ ∞°¥…«— ∫Œ¿Á ¿œ¡§¿Ã æ¯Ω¿¥œ¥Ÿ.");
+            result.put("message", "ÏÇ≠Ï†ú Ïã§Ìå®");
         }
 
         Gson gson = new Gson();

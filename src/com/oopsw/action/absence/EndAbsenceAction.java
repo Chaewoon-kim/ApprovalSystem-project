@@ -16,25 +16,22 @@ public class EndAbsenceAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-		String url = "webpage/absence/getAbsenceList.jsp";
-		
-		
 		int absenceDateNo = Integer.parseInt(request.getParameter("absenceDateNo"));
-		
+
 		ApproverDAO dao = new ApproverDAO();
 		boolean result = dao.endAbsence(absenceDateNo);
-		
-		String message = result ? "À§ÀÓÀÌ Á¶±â Á¾·áµÇ¾ú½À´Ï´Ù." : "À§ÀÓ Á¶±â Á¾·á ºÒ°¡ (ÀÌ¹Ì Á¾·áµÇ¾ú°Å³ª Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.)";
 
-	        Map<String, Object> map = new HashMap<>();
-	        map.put("success", result);
-	        map.put("message", message);
-	        String json = new Gson().toJson(map);
-	        request.setAttribute("result", json);
-	        
-	        
-	        return "webpage/absence/absenceResult.jsp";
-	       
+		String message = result ? "ìœ„ì„ì´ ì¡°ê¸° ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤." : "ìœ„ì„ ì¡°ê¸° ì¢…ë£Œ ë¶ˆê°€ (ì´ë¯¸ ì¢…ë£Œë˜ì—ˆê±°ë‚˜ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.)";
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("success", result);
+		map.put("message", message);
+		String json = new Gson().toJson(map);
+		request.setAttribute("result", json);
+
+
+		return "webpage/absence/absenceResult.jsp";
+
 	}
 
 }

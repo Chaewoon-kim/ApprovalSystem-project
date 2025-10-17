@@ -13,7 +13,6 @@
 <link rel="stylesheet" href="webpage/line.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="webpage/modal.js"></script>
-<script src="webpage/absence/searchProxy.js"></script>
 
 </head>
 <body>
@@ -22,7 +21,7 @@
   <h1>부재/위임 설정</h1>
   <hr class="mt"/>
 
-  <form id="absenceForm" method="post">
+  <form id="absenceForm">
     <!-- modifyAbsence mode -->
     <c:if test="${not empty absence}">
       <input type="hidden" name="absenceDateNo" value="${absence.absenceDateNo}">
@@ -53,8 +52,6 @@
     </c:choose>
   </div>
 
-  <input type="hidden" id="proxyId" name="proxyId" value="${absence.proxyId}" />
-
 	  <button class="form-btn" type="button" onclick="openModal(searchProxyModal)">
 	    <img src="./img/user-plus.png" alt=""> <span>대결자 선택</span>
 	  </button>
@@ -75,24 +72,32 @@
 </main>
 
 <jsp:include page="searchProxy.jsp" />
-    
+  
 <script>
-$(document).ready(function() {
 
+$(document).ready(function() {
 	$("form").on("submit", function(e) {
 		  e.preventDefault();
 
-		  var usage = "${absence.absenceUsage}";
-		  
+		  let usage = "${absence.absenceUsage}";
 		  if (usage && usage.trim() !== "대기") {
 		    alert("‘대기’ 상태인 부재 일정만 수정할 수 있습니다.");
 		    return;
 		  }
+		  
+		  let absenceReason = "${absence.absenceReason}";
+		  if(absenceReason === null){
+			  console.log(absenceReason);
+			  alert("부재 사유를 입력해주세요.");
+			  
+			  return;
+		  }
+		  
 
-		  var isUpdate = $("input[name='absenceDateNo']").length > 0;
-		  var cmdValue = isUpdate ? "modifyAbsence" : "addAbsence";
+		  let isUpdate = $("input[name='absenceDateNo']").length > 0;
+		  let cmdValue = isUpdate ? "modifyAbsence" : "addAbsence";
 
-		  var data = {
+		  const data = {
 		    cmd: cmdValue,
 		    absenceDateNo: $("input[name='absenceDateNo']").val(),
 		    startDate: $("input[name='startDate']").val(),
@@ -126,7 +131,7 @@ $(document).ready(function() {
       data: { cmd: "getAllEmployees" },
       dataType: "json",
       success: function(result) {
-        var emp = null;
+        let emp = null;
         for (var i = 0; i < result.length; i++) {
           if (result[i].employeeId === proxyId) {
             emp = result[i];
@@ -146,7 +151,11 @@ $(document).ready(function() {
     });
   }
 
-});
+}); //document ready
+
+
 </script>
+
+<script src="webpage/absence/searchProxy.js"></script>  
 </body>
 </html>

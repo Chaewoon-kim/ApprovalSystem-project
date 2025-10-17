@@ -19,74 +19,66 @@ public class AddAbsenceAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-		String addAbsencePage = "webpage/absence/addAbsence.jsp";
-		
-        HttpSession session = request.getSession();
-        String approverId = (String) session.getAttribute("employeeId");
-        if (approverId == null) {
-            approverId = "E25-000"; 
-        }
+		HttpSession session = request.getSession();
+	    String approverId = (String) session.getAttribute("employeeId");
 
-        String startDateStr = request.getParameter("startDate");
-        String endDateStr = request.getParameter("endDate");
-        String reason = request.getParameter("reason");
-        String proxyId = request.getParameter("proxyId");
-        
-        Date startDate = Date.valueOf(startDateStr);
-        Date endDate = Date.valueOf(endDateStr);
-        Date today = new Date(System.currentTimeMillis());
-        
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	    String startDateStr = request.getParameter("startDate");
+	    String endDateStr = request.getParameter("endDate");
+	    String reason = request.getParameter("reason");
+	    String proxyId = request.getParameter("proxyId");
 
-        String start = sdf.format(startDate); 
-        String todayStr = sdf.format(today); 
+	    Date startDate = Date.valueOf(startDateStr);
+	    Date endDate = Date.valueOf(endDateStr);
+	    Date today = new Date(System.currentTimeMillis());
 
-        
+	    Map<String, Object> jsonResult = new HashMap<>();
 
-        String usage = "´ë±â";
-        if (start.equals(todayStr)) {
-            usage = "À§ÀÓ"; 
-        }
-        
-        AbsenceVO vo = new AbsenceVO();
-        vo.setAbsenteeId(approverId);
-        vo.setProxyId(proxyId);
-        vo.setAbsenceStartDate(Date.valueOf(startDateStr));
-        vo.setAbsenceEndDate(Date.valueOf(endDateStr));
-        vo.setAbsenceReason(reason);
-        vo.setAbsenceUsage(usage); 
-        // noti_in_date, read_status´Â DB¿¡¼­ sysdate/null ÀÚµ¿ Ã³¸®
+	    // ë‚ ì§œ ìœ íš¨ì„± ê²€ì¦
+	    if (endDate.before(startDate)) {
+	        jsonResult.put("success", false);
+	        jsonResult.put("message", "ì¢…ë£Œì¼ì€ ì‹œì‘ì¼ ì´í›„ì—¬ì•¼ í•©ë‹ˆë‹¤.");
+	        return jsonResponse(request, jsonResult);
+	    }
+	    if (startDate.before(today)) {
+	        jsonResult.put("success", false);
+	        jsonResult.put("message", "ì‹œì‘ì¼ì€ ì˜¤ëŠ˜ ë˜ëŠ” ì´í›„ë¡œ ì„¤ì •í•´ì•¼ í•©ë‹ˆë‹¤.");
+	        return jsonResponse(request, jsonResult);
+	    }
 
-        ApproverDAO dao = new ApproverDAO();
-        boolean result = dao.addAbsence(vo);
-        
-        Map<String, Object> jsonResult = new HashMap<>();
-        
-        if (start.compareTo(todayStr) < 0) {
-            jsonResult.put("success", false);
-            jsonResult.put("message", "½ÃÀÛÀÏÀº ¿À´Ã ¶Ç´Â ÀÌÈÄ·Î ¼³Á¤ÇØ¾ß ÇÕ´Ï´Ù.");
-            return addAbsencePage;
-        }
+	    AbsenceVO vo = new AbsenceVO();
+	    vo.setAbsenteeId(approverId);
+	    vo.setProxyId(proxyId);
+	    vo.setAbsenceStartDate(startDate);
+	    vo.setAbsenceEndDate(endDate);
+	    vo.setAbsenceReason(reason);
+	    vo.setAbsenceUsage(startDate.equals(today) ? "ìœ„ì„" : "ëŒ€ê¸°");
 
-        if (endDate.before(startDate)) {
-            jsonResult.put("success", false);
-            jsonResult.put("message", "Á¾·áÀÏÀº ½ÃÀÛÀÏ ÀÌÈÄ¿©¾ß ÇÕ´Ï´Ù.");
-            return addAbsencePage;
-        }
-        
-        if (result) {
-            jsonResult.put("success", true);
-            jsonResult.put("message", "ºÎÀç µî·ÏÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
-        } else {
-            jsonResult.put("success", false);
-            jsonResult.put("message", "ºÎÀç µî·Ï Áß ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.");
-        }
+	    ApproverDAO dao = new ApproverDAO();
+	    
+	    // ë¶€ì¬ê¸°ê°„ ì¤‘ë³µì²´í¬
+	    boolean overlap = dao.hasOverlapAbsence(vo);
+	    if (overlap) {
+	        jsonResult.put("success", false);
+	        jsonResult.put("message", "í•´ë‹¹ ê¸°ê°„ì— ì´ë¯¸ ë“±ë¡ëœ ë¶€ì¬ê°€ ìˆìŠµë‹ˆë‹¤.");
+	        return jsonResponse(request, jsonResult);
+	    }
+	
+	    boolean result = dao.addAbsence(vo);
+	    if (result) {
+	        jsonResult.put("success", true);
+	        jsonResult.put("message", "ë¶€ì¬ ë“±ë¡ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
+	    } else {
+	        jsonResult.put("success", false);
+	        jsonResult.put("message", "ë¶€ì¬ ë“±ë¡ ì¤‘ ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.");
+	    } 
 
-        Gson gson = new Gson();
-        String json = gson.toJson(jsonResult);
+	    return jsonResponse(request, jsonResult);
+	}
 
-        request.setAttribute("result", json);
-        return "webpage/absence/absenceResult.jsp";
+	private String jsonResponse(HttpServletRequest request, Map<String, Object> result) {
+	    Gson gson = new Gson();
+	    request.setAttribute("result", gson.toJson(result));
+	    return "webpage/absence/absenceResult.jsp";
 	}
 
 }

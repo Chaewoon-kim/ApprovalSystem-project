@@ -14,6 +14,7 @@ import com.oopsw.model.VO.DocumentVO;
 import com.oopsw.model.VO.GetListVO;
 
 public class ApproverDAO{
+	// approvalProcess
     public boolean processApproval(SqlSession conn, ApprovalLineVO vo) {
     	boolean result = false;
     	int count = conn.update("approverMapper.processApproval", vo);
@@ -73,7 +74,6 @@ public class ApproverDAO{
         return vo;
     }
     
-    // 현재(오늘) 위임 상태인지 여부
     public boolean isAbsentToday(String approverId) {
         SqlSession conn = DBCP.getSqlSessionFactory().openSession();
         try {
@@ -82,7 +82,8 @@ public class ApproverDAO{
         } finally {
             conn.close();
         }
-    }
+    } //
+    
 
     
     public List<ApproverListVO> getWaitList(GetListVO vo) {
@@ -107,7 +108,6 @@ public class ApproverDAO{
         return list;
     }
     
-    // 부재 목록 조회
     public List<AbsenceListVO> getAbsenceList(GetListVO vo){
     	List<AbsenceListVO> list = null;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -119,7 +119,6 @@ public class ApproverDAO{
     	return list;
     }
     
-    // 대결 목록 조회
     public List<AbsenceListVO> getProxyList(GetListVO vo){
     	List<AbsenceListVO> list = null;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -146,7 +145,6 @@ public class ApproverDAO{
     }
     
   
-    // 부재 수정
     public boolean modifyAbsence(AbsenceVO vo){
     	boolean result = false;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -189,6 +187,18 @@ public class ApproverDAO{
     	return result;
     }
     
+    public boolean hasOverlapAbsence(AbsenceVO vo) {
+        boolean result = false;
+        SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+        try { 
+            int count = conn.selectOne("approverMapper.checkOverlapAbsence", vo);
+            result = count > 0;
+        } finally {
+            conn.close();
+        }
+        return result;
+    }
+
     
     public List<AlarmVO> getApprovalReqNoti(String approverId){
     	List<AlarmVO> list = null;
@@ -213,7 +223,6 @@ public class ApproverDAO{
     	return list;
     }
 
-
     public boolean setAbsenceStatusToActive() {
     	boolean result = false;
         SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -234,15 +243,15 @@ public class ApproverDAO{
         int count = 0;
         try {
             count = conn.update("approverMapper.setAbsenceStatusToEnd");
-            result = count == 1;
-//            conn.commit();
-        } finally {
-            conn.close();
-        }
-        return result;
+            if(result = count == 1) conn.commit();
+        } catch(Exception e){
+    		conn.rollback();
+    	} finally{
+    		conn.close();
+    	}
+    	return result;
     }
     
-    // 부재수정 상세 조회
     public AbsenceVO getAbsenceDetail(int absenceDateNo) {
         SqlSession conn = DBCP.getSqlSessionFactory().openSession();
         AbsenceVO vo = null;
@@ -253,8 +262,6 @@ public class ApproverDAO{
         }
         return vo;
     }
-
-
     
 }
 

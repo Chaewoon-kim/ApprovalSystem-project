@@ -270,7 +270,7 @@ $(document).on("click", "#deleteAbsenceBtn", function() {
     success: function(response) {
       alert(response.message);
       if (response.success) {
-        reqAbsenceList(absencePage, proxyPage); // 목록 새로고침
+        reqAbsenceList(absencePage, proxyPage);
       }
     },
     error: function() {

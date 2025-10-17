@@ -23,10 +23,7 @@ public class GetEndListAction implements Action {
           
         HttpSession session = request.getSession();
         String employeeId = (String) session.getAttribute("employeeId");
-        if (employeeId == null) {
-            employeeId = "E25-000"; 
-        }
-        
+
         int page = 1;
         if (request.getParameter("page") != null) {
         	page = Integer.parseInt(request.getParameter("page"));
@@ -39,7 +36,7 @@ public class GetEndListAction implements Action {
         GetListVO vo = new GetListVO(employeeId, processStatus, page);
         List<ApproverListVO> endList = dao.getEndList(vo);
 
-        int totalPages = 3; // юс╫ц
+        int totalPages = 3; // О©╫с╫О©╫
 
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd")   
