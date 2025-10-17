@@ -3,11 +3,14 @@ package com.oopsw.action.absence;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
 import com.oopsw.action.Action;
 import com.oopsw.model.DAO.ApproverDAO;
 import com.oopsw.model.VO.AbsenceVO;
@@ -53,16 +56,7 @@ public class AddAbsenceAction implements Action {
             request.setAttribute("message", "종료일은 시작일 이후여야 합니다.");
             return addAbsencePage;
         }
-        
-//        if(reason == null){
-//        	request.setAttribute("message", "부재 이유를 작성해주세요.");
-//        	return url;
-//        }
-//        if(proxyId == null){
-//        	request.setAttribute("message", "대결자를 지정해주세요.");
-//        	return url;
-//        }
-        
+
         // 부재 상태 
         String usage = "대기";
         if (start.equals(todayStr)) {
@@ -78,16 +72,33 @@ public class AddAbsenceAction implements Action {
         vo.setAbsenceUsage(usage); 
         // noti_in_date, read_status는 DB에서 sysdate/null 자동 처리
 
+//        ApproverDAO dao = new ApproverDAO();
+//        boolean result = dao.addAbsence(vo);
+//
+//        if (result) {
+//            request.setAttribute("message", "부재 등록이 완료되었습니다.");
+//        } else {
+//            request.setAttribute("message", "부재 등록 중 오류가 발생했습니다.");
+//        }
+//
+//        return absenceListPage;
         ApproverDAO dao = new ApproverDAO();
         boolean result = dao.addAbsence(vo);
 
+        Map<String, Object> jsonResult = new HashMap<>();
         if (result) {
-            request.setAttribute("message", "부재 등록이 완료되었습니다.");
+            jsonResult.put("success", true);
+            jsonResult.put("message", "부재 등록이 완료되었습니다.");
         } else {
-            request.setAttribute("message", "부재 등록 중 오류가 발생했습니다.");
+            jsonResult.put("success", false);
+            jsonResult.put("message", "부재 등록 중 오류가 발생했습니다.");
         }
 
-        return absenceListPage;
+        Gson gson = new Gson();
+        String json = gson.toJson(jsonResult);
+
+        request.setAttribute("result", json);
+        return "webpage/absence/absenceResult.jsp";
 	}
 
 }

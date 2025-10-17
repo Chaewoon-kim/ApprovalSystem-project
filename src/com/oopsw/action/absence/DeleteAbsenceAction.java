@@ -48,7 +48,6 @@ public class DeleteAbsenceAction implements Action {
 
         request.setAttribute("result", json);
 
-
-        return "webpage/absence/deleteAbsenceResult.jsp"; 
+        return "webpage/absence/absenceResult.jsp"; 
     }
 }

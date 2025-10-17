@@ -1,4 +1,9 @@
 @CHARSET "UTF-8";
+.form-table tbody tr:hover {
+  background-color: #f9f9f9; 
+  cursor: pointer;        
+  transition: background-color 0.2s;
+}
 
 	.page-number {
 		cursor: pointer;

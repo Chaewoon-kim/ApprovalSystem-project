@@ -51,6 +51,10 @@ public class ActionFactory {
 			a = new GetDetailReportAction();
 			break;
 		
+			
+		case "getModifyUI":
+			a = new GetModifyUIAction();
+			break;
 		
 		case "getAddAbsenceUI":
 			a = new GetAddAbsenceUIAction();

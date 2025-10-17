@@ -264,6 +264,18 @@ public class ApproverDAO{
         return result;
     }
 
+    public AbsenceVO getAbsenceDetail(int absenceDateNo) {
+        SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+        AbsenceVO vo = null;
+        try {
+            vo = conn.selectOne("approverMapper.getAbsenceDetail", absenceDateNo);
+        } finally {
+            conn.close();
+        }
+        return vo;
+    }
+
+
     
 }
 

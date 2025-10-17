@@ -24,17 +24,16 @@ public class EndAbsenceAction implements Action {
 		ApproverDAO dao = new ApproverDAO();
 		boolean result = dao.endAbsence(absenceDateNo);
 		
-		String message = result ? "위임이 성공적으로 철회되었습니다." : "위임 철회 불가 (이미 종료되었거나 존재하지 않습니다.)";
+		String message = result ? "위임이 조기 종료되었습니다." : "위임 조기 종료 불가 (이미 종료되었거나 존재하지 않습니다.)";
 
 	        Map<String, Object> map = new HashMap<>();
 	        map.put("success", result);
 	        map.put("message", message);
-
 	        String json = new Gson().toJson(map);
 	        request.setAttribute("result", json);
 	        
 	        
-	        	return "webpage/absence/endAbsenceResult.jsp";
+	        return "webpage/absence/absenceResult.jsp";
 	       
 	}
 

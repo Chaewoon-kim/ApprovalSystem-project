@@ -96,30 +96,46 @@ $(document).ready(function(){
   }
 
   function renderAbsenceTable(list){
-    let tbody = $("#absenceTableBody");
-    tbody.empty();
+	  let tbody = $("#absenceTableBody");
+	  tbody.empty();
 
-    if(!list || list.length == 0){
-      tbody.append("<tr><td colspan='6'>부재 일정이 없습니다.</td></tr>");
-      return;
-    }
+	  if(!list || list.length == 0){
+	    tbody.append("<tr><td colspan='6'>부재 일정이 없습니다.</td></tr>");
+	    return;
+	  }
 
-    $.each(list, function(i, item){
-      let disabled = "";
-      if (item.absenceUsage === "종료") { disabled = "disabled"; }
+	  $.each(list, function(i, item){
+	    let disabled = "";
+	    if (item.absenceUsage === "종료") { disabled = "disabled"; }
 
-      let row = "<tr>"
-        + "<td><input type='checkbox' class='row-check' data-absencedateno='" + item.absenceDateNo + "' data-absenceusage='" + item.absenceUsage + "' " + disabled + "></td>"
-        + "<td>" + (item.absenceStartDate || '') + "</td>"
-        + "<td>" + (item.absenceEndDate || '') + "</td>"
-        + "<td>" + ((item.proxyName || '') + ' ' + (item.proxyRank || '')) + "</td>"
-        + "<td>" + (item.absenceReason || '') + "</td>"
-        + "<td><button class='flag complete'>" + (item.absenceUsage || '') + "</button></td>"
-        + "</tr>";
+	    // absenceUsage도 data 속성에 추가
+	    let row = "<tr class='absence-row' data-absencedateno='" + item.absenceDateNo + "' data-absenceusage='" + item.absenceUsage + "'>"
+	      + "<td><input type='checkbox' class='row-check' data-absencedateno='" + item.absenceDateNo + "' data-absenceusage='" + item.absenceUsage + "' " + disabled + "></td>"
+	      + "<td>" + (item.absenceStartDate || '') + "</td>"
+	      + "<td>" + (item.absenceEndDate || '') + "</td>"
+	      + "<td>" + ((item.proxyName || '') + ' ' + (item.proxyRank || '')) + "</td>"
+	      + "<td>" + (item.absenceReason || '') + "</td>"
+	      + "<td><button class='flag complete'>" + (item.absenceUsage || '') + "</button></td>"
+	      + "</tr>";
 
-      tbody.append(row);
-    });
-  }
+	    tbody.append(row);
+	  });
+	}
+
+	// 수정 클릭 제한
+	$(document).on("click", ".absence-row", function(e) {
+	  if ($(e.target).is("input[type='checkbox']")) return;
+
+	  let usage = $(this).data("absenceusage");
+	  if (usage !== "대기") {
+	    alert("‘대기’ 상태인 일정만 수정할 수 있습니다.");
+	    return;
+	  }
+
+	  let absenceDateNo = $(this).data("absencedateno");
+	  location.href = "controller?cmd=getModifyUI&absenceDateNo=" + absenceDateNo;
+	});
+
 
   function renderProxyTable(list){
     let tbody = $("#proxyTableBody");
@@ -234,8 +250,6 @@ $(document).ready(function(){
       }
     });
   });
-
- 
 
 //삭제 버튼 클릭
 $(document).on("click", "#deleteAbsenceBtn", function() {

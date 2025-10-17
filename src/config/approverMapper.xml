@@ -281,6 +281,18 @@
 	       set absence_usage = '종료'
 	     where absence_end_date = sysdate and absence_usage = '위임'
 	</update>
-
+	
+	<select id="getAbsenceDetail" parameterType="int" resultType="com.oopsw.model.VO.AbsenceVO">
+  select
+      absence_date_no      AS absenceDateNo,
+      absentee_id          AS absenteeId,
+      proxy_id             AS proxyId,
+      absence_start_date   AS absenceStartDate,
+      absence_end_date     AS absenceEndDate,
+      absence_reason       AS absenceReason,
+      absence_usage        AS absenceUsage
+  from absence
+  where absence_date_no = #{absenceDateNo}
+</select>
 
 </mapper>
