@@ -13,6 +13,7 @@ public class ApproverListVO {
 	private String approvalStatus;
 	private String name;
 	private String processStatus;
+	private int totalCount;
 	
 	public ApproverListVO(){};
 	
@@ -29,6 +30,16 @@ public class ApproverListVO {
 		this.approvalStatus = approvalStatus;
 		this.name = name;
 		this.processStatus = processStatus;
+	}
+
+
+	public int getTotalCount() {
+		return totalCount;
+	}
+
+
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
 	}
 
 
@@ -99,7 +110,7 @@ public class ApproverListVO {
 		return "ApproverListVO [documentNo=" + documentNo + ", deadline=" + deadline + ", draftDate=" + draftDate
 				+ ", completionDate=" + completionDate + ", title=" + title + ", department=" + department
 				+ ", approvedDocumentNo=" + approvedDocumentNo + ", approvalStatus=" + approvalStatus + ", name=" + name
-				+ ", processStatus=" + processStatus + "]\n";
+				+ ", processStatus=" + processStatus + ", totalCount=" + totalCount + "]\n";
 	}
 	
 	

@@ -146,8 +146,8 @@ $(document).ready(function(){
     pagination.empty();
 
     for (var i = 1; i <= total; i++) {
-      let activeClass = (i == current) ? "active-page" : "";
-      pagination.append("<a href='#' class='page-link absence-page " + activeClass + "' data-page='" + i + "'>" + i + "</a>");
+      let activeClass = (i == current) ? "active" : "";
+      pagination.append("<div class='page-number absence-page " + activeClass + "' data-page='" + i + "'>" + i + "</div>");
     }
   }
 
@@ -156,8 +156,8 @@ $(document).ready(function(){
     pagination.empty();
 
     for (var i = 1; i <= total; i++) {
-      let activeClass = (i == current) ? "active-page" : "";
-      pagination.append("<a href='#' class='page-link proxy-page " + activeClass + "' data-page='" + i + "'>" + i + "</a>");
+      let activeClass = (i == current) ? "active" : "";
+      pagination.append("<div class='page-number proxy-page " + activeClass + "' data-page='" + i + "'>" + i + "</div>");
     }
   }
 
