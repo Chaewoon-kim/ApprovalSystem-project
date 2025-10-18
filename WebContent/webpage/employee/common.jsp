@@ -39,15 +39,15 @@
 			
 			<div class="noti-overlay" id="notiOverlay">
 				<div class="noti-modal" id="notiModal">
-					<div>전자결재 알림</div>
-					<div class="notiContainer">
+					<div class="noti-object"><h3>전자결재 알림</h3></div>
+					<div class="noti-container">
 						<table class="form-table">
 				        <tbody id="notiBody">
 				      </table>
 					</div>
 					<div class="button-container">
-						<button id="notinList">알림 목록</button>				
-						<button id="closeNoti">닫기</button>
+						<button class="form-btn" id="notinList">알림 목록</button>				
+						<button class="form-btn" id="closeNoti">닫기</button>
 					</div>
 				</div>
 			</div>
@@ -123,32 +123,8 @@
 
 		<jsp:include page="../draft/searchFormPopup.jsp" />
 		<script src="webpage/employee/common.js"></script>
-		<script src="webpage/noti/getNoti.js"></script>
 		<script>
-			let notiBody = $("#notiBody");
-			$(document).on("click", "#openNoti", ()=>{
-				reqNoti(1, "", $("#notiBody"), makeModalContent);
-				
-			});
 			
-			const makeModalContent = (tbody)=>{
-				const $tbody = $(tbody);
-				
-				$tbody.children().each((index, element)=>{
-					const $tr = $(element);
-					let row = "<td><div class='notiObject'><div>"+$tr.data("title")+"</div><div>"+$tr.data("notiDate")+"</div></div></td>";
-					if($tr.data("readStatus") == "안읽음")
-				    	$tr.append(row);
-				});
-			}
-			$("#notinList").click(function(){
-				location.href = "controller?cmd=getNotiList";
-			});
-			$(document).on("click", ".notiObject", function(){
-				list = [];
-				let val = $(this).closest("tr").data();
-				list.push(val);
-				reqReadNoti(list, true);
-			});
 		</script>
+		
 </body>

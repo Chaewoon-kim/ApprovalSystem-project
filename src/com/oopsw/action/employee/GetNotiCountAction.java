@@ -17,22 +17,20 @@ public class GetNotiCountAction implements Action {
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
 		String url = "webpage/manager/resultAsync.jsp";
-		
-		HttpSession session = request.getSession(false);
-		System.out.println(request);
-		if(session == null) {
-			return "webpage/employee/login.html";
-		}
+		System.out.println("hit");
 
-		String empId = (String) session.getAttribute("employeeId");
-		String filter = request.getParameter("filter");
+		HttpSession session = request.getSession(); 
+        String employeeId = (String) session.getAttribute("employeeId");
 		
+		String filter = request.getParameter("filter");
+
+		System.out.println("hit");
 		String result = null;
 		AlarmVO vo = new AlarmVO();
-		vo.setEmpId(empId);
+		vo.setEmpId(employeeId);
 		vo.setNotiType(filter);
 		
-		if(!empId.isEmpty())
+		if(!employeeId.isEmpty())
 			result = new EmployeeDAO().getAllNotiCount(vo);
 		
 		request.setAttribute("result", result);

@@ -39,7 +39,7 @@ if (changeModeToggle) {
 
 	changeMode(isManagerMode);
 }
-
+/* Notification js */
 const openNotiBtn = $("#openNoti");
 const closeNotiBtn = $("#closeNoti");
 const modalOverlay = $("#notiO	verlay");
@@ -56,6 +56,115 @@ $(document).on("click", (e) => {
 		  notiModal.hide();
 	  }
 });
+
+let notiBody = $("#notiBody");
+$(document).on("click", "#openNoti", ()=>{
+	reqNoti(1, "", $("#notiBody"), makeModalContent);
+});
+//알림 정보 획득
+function reqNoti(page, filter, elem, setFunc){
+	ajaxRequest(
+		{
+			cmd: "getNotiList",
+			page: page,
+			filter: filter
+		},
+		function(data){
+			setTable(data.result, elem, setFunc);
+		}
+	);
+}
+const makeModalContent = (tbody)=>{
+	const $tbody = $(tbody);
+	
+	$tbody.children().each((index, element)=>{
+		const $tr = $(element);
+		let row = "<td><div class='notiObject'><div>"+$tr.data("title")+"</div><div>"+$tr.data("notiDate")+"</div></div></td>";
+		if($tr.data("readStatus") == "안읽음")
+	    	$tr.append(row);
+	});
+}
+$("#notinList").click(function(){
+	location.href = "controller?cmd=getNotiList";
+});
+$(document).on("click", ".notiObject", function(){
+	list = [];
+	let val = $(this).closest("tr").data();
+	list.push(val);
+	reqReadNoti(list, true);
+});
+
+function reqReadNoti(notiList, isClicked){
+	if(notiList == null || notiList.length == 0) return;
+				
+	// 읽은 알림을 눌렀을 때
+	if(isClicked && (notiList.at(0).readStatus == "읽음")) {
+		clickNoti(notiList.at(0));
+		return;
+	}
+	
+	ajaxRequest(
+		{
+			cmd: "readNoti",
+			notiList: JSON.stringify(notiList)
+		},
+		(data)=>{
+			if(isClicked && data.result) clickNoti(notiList.at(0));
+			else if(data.result){
+				reqNoti(1, currentSelect, tableElem, makeContent);
+			}
+		}
+	);
+}
+function setTable(data, elem, setFunc){
+	elem.empty();
+	
+	let row="";
+	$.each(data, function(i, noti) {
+		  const readStatus = noti.readStatus == null ? "안읽음" : "읽음";
+		  const notiDate = noti.notiInDate || "";
+		  const notiType = noti.notiType;
+		  const title = noti.title || "";
+		  const approvedDoc = noti.approvedDocumentNo || "-";
+		  const status = noti.status || "";
+		  const documentNo = noti.documentNo || "";
+		  const notiNo = noti.notiNo || "";
+
+		  row += '<tr class="' + (readStatus === "읽음" ? "" : "bold") + '"' +
+	       ' data-document-no="' + documentNo + '"' +
+	       ' data-emp-id="' + noti.empId + '"' +
+	       ' data-noti-type="' + notiType + '"' +
+	       ' data-noti-no="' + notiNo + '"' +
+	       ' data-status="' + status + '"' +
+	       ' data-read-status="' + readStatus + '"' +
+	       ' data-approved-doc="' + approvedDoc + '"' +
+	       ' data-noti-date="' + notiDate + '"' +
+	       ' data-title="' + title + '">' +
+	       '</tr>';;
+		});
+	elem.append(row);
+	setFunc(elem);
+}
+function clickNoti(notiInfo){
+			switch(notiInfo["notiType"]){
+			case "A":
+				window.location.href="controller?cmd=getAbsenceProxyList";
+				break;
+			case "C":
+			case "R":
+			case "P":
+				window.location.href = "controller?cmd=getDetailReport&documentNo="+notiInfo["documentNo"];
+				break;
+			}
+		}
+function ajaxRequest(params, success){
+	$.ajax({
+		url: "controller",
+		data: params,
+		success: success,
+		error: function(err){console.error(err); alert("서버 요청 실패");}
+	});
+}
 
 
 

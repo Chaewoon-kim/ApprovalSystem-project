@@ -12,7 +12,7 @@ import com.oopsw.action.Action;
 import com.oopsw.model.DAO.EmployeeDAO;
 import com.oopsw.model.VO.AlarmVO;
 
-public class readNotiAction implements Action {
+public class ReadNotiAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {

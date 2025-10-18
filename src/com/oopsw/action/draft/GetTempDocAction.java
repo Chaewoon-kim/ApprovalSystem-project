@@ -29,7 +29,7 @@ public class GetTempDocAction implements Action {
 		EmployeeDAO employee = new EmployeeDAO();
 
 		if(documentParam == null || documentParam.trim().isEmpty()){
-			request.setAttribute("message", "Á¶È¸ÇÒ ¹®¼­ ¹øÈ£°¡ ´©¶ôµÇ¾ú½À´Ï´Ù.");
+			request.setAttribute("message", "ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 			return url;
 		}
 		
@@ -37,7 +37,7 @@ public class GetTempDocAction implements Action {
 		try{
 			documentNo = Integer.parseInt(documentParam);			
 		}catch(Exception e){
-			request.setAttribute("message", "¹®¼­ ¹øÈ£ Çü½ÄÀÌ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù.");
+			request.setAttribute("message", "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¹Ù¸ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.");
 			return url;
 		}
 		
@@ -51,7 +51,7 @@ public class GetTempDocAction implements Action {
 			detailDoc = employee.getDetailReport(documentNo);
 
 			if (detailDoc == null) {
-				request.setAttribute("message", "¹®¼­ ¹øÈ£ " + documentNo + "¿¡ ÇØ´çÇÏ´Â ¹®¼­°¡ ¾ø½À´Ï´Ù.");
+				request.setAttribute("message", "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ " + documentNo + "ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 				return url;
 			}
 			detailDoc.setDocumentNo(documentNo);
@@ -62,7 +62,7 @@ public class GetTempDocAction implements Action {
 
 		}catch(Exception e){
 			e.printStackTrace();
-			request.setAttribute("message", "¹®¼­ Á¶È¸ Áß ¿À·ù ¹ß»ý");
+			request.setAttribute("message", "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½");
 
 			return url;
 		}

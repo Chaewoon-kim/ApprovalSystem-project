@@ -1,6 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" isELIgnored="true"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ include file="../employee/common.jsp" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -16,7 +17,6 @@
 </head>
 <body>
 	<!-- 헤더 -->
-	<jsp:include page="/webpage/employee/common.jsp"/>
 
  	<!-- 메인 콘텐츠 -->
     <main class="form-list">
@@ -56,6 +56,8 @@
       </table>
   		
       <!-- 페이지네이션 -->
-	  <div class="pagination"></div>
+	  <div class="pagination" id="notiPage"></div>
+	  
+	  <script src="./webpage/noti/getNoti.js"></script>
 </body>
 </html>

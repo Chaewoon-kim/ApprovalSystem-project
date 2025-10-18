@@ -1,4 +1,4 @@
-		let currentSelect = '';
+let currentSelect = '';
 		let currentPage = 1;
 		let startPage = 1;
 		let endPage = 10;
@@ -45,10 +45,10 @@
 		});
 		$(document).on("click", ".page-number", function(e){
 			if(!$(this).hasClass("active")){
-				let pageNo = $(this).data("page");
-				if(pageNo == null) pageNo = 1;
 				
-				reqNoti(pageNo, currentSelect, tableElem, makeContent);
+				if(pageNo != null) currentPage = $(this).data("page");
+				
+				reqNoti(currentPage, currentSelect, tableElem, makeContent);
 				clickPage($(this));
 			}
 		});
@@ -62,15 +62,14 @@
 				function(data){
 					setPage(data.result);
 					if(loadFirstPage){
-						let firstPage = $(".page-number").eq(0).data("page");
-						if(firstPage != null) reqNoti(firstPage, filter, tableElem, makeContent);
+						reqNoti(1, filter, tableElem, makeContent);
 					}
 				}
 			);
 		}
 		// UI에 페이지네이션 표시
 		function setPage(alarmCount){
-			let pagination = $(".pagination");
+			let pagination = $("#notiPage");
 			pagination.empty();
 			
 			// 0 이상일 경우 계산
@@ -78,9 +77,9 @@
 				totalPage = Math.ceil(alarmCount / inPage);
 			
 			if(totalPage < endPage ) endPage = totalPage;
-			
+
 			for(let idx = startPage; idx <= endPage; idx++){
-				pagination.append(`<div class='page-number' data-page='${idx}'>${idx}</div>`);
+				pagination.append("<div class='page-number' data-page='" + idx + "'>" + idx + "</div>");
 			}
 			clickPage($(".page-number").eq(0));
 		}
@@ -112,17 +111,17 @@
 				  const documentNo = noti.documentNo || "";
 				  const notiNo = noti.notiNo || "";
 
-				  row += `<tr class="${readStatus == "읽음" ? "" : "bold"}"
-				    	data-document-no="${documentNo}"
-				    	data-emp-id="${noti.empId}"
-				    	data-noti-type="${notiType}"
-				    	data-noti-no="${notiNo}"
-				    	data-status="${status}"
-				    	data-read-status="${readStatus}"
-					    data-approved-doc=${approvedDoc}
-						data-noti-date=${notiDate}
-				    	data-title="${title}">
-				    </tr>`;
+				  row += '<tr class="' + (readStatus === "읽음" ? "" : "bold") + '"' +
+			       ' data-document-no="' + documentNo + '"' +
+			       ' data-emp-id="' + noti.empId + '"' +
+			       ' data-noti-type="' + notiType + '"' +
+			       ' data-noti-no="' + notiNo + '"' +
+			       ' data-status="' + status + '"' +
+			       ' data-read-status="' + readStatus + '"' +
+			       ' data-approved-doc="' + approvedDoc + '"' +
+			       ' data-noti-date="' + notiDate + '"' +
+			       ' data-title="' + title + '">' +
+			       '</tr>';;
 				});
 			elem.append(row);
 			setFunc(elem);
@@ -131,13 +130,15 @@
 			const $tbody = $(elem);
 			$tbody.children().each((index, element)=>{
 				const $tr = $(element);
-				let row = `<td><input type="checkbox" class="row-check"></td>
-			      <td>${$tr.data("readStatus")}</td>
-			      <td>${$tr.data("notiDate")}</td>
-			      <td>${getFilterName($tr.data("notiType"))}</td>
-			      <td><div><span class="text-link">${$tr.data("title")}</span></div></td>
-			      <td>${$tr.data("approvedDoc")}</td>
-			      <td><div ${$tr.data("status") == "" ? "" : "class='flag'"}>${$tr.data("status")}</div></td>`;
+				
+				let row = '<td><input type="checkbox" class="row-check"></td>'+'<td>' + $tr.data("readStatus") + '</td>' +
+		          '<td>' + $tr.data("notiDate") + '</td>' +
+		          '<td>' + getFilterName($tr.data("notiType")) + '</td>' +
+		          '<td><div><span class="text-link">' + $tr.data("title") + '</span></div></td>' +
+		          '<td>' + $tr.data("approvedDoc") + '</td>' +
+		          '<td><div ' + ($tr.data("status") == "" ? "" : "class=\'flag\'") + '>' +
+		              $tr.data("status") + '</div></td>';
+		              
 			      $tr.append(row);
 			});
 		}
@@ -145,6 +146,7 @@
 			let notiObj = $(this).closest("tr");
 			notiList = [];
 			notiList.push(notiObj.data());
+			console.log(notiList[0].readStatus);
 			reqReadNoti(notiList, true);
 		});
 			
@@ -157,7 +159,6 @@
 				clickNoti(notiList.at(0));
 				return;
 			}
-			console.log(notiList.at(0));
 			
 			ajaxRequest(
 				{
@@ -166,7 +167,9 @@
 				},
 				(data)=>{
 					if(isClicked && data.result) clickNoti(notiList.at(0));
-					reqNoti(currentPage, currentSelect, tableElem, makeContent);
+					else if(data.result){
+						reqNoti(1, currentSelect, tableElem, makeContent);
+					}
 				}
 			);
 		}

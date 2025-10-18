@@ -21,22 +21,24 @@ public class GetNotiAction implements Action {
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
 		String url = "webpage/manager/resultAsync.jsp";
 		
-		if(request.getSession(false) == null) return "webpage/employee/login.html";
+		//if(request.getSession(false) == null) return "webpage/employee/login.html";
 
 		// Ajax 비동기 통신이 아닌 경우
 		String ajax = request.getHeader("X-Requested-With");
 		boolean isAjax = "XMLHttpRequest".equals(ajax);
 		if(!isAjax) 
 			return "webpage/noti/getNotificationList.jsp";
+
+		HttpSession session = request.getSession(); 
+
+        String employeeId = (String) session.getAttribute("employeeId");
 		
-		HttpSession session = request.getSession(true);
-		String empId = (String) session.getAttribute("employeeId");
 		String page = request.getParameter("page");
 		String filter = request.getParameter("filter");
 		
 		EmployeeDAO dao = new EmployeeDAO();
 		AlarmVO vo = new AlarmVO();
-		vo.setEmpId(empId);
+		vo.setEmpId(employeeId);
 		vo.setNotiType(filter);
 		vo.setPage(Integer.parseInt(page));
 		

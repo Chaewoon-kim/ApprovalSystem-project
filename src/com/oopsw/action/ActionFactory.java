@@ -31,7 +31,7 @@ import com.oopsw.action.employee.GetDetailReportAction;
 import com.oopsw.action.employee.GetNotiAction;
 import com.oopsw.action.employee.GetNotiCountAction;
 import com.oopsw.action.employee.LoginUIAction;
-import com.oopsw.action.employee.readNotiAction;
+import com.oopsw.action.employee.ReadNotiAction;
 import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginUIAction;
@@ -49,12 +49,14 @@ public class ActionFactory {
 	private ActionFactory(){}
 	public static Action getAction(String cmd){
 		Action a = null;
+		System.out.println(cmd);
 		switch(cmd){
-		case "readNoti":
-			a = new readNotiAction();
-			break;
 		case "getNotiCount":
 			a = new GetNotiCountAction();
+			break;
+		case "readNoti":
+			a = new ReadNotiAction();
+			break;
 		case "logoutAction":
 			a = new LogoutAction();
 			break;
