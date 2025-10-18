@@ -16,9 +16,9 @@ public class AbsenceListVO {
     private String absenteeName;
     private String absenteeRank;
     
+    private int totalCount;
+    
     public AbsenceListVO(){};
-    
-    
     
 	public AbsenceListVO(int absenceDateNo, String absenteeId, String proxyId, Date absenceStartDate,
 			Date absenceEndDate, String absenceReason, String absenceUsage,
@@ -106,7 +106,13 @@ public class AbsenceListVO {
 		this.absenteeRank = absenteeRank;
 	}
 
+	public int getTotalCount() {
+		return totalCount;
+	}
 
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
+	}
 
 	@Override
 	public String toString() {
