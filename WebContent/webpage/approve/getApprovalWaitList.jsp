@@ -2,6 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="../employee/common.jsp" %>
+
+<c:if test="${not empty message}">
+  <script>alert('${message}');</script>
+  <c:remove var="message" scope="session"/>
+</c:if>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,11 +18,9 @@
 </head>
 
 <body>
-
 <main class="form-list">
   <h1>결재 대기 목록</h1>
 
-  <!-- 목록 테이블 -->
   <table class="form-table">
     <thead>
       <tr>
@@ -31,9 +35,9 @@
     <tbody id="waitListTable"></tbody>
   </table>
 
-  <!-- 페이지네이션 -->
   <div class="pagination"></div>
 </main>
+
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -59,28 +63,27 @@ $(document).ready(function(){
   }
 
   function setTable(list, success){
-    let tbody = $("#waitListTable");
-    tbody.empty();
+	  let tbody = $("#waitListTable");
+	  tbody.empty();
 
-    if(!success || !list || list.length == 0){
-      tbody.append("<tr><td colspan='6'>결재 대기 문서가 없습니다.</td></tr>");
-      return;
-    }
+	  if(!success || !list || list.length == 0){
+	    tbody.append("<tr><td colspan='6'>결재 대기 문서가 없습니다.</td></tr>");
+	    return;
+	  }
 
-    $.each(list, function(i, item){
-      let row = "<tr>"
-        + "<td>" + (item.deadline || '') + "</td>"
-        + "<td>" + (item.draftDate || '') + "</td>"
-        + "<td>" + (item.name || '') + "</td>"
-        + "<td><a href='controller?cmd=getDetailReport&documentNo="+item.documentNo+"'>" +(item.title)+"</a></td>"
-        + "<td>" + (item.department || '') + "</td>"
-        + "<td><button class='flag'>" + item.approvalStatus + "</button></td>"
-        + "</tr>";
-      tbody.append(row);
-    });
-  }
+	  $.each(list, function(i, item){
+	    let row = "<tr class='wait-row' data-documentno='" + item.documentNo + "'>"
+	      + "<td>" + (item.deadline || '') + "</td>"
+	      + "<td>" + (item.draftDate || '') + "</td>"
+	      + "<td>" + (item.name || '') + "</td>"
+	      + "<td>" + (item.title || '') + "</td>"
+	      + "<td>" + (item.department || '') + "</td>"
+	      + "<td><button class='flag'>" + item.approvalStatus + "</button></td>"
+	      + "</tr>";
+	    tbody.append(row);
+	  });
+	}
 
-  //  페이지네이션 생성
   function setPagination(current, total){
     let pagination = $(".pagination");
     pagination.empty();
@@ -98,6 +101,14 @@ $(document).ready(function(){
     currentPage = parseInt($(this).data("page"));
     reqWaitList(currentPage);
   });
+  
+  $(document).on("click", ".wait-row", function(e){
+    if ($(e.target).is("button")) return;
+
+    let documentNo = $(this).data("documentno");
+    location.href = "controller?cmd=getDetailReport&documentNo=" + documentNo;
+  });
+
 
   reqWaitList(currentPage);
 

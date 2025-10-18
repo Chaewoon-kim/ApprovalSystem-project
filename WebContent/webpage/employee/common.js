@@ -59,3 +59,6 @@ $(document).on("click", (e) => {
 
 
 
+$(".logout").on('click', function(){
+	window.location.href="controller?cmd=logoutAction";
+})

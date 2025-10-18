@@ -1,6 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+    response.setDateHeader("Expires", 0);
+    
+    HttpSession currentSession = request.getSession(false); 
+    
+    if (currentSession == null || currentSession.getAttribute("employeeId") == null) {
+        response.sendRedirect("controller?cmd=loginUI");
+        return; 
+    }
+%>
 <head>
 <link href="webpage/employee/common.css" rel="stylesheet">
 <link href="webpage/draft/searchFormPopup.css" rel="stylesheet">
@@ -13,7 +25,7 @@
 	<!-- 헤더 -->
 	<nav class="top-nav">
 
-		<div class="logo">로고자리</div>
+		<div class="logo"><img src="img/logo-easy.png" alt="logo"></div>
 		<div class="profile">
 			<c:if test="${isManager}">
 				<div class="change-mode-container">

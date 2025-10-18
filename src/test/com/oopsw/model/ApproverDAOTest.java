@@ -38,118 +38,116 @@ public class ApproverDAOTest {
 		
 	}
 	
-//	@Test
+	@Test
 	public void setAbsenceStatusToActiveTest() {
 		assertTrue(dao.setAbsenceStatusToActive());
 	}
 	
-//	@Test
+	@Test
 	public void setAbsenceStatusToEndTest(){
 		assertTrue(dao.setAbsenceStatusToEnd());
 	}
 
-//	@Test
+	@Test
 	public void processApprovalTest() {
 		al.setDocumentNo(20);
 		al.setApproverId("E25-014");
-		al.setApprovalStatus("승인");
-		al.setOpinion("테스트 의견");
+		al.setApprovalStatus("占쏙옙占쏙옙");
+		al.setOpinion("占쌓쏙옙트 占실곤옙");
 		assertTrue(dao.processApproval(conn, al));
 	}
 
-//	@Test
+	@Test
 	public void setNextApproverToWaitTest() {
 		al.setDocumentNo(20);
 		al.setLineOrder(2);
 		assertTrue(dao.setNextApproverToWait(conn, al));
 	}
 
-//	@Test
+	@Test
 	public void findNextApprovalLineNoTest() {
 		al.setDocumentNo(20); 
 	    al.setLineOrder(2);    
 	    System.out.println(dao.findNextApprovalLineNo(conn, al));
 	}
 
-//	@Test
+	@Test
 	public void sendRequestNotiTest() {
 		al.setApprovalLineNo(28);
 		assertTrue(dao.sendRequestNoti(conn, al));
 	}
 
-//	@Test
+	@Test
 	public void sendProcessNotiTest() {
 		al.setDocumentNo(20);
 		assertTrue(dao.sendProcessNoti(conn, al));
 	}
 
-//	@Test
+	@Test
 	public void setDocRejectTest() {
 		doc.setDocumentNo(2);
 		assertTrue(dao.setDocReject(conn, doc));
 	}
 
-//	@Test
+	@Test
 	public void setDocCompleteTest() {
 		doc.setDocumentNo(2);
 		assertTrue(dao.setDocComplete(conn, doc));
 	}
 
-//	@Test
+	@Test
 	public void checkAbsenceTest() {
 		System.out.println(dao.checkAbsence("E25-003"));
 	}
 
-//	@Test
+	@Test
 	public void getWaitListTest() {
 		System.out.println(dao.getWaitList(new GetListVO("E25-000", null, 1)));
 	}
 
-//	@Test
+	@Test
 	public void getEndListTest() {
-		System.out.println(dao.getEndList(new GetListVO("E25-010", "반려", 1)));
+		System.out.println(dao.getEndList(new GetListVO("E25-010", "諛섎젮", 1)));
 	}
 
-//	@Test
+	@Test
 	public void getAbsenceListTest() {
-		System.out.println(dao.getAbsenceList("E25-005"));
+		System.out.println(dao.getAbsenceList(new GetListVO("E25-015", "諛섎젮", 1)));
 	}
 
-//	@Test
+	@Test
 	public void getProxyListTest() {
-		System.out.println(dao.getProxyList("E25-013"));
+		System.out.println(dao.getProxyList(new GetListVO("E25-015", "諛섎젮", 1)));
 	}
-
-//	@Test
+	
+	@Test
 	public void addAbsenceTest() {
 		ab.setAbsenteeId("E25-001");
 		ab.setProxyId("E25-002");
 		ab.setAbsenceStartDate(java.sql.Date.valueOf("2025-10-12"));
 		ab.setAbsenceEndDate(java.sql.Date.valueOf("2025-10-20"));
-		ab.setAbsenceReason("출장");
+		ab.setAbsenceReason("아무거나");
 		ab.setAbsenceUsage("대기");
 		assertTrue(dao.addAbsence(ab));
 	}
 
-//	@Test
+	@Test
 	public void modifyAbsenceTest() {
 		ab.setAbsenceDateNo(1);
 		ab.setProxyId("E25-020");
 		ab.setAbsenceStartDate(java.sql.Date.valueOf("2025-10-12"));
 		ab.setAbsenceEndDate(java.sql.Date.valueOf("2025-10-20"));
-		ab.setAbsenceReason("휴가 일정 변경");
-		ab.setAbsenceUsage("대기");
+		ab.setAbsenceReason("�쑕媛� �씪�젙 蹂�寃�");
+		ab.setAbsenceUsage("��湲�");
 		assertTrue(dao.modifyAbsence(ab));
 	}
 	
-	// 부재 조기종료 (위임중일때만)
 	@Test
 	public void endAbsenceTest() {
 		assertTrue(dao.endAbsence(10));
 	}
 	
-	// 부재 삭제 (대기중일때만)
-//	@Test
+	@Test
 	public void deleteAbsenceTest() {
 		assertTrue(dao.deleteAbsence(13));
 	}
@@ -159,13 +157,13 @@ public class ApproverDAOTest {
 		System.out.println(dao.getApprovalReqNoti("E25-008"));
 	}
 	
-//	@Test
+	@Test
 	public void getUnReadApprovalReqNotiTest() {
 		System.out.println(dao.getUnReadApprovalReqNoti("E25-008"));
 	}
 	
 	
-	//@Test
+	@Test
 	public void DBCPtest(){
 		System.out.println(DBCP.getSqlSessionFactory());
 		System.out.println(DBCP.getSqlSessionFactory().openSession());

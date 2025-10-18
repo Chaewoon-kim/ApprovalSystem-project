@@ -1,4 +1,4 @@
-document.querySelector("h1").innerText = "휴가신청서";
+document.querySelector("h1").innerText = '${form.formName}';
 document.querySelector(".inputForm").innerHTML = '<p>휴가 종류: 연차</p><p>휴가 기간: 2025년 09월 18일 ~ 20205년 09월 19일</p><p>휴가 사유: 예비군</p>';
 let tableList = document.querySelectorAll(".tables");
 

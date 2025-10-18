@@ -23,6 +23,7 @@ public class EmployeeDAO {
 	    }
 	    return result;
 	}
+
 	public String getAllNotiCount(AlarmVO vo){
 		SqlSession session = DBCP.getSqlSessionFactory().openSession();
 		String result = null;
@@ -58,11 +59,8 @@ public class EmployeeDAO {
 	    return commentList;
 	}
 
-	
-	
-	//댓글 작성
 	public boolean writeComment(CommentVO comment) {
-	    SqlSession session = DBCP.getSqlSessionFactory().openSession(true); // 자동 커밋 true
+	    SqlSession session = DBCP.getSqlSessionFactory().openSession(true);
 	    boolean result = false;
 
 	    try {
@@ -77,8 +75,6 @@ public class EmployeeDAO {
 	    return result;
 	}
 	
-
-	//전체 사원 검색
 	public List<EmployeeVO> getAllEmployees() {
         SqlSession session = DBCP.getSqlSessionFactory().openSession();
         List<EmployeeVO> employeeList = null;
@@ -92,7 +88,6 @@ public class EmployeeDAO {
         return employeeList;
     }
 	
-	//특정 사원 검색
 	public List<EmployeeVO> getEmployee(String keyword) {
         SqlSession session = DBCP.getSqlSessionFactory().openSession();
         List<EmployeeVO> employeeList = null;
@@ -106,9 +101,6 @@ public class EmployeeDAO {
         return employeeList;
     }
 	
-	
-	
-	//댓글 알림 보내기
 	public int sendNoti(CommentNotiVO notiVo){
 		int result = 0;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -122,7 +114,6 @@ public class EmployeeDAO {
 		return result;
 	}
 	
-	//대결 알림
 	public List<AlarmVO> getApprovalNoti(String proxyId) {
 	    List<AlarmVO> result = null;
 	    SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -134,7 +125,7 @@ public class EmployeeDAO {
 	    return result;
 	}
 
-	//댓글 알림 (받기)
+
 	public List<AlarmVO> getCommentsNoti(String recipientId){
 		List<AlarmVO> result = null;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -147,7 +138,6 @@ public class EmployeeDAO {
 		return result;
 	}
 	
-	//대결 알림
 		public List<AlarmVO> getUnReadApprovalNoti(String proxyId) {
 		    List<AlarmVO> result = null;
 		    SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -159,7 +149,6 @@ public class EmployeeDAO {
 		    return result;
 		}
 
-	//댓글 알림 (받기)
 	public List<AlarmVO> getUnReadCommentsNoti(String recipientId){
 		List<AlarmVO> result = null;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -172,7 +161,6 @@ public class EmployeeDAO {
 		return result;
 	}
 	
-	//결재 신청 문서 상세 조회 - 결재선 테이블에서 가져오기
 	public List<ApprovalLineEmployeeVO> getApprvovalTable(int documentNumber){
 		List<ApprovalLineEmployeeVO> result = null;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
@@ -186,7 +174,6 @@ public class EmployeeDAO {
 		return result;
 	}
 	
-	//결재 신청 문서 상세 조회
 	public DocumentDetailVO getDetailReport(int documentNumber){
 		DocumentDetailVO result = null;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();

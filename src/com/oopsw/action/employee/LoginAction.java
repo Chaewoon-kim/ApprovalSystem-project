@@ -14,12 +14,11 @@ public class LoginAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-		String url = "webpage/employee/login.html";//실패페이지
+		String url = "webpage/employee/login.html";
 		String employeeId = request.getParameter("employeeId");
 		String password = request.getParameter("password");
 		
 		EmployeeVO vo = new EmployeeDAO().login(new EmployeeVO(employeeId, password));
-		System.out.println(vo);
 		if (vo != null){//로그인 성공시
 			HttpSession session = request.getSession(true);
 			session.setAttribute("employeeId", employeeId);

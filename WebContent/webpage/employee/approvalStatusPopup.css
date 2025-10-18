@@ -16,6 +16,7 @@
 .drafter-table td{
 	padding: 10px;
 	border: 1px solid black;
+	text-align: center;
 }
 
 .approvers-table{
@@ -24,6 +25,7 @@
 .approvers-table td{
 	padding: 10px;
 	border: 1px solid black;
+	text-align: center;
 }
 .approval-opinions-section{
 	display: flex;

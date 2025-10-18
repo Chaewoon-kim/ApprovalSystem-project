@@ -14,11 +14,10 @@ public class GetApprovalStatusAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-		String url = null;
 		int documentNo = Integer.parseInt(request.getParameter("documentNo"));
 		List<ApprovalStatusVO> status = new DrafterDAO().getApprovalStatus(documentNo);
-		//setParameter
-		return url;
+		request.setAttribute("result", status);
+		return "webpage/result.jsp";
 	}
 
 }

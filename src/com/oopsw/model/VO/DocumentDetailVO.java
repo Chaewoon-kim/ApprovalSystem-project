@@ -11,6 +11,7 @@ public class DocumentDetailVO {
     private Date draftDate;
     private Date completionDate;
     private Date deadline;
+    private String approvedDocumentNo;
 
     // employee
     private String employeeName;
@@ -18,9 +19,21 @@ public class DocumentDetailVO {
     private String employeeRank;
 
     // document_form
+    private String formId;
     private String formName;
 
     public DocumentDetailVO() {}
+
+    
+	public String getApprovedDocumentNo() {
+		return approvedDocumentNo;
+	}
+
+
+	public void setApprovedDocumentNo(String approvedDocumentNo) {
+		this.approvedDocumentNo = approvedDocumentNo;
+	}
+
 
 	public int getDocumentNo() {
 		return documentNo;
@@ -101,6 +114,14 @@ public class DocumentDetailVO {
 	public void setEmployeeRank(String employeeRank) {
 		this.employeeRank = employeeRank;
 	}
+	
+	public String getFormId() {
+		return formId;
+	}
+
+	public void setFormId(String formId) {
+		this.formId = formId;
+	}
 
 	public String getFormName() {
 		return formName;
@@ -112,7 +133,7 @@ public class DocumentDetailVO {
 
 	@Override
 	public String toString() {
-		return "DocumentDetailVO [employeeId=" + employeeId  + ", employeeName=" + employeeName + ", employeeRank=" + employeeRank + ", employeeDepartment=" + employeeDepartment + ", draftDate=" + draftDate + ", completionDate=" + completionDate	
+		return "DocumentDetailVO [documentNo=" + documentNo + ", employeeId=" + employeeId  + ", employeeName=" + employeeName + ", employeeRank=" + employeeRank + ", employeeDepartment=" + employeeDepartment + ", draftDate=" + draftDate + ", completionDate=" + completionDate	
 				+ ", deadline=" + deadline  + "]";
 	}
 

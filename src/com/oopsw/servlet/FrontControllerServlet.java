@@ -27,9 +27,8 @@ public class FrontControllerServlet extends HttpServlet {
 				cmd = "mainUI";
 			}
 			
-			//일할 Action 찾아오기
 			Action action = ActionFactory.getAction(cmd);
-			//결과 페이지로 이동
+
 			String url = action.execute(request);
 			request.getRequestDispatcher("/"+url).forward(request, reponse);
 		}

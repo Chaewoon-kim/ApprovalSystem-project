@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.oopsw.model.DAO.ApproverDAO;
 
-/* 일단 만들어본 부재 상태 변경 액션,, */
+/*일단 만들어본 부재 상태 변경 액션,, */
 public class setAbsenceStatusAction {
     public String execute(HttpServletRequest request) throws ServletException, IOException {
         ApproverDAO dao = new ApproverDAO();
@@ -16,7 +16,6 @@ public class setAbsenceStatusAction {
         boolean ended = dao.setAbsenceStatusToEnd();
 
 
-        // 응답 필요?
         request.setAttribute("activated", activated);
         request.setAttribute("ended", ended);
 

@@ -53,6 +53,7 @@ public class GetNotiAction implements Action {
 		
 //		List<AlarmVO> list = new DrafterDAO().getApprovalProcessNoti(new GetListVO(employeeId, processStatus, 0));
 		//setParameter필요
+		
 		return url;
 	}
 

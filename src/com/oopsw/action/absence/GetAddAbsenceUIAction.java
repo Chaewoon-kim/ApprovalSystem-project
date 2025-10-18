@@ -1,4 +1,4 @@
-package com.oopsw.action.employee;
+package com.oopsw.action.absence;
 
 import java.io.IOException;
 
@@ -8,14 +8,11 @@ import javax.servlet.http.HttpSession;
 
 import com.oopsw.action.Action;
 
-public class LogoutAction implements Action {
+public class GetAddAbsenceUIAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		if(session != null)
-			session.invalidate();
-		return "webpage/employee/login.html";
+		return "webpage/absence/addAbsence.jsp";
 	}
 
 }
