@@ -36,8 +36,11 @@ public class GetEndListAction implements Action {
         GetListVO vo = new GetListVO(employeeId, processStatus, page);
         List<ApproverListVO> endList = dao.getEndList(vo);
         
-        double totalCount = endList.get(0).getTotalCount();
-        int totalPages = (int) Math.ceil(totalCount / 8.0);
+        int totalPages = 1;
+        if(endList.size() != 0){
+        	double totalCount = endList.get(0).getTotalCount();
+            totalPages = (int) Math.ceil(totalCount / 8.0);
+        }
 
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd")   
