@@ -7,7 +7,7 @@
 
       <input type="hidden" name="documentNo" value="${documentDetail.documentNo}">
       <input type="hidden" name="lineOrder" value="${approverLineOrder}">
-      <!-- <input type="hidden" name="approverId" value="${sessionScope.loginId}"> -->
+      <!-- <input type="hidden" name="approverId" value="${sessionScope.employeeId}"> -->
      
       <table>
         <tr>

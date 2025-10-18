@@ -1,4 +1,8 @@
-
+.ud-area span{
+   cursor: pointer;
+   color: gray;
+}
+ 
 .add-form{
 	overflow: scroll;
 	overflow-x: hidden;

@@ -152,7 +152,7 @@
 			<!-- 댓글 조회 비동기 부분 -->
 			<div id="comments-container"></div>
 			
-			<!-- 
+			<!-- css태그 참고
 			<div class="addComments-container"></div>
 			<div class="flex-container">
 				<div class="comment-container comment-text">
@@ -176,7 +176,10 @@
 		
 		<script>
 		    const writerId = "${sessionScope.employeeId}";
+		    const writerName = "${sessionScope.name}";
+		    const writerRank = "${sessionScope.rank}";
 		</script>
+
 		
 		<script src="webpage/employee/addComment.js"></script>
 		<script src="webpage/employee/getComments.js"></script>

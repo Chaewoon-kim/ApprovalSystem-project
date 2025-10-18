@@ -1,6 +1,8 @@
 package com.oopsw.model.DAO;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -34,6 +36,28 @@ public class ApproverDAO{
     	nextLineNo = conn.selectOne("approverMapper.findNextApprovalLineNo", vo);
     	return nextLineNo;
     }
+    
+    // 대결자 id
+    public ApprovalLineVO findNextApprovalInfo(SqlSession conn, ApprovalLineVO vo) {
+        return conn.selectOne("approverMapper.findNextApprovalInfo", vo);
+    }
+    // 부재자 -> 대결자
+    public boolean updateNextApproverToProxy(SqlSession conn, int documentNo, String absenteeId, String proxyId) {
+        boolean result = false;
+        try {
+            Map<String, Object> map = new HashMap<>();
+            map.put("documentNo", documentNo);
+            map.put("absenteeId", absenteeId);
+            map.put("proxyId", proxyId);
+
+            int count = conn.update("approverMapper.updateNextApproverToProxy", map);
+            result = count > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 
     public boolean sendRequestNoti(SqlSession conn, ApprovalLineVO vo) {
     	boolean result = false;

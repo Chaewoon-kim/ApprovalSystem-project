@@ -12,7 +12,7 @@ public class CommentVO {
 	    private Date commentInDate;  
 	    private Date commentUpDate;
 	    private Date deleteStatus;
-
+	    private int commentNumber;
 	    
 	    public CommentVO() {}
 	    
@@ -102,6 +102,14 @@ public class CommentVO {
 			return "CommentVO [writerName=" + writerName + ", writerId="
 					+ writerId + ", commentContents=" + commentContents + ", commentInDate=" + commentInDate
 					+ "]";
+		}
+
+		public int getCommentNumber() {
+			return commentNumber;
+		}
+
+		public void setCommentNumber(int commentNumber) {
+			this.commentNumber = commentNumber;
 		}
 	    
 	    
