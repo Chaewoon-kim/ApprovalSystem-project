@@ -79,31 +79,42 @@ $(document).ready(function() {
 	$("form").on("submit", function(e) {
 		  e.preventDefault();
 
-		  let usage = "${absence.absenceUsage}";
-		  if (usage && usage.trim() !== "대기") {
-		    alert("‘대기’ 상태인 부재 일정만 수정할 수 있습니다.");
+		  let startDate = $("input[name='startDate']").val();
+		  let endDate = $("input[name='endDate']").val();
+		  let absenceReason = $("textarea[name='reason']").val().trim();
+		  let proxyId = $("#proxyId").val();
+
+		  if (!startDate) {
+		    alert("부재 시작일을 선택해주세요.");
 		    return;
 		  }
-		  
-		  let absenceReason = "${absence.absenceReason}";
-		  if(absenceReason === null){
-			  console.log(absenceReason);
-			  alert("부재 사유를 입력해주세요.");
-			  
-			  return;
-		  }
-		  
 
+		  if (!endDate) {
+		    alert("부재 종료일을 선택해주세요.");
+		    return;
+		  }
+
+		  if (absenceReason === "") {
+		    alert("부재 사유를 입력해주세요.");
+		    return;
+		  }
+
+		  if (!proxyId) {
+		    alert("대결자를 선택해주세요.");
+		    return;
+		  }
+
+		
 		  let isUpdate = $("input[name='absenceDateNo']").length > 0;
 		  let cmdValue = isUpdate ? "modifyAbsence" : "addAbsence";
 
 		  const data = {
 		    cmd: cmdValue,
 		    absenceDateNo: $("input[name='absenceDateNo']").val(),
-		    startDate: $("input[name='startDate']").val(),
-		    endDate: $("input[name='endDate']").val(),
-		    reason: $("textarea[name='reason']").val(),
-		    proxyId: $("#proxyId").val()
+		    startDate: startDate,
+		    endDate: endDate,
+		    reason: absenceReason,
+		    proxyId: proxyId
 		  };
 
 		  $.ajax({
@@ -124,7 +135,6 @@ $(document).ready(function() {
 		});
 
   
-  let proxyId = $("#proxyId").val();
   if (proxyId) {
     $.ajax({
       url: "controller",
@@ -155,7 +165,9 @@ $(document).ready(function() {
 
 
 </script>
-
+<script>
+  const loginId = "${sessionScope.employeeId}";
+</script>
 <script src="webpage/absence/searchProxy.js"></script>  
 </body>
 </html>
