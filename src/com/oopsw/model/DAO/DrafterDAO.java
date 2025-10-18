@@ -66,10 +66,10 @@ public class DrafterDAO {
 		return documentVO.getDocumentNo();
 	}
 
-	public List<TempDocumentVO> getTempList(String employeeId) {
+	public List<TempDocumentVO> getTempList(GetListVO getListVO) {
 		List<TempDocumentVO> list = null;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
-		list = conn.selectList("drafterMapper.getTempList", employeeId);
+		list = conn.selectList("drafterMapper.getTempList", getListVO);
 		conn.close();
 		return list;
 	}

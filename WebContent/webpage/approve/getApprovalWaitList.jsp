@@ -89,14 +89,14 @@ $(document).ready(function(){
     pagination.empty();
 
     for(var i = 1; i <= total; i++){
-      var activeClass = (i == current) ? "active-page" : "";
-      var pageLink = "<a href='#' class='page-link " + activeClass + "' data-page='" + i + "'>" + i + "</a>";
+      var activeClass = (i == current) ? "active" : "";
+      var pageLink = "<div class='page-number " + activeClass + "' data-page='" + i + "'>" + i + "</div>";
       pagination.append(pageLink);
     }
   }
 
   // event
-  $(document).on("click", ".page-link", function(e){
+  $(document).on("click", ".page-number", function(e){
     e.preventDefault();
     currentPage = parseInt($(this).data("page"));
     reqWaitList(currentPage);

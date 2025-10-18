@@ -88,7 +88,7 @@
 
 
 	<select id="getWaitList" parameterType="com.oopsw.model.VO.GetListVO" resultType="com.oopsw.model.VO.ApproverListVO">
-  select documentNo, title, deadline, draftDate, name, department, approvalStatus
+  select documentNo, title, deadline, draftDate, name, department, approvalStatus, totalCount
   from (
     select d.document_no as documentNo, 
            d.title as title, 
@@ -97,7 +97,8 @@
            e1.name as name, 
            e1.department as department, 
            al.approval_status as approvalStatus,
-           row_number() over (order by d.draft_date desc) as rn
+           row_number() over (order by d.draft_date desc) as rn,
+           count(*) over() as totalCount
     from approval_line al
     join document d on al.document_no = d.document_no
     join employee e1 on d.employee_id = e1.employee_id
@@ -109,10 +110,11 @@
 	
 	<!-- 결재 처리 목록 조회 (내가 반려한 문서 + 내가 승인한 완료 문서) -->
 	<select id="getEndList" parameterType="com.oopsw.model.VO.GetListVO" resultType="com.oopsw.model.VO.ApproverListVO">
-    select document_no documentNo, approved_document_no approvedDocumentNo, title, department, draft_date draftDate, process_status processStatus, completion_date completionDate
+    select document_no documentNo, approved_document_no approvedDocumentNo, title, department, draft_date draftDate, process_status processStatus, completion_date completionDate, totalCount
     from (
         select d.document_no, d.approved_document_no, d.title, e.department, d.draft_date, d.process_status, d.completion_date,
-               row_number() over (order by al.approval_date desc, d.draft_date desc) as rn
+               row_number() over (order by al.approval_date desc, d.draft_date desc) as rn,
+               count(*) over() as totalCount
         from approval_line al
         join document d on al.document_no = d.document_no
         join employee e on d.employee_id = e.employee_id
@@ -136,7 +138,7 @@
 
 	<select id="getAbsenceList" parameterType="com.oopsw.model.VO.GetListVO" resultType="com.oopsw.model.VO.AbsenceListVO">
 	select absenceDateNo, absenceStartDate, absenceEndDate,
-	       proxyName, proxyRank, absenceReason, absenceUsage
+	       proxyName, proxyRank, absenceReason, absenceUsage, totalCount
 	from (
 		select a.absence_date_no as absenceDateNo,
 		       a.absence_start_date as absenceStartDate,
@@ -152,19 +154,20 @@
 		                   else 1 
 		               end asc,              
 		               a.absence_start_date asc 
-		       ) as rn
+		       ) as rn,
+		       count(*) over() as totalCount
 		from absence a
 		join employee e on a.proxy_id = e.employee_id
 		where a.absentee_id = #{employeeId}
 	)
-	where rn between (#{page} - 1) * 8 + 1 and #{page} * 8
+	where rn between (#{page} - 1) * 4 + 1 and #{page} * 4
 	</select>
 
 	
 	<!-- 대결 목록 조회 -->
 	<select id="getProxyList" parameterType="com.oopsw.model.VO.GetListVO" resultType="com.oopsw.model.VO.AbsenceListVO">
 	select absenceDateNo, absenceStartDate, absenceEndDate,
-	       absenteeName, absenteeRank, absenceReason
+	       absenteeName, absenteeRank, absenceReason, totalCount
 	from (
 		select a.absence_date_no as absenceDateNo,
 		       a.absence_start_date as absenceStartDate,
@@ -172,12 +175,13 @@
 		       e.name as absenteeName,
 		       e.rank as absenteeRank,
 		       a.absence_reason as absenceReason,
-		       row_number() over (order by a.absence_start_date desc) as rn
+		       row_number() over (order by a.absence_start_date desc) as rn,
+		       count(*) over() as totalCount
 		from absence a
 		join employee e on a.absentee_id = e.employee_id
 		where a.proxy_id = #{employeeId}
 	)
-	where rn between (#{page} - 1) * 8 + 1 and #{page} * 8
+	where rn between (#{page} - 1) * 4 + 1 and #{page} * 4
 	</select>
 
 	<insert id="addAbsence" parameterType="com.oopsw.model.VO.AbsenceVO">

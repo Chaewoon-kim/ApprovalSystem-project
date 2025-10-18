@@ -60,6 +60,28 @@ public class EmployeeDAO {
 	    return result;
 	}
 
+	public String getAllNotiCount(AlarmVO vo){
+		SqlSession session = DBCP.getSqlSessionFactory().openSession();
+		String result = null;
+		try{
+			result = session.selectOne("employeeMapper.getAllNotiCount", vo);
+		}finally{
+			session.close();
+		}
+		return result;
+	}
+	public List<AlarmVO> getAllNoti(AlarmVO vo){
+		SqlSession session = DBCP.getSqlSessionFactory().openSession();
+		List<AlarmVO> result = null;
+		try{
+			result = session.selectList("employeeMapper.getAllNoti", vo);
+		}finally{
+			session.close();
+		}
+		return result;
+	}
+	
+	//댓글 조회
 	public List<CommentVO> getComments(int documentNumber) {
 	    SqlSession session = DBCP.getSqlSessionFactory().openSession();
 	    List<CommentVO> commentList = null;
@@ -205,6 +227,8 @@ public class EmployeeDAO {
 		boolean result = false;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		result = conn.update("employeeMapper.readProcessNoti", notiNo) == 1;
+		if(result)
+			conn.commit();
 		return result;
 	}
 	
@@ -212,6 +236,8 @@ public class EmployeeDAO {
 		boolean result = false;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		result = conn.update("employeeMapper.readRequestNoti", notiNo) == 1;
+		if(result)
+			conn.commit();
 		return result;
 	}
 	
@@ -219,6 +245,8 @@ public class EmployeeDAO {
 		boolean result = false;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		result = conn.update("employeeMapper.readCommentNoti", notiNo) == 1;
+		if(result)
+			conn.commit();
 		return result;
 	}
 
@@ -227,6 +255,8 @@ public class EmployeeDAO {
 		boolean result = false;
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession();
 		result = conn.update("employeeMapper.readAbsenceNoti", notiNo) == 1;
+		if(result)
+			conn.commit();
 		return result;
 	}
 	

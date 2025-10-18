@@ -23,7 +23,7 @@ public class GetEmployeesAction implements Action {
 		// 페이지 정보
 		String pageParam = request.getParameter("page");
 		String permission = request.getParameter("filter");
-		
+				
 		// 페이지 설정
 		if(pageParam != null && !pageParam.equals("")) 
 			vo.setPage(Integer.parseInt(pageParam));
@@ -31,11 +31,15 @@ public class GetEmployeesAction implements Action {
 		if(permission != null && !permission.equals("")) 
 			vo.setAccessPermission(permission.toCharArray()[0]);
 		
+		
 		List<EmployeeVO> employeeList = dao.getEmployees(vo);
 		String empJson = gson.toJson(employeeList);
+
+		System.out.println(employeeList);
+		
 		String ajax = request.getHeader("X-Requested-With");
 		boolean isAjax = "XMLHttpRequest".equals(ajax);
-
+		
 		// 사용자 리스트
 		request.setAttribute("result", empJson);
 		

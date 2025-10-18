@@ -9,6 +9,18 @@
 	padding: 50px;
 	flex:1;
 }
+.text{
+	size: 12px;
+}
+.bold{
+	font-weight: bold;
+}
+.text-link{
+}
+.text-link:hover{
+	text-decoration: underline;	
+    cursor: pointer;
+}
 
 textarea{
 	width:100%;

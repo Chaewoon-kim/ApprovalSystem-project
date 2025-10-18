@@ -17,6 +17,7 @@ import com.oopsw.action.approve.GetEndListAction;
 import com.oopsw.action.approve.GetWaitListAction;
 import com.oopsw.action.draft.EditLineAction;
 import com.oopsw.action.draft.GetApprovalStatusAction;
+import com.oopsw.action.draft.GetDraftForm;
 import com.oopsw.action.draft.GetReqListAction;
 import com.oopsw.action.draft.GetReqListUIAction;
 import com.oopsw.action.draft.GetTempDocAction;
@@ -31,7 +32,9 @@ import com.oopsw.action.employee.GetCommentsAction;
 import com.oopsw.action.employee.GetDefaultLineAction;
 import com.oopsw.action.employee.GetDetailReportAction;
 import com.oopsw.action.employee.GetNotiAction;
+import com.oopsw.action.employee.GetNotiCountAction;
 import com.oopsw.action.employee.LoginUIAction;
+import com.oopsw.action.employee.ReadNotiAction;
 import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginUIAction;
@@ -50,6 +53,7 @@ public class ActionFactory {
 	private ActionFactory(){}
 	public static Action getAction(String cmd){
 		Action a = null;
+		System.out.println(cmd);
 		switch(cmd){
 		
 		case "updateComment":
@@ -67,6 +71,12 @@ public class ActionFactory {
 			a = new AddCommentAction();
 			break;
 			
+		case "getNotiCount":
+			a = new GetNotiCountAction();
+			break;
+		case "readNoti":
+			a = new ReadNotiAction();
+			break;
 		case "logoutAction":
 			a = new LogoutAction();
 			break;

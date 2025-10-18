@@ -68,22 +68,26 @@ public class EmployeeDAOTest {
 	public void sendNoti(){
 		System.out.println(dao.sendNoti(new CommentNotiVO(9 , "E25-001" , 3)));
 	}
-
+	
+	//대결 알림 조회
 	@Test
 	public void getApprovalNoti(){
 		System.out.println(dao.getApprovalNoti("E25-001"));
 	}
 	
+	//댓글 알림 (받기)
 	@Test
 	public void getCommentsNoti(){
 		System.out.println(dao.getCommentsNoti("E25-006"));
 	}
 	
+	//안읽은 대결 알림 조회
 	@Test
 	public void getUnReadApprovalNoti(){
 		System.out.println(dao.getUnReadApprovalNoti("E25-001"));
 	}
 	
+	//안읽은 댓글 알림 (받기)
 	@Test
 	public void getUnReadCommentsNoti(){
 		System.out.println(dao.getUnReadCommentsNoti("E25-002"));

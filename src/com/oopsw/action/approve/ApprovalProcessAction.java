@@ -39,7 +39,7 @@ public class ApprovalProcessAction implements Action {
             	request.setAttribute("message", "반려사유를 입력해주세요. ");
             	return url;
             }
-
+            
             ApprovalLineVO vo = new ApprovalLineVO();
             vo.setDocumentNo(documentNo);
             vo.setApproverId(approverId);
@@ -49,17 +49,20 @@ public class ApprovalProcessAction implements Action {
 
             dao.processApproval(conn, vo);
 
-            // 승인
-            if (approvalStatus.equals("승인")) {
-                Integer nextLineNo = dao.findNextApprovalInfo(conn, vo).getApprovalLineNo();
+         // 승인
+            if ("승인".equals(approvalStatus)) {
 
                 ApprovalLineVO nextInfo = dao.findNextApprovalInfo(conn, vo);
-                if (nextInfo != null && nextInfo.getApprovalLineNo() != 0) {
 
+                if (nextInfo != null && nextInfo.getApprovalLineNo() != 0) {
+                    Integer nextLineNo = nextInfo.getApprovalLineNo();
                     String nextApproverId = nextInfo.getApproverId();
 
                     // 다음 결재자가 부재중인지 확인 
-                    String proxyId = dao.checkAbsence(nextApproverId).getProxyId();
+                    String proxyId = null;
+                    if (dao.checkAbsence(nextApproverId) != null) {
+                        proxyId = dao.checkAbsence(nextApproverId).getProxyId();
+                    }
 
                     if (proxyId != null) { 
                         // 부재중이라면 다음 결재자를 대결자로 교체 
@@ -69,8 +72,8 @@ public class ApprovalProcessAction implements Action {
 
                     // 다음 결재자(or 대결자) 결재대기로 전환 + 알림 
                     vo.setApproverId(nextApproverId);
-                    dao.setNextApproverToWait(conn, vo);
                     vo.setApprovalLineNo(nextLineNo);
+                    dao.setNextApproverToWait(conn, vo);
                     dao.sendRequestNoti(conn, vo);
 
                     conn.commit();
@@ -89,6 +92,7 @@ public class ApprovalProcessAction implements Action {
                 return url;
             }
 
+
             // 반려
             else if (approvalStatus.equals("반려")) {
                 DocumentVO doc = new DocumentVO();
@@ -104,11 +108,11 @@ public class ApprovalProcessAction implements Action {
         } catch (Exception e) {
             conn.rollback();
             e.printStackTrace();
-            request.setAttribute("message", "결재 실패하였습니다.");
+            request.setAttribute("message", "예외, 결재 실패하였습니다.");
         } finally {
             conn.close();
         }
-
+        
         return url;
     }
 }

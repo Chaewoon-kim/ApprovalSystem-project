@@ -39,9 +39,9 @@
 								<td colspan="4" class="section-header">기안자</td>
 							</tr>
 							<tr class="applicant-row">
-								<td>지연우</td>
-								<td>개발팀</td>
-								<td>사원</td>
+								<td>${name}</td>
+								<td>${department}팀</td>
+								<td>${rank}</td>
 								<td></td> 
 							</tr>
 							<tr class="section-header-row">

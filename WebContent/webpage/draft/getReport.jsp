@@ -33,21 +33,15 @@
             <th>결재상태</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="reqListTbody">
           
         </tbody>
       </table>
 
       <!-- 페이지네이션 -->
-<div class="pagination">
-  <a href="#prev" class="page-arrow">&lt;</a>
-  <a href="#1" class="page-number active">1</a>
-  <a href="#2" class="page-number">2</a>
-  <a href="#3" class="page-number">3</a>
-  <a href="#next" class="page-arrow">&gt;</a>
-</div>
+<div class="pagination"></div>
 
     </main>
  <script src="webpage/draft/getReport.js"></script>
     
-  
+ 

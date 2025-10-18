@@ -23,7 +23,6 @@
 			<h1>문서상세</h1>
 
 			<div class="message-area">${message}</div>
-			 
 			<div class="btn-container">
 				<button class="form-btn" type="button" onclick="history.back()">
 					<img src="img/list.png"> <span>목록보기</span>
@@ -36,16 +35,10 @@
 			        </button>
 			    </c:when>
 			
-			    <c:when test="${approvalStatus eq '승인' or approvalStatus eq '반려'}">
-			        <button class="form-btn" type="button" onclick="openModal(approvalStatusModal)">
+			    <c:otherwise>
+			        <button id="getApprovalStatus" class="form-btn" type="button" onclick="openModal(approvalStatusModal)">
 			            <img src="img/airplay.png">
 			            <span>결재현황</span>
-			        </button>
-			    </c:when>
-			
-			    <c:otherwise>
-			        <button class="form-btn" type="button" disabled>
-			            <span>결재불가</span>
 			        </button>
 			    </c:otherwise>
 				</c:choose>
@@ -172,6 +165,8 @@
 		
 		</main>
 		
+
+<%@ include file="approvalStatusPopup.jsp" %> 
 
 </body>
 </html>

@@ -19,7 +19,7 @@ public class LoginAction implements Action {
 		String password = request.getParameter("password");
 		
 		EmployeeVO vo = new EmployeeDAO().login(new EmployeeVO(employeeId, password));
-		if (vo != null){
+		if (vo != null){//로그인 성공시
 			HttpSession session = request.getSession(true);
 			session.setAttribute("employeeId", employeeId);
 			session.setAttribute("name", vo.getName());

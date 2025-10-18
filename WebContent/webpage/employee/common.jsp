@@ -25,7 +25,7 @@
 	<!-- 헤더 -->
 	<nav class="top-nav">
 
-		<div class="logo">로고자리</div>
+		<div class="logo"><img src="img/logo-easy.png" alt="logo"></div>
 		<div class="profile">
 			<c:if test="${isManager}">
 				<div class="change-mode-container">
@@ -33,9 +33,25 @@
 						id="changeMode"> <label for="changeMode"></label>
 				</div>
 			</c:if>
-			<span class="label">${rank}</span> <span class="label">${name}</span>
-			님, 환영합니다. <img class="alarm-img"
-				src="img/bell.png">
+			<span class="label">${rank}</span> 
+			<span class="label">${name}</span>님, 환영합니다. 
+			<img id="openNoti" class="alarm-img" src="img/bell.png">
+			
+			<div class="noti-overlay" id="notiOverlay">
+				<div class="noti-modal" id="notiModal">
+					<div class="noti-object"><h3>전자결재 알림</h3></div>
+					<div class="noti-container">
+						<table class="form-table">
+				        <tbody id="notiBody">
+				      </table>
+					</div>
+					<div class="button-container">
+						<button class="form-btn" id="notinList">알림 목록</button>				
+						<button class="form-btn" id="closeNoti">닫기</button>
+					</div>
+				</div>
+			</div>
+			
 		</div>
 	</nav>
 
@@ -75,7 +91,7 @@
 						<span>알림목록</span>
 					</div>
 					<div class="submenu">
-						<a href="#">수신목록</a>
+						<a href="controller?cmd=getNotiList">수신목록</a>
 					</div>
 				</div>
 			</div>
@@ -107,4 +123,8 @@
 
 		<jsp:include page="../draft/searchFormPopup.jsp" />
 		<script src="webpage/employee/common.js"></script>
+		<script>
+			
+		</script>
+		
 </body>

@@ -35,8 +35,12 @@ public class GetEndListAction implements Action {
         ApproverDAO dao = new ApproverDAO();
         GetListVO vo = new GetListVO(employeeId, processStatus, page);
         List<ApproverListVO> endList = dao.getEndList(vo);
-
-        int totalPages = 3; // �ӽ�
+        
+        int totalPages = 1;
+        if(endList.size() != 0){
+        	double totalCount = endList.get(0).getTotalCount();
+            totalPages = (int) Math.ceil(totalCount / 8.0);
+        }
 
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd")   
@@ -50,13 +54,17 @@ public class GetEndListAction implements Action {
 
         String json = gson.toJson(resultMap);
         request.setAttribute("result", json);
+        
+        System.out.println("[DEBUG] getEndList called for employee: " + vo.getEmployeeId() + ", status=" + vo.getProcessStatus());
 
         boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
+        System.out.println("[DEBUG] processStatus = " + processStatus);
+        System.out.println("[DEBUG] endList size = " + endList.size());
 
         if (isAjax) {
             return "webpage/approve/listTable.jsp";
         }
-
+        
         request.setAttribute("endList", endList);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
