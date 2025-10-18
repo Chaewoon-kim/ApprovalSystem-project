@@ -39,3 +39,21 @@ if (changeModeToggle) {
 
 	changeMode(isManagerMode);
 }
+
+const openNotiBtn = $("#openNoti");
+const closeNotiBtn = $("#closeNoti");
+const modalOverlay = $("#notiO	verlay");
+const notiModal = $("#notiModal");
+
+openNotiBtn.on("click", ()=>{
+	notiModal.toggle();
+});
+closeNotiBtn.on("click", ()=>{
+	notiModal.hide();
+});
+$(document).on("click", (e) => {
+	  if (!$(e.target).closest(".noti-modal, #openNoti").length > 0) {
+		  notiModal.hide();
+	  }
+	});
+

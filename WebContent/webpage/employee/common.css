@@ -190,3 +190,23 @@
 		display: none;
 		margin-top: 20px;
 	}
+	
+	/* Notification Modal */
+	.noti-overlay{
+		position: relative;
+	}
+	.noti-modal{
+		position: absolute;
+		top: 40px;
+		right: 0;
+		display: none;
+		background: #fff;
+		padding: 20px;
+		width: 300px;
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+		text-align: center;
+	}
+	.modal button{
+		margin-top: 10px;
+	}
+	

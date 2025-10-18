@@ -21,9 +21,17 @@
 						id="changeMode"> <label for="changeMode"></label>
 				</div>
 			</c:if>
-			<span class="label">${rank}</span> <span class="label">${name}</span>
-			님, 환영합니다. <img class="alarm-img"
-				src="img/bell.png">
+			<span class="label">${rank}</span> 
+			<span class="label">${name}</span>님, 환영합니다. 
+			<img id="openNoti" class="alarm-img" src="img/bell.png">
+			
+			<div class="noti-overlay" id="notiOverlay">
+				<div class="noti-modal" id="notiModal">
+					<p>간단한 모달창!</p>
+					<button id="closeNoti">닫기</button>
+				</div>
+			</div>
+			
 		</div>
 	</nav>
 
