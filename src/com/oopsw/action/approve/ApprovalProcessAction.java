@@ -35,6 +35,10 @@ public class ApprovalProcessAction implements Action {
                 request.setAttribute("message", "위임중이라 대결자만 결재 가능합니다.");
                 return url;
             }
+            if("반려".equals(approvalStatus) && (opinion == null || opinion.trim().isEmpty())){
+            	request.setAttribute("message", "반려사유를 입력해주세요. ");
+            	return url;
+            }
 
             ApprovalLineVO vo = new ApprovalLineVO();
             vo.setDocumentNo(documentNo);

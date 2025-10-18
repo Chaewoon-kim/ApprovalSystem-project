@@ -39,14 +39,14 @@ public class EmployeeDAOTest {
 		
 		CommentVO firstComment = resultList.get(0);
 		assertEquals("E25-007", firstComment.getwriterId());
-	    assertEquals("Á¶Àº¼­", firstComment.getWriterName());
+	    assertEquals("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", firstComment.getWriterName());
 			
 	}
 
 	@Test 
 	public void writeCommentTest(){
-		CommentVO comment = new CommentVO(1 , "E25-013" ,"½ÂÀÎÇß½À´Ï´Ù.");
-		boolean result = dao.writeComment(comment);
+		CommentVO comment = new CommentVO(1 , "E25-013" ,"ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
+		boolean result = dao.addComment(comment);
 		assertEquals(true , result);
 		
 	}
@@ -60,7 +60,7 @@ public class EmployeeDAOTest {
 
 	@Test
 	public void getEmployeeTest(){
-		List<EmployeeVO> employeeList = dao.getEmployee("¿µ");
+		List<EmployeeVO> employeeList = dao.getEmployee("ï¿½ï¿½");
 		System.out.println(employeeList);
 	}
 	
