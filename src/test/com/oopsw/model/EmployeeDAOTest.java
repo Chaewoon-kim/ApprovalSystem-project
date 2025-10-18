@@ -39,13 +39,13 @@ public class EmployeeDAOTest {
 		
 		CommentVO firstComment = resultList.get(0);
 		assertEquals("E25-007", firstComment.getwriterId());
-	    assertEquals("������", firstComment.getWriterName());
+	    assertEquals("������", firstComment.getWriterName());
 			
 	}
 
 	@Test 
 	public void writeCommentTest(){
-		CommentVO comment = new CommentVO(1 , "E25-013" ,"�����߽��ϴ�.");
+		CommentVO comment = new CommentVO(1 , "E25-013" ,"�����߽��ϴ�.");
 		boolean result = dao.writeComment(comment);
 		assertEquals(true , result);
 		
@@ -60,7 +60,7 @@ public class EmployeeDAOTest {
 
 	@Test
 	public void getEmployeeTest(){
-		List<EmployeeVO> employeeList = dao.getEmployee("��");
+		List<EmployeeVO> employeeList = dao.getEmployee("��");
 		System.out.println(employeeList);
 	}
 	
@@ -68,22 +68,26 @@ public class EmployeeDAOTest {
 	public void sendNoti(){
 		System.out.println(dao.sendNoti(new CommentNotiVO(9 , "E25-001" , 3)));
 	}
-
+	
+	//대결 알림 조회
 	@Test
 	public void getApprovalNoti(){
 		System.out.println(dao.getApprovalNoti("E25-001"));
 	}
 	
+	//댓글 알림 (받기)
 	@Test
 	public void getCommentsNoti(){
 		System.out.println(dao.getCommentsNoti("E25-006"));
 	}
 	
+	//안읽은 대결 알림 조회
 	@Test
 	public void getUnReadApprovalNoti(){
 		System.out.println(dao.getUnReadApprovalNoti("E25-001"));
 	}
 	
+	//안읽은 댓글 알림 (받기)
 	@Test
 	public void getUnReadCommentsNoti(){
 		System.out.println(dao.getUnReadCommentsNoti("E25-002"));

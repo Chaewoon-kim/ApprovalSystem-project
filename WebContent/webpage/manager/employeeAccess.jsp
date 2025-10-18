@@ -146,7 +146,6 @@
 		
 		// 사용자 정보 획득
 		function reqEmployee(page, filter){
-			console.log("hit");
 			$.ajax({
 				url: "controller",
 				data: {
@@ -165,18 +164,18 @@
 		function setTable(data){
 			let tableBody = $(".form-table tbody");
 			tableBody.empty();
-			
+			let row="";
 			$.each(data, function(i, emp){
-				let row = `<tr>
+				if(emp.managerPermission == 'Y') return;
+				row += `<tr>
 		        <td><div id='empId'>${emp.employeeId}</div></td>
 		        <td>${emp.name}</td>
 		        <td>${emp.department}</td>
 		        <td>${emp.rank}</td>
 		        <td><div class="btn ${emp.accessPermission == 'Y' ? 'btn-event' : 'btn-event active'} access-btn" data-name="${emp.employeeId}">${emp.accessPermission == 'Y' ? '해제':'등록'}</div></td>
-		        
 		    	</tr>`;
-		    	tableBody.append(row);
 			});
+			tableBody.append(row);
 		}
 		
 		function reqInvertAccessPermission(empElem, empId){

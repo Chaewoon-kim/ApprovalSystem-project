@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.oopsw.action.Action;
 import com.oopsw.action.ActionFactory;
@@ -21,6 +22,7 @@ public class FrontControllerServlet extends HttpServlet {
 
 			request.setCharacterEncoding("utf-8");
 			String cmd = request.getParameter("cmd");
+			
 			if(cmd == null || cmd.trim().length() == 0){
 				cmd = "mainUI";
 			}

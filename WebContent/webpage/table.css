@@ -66,6 +66,7 @@ input[type="checkbox"]:disabled {
 	  overflow:auto;
       padding: 30px;
       flex: 1;
+      padding: 30px;
     }
 
     .form-list h1 {

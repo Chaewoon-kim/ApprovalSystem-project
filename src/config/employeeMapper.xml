@@ -8,7 +8,27 @@
         where employee_id = #{employeeId} and password = #{password} and access_permission = 'Y'
     </select>
 
-
+	<!-- 알림 개수 조회 -->
+	<select id="getAllNotiCount" parameterType="com.oopsw.model.VO.AlarmVO" resultType="String">
+		select count(*) from v_notification where empId = #{empId}
+		<if test="notiType != null and notiType != ''">
+			and (#{notiType} is null or notiType = #{notiType})
+		</if>
+	</select>
+    <!-- 알림 조회 -->
+	<select id="getAllNoti" parameterType="com.oopsw.model.VO.AlarmVO" resultType="com.oopsw.model.VO.AlarmVO">
+		select notiType, notiNo, title, notiInDate, readStatus, documentNo, status, approvedDocumentNo, empId
+		from (
+			select e.*, ROW_NUMBER() over (order by case when readStatus is null then 0 else 1 end, notiInDate desc) as rn
+			from v_notification e 
+			where empId = #{empId} 
+			<if test="notiType != null and notiType != ''">
+				and (notiType = #{notiType})
+			</if>
+		)
+		where rn between (#{page} - 1) * 8 + 1 and #{page} * 8
+	</select>
+	
  	<!-- 댓글 조회 -->
     <select id="getComments" parameterType="int" resultType="com.oopsw.model.VO.CommentVO">
         select 
@@ -136,7 +156,7 @@
 	<!-- 결재처리알림 읽음 -->
 	<update id="readProcessNoti" parameterType="int">
 		update approval_process_noti set process_read_status = sysdate
-		where process_noti_no = #{notiNo} and approval_read_status is null
+		where process_noti_no = #{notiNo} and process_read_status is null
 	</update>
 	<!-- 결재요청알림 읽음 -->
 	<update id="readRequestNoti" parameterType="int">

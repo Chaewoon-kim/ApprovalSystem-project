@@ -18,7 +18,7 @@
 	</select>
 	<!-- 사원 목록 조회 -->
 	<select id="getEmployees" parameterType="com.oopsw.model.VO.EmployeeVO" resultType="com.oopsw.model.VO.EmployeeVO">
-		select employee_id employeeId, name, department, rank, access_permission accessPermission
+		select employee_id employeeId, name, department, rank, access_permission accessPermission, manager_permission managerPermission
 		from (
 			select e.*, ROW_NUMBER() over (order by employee_id asc) as rn
 			from employee e
