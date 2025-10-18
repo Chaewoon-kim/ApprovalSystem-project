@@ -117,8 +117,7 @@ function setOrgChart(result) {
 
 // 문서 로드 후 실행
 $(document).ready(function() {
-	const loginId = "${sessionScope.employeeId}"; 
-	console.log(loginId);
+	
 	getAllEmployees();
 
 	let searchInput = $('.search-input');

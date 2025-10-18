@@ -46,7 +46,7 @@ public class EmployeeDAOTest {
 	@Test 
 	public void writeCommentTest(){
 		CommentVO comment = new CommentVO(1 , "E25-013" ,"�����߽��ϴ�.");
-		boolean result = dao.writeComment(comment);
+		boolean result = dao.addComment(comment);
 		assertEquals(true , result);
 		
 	}

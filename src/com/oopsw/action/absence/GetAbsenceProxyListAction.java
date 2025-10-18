@@ -25,9 +25,7 @@ public class GetAbsenceProxyListAction implements Action {
 		String url = "webpage/absence/getAbsenceList.jsp";
         HttpSession session = request.getSession();
         String approverId = (String) session.getAttribute("employeeId");
-        if (approverId == null) {
-            approverId = "E25-011";
-        }
+        
 
         int absencePage = 1;
         int proxyPage = 1;

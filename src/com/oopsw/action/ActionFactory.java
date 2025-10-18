@@ -26,6 +26,9 @@ import com.oopsw.action.draft.GetTempListUIAction;
 import com.oopsw.action.draft.SaveTempDocAction;
 import com.oopsw.action.draft.SetFormAction;
 import com.oopsw.action.draft.SubmitDocAction;
+import com.oopsw.action.employee.AddCommentAction;
+import com.oopsw.action.employee.DeleteCommentAction;
+import com.oopsw.action.employee.GetCommentsAction;
 import com.oopsw.action.employee.GetDefaultLineAction;
 import com.oopsw.action.employee.GetDetailReportAction;
 import com.oopsw.action.employee.GetNotiAction;
@@ -36,6 +39,7 @@ import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginAction;
 import com.oopsw.action.employee.LoginUIAction;
 import com.oopsw.action.employee.LogoutAction;
+import com.oopsw.action.employee.UpdateCommentAction;
 import com.oopsw.action.manager.AddFormAction;
 import com.oopsw.action.manager.GetEmployeeCountAction;
 import com.oopsw.action.manager.GetAllEmployeesAction;
@@ -51,6 +55,22 @@ public class ActionFactory {
 		Action a = null;
 		System.out.println(cmd);
 		switch(cmd){
+		
+		case "updateComment":
+			a = new UpdateCommentAction();
+			break;
+			
+		case "deleteComment":
+			a = new DeleteCommentAction();
+			break;
+		
+		case "getComments":
+			a = new GetCommentsAction();
+			break;
+		case "addComment":
+			a = new AddCommentAction();
+			break;
+			
 		case "getNotiCount":
 			a = new GetNotiCountAction();
 			break;

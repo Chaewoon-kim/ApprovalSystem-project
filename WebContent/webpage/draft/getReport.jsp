@@ -33,7 +33,7 @@
             <th>결재상태</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="reqListTbody">
           
         </tbody>
       </table>
@@ -44,4 +44,4 @@
     </main>
  <script src="webpage/draft/getReport.js"></script>
     
-  
+ 

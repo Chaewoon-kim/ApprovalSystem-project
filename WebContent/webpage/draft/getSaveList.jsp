@@ -17,7 +17,7 @@
             <th>결재상태</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id ="reqListTbody">
           
         </tbody>
       </table>

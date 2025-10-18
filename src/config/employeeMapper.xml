@@ -8,6 +8,22 @@
         where employee_id = #{employeeId} and password = #{password} and access_permission = 'Y'
     </select>
 
+	
+    <!-- 댓글 삭제 -->
+    <update id="deleteComment" parameterType="int">
+   update comments
+      set del_status = sysdate
+    where comment_no = #{value}
+</update>
+
+
+    
+    <!-- 댓글 수정 -->
+    <update id="updateComment" parameterType="com.oopsw.model.VO.CommentVO">
+       update comments set comment_contents = #{commentContents}, comment_up_date = sysdate
+      where comment_no = #{commentNumber}
+    </update>
+    
 	<!-- 알림 개수 조회 -->
 	<select id="getAllNotiCount" parameterType="com.oopsw.model.VO.AlarmVO" resultType="String">
 		select count(*) from v_notification where empId = #{empId}
@@ -32,6 +48,7 @@
  	<!-- 댓글 조회 -->
     <select id="getComments" parameterType="int" resultType="com.oopsw.model.VO.CommentVO">
         select 
+        	c.comment_no as commentNumber,   
             e.employee_id   as writerId,
             e.name          as writerName,
             c.comment_contents as commentContents,

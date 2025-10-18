@@ -1,15 +1,13 @@
 package com.oopsw.action.approve;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.apache.ibatis.session.SqlSession;
 
 import com.oopsw.action.Action;
-import com.oopsw.model.*;
+import com.oopsw.model.DBCP;
 import com.oopsw.model.DAO.ApproverDAO;
 import com.oopsw.model.VO.ApprovalLineVO;
 import com.oopsw.model.VO.DocumentVO;
@@ -21,72 +19,100 @@ public class ApprovalProcessAction implements Action {
 
         HttpSession session = request.getSession();
         String approverId = (String) session.getAttribute("employeeId");
-       
+
         int documentNo = Integer.parseInt(request.getParameter("documentNo"));
         String approvalStatus = request.getParameter("approvalStatus");
         String opinion = request.getParameter("opinion");
         int lineOrder = Integer.parseInt(request.getParameter("lineOrder"));
 
         ApproverDAO dao = new ApproverDAO();
-        
         SqlSession conn = DBCP.getSqlSessionFactory().openSession(false);
         String url = "webpage/approve/getApprovalWaitList.jsp";
 
         try {
+            // 현재 결재자가 위임 상태인지 확인
             if (dao.isAbsentToday(approverId)) {
                 request.setAttribute("message", "위임중이라 대결자만 결재 가능합니다.");
                 return url;
             }
-
+            if("반려".equals(approvalStatus) && (opinion == null || opinion.trim().isEmpty())){
+            	request.setAttribute("message", "반려사유를 입력해주세요. ");
+            	return url;
+            }
+            
             ApprovalLineVO vo = new ApprovalLineVO();
             vo.setDocumentNo(documentNo);
             vo.setApproverId(approverId);
             vo.setApprovalStatus(approvalStatus);
             vo.setOpinion(opinion);
             vo.setLineOrder(lineOrder);
-            
-            dao.processApproval(conn, vo); 
 
-            if (approvalStatus.equals("승인")) {
-                Integer nextLineNo = dao.findNextApprovalLineNo(conn, vo);
-                System.out.println(nextLineNo);
-                if (nextLineNo != null) {
-                    // 다음 결재자 존재 -> 결재대기 처리 + 알림
-                    dao.setNextApproverToWait(conn,vo);
+            dao.processApproval(conn, vo);
+
+         // 승인
+            if ("승인".equals(approvalStatus)) {
+
+                ApprovalLineVO nextInfo = dao.findNextApprovalInfo(conn, vo);
+
+                if (nextInfo != null && nextInfo.getApprovalLineNo() != 0) {
+                    Integer nextLineNo = nextInfo.getApprovalLineNo();
+                    String nextApproverId = nextInfo.getApproverId();
+
+                    // 다음 결재자가 부재중인지 확인 
+                    String proxyId = null;
+                    if (dao.checkAbsence(nextApproverId) != null) {
+                        proxyId = dao.checkAbsence(nextApproverId).getProxyId();
+                    }
+
+                    if (proxyId != null) { 
+                        // 부재중이라면 다음 결재자를 대결자로 교체 
+                        dao.updateNextApproverToProxy(conn, vo.getDocumentNo(), nextApproverId, proxyId);
+                        nextApproverId = proxyId;
+                    }
+
+                    // 다음 결재자(or 대결자) 결재대기로 전환 + 알림 
+                    vo.setApproverId(nextApproverId);
                     vo.setApprovalLineNo(nextLineNo);
-                    dao.sendRequestNoti(conn,vo);
-                    request.setAttribute("message", "승인 완료, 다음결재자에게 전달하였습니다.");
+                    dao.setNextApproverToWait(conn, vo);
+                    dao.sendRequestNoti(conn, vo);
+
+                    conn.commit();
+                    request.setAttribute("message", "승인 완료, 다음 결재자에게 전달하였습니다.");
+
                 } else {
                     // 마지막 결재자 -> 문서 완료 처리 + 알림
                     DocumentVO doc = new DocumentVO();
                     doc.setDocumentNo(documentNo);
-                    dao.setDocComplete(conn,doc);
-                    dao.sendProcessNoti(conn,vo);
+                    dao.setDocComplete(conn, doc);
+                    dao.sendProcessNoti(conn, vo);
                     request.setAttribute("message", "최종 승인 완료하였습니다.");
-
                 }
+
                 conn.commit();
                 return url;
+            }
 
-            } else if (approvalStatus.equals("반려")) {
-                // 반려 처리 -> 문서 반려 + 알림
+
+            // 반려
+            else if (approvalStatus.equals("반려")) {
                 DocumentVO doc = new DocumentVO();
                 doc.setDocumentNo(documentNo);
                 dao.setDocReject(conn, doc);
                 dao.sendProcessNoti(conn, vo);
+
                 conn.commit();
                 request.setAttribute("message", "반려 처리하였습니다.");
                 return url;
-
             }
-            
+
         } catch (Exception e) {
-        	conn.rollback();
+            conn.rollback();
             e.printStackTrace();
-            request.setAttribute("message", "결재 실패하였습니다.");
+            request.setAttribute("message", "예외, 결재 실패하였습니다.");
         } finally {
-        	conn.close();
+            conn.close();
         }
+        
         return url;
     }
 }

@@ -17,11 +17,20 @@
 		where document_no = #{documentNo} and line_order = #{lineOrder} + 1 and approval_status = '대기중'
 	</update>
 
-	<!-- 3. 다음 결재자 line_no 조회 -->
+	<!-- 3. 다음 결재자 line_no 조회 
 	<select id="findNextApprovalLineNo" parameterType="com.oopsw.model.VO.ApprovalLineVO" resultType="Integer">
 		select approval_line_no
 		from approval_line
 		where document_no = #{documentNo} and line_order = #{lineOrder} + 1
+	</select>
+	-->
+	
+	<select id="findNextApprovalInfo" parameterType="com.oopsw.model.VO.ApprovalLineVO"
+        resultType="com.oopsw.model.VO.ApprovalLineVO">
+	    select approval_line_no as approvalLineNo,
+	           approver_id as approverId
+	    from approval_line
+	    where document_no = #{documentNo} and line_order = #{lineOrder} + 1
 	</select>
 
 	<!-- 4. 다음 결재자 알림 (approval_request_noti) -->
@@ -57,6 +66,15 @@
 		from absence a
 		where a.absentee_id = #{approverId} and a.absence_usage = '위임'
 	</select>
+	
+	
+	<!-- 부재자id를 대결자id로 변경 -->
+	<update id="updateNextApproverToProxy" parameterType="map">
+	  update approval_line
+	     set approver_id = #{proxyId}
+	   where document_no = #{documentNo} and approver_id = #{absenteeId}
+	</update>
+	
 
 	<!-- 오늘 기준 위임 건수 -->
 	<select id="countActiveAbsenceFor" parameterType="string"

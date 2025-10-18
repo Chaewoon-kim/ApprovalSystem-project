@@ -21,7 +21,6 @@ public class GetDetailReportAction implements Action {
 		String url = "webpage/employee/getDetailReport.jsp";
 		
 		HttpSession session = request.getSession(); 
-//		EmployeeVO user = null;
         String employeeId = (String) session.getAttribute("employeeId");
 
         
@@ -61,7 +60,7 @@ public class GetDetailReportAction implements Action {
 	    request.setAttribute("approvalStatus", approvalStatus);
 	    
 
-	    
+	    // getApprovalTable -> approvalLines & approvalLines -> approvalTable
 		DocumentDetailVO detailDoc = null;
 		
 		try{
@@ -77,6 +76,9 @@ public class GetDetailReportAction implements Action {
 			request.setAttribute("approvedDocumentNo", approvedDocumentNo);
 			System.out.println(approvedDocumentNo);
 			return url;
+			
+
+	       
 
 		}catch(Exception e){
 			e.printStackTrace();

@@ -2,7 +2,6 @@ let startPage = 1;
 let endPage = 1;
 let totalPage = 1;
 
-const reqListTbody = document.querySelector(".form-table tbody");
 
 let setPage = function(totalCount, currentPage = 1){ 
 	let pagination = $(".pagination");
@@ -80,6 +79,7 @@ let loadPageData = function(pageInfo){
 	});
 }
 $(document).ready(function(){
+	const reqListTbody = document.querySelector(".form-table tbody");
 	loadPageData(1);
 });
 

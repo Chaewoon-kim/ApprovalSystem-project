@@ -12,7 +12,43 @@ import com.oopsw.model.VO.DocumentDetailVO;
 import com.oopsw.model.VO.EmployeeVO;
 
 public class EmployeeDAO {
-	//로그인
+	
+	//댓글 삭제
+	   public boolean deleteComment(int commentNumber){
+	      SqlSession session = DBCP.getSqlSessionFactory().openSession();
+	      boolean result = false;
+	      
+	      try{
+	         int count = session.update("employeeMapper.deleteComment" , commentNumber);
+	         if(count == 1){
+	            result = true;
+	            session.commit();
+	         }
+	      }finally{
+	         session.close();
+	      }
+	      
+	      return result;
+	   }
+	   
+	   //댓글 수정 
+	   public boolean updateComment(CommentVO comment){
+	      SqlSession session = DBCP.getSqlSessionFactory().openSession();
+	      boolean result = false;
+	      
+	      try{
+	         int count = session.update("employeeMapper.updateComment" , comment);
+	         if(count == 1){
+	            result = true;
+	            session.commit();
+	         }
+	      }finally{
+	         session.close();
+	      }
+	      
+	      return result;
+	   }
+	   
 	public EmployeeVO login(EmployeeVO vo) {
 	    SqlSession session = DBCP.getSqlSessionFactory().openSession();
 	    EmployeeVO result = null;
@@ -59,7 +95,7 @@ public class EmployeeDAO {
 	    return commentList;
 	}
 
-	public boolean writeComment(CommentVO comment) {
+	public boolean addComment(CommentVO comment) {
 	    SqlSession session = DBCP.getSqlSessionFactory().openSession(true);
 	    boolean result = false;
 

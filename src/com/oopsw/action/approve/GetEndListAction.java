@@ -54,13 +54,17 @@ public class GetEndListAction implements Action {
 
         String json = gson.toJson(resultMap);
         request.setAttribute("result", json);
+        
+        System.out.println("[DEBUG] getEndList called for employee: " + vo.getEmployeeId() + ", status=" + vo.getProcessStatus());
 
         boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
+        System.out.println("[DEBUG] processStatus = " + processStatus);
+        System.out.println("[DEBUG] endList size = " + endList.size());
 
         if (isAjax) {
             return "webpage/approve/listTable.jsp";
         }
-
+        
         request.setAttribute("endList", endList);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
