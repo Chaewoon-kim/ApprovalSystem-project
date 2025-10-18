@@ -52,8 +52,8 @@ public class ApproverDAOTest {
 	public void processApprovalTest() {
 		al.setDocumentNo(20);
 		al.setApproverId("E25-014");
-		al.setApprovalStatus("½ÂÀÎ");
-		al.setOpinion("Å×½ºÆ® ÀÇ°ß");
+		al.setApprovalStatus("å ì™ì˜™å ì™ì˜™");
+		al.setOpinion("å ìŒ“ì™ì˜™íŠ¸ å ì‹¤ê³¤ì˜™");
 		assertTrue(dao.processApproval(conn, al));
 	}
 
@@ -107,27 +107,27 @@ public class ApproverDAOTest {
 
 	@Test
 	public void getEndListTest() {
-		System.out.println(dao.getEndList(new GetListVO("E25-010", "¹İ·Á", 1)));
+		System.out.println(dao.getEndList(new GetListVO("E25-010", "è«›ì„ì ®", 1)));
 	}
 
 	@Test
 	public void getAbsenceListTest() {
-		System.out.println(dao.getAbsenceList("E25-005"));
+		System.out.println(dao.getAbsenceList(new GetListVO("E25-015", "è«›ì„ì ®", 1)));
 	}
 
 	@Test
 	public void getProxyListTest() {
-		System.out.println(dao.getProxyList("E25-013"));
+		System.out.println(dao.getProxyList(new GetListVO("E25-015", "è«›ì„ì ®", 1)));
 	}
-
+	
 	@Test
 	public void addAbsenceTest() {
 		ab.setAbsenteeId("E25-001");
 		ab.setProxyId("E25-002");
 		ab.setAbsenceStartDate(java.sql.Date.valueOf("2025-10-12"));
 		ab.setAbsenceEndDate(java.sql.Date.valueOf("2025-10-20"));
-		ab.setAbsenceReason("ÃâÀå");
-		ab.setAbsenceUsage("´ë±â");
+		ab.setAbsenceReason("ì•„ë¬´ê±°ë‚˜");
+		ab.setAbsenceUsage("ëŒ€ê¸°");
 		assertTrue(dao.addAbsence(ab));
 	}
 
@@ -137,8 +137,8 @@ public class ApproverDAOTest {
 		ab.setProxyId("E25-020");
 		ab.setAbsenceStartDate(java.sql.Date.valueOf("2025-10-12"));
 		ab.setAbsenceEndDate(java.sql.Date.valueOf("2025-10-20"));
-		ab.setAbsenceReason("ÈŞ°¡ ÀÏÁ¤ º¯°æ");
-		ab.setAbsenceUsage("´ë±â");
+		ab.setAbsenceReason("ï¿½ì‘•åª›ï¿½ ï¿½ì”ªï¿½ì ™ è¹‚ï¿½å¯ƒï¿½");
+		ab.setAbsenceUsage("ï¿½ï¿½æ¹²ï¿½");
 		assertTrue(dao.modifyAbsence(ab));
 	}
 	

@@ -10,7 +10,7 @@
 <base href="<%=request.getContextPath()%>/">
 <!-- 글깨짐 현상 <base>태그로 해결 -->
 <link rel="stylesheet" href="webpage/employee/documentForm.css">
-<link rel="stylesheet" href="webpage/modal.css">
+<link rel="stylesheet" href="webpage/approve/approveModal.css">
 <link rel="stylesheet" href="webpage/employee/common.css">
 <link rel="stylesheet" href="webpage/report.css">
 
@@ -19,7 +19,6 @@
 
 </head>
 <body>
-	
 			<main class="add-form">
 			<h1>문서상세</h1>
 
@@ -43,11 +42,12 @@
 			        </button>
 			    </c:otherwise>
 				</c:choose>
-
 			</div>
+
 
 			<hr>
 			<div class="document-content">
+				<input id="docNo" type="hidden" value="${documentDetail.documentNo}">
 				<label> <span>문서제목</span>
 					<div>${documentDetail.title}</div>
 				</label>
@@ -73,7 +73,7 @@
 								</tr>
 								<tr>
 									<th class="table-bgColor draft-th">문서번호</th>
-									<td class="input-table docNo">${documentDetail.documentNo}</td>
+									<td class="input-table">${documentDetail.approvedDocumentNo}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -194,12 +194,10 @@
 				</div>
 			</div>
 
-
 			</main>
-			<jsp:include page="approvalModal.jsp" />
-			<%@ include file="approvalStatusPopup.jsp" %> 
-		</div>
-	</div>
+
+<jsp:include page="/webpage/approve/approvalModal.jsp" />
+<%@ include file="approvalStatusPopup.jsp" %> 
 
 </body>
 </html>

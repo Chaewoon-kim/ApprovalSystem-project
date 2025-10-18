@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	const documentNo = $(".docNo").text();
+	const documentNo = $("#docNo").val();
 	$('#getApprovalStatus').click(
 			function(){
 				getApprovalStatus(documentNo);

@@ -1,10 +1,13 @@
 package com.oopsw.action.absence;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.gson.Gson;
 import com.oopsw.action.Action;
 import com.oopsw.model.DAO.ApproverDAO;
 
@@ -12,20 +15,39 @@ public class DeleteAbsenceAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-		String url = "getAbsenceList.jsp";
-
-        int absenceDateNo = Integer.parseInt(request.getParameter("absenceDateNo"));
-
+		String[] ids = request.getParameterValues("absenceDateNos");
         ApproverDAO dao = new ApproverDAO();
-        boolean result = dao.deleteAbsence(absenceDateNo);
 
-        if (result) {
-            request.setAttribute("message", "ºÎÀç°¡ ¼º°øÀûÀ¸·Î »èÁ¦µÇ¾ú½À´Ï´Ù.");
-        } else {
-            request.setAttribute("message", "ºÎÀç »èÁ¦ ºÒ°¡ (ÀÌ¹Ì ½ÃÀÛµÇ¾ú°Å³ª Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.)");
+        int successCount = 0;
+        int failCount = 0;
+
+        if (ids != null) {
+            for (String id : ids) {
+                try {
+                    int absenceDateNo = Integer.parseInt(id);
+                    boolean deleted = dao.deleteAbsence(absenceDateNo);
+                    if (deleted) successCount++;
+                    else failCount++;
+                } catch (NumberFormatException e) {
+                    failCount++;
+                }
+            }
         }
 
-        return url;
-	}
+        Map<String, Object> result = new HashMap<>();
+        if (successCount > 0) {
+            result.put("success", true);
+            result.put("message", "ì‚­ì œ ì„±ê³µ " + successCount + "ê±´");
+        } else {
+            result.put("success", false);
+            result.put("message", "ì‚­ì œ ì‹¤íŒ¨");
+        }
 
+        Gson gson = new Gson();
+        String json = gson.toJson(result);
+
+        request.setAttribute("result", json);
+
+        return "webpage/absence/absenceResult.jsp"; 
+    }
 }

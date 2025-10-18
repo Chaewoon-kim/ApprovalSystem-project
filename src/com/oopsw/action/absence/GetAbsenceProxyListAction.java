@@ -14,34 +14,44 @@ import com.google.gson.GsonBuilder;
 import com.oopsw.action.Action;
 import com.oopsw.model.DAO.ApproverDAO;
 import com.oopsw.model.VO.AbsenceListVO;
+import com.oopsw.model.VO.ApproverListVO;
+import com.oopsw.model.VO.GetListVO;
 
 public class GetAbsenceProxyListAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-
-		HttpSession session = request.getSession();
+		
+		String url = "webpage/absence/getAbsenceList.jsp";
+        HttpSession session = request.getSession();
         String approverId = (String) session.getAttribute("employeeId");
         if (approverId == null) {
             approverId = "E25-011";
         }
-        
-        int page = 1;
-        if (request.getParameter("page") != null) {
-            try {
-                page = Integer.parseInt(request.getParameter("page"));
-            } catch (NumberFormatException e) {
-                page = 1;
-            }
+
+        int absencePage = 1;
+        int proxyPage = 1;
+
+        try {
+            if (request.getParameter("absencePage") != null)
+                absencePage = Integer.parseInt(request.getParameter("absencePage"));
+            if (request.getParameter("proxyPage") != null)
+                proxyPage = Integer.parseInt(request.getParameter("proxyPage"));
+        } catch (NumberFormatException e) {
+            absencePage = proxyPage = 1;
         }
-        
+
         ApproverDAO dao = new ApproverDAO();
 
-        List<AbsenceListVO> absenceList = dao.getAbsenceList(approverId);
-        List<AbsenceListVO> proxyList = dao.getProxyList(approverId);
-        
-        int totalPages = 3;
+        GetListVO absenceVO = new GetListVO(approverId, null, absencePage);
+        GetListVO proxyVO = new GetListVO(approverId, null, proxyPage);
 
+        List<AbsenceListVO> absenceList = dao.getAbsenceList(absenceVO);
+        List<AbsenceListVO> proxyList = dao.getProxyList(proxyVO);
+        
+        int absenceTotalPages = 3;
+        int proxyTotalPages = 3;
+    
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd")
                 .create();
@@ -49,28 +59,28 @@ public class GetAbsenceProxyListAction implements Action {
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("absenceList", absenceList);
         resultMap.put("proxyList", proxyList);
-        resultMap.put("currentPage", page);
-        resultMap.put("totalPages", totalPages);
+        resultMap.put("absenceCurrentPage", absencePage);
+        resultMap.put("absenceTotalPages", absenceTotalPages);
+        resultMap.put("proxyCurrentPage", proxyPage);
+        resultMap.put("proxyTotalPages", proxyTotalPages);
         resultMap.put("success", !absenceList.isEmpty() || !proxyList.isEmpty());
 
         String json = gson.toJson(resultMap);
         request.setAttribute("result", json);
-        
-        System.out.println(resultMap.get("absenceList"));
-        
-        boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
 
+        boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
         if (isAjax) {
-            return "webpage/absence/absenceProxyTable.jsp"; 
+            return "webpage/absence/absenceResult.jsp";
         }
 
         request.setAttribute("absenceList", absenceList);
         request.setAttribute("proxyList", proxyList);
-        request.setAttribute("currentPage", page);
-        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("absenceCurrentPage", absencePage);
+        request.setAttribute("proxyCurrentPage", proxyPage);
+        request.setAttribute("absenceTotalPages", absenceTotalPages);
+        request.setAttribute("proxyTotalPages", proxyTotalPages);
 
-        return "webpage/absence/getAbsenceList.jsp";
-    
+        return url;
 	}
 
 }

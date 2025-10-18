@@ -23,33 +23,21 @@ public class GetWaitListAction implements Action {
 
         HttpSession session = request.getSession();
         String employeeId = (String) session.getAttribute("employeeId");
-        if (employeeId == null) {
-            System.out.println("Å×½ºÆ® »ç¿ø ·Î±×ÀÎµÊ");
-            employeeId = "E25-000";
-        }
 
         int page = 1;
         if (request.getParameter("page") != null) {
-            try {
-                page = Integer.parseInt(request.getParameter("page"));
-            } catch (NumberFormatException e) {
-                page = 1;
-            }
+            page = Integer.parseInt(request.getParameter("page"));
         }
 
         String processStatus = request.getParameter("processStatus");
-        if (processStatus == null || processStatus.trim().isEmpty()) {
-            processStatus = null;
-        }
+        if (processStatus == null) {processStatus = null;}
 
-        // DAO
         ApproverDAO dao = new ApproverDAO();
         GetListVO vo = new GetListVO(employeeId, processStatus, page);
         List<ApproverListVO> waitList = dao.getWaitList(vo);
 
-        int totalPages = 3;
+        int totalPages = 3; // ï¿½Ó½ï¿½
 
-        // Gson
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd")
                 .create();
@@ -62,11 +50,10 @@ public class GetWaitListAction implements Action {
 
         String json = gson.toJson(resultMap);
         request.setAttribute("result", json);
-
-        // AJAX
+        
         boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
         if (isAjax) {
-            return "webpage/approve/waitListTable.jsp"; // JSON JSP
+            return "webpage/approve/listTable.jsp"; 
         }
 
         request.setAttribute("waitList", waitList);
