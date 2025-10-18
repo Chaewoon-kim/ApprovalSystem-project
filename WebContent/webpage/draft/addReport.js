@@ -47,18 +47,6 @@ const dayOptions = function(year, month, initDay){
 	selectList[2].innerHTML = content;
 };
 
-//yearOptions();
-//monthOptions(currentYear);
-//dayOptions(currentYear, currentMonth);
-//selectList[0].addEventListener('change', function(e) {
-//    selectedYear = parseInt(e.target.value); 
-//    monthOptions(selectedYear); 
-//});
-//selectList[1].addEventListener('change', function(e) {
-//    selectedMonth = parseInt(e.target.value); 
-//    dayOptions(selectedYear, selectedMonth); 
-//});
-
 const setInitDate = function(deadline){
 	const parts = deadline.split('-');
 	const initYear = parseInt(parts[0]);
