@@ -25,6 +25,7 @@ import com.oopsw.action.draft.GetTempListUIAction;
 import com.oopsw.action.draft.SaveTempDocAction;
 import com.oopsw.action.draft.SetFormAction;
 import com.oopsw.action.draft.SubmitDocAction;
+import com.oopsw.action.employee.AddCommentAction;
 import com.oopsw.action.employee.GetCommentsAction;
 import com.oopsw.action.employee.GetDefaultLineAction;
 import com.oopsw.action.employee.GetDetailReportAction;
@@ -51,6 +52,9 @@ public class ActionFactory {
 		
 		case "getComments":
 			a = new GetCommentsAction();
+			break;
+		case "addComment":
+			a = new AddCommentAction();
 			break;
 			
 		case "logoutAction":

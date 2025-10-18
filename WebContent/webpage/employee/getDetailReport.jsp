@@ -148,29 +148,44 @@
 			</div>
 			<hr>
 			
+			
 			<!-- 댓글 조회 비동기 부분 -->
 			<div id="comments-container"></div>
 			
-			<!-- 댓글 작성 비동기 부분 -->
+			<!-- 
+			<div class="addComments-container"></div>
 			<div class="flex-container">
 				<div class="comment-container comment-text">
 					<div class="name-area">
 						<span>${sessionScope.name}</span> 
 						<span>${sessionScope.rank}</span>
 					</div>
-					<div class="comment-area">
+					
+				</div>
+					 <div class="comment-area">
 						<textarea class="comment-area"></textarea>
 					</div>
 				</div>
 				<div class="date-area">
 					<button class="comment-btn">등록</button>
 				</div>
-			</div>
-			
-
-			</main>
+			-->
+		
+		<!-- 댓글 작성 비동기 부분 -->
+		<div class="addComments-container"></div>
+		
+		<script>
+		    const writerId = "${sessionScope.employeeId}";
+		</script>
+		
+		<script src="webpage/employee/addComment.js"></script>
 		<script src="webpage/employee/getComments.js"></script>
+				
+			
 		<jsp:include page="/webpage/approve/approvalModal.jsp" />
+		
+		</main>
+		
 
 </body>
 </html>

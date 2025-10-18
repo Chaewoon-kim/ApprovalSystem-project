@@ -60,6 +60,8 @@ let loadComments = function() {
 	});
 }
 
+// delete
+// update
 
 $(document).ready(function(){
 	loadComments();

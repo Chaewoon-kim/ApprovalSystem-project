@@ -36,7 +36,7 @@ public class EmployeeDAO {
 	    return commentList;
 	}
 
-	public boolean writeComment(CommentVO comment) {
+	public boolean addComment(CommentVO comment) {
 	    SqlSession session = DBCP.getSqlSessionFactory().openSession(true);
 	    boolean result = false;
 
