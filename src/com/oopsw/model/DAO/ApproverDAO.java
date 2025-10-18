@@ -14,6 +14,7 @@ import com.oopsw.model.VO.DocumentVO;
 import com.oopsw.model.VO.GetListVO;
 
 public class ApproverDAO{
+	// approvalProcess
     public boolean processApproval(SqlSession conn, ApprovalLineVO vo) {
     	boolean result = false;
     	int count = conn.update("approverMapper.processApproval", vo);
@@ -73,6 +74,17 @@ public class ApproverDAO{
         return vo;
     }
     
+    public boolean isAbsentToday(String approverId) {
+        SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+        try {
+            Integer cnt = conn.selectOne("approverMapper.countActiveAbsenceFor", approverId);
+            return cnt != null && cnt > 0;
+        } finally {
+            conn.close();
+        }
+    } //
+    
+
     
     public List<ApproverListVO> getWaitList(GetListVO vo) {
         List<ApproverListVO> list = null;
@@ -96,22 +108,22 @@ public class ApproverDAO{
         return list;
     }
     
-    public List<AbsenceListVO> getAbsenceList(String absenteeId){
+    public List<AbsenceListVO> getAbsenceList(GetListVO vo){
     	List<AbsenceListVO> list = null;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
     	 try {
-             list = conn.selectList("approverMapper.getAbsenceList", absenteeId);
+             list = conn.selectList("approverMapper.getAbsenceList", vo);
          } finally {
              conn.close();
          }
     	return list;
     }
     
-    public List<AbsenceListVO> getProxyList(String proxyId){
+    public List<AbsenceListVO> getProxyList(GetListVO vo){
     	List<AbsenceListVO> list = null;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
     	 try {
-             list = conn.selectList("approverMapper.getProxyList", proxyId);
+             list = conn.selectList("approverMapper.getProxyList", vo);
          } finally {
              conn.close();
          }
@@ -123,20 +135,24 @@ public class ApproverDAO{
         SqlSession conn = DBCP.getSqlSessionFactory().openSession();
         try {
             int count = conn.insert("approverMapper.addAbsence", vo);
-            result = count == 1;
-        } finally {
-            conn.close();
-        }
+            if(result = count == 1) conn.commit();
+        } catch(Exception e){
+    		conn.rollback();
+    	} finally{
+    		conn.close();
+    	}
         return result;
     }
     
+  
     public boolean modifyAbsence(AbsenceVO vo){
     	boolean result = false;
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
     	try{
     		int count = conn.update("approverMapper.modifyAbsence", vo);
-        	result = count == 1;
-//        	conn.commit();
+        	if(result = count == 1) conn.commit();
+    	} catch(Exception e){
+    		conn.rollback();
     	} finally{
     		conn.close();
     	}
@@ -148,8 +164,9 @@ public class ApproverDAO{
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
     	try{
     		int count = conn.update("approverMapper.endAbsence", absenceDateNo);
-        	result = count == 1;
-//        	conn.commit();
+        	if(result = count == 1) conn.commit();
+    	} catch(Exception e){
+    		conn.rollback();
     	} finally{
     		conn.close();
     	}
@@ -161,14 +178,27 @@ public class ApproverDAO{
     	SqlSession conn = DBCP.getSqlSessionFactory().openSession();
     	try{
     		int count = conn.update("approverMapper.deleteAbsence", absenceDateNo);
-        	result = count == 1;
-//        	conn.commit();
+        	if(result = count == 1) conn.commit();
+    	} catch(Exception e){
+    		conn.rollback();
     	} finally{
     		conn.close();
     	}
     	return result;
     }
     
+    public boolean hasOverlapAbsence(AbsenceVO vo) {
+        boolean result = false;
+        SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+        try { 
+            int count = conn.selectOne("approverMapper.checkOverlapAbsence", vo);
+            result = count > 0;
+        } finally {
+            conn.close();
+        }
+        return result;
+    }
+
     
     public List<AlarmVO> getApprovalReqNoti(String approverId){
     	List<AlarmVO> list = null;
@@ -193,14 +223,14 @@ public class ApproverDAO{
     	return list;
     }
 
-
     public boolean setAbsenceStatusToActive() {
     	boolean result = false;
         SqlSession conn = DBCP.getSqlSessionFactory().openSession();
         try{
     		int count = conn.update("approverMapper.setAbsenceStatusToActive");
-        	result = count == 1;
-//        	conn.commit();
+        	if(result = count == 1) conn.commit();
+    	} catch(Exception e){
+    		conn.rollback();
     	} finally{
     		conn.close();
     	}
@@ -213,14 +243,25 @@ public class ApproverDAO{
         int count = 0;
         try {
             count = conn.update("approverMapper.setAbsenceStatusToEnd");
-            result = count == 1;
-//            conn.commit();
+            if(result = count == 1) conn.commit();
+        } catch(Exception e){
+    		conn.rollback();
+    	} finally{
+    		conn.close();
+    	}
+    	return result;
+    }
+    
+    public AbsenceVO getAbsenceDetail(int absenceDateNo) {
+        SqlSession conn = DBCP.getSqlSessionFactory().openSession();
+        AbsenceVO vo = null;
+        try {
+            vo = conn.selectOne("approverMapper.getAbsenceDetail", absenceDateNo);
         } finally {
             conn.close();
         }
-        return result;
+        return vo;
     }
-
     
 }
 

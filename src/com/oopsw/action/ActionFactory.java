@@ -10,6 +10,7 @@ import com.oopsw.action.absence.AddAbsenceAction;
 import com.oopsw.action.absence.DeleteAbsenceAction;
 import com.oopsw.action.absence.EndAbsenceAction;
 import com.oopsw.action.absence.GetAbsenceProxyListAction;
+import com.oopsw.action.absence.GetAddAbsenceUIAction;
 import com.oopsw.action.absence.ModifyAbsenceAction;
 import com.oopsw.action.approve.ApprovalProcessAction;
 import com.oopsw.action.approve.GetEndListAction;
@@ -61,6 +62,17 @@ public class ActionFactory {
 		case "getDetailReport":
 			a = new GetDetailReportAction();
 			break;
+		
+			
+		case "getModifyUI":
+			a = new GetModifyUIAction();
+			break;
+		
+		case "getAddAbsenceUI":
+			a = new GetAddAbsenceUIAction();
+			break;
+			
+			
 		case "editLine":
 			a = new EditLineAction();
 			break;

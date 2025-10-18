@@ -1,10 +1,14 @@
 package com.oopsw.action.absence;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
 import com.oopsw.action.Action;
 import com.oopsw.model.DAO.ApproverDAO;
 
@@ -12,20 +16,22 @@ public class EndAbsenceAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-		String url = "getAbsenceList.jsp";
-
 		int absenceDateNo = Integer.parseInt(request.getParameter("absenceDateNo"));
 
 		ApproverDAO dao = new ApproverDAO();
 		boolean result = dao.endAbsence(absenceDateNo);
 
-		if (result) {
-			request.setAttribute("message", "À§ÀÓÀÌ ¼º°øÀûÀ¸·Î Ã¶È¸µÇ¾ú½À´Ï´Ù.");
-		} else {
-			request.setAttribute("message", "À§ÀÓ Ã¶È¸ ºÒ°¡ (ÀÌ¹Ì Á¾·áµÇ¾ú°Å³ª Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.)");
-		}
+		String message = result ? "ìœ„ì„ì´ ì¡°ê¸° ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤." : "ìœ„ì„ ì¡°ê¸° ì¢…ë£Œ ë¶ˆê°€ (ì´ë¯¸ ì¢…ë£Œë˜ì—ˆê±°ë‚˜ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.)";
 
-		return url;
+		Map<String, Object> map = new HashMap<>();
+		map.put("success", result);
+		map.put("message", message);
+		String json = new Gson().toJson(map);
+		request.setAttribute("result", json);
+
+
+		return "webpage/absence/absenceResult.jsp";
+
 	}
 
 }

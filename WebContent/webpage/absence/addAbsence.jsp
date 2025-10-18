@@ -1,103 +1,161 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="../employee/common.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>addAbsence</title>
-<link rel="stylesheet" href="documentForm.css">
-<link rel="stylesheet" href="common.css">
-<link rel="stylesheet" href="addAbsence.css">
-<link rel="stylesheet" href="popup.css">
+<link rel="stylesheet" href="webpage/employee/documentForm.css">
+<link rel="stylesheet" href="webpage/employee/common.css">
+<link rel="stylesheet" href="webpage/absence/addAbsence.css">
+<link rel="stylesheet" href="webpage/popup.css">
+<link rel="stylesheet" href="webpage/modal.css">
+<link rel="stylesheet" href="webpage/line.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="webpage/modal.js"></script>
+
 </head>
 <body>
-  <nav class="top-nav">
-    <div class="logo">
-      로고자리
-    </div>
 
-    <div class="profile">
-      <span class="label">개발팀</span>
-      <span class="label">홍길동</span>
-      <span class="label">사원</span>
-      님, 환영합니다.
+  <main class="add-absence">
+  <h1>부재/위임 설정</h1>
+  <hr class="mt"/>
 
-      <img class="profile-img" src="https://cdn-icons-png.flaticon.com/512/6522/6522516.png">
-    </div>
-  </nav>
+  <form id="absenceForm">
+    <!-- modifyAbsence mode -->
+    <c:if test="${not empty absence}">
+      <input type="hidden" name="absenceDateNo" value="${absence.absenceDateNo}">
+    </c:if>
 
-  <div class="container">
-    <nav class="side-nav">
-      <div class="draft">
-        <div class="make">기안서 작성</div>
-      </div>
-      <div class="menu">
-        <div class="menu-title">▼ 결제 신청</div>
-        <div class="submenu">
-          <div>결제 신청 목록</div>  
-        </div>
-      </div>   
-      <div class="logout">
-        로그아웃
-      </div>
-    </nav>
+    <input type="hidden" name="proxyId" id="proxyId" value="${absence.proxyId}">
 
+    <label>
+      <span>부재 기간</span>
+      <input name="startDate" type="date" value="${absence.absenceStartDate}" />
+      <div>~</div>
+      <input name="endDate" type="date" value="${absence.absenceEndDate}" />
+    </label>
+    
+    <label>
+      <span>부재 사유</span>
+      <textarea name="reason">${absence.absenceReason}</textarea>
+    </label>
 
-    <main class="add-absence">
-      <h1>
-      	부재/위임 설정
-      </h1>
-		<hr class="mt"/>
-			<form>
-				<label>
-					<span>부재 기간</span>
-					<input name="statDate" type="date" />
-					<div>~</div>
-					<input name="endDate" type="date" />
-				</label>
-				<label>
-					<span>부재 사유</span>
-					<textarea name="reason"></textarea>
-				</label>
-				<label>
-					<span>대결자</span>
-					<div id="proxyName">
-						<div class="proxy">
-							<span>배성윤</span>
-							<span>대리</span>
-							<img src="./img/orange_x.png">
-						</div>
-					</div>
-					<button class="form-btn">
-						<img src="./img/user-plus.png"> <span>대결자 선택</span>
-					</button>
-				</label>
-			</form>
-		<hr class="mb"/>
-		<div class="popup-btns">
-			<button class="popup-btn-true" type="submit">확인</button>
-			<button class="popup-btn-false" type="reset">취소</button>
-		</div>
-    </main>
+<div class="proxy-container">
+  <label class="proxy-label">대결자</label>
+
+  <div class="proxy">
+    <c:choose>
+      <c:when test="${empty absence.proxyId}">
+        <span style="color:#aaa;">대결자 없음</span>
+      </c:when>
+    </c:choose>
   </div>
 
+	  <button class="form-btn" type="button" onclick="openModal(searchProxyModal)">
+	    <img src="./img/user-plus.png" alt=""> <span>대결자 선택</span>
+	  </button>
+	</div>
 
-  <script>
-    document.querySelectorAll(".menu-title").forEach(title =>{
-      title.addEventListener("click", () => {
-        const submenu = title.nextElementSibling;
-        if(submenu.classList.contains("open")){
-          submenu.style.maxHeight = submenu.scrollHeight + "px";
-          requestAnimationFrame(() => {
-            submenu.style.maxHeight = "0";
-          })
-          submenu.classList.remove("open");
-        } else{
-          submenu.style.maxHeight = submenu.scrollHeight + "px";
-          submenu.classList.add("open");
+    <hr class="mb"/>
+
+    <div class="popup-btns">
+      <button class="popup-btn-true" type="submit">
+        <c:choose>
+          <c:when test="${not empty absence}">수정</c:when>
+          <c:otherwise>등록</c:otherwise>
+        </c:choose>
+      </button>
+      <button class="popup-btn-false" type="button" onclick="history.back()">취소</button>
+    </div>
+  </form>
+</main>
+
+<jsp:include page="searchProxy.jsp" />
+  
+<script>
+
+$(document).ready(function() {
+	$("form").on("submit", function(e) {
+		  e.preventDefault();
+
+		  let usage = "${absence.absenceUsage}";
+		  if (usage && usage.trim() !== "대기") {
+		    alert("‘대기’ 상태인 부재 일정만 수정할 수 있습니다.");
+		    return;
+		  }
+		  
+		  let absenceReason = "${absence.absenceReason}";
+		  if(absenceReason === null){
+			  console.log(absenceReason);
+			  alert("부재 사유를 입력해주세요.");
+			  
+			  return;
+		  }
+		  
+
+		  let isUpdate = $("input[name='absenceDateNo']").length > 0;
+		  let cmdValue = isUpdate ? "modifyAbsence" : "addAbsence";
+
+		  const data = {
+		    cmd: cmdValue,
+		    absenceDateNo: $("input[name='absenceDateNo']").val(),
+		    startDate: $("input[name='startDate']").val(),
+		    endDate: $("input[name='endDate']").val(),
+		    reason: $("textarea[name='reason']").val(),
+		    proxyId: $("#proxyId").val()
+		  };
+
+		  $.ajax({
+		    url: "controller",
+		    type: "POST",
+		    data: data,
+		    dataType: "json",
+		    success: function(response) {
+		      alert(response.message);
+		      if (response.success) {
+		        location.href = "controller?cmd=getAbsenceProxyList";
+		      }
+		    },
+		    error: function() {
+		      alert(isUpdate ? "부재 수정 중 오류가 발생했습니다." : "부재 등록 중 오류가 발생했습니다.");
+		    }
+		  });
+		});
+
+  
+  let proxyId = $("#proxyId").val();
+  if (proxyId) {
+    $.ajax({
+      url: "controller",
+      data: { cmd: "getAllEmployees" },
+      dataType: "json",
+      success: function(result) {
+        let emp = null;
+        for (var i = 0; i < result.length; i++) {
+          if (result[i].employeeId === proxyId) {
+            emp = result[i];
+            break;
+          }
         }
-      });
+        if (emp) {
+          $(".proxy").html(
+            '<span class="name">' + emp.name + '</span>' +
+            '<span class="rank">' + emp.rank + '</span>'
+          );
+        }
+      },
+      error: function() {
+        console.log("사원 목록 조회 실패");
+      }
     });
-  </script>
+  }
+
+}); //document ready
+
+
+</script>
+
+<script src="webpage/absence/searchProxy.js"></script>  
 </body>
 </html>

@@ -2,10 +2,13 @@ package com.oopsw.action.absence;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.gson.Gson;
 import com.oopsw.action.Action;
 import com.oopsw.model.DAO.ApproverDAO;
 import com.oopsw.model.VO.AbsenceVO;
@@ -14,45 +17,47 @@ public class ModifyAbsenceAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-		String url = "getAbsenceList.jsp"; 
+		 int absenceDateNo = Integer.parseInt(request.getParameter("absenceDateNo"));
+	        String proxyId = request.getParameter("proxyId");
+	        String startDateStr = request.getParameter("startDate");
+	        String endDateStr = request.getParameter("endDate");
+	        String reason = request.getParameter("reason");
 
-        int absenceDateNo = Integer.parseInt(request.getParameter("absenceDateNo"));
-        String proxyId = request.getParameter("proxyId");
-        String startDateStr = request.getParameter("startDate");
-        String endDateStr = request.getParameter("endDate");
-        String reason = request.getParameter("reason");
+	        Date startDate = Date.valueOf(startDateStr);
+	        Date endDate = Date.valueOf(endDateStr);
+	        Date today = new Date(System.currentTimeMillis());
 
-        Date startDate = Date.valueOf(startDateStr);
-        Date endDate = Date.valueOf(endDateStr);
-        Date today = new Date(System.currentTimeMillis());
+	        String usage = "ìœ„ì„";
+	        if (today.before(startDate)) {
+	            usage = "ëŒ€ê¸°";
+	        } else if (today.after(endDate)) {
+	            usage = "ì¢…ë£Œ";
+	        }
 
-        String usage;
-        if (today.before(startDate)) {
-            usage = "´ë±âÁß";
-        } else if (today.after(endDate)) {
-            usage = "Á¾·á";
-        } else {
-            usage = "À§ÀÓÁß";
-        }
+	        AbsenceVO vo = new AbsenceVO();
+	        vo.setAbsenceDateNo(absenceDateNo);
+	        vo.setProxyId(proxyId);
+	        vo.setAbsenceStartDate(startDate);
+	        vo.setAbsenceEndDate(endDate);
+	        vo.setAbsenceReason(reason);
+	        vo.setAbsenceUsage(usage);
 
-        AbsenceVO vo = new AbsenceVO();
-        vo.setAbsenceDateNo(absenceDateNo);
-        vo.setProxyId(proxyId);
-        vo.setAbsenceStartDate(startDate);
-        vo.setAbsenceEndDate(endDate);
-        vo.setAbsenceReason(reason);
-        vo.setAbsenceUsage(usage);
+	        ApproverDAO dao = new ApproverDAO();
+	        boolean result = dao.modifyAbsence(vo);
 
-        ApproverDAO dao = new ApproverDAO();
-        boolean result = dao.modifyAbsence(vo);
+	        Map<String, Object> jsonResult = new HashMap<>();
+	        if (result) {
+	            jsonResult.put("success", true);
+	            jsonResult.put("message", "ë¶€ì¬ ì •ë³´ê°€ ì„±ê³µì ìœ¼ë¡œ ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤.");
+	        } else {
+	            jsonResult.put("success", false);
+	            jsonResult.put("message", "ë¶€ì¬ ìˆ˜ì • ì¤‘ ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.");
+	        }
+	        
+	        Gson gson = new Gson();
+	        String json = gson.toJson(jsonResult);
 
-        if (result) {
-            request.setAttribute("message", "ºÎÀç Á¤º¸°¡ ¼º°øÀûÀ¸·Î ¼öÁ¤µÇ¾ú½À´Ï´Ù.");
-        } else {
-            request.setAttribute("message", "ºÎÀç ¼öÁ¤ Áß ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.");
-        }
-
-        return url;
+	        request.setAttribute("result", json);
+	        return "webpage/absence/absenceResult.jsp";
+	    }
 	}
-
-}
