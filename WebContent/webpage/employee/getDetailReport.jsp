@@ -79,7 +79,7 @@
 								</tr>
 								<tr>
 									<th class="table-bgColor draft-th">문서번호</th>
-									<td class="input-table">${documentDetail.documentNo}</td>
+									<td class="input-table">${documentDetail.approvedDocumentNo}</td>
 								</tr>
 							</tbody>
 						</table>
