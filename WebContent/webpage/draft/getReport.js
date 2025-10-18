@@ -51,11 +51,11 @@ let getReport = function(result, currentPage){
 		}
 
 		let row = `
-		<tr>
+		<tr class="req-row" data-documentno="${report.documentNo}">
 			<td>${report.deadline}</td>
 			<td>${report.draftDate || '-'}</td>
 			<td>${report.completionDate || '-'}</td>
-			<td><a class="doc-link" href="#" data-doc-no="${report.documentNo}">${report.title}</a> </td>
+			<td>${report.title}</td>
 			<td>${report.approvedDocumentNo || '-'}</td>
 			<td><button class="flag ${statusStyle}">${report.processStatus}</button></td>
 		</tr>
@@ -66,18 +66,6 @@ let getReport = function(result, currentPage){
 		content = "<tr><td colspan='6'>결재 신청된 문서가 없습니다.</td></tr>";
 	}
 	reqListTbody.innerHTML = content;
-	getDetailReport();
-}
-
-let getDetailReport = function(){
-	const docLinks = document.querySelectorAll('.doc-link');
-	
-	docLinks.forEach(link=>{
-		link.addEventListener('click', function(e){
-			e.preventDefault();
-			window.location.href = `controller?cmd=getDetailReport&documentNo=${this.dataset.docNo}`;
-		})
-	})
 }
 
 let loadPageData = function(pageInfo, status){
@@ -119,3 +107,10 @@ $(document).ready(function(){
 		loadPageData(1, e.target.value);
 	})
 });
+
+$(document).on('click', '.req-row', function(e){
+	if ($(e.target).is("button")) return;
+	
+	let documentNo = $(this).data("documentno")
+	window.location.href = `controller?cmd=getDetailReport&documentNo=${documentNo}`;
+})

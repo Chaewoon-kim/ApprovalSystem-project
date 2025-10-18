@@ -16,8 +16,6 @@ public class GetApprovalStatusAction implements Action {
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
 		int documentNo = Integer.parseInt(request.getParameter("documentNo"));
 		List<ApprovalStatusVO> status = new DrafterDAO().getApprovalStatus(documentNo);
-		System.out.println("½ÇÇà");
-		System.out.println(status);
 		request.setAttribute("result", status);
 		return "webpage/result.jsp";
 	}

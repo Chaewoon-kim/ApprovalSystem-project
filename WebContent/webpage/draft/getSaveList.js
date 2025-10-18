@@ -31,16 +31,15 @@ $(document).on("click", ".page-number", function(e){
 });
 
 let getSaveList = function(result, currentPage){
-	console.log(result)
 	const totalCount = result.length > 0 && result[0].totalCount ? result[0].totalCount : 0;
 	setPage(totalCount, currentPage);
 	content = '';
 	result.forEach(report => {
 		let row = `
-		<tr>
+		<tr class="save-row" data-documentno="${report.documentNo}">
 			<td>${report.temporarySaveDate}</td>
 			<td>${report.formName}</td>
-			<td><a class="doc-link" href="#" data-doc-no="${report.documentNo}">${report.title}</a> </td>
+			<td>${report.title}</td>
 			<td><button class="flag save">${report.processStatus}</button></td>
 		</tr>
 		`;
@@ -50,18 +49,8 @@ let getSaveList = function(result, currentPage){
 		content = "<tr><td colspan='4'>임시 저장된 문서가 없습니다.</td></tr>";
 	}
 	reqListTbody.innerHTML = content;
-	getTempDoc();
 }
-let getTempDoc = function(){
-	const docLinks = document.querySelectorAll('.doc-link');
-		
-	docLinks.forEach(link=>{
-		link.addEventListener('click', function(e){
-			e.preventDefault();
-			window.location.href = `controller?cmd=getTempDoc&documentNo=${this.dataset.docNo}`;
-		})
-	});
-};
+
 let loadPageData = function(pageInfo){
 	let pageNum;
     let pageElem;
@@ -92,5 +81,11 @@ let loadPageData = function(pageInfo){
 }
 $(document).ready(function(){
 	loadPageData(1);
-	
 });
+
+$(document).on('click', '.save-row', function(e){
+	if ($(e.target).is("button")) return;
+	
+	let documentNo = $(this).data("documentno")
+	window.location.href = `controller?cmd=getTempDoc&documentNo=${documentNo}`;
+})
