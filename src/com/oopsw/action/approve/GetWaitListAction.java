@@ -36,7 +36,8 @@ public class GetWaitListAction implements Action {
         GetListVO vo = new GetListVO(employeeId, processStatus, page);
         List<ApproverListVO> waitList = dao.getWaitList(vo);
 
-        int totalPages = 3; // �ӽ�
+        double totalCount = waitList.get(0).getTotalCount();
+        int totalPages = (int) Math.ceil(totalCount / 8.0);
 
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd")

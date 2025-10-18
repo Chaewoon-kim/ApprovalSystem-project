@@ -70,7 +70,7 @@
 
 
 	<select id="getWaitList" parameterType="com.oopsw.model.VO.GetListVO" resultType="com.oopsw.model.VO.ApproverListVO">
-  select documentNo, title, deadline, draftDate, name, department, approvalStatus
+  select documentNo, title, deadline, draftDate, name, department, approvalStatus, totalCount
   from (
     select d.document_no as documentNo, 
            d.title as title, 
@@ -79,7 +79,8 @@
            e1.name as name, 
            e1.department as department, 
            al.approval_status as approvalStatus,
-           row_number() over (order by d.draft_date desc) as rn
+           row_number() over (order by d.draft_date desc) as rn,
+           count(*) over() as totalCount
     from approval_line al
     join document d on al.document_no = d.document_no
     join employee e1 on d.employee_id = e1.employee_id
@@ -91,10 +92,11 @@
 	
 	<!-- 결재 처리 목록 조회 (내가 반려한 문서 + 내가 승인한 완료 문서) -->
 	<select id="getEndList" parameterType="com.oopsw.model.VO.GetListVO" resultType="com.oopsw.model.VO.ApproverListVO">
-    select document_no documentNo, approved_document_no approvedDocumentNo, title, department, draft_date draftDate, process_status processStatus, completion_date completionDate
+    select document_no documentNo, approved_document_no approvedDocumentNo, title, department, draft_date draftDate, process_status processStatus, completion_date completionDate, totalCount
     from (
         select d.document_no, d.approved_document_no, d.title, e.department, d.draft_date, d.process_status, d.completion_date,
-               row_number() over (order by al.approval_date desc, d.draft_date desc) as rn
+               row_number() over (order by al.approval_date desc, d.draft_date desc) as rn,
+               count(*) over() as totalCount
         from approval_line al
         join document d on al.document_no = d.document_no
         join employee e on d.employee_id = e.employee_id
