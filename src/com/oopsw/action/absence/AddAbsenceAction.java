@@ -30,7 +30,7 @@ public class AddAbsenceAction implements Action {
 	    Date startDate = Date.valueOf(startDateStr);
 	    Date endDate = Date.valueOf(endDateStr);
 	    Date today = new Date(System.currentTimeMillis());
-
+	    
 	    Map<String, Object> jsonResult = new HashMap<>();
 
 	    // 날짜 유효성 검증
@@ -65,7 +65,7 @@ public class AddAbsenceAction implements Action {
 	
 	    boolean result = dao.addAbsence(vo);
 	    if (result) {
-	        jsonResult.put("success", true);
+	        System.out.println(result);
 	        jsonResult.put("message", "부재 등록이 완료되었습니다.");
 	    } else {
 	        jsonResult.put("success", false);
