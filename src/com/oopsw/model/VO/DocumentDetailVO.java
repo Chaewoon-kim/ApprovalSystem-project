@@ -11,6 +11,7 @@ public class DocumentDetailVO {
     private Date draftDate;
     private Date completionDate;
     private Date deadline;
+    private String approvedDocumentNo;
 
     // employee
     private String employeeName;
@@ -22,6 +23,17 @@ public class DocumentDetailVO {
     private String formName;
 
     public DocumentDetailVO() {}
+
+    
+	public String getApprovedDocumentNo() {
+		return approvedDocumentNo;
+	}
+
+
+	public void setApprovedDocumentNo(String approvedDocumentNo) {
+		this.approvedDocumentNo = approvedDocumentNo;
+	}
+
 
 	public int getDocumentNo() {
 		return documentNo;

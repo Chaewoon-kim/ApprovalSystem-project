@@ -23,9 +23,6 @@ public class GetDetailReportAction implements Action {
 		HttpSession session = request.getSession(); 
 //		EmployeeVO user = null;
         String employeeId = (String) session.getAttribute("employeeId");
-        if (employeeId == null) {
-            employeeId = "E25-000";
-        }
 
         
 		EmployeeDAO employee = new EmployeeDAO();
@@ -38,7 +35,8 @@ public class GetDetailReportAction implements Action {
 			request.setAttribute("message", "조회할 문서 번호가 누락되었습니다.");
 			return url;
 		}
-
+		
+	    
 		try{
 			documentNumber = Integer.parseInt(documentParam);			
 		}catch(Exception e){
@@ -61,21 +59,23 @@ public class GetDetailReportAction implements Action {
 	    request.setAttribute("approvalLines", approvalLines);
 	    request.setAttribute("approverLineOrder", lineOrder);
 	    request.setAttribute("approvalStatus", approvalStatus);
-		
-		
+	    
+
 	    
 		DocumentDetailVO detailDoc = null;
+		
 		try{
 			detailDoc = employee.getDetailReport(documentNumber);
-
+			
 			if (detailDoc == null) {
 				request.setAttribute("message", "문서 번호 " + documentNumber + "에 해당하는 결재 문서가 없습니다.");
 				return url;
 			}
-
+			String approvedDocumentNo = detailDoc.getApprovedDocumentNo();
+			
 			request.setAttribute("documentDetail", detailDoc);
-
-
+			request.setAttribute("approvedDocumentNo", approvedDocumentNo);
+			System.out.println(approvedDocumentNo);
 			return url;
 
 		}catch(Exception e){
@@ -84,6 +84,7 @@ public class GetDetailReportAction implements Action {
 
 			return url;
 		}
+		
 
 
 	}
