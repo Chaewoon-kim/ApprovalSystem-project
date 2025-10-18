@@ -55,5 +55,7 @@ $(document).on("click", (e) => {
 	  if (!$(e.target).closest(".noti-modal, #openNoti").length > 0) {
 		  notiModal.hide();
 	  }
-	});
+});
+
+
 

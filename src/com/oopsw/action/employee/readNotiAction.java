@@ -23,15 +23,12 @@ public class readNotiAction implements Action {
 		Gson gson = new Gson();
 		List<Map<String, Object>> voList = gson.fromJson(notiListJson, List.class);
 				
-		System.out.println(voList);
 		boolean result = false;
 		for(Map<String, Object> vo : voList){
 			EmployeeDAO dao = new EmployeeDAO();
 			int notiNo = ((Number)vo.get("notiNo")).intValue();
 			String notiType = (String)vo.get("notiType");
-			
-			System.out.println(notiNo);
-			
+						
 			switch (notiType) {
 			case "C":
 				result = dao.readCommentNoti(notiNo);
