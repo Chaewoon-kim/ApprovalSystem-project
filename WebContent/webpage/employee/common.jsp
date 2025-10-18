@@ -25,7 +25,7 @@
 	<!-- 헤더 -->
 	<nav class="top-nav">
 
-		<div class="logo">로고자리</div>
+		<div class="logo"><img src="img/logo-easy.png" alt="logo"></div>
 		<div class="profile">
 			<c:if test="${isManager}">
 				<div class="change-mode-container">

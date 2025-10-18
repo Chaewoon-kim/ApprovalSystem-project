@@ -51,13 +51,18 @@
 		insert into document (document_no, employee_id, form_id, title, contents, process_status, temporary_save_date, deadline)
 		values (#{documentNo}, #{employeeId}, #{formId}, #{title}, #{contents}, '임시저장', sysdate, #{deadline})
 	</insert>
-	<select id="getTempList" parameterType="String" resultType="com.oopsw.model.VO.TempDocumentVO">
-		select d.document_no documentNo, df.form_name formName, d.title, d.process_status processStatus, d.temporary_save_date temporarySaveDate
-		from document d
-		join document_form df on d.form_id = df.form_id
-		where d.process_status = '임시저장'
-		  and d.employee_id = #{employeeId}
-		order by d.document_no desc
+	<select id="getTempList" parameterType="com.oopsw.model.VO.GetListVO" resultType="com.oopsw.model.VO.TempDocumentVO">
+		select documentNo, formName, title, processStatus, temporarySaveDate, totalCount
+		from (
+	        select
+		    d.document_no documentNo, df.form_name formName, d.title, d.process_status processStatus, d.temporary_save_date temporarySaveDate,
+	        ROW_NUMBER() OVER (ORDER BY d.temporary_save_date DESC) AS rn,
+	        COUNT(*) OVER() AS totalCount
+		    from document d
+	        join document_form df on d.form_id = df.form_id
+			where d.employee_id = #{employeeId} and process_status = '임시저장'
+		)
+		where rn between (#{page} - 1) * 8 + 1 and #{page} * 8
 	</select>
 	<update id="submitTempDoc" parameterType="com.oopsw.model.VO.DocumentVO">
 		update document set title = #{title}, contents=#{contents}, deadline = #{deadline}, draft_date = sysdate, process_status = '진행중'

@@ -66,7 +66,7 @@ public class DrafterDAOTest {
 	
 	@Test
 	public void getTempListTest(){
-		System.out.println(d.getTempList("E25-001"));
+		System.out.println(d.getTempList(new GetListVO("E25-001", null, 1)));
 	}
 	
 	@Test

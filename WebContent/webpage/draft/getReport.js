@@ -5,7 +5,7 @@ let totalPage = 1;
 
 const reqListTbody = document.querySelector(".form-table tbody");
 
-function setPage(totalCount, currentPage = 1){ 
+let setPage = function(totalCount, currentPage = 1){ 
 	let pagination = $(".pagination");
 	pagination.empty();
 	
@@ -34,10 +34,11 @@ $(document).on("click", ".page-number", function(e){
 
 let getReport = function(result, currentPage){
 	const totalCount = result.length > 0 && result[0].totalCount ? result[0].totalCount : 0;
-    
+	
 	setPage(totalCount, currentPage); 
     
 	content = '';
+	
 	result.forEach(report => {
 		statusStyle = ''
 		switch(report.processStatus){
@@ -48,37 +49,29 @@ let getReport = function(result, currentPage){
 			statusStyle = 'complete';
 			break;
 		}
+
 		let row = `
-		<tr>
+		<tr class="req-row" data-documentno="${report.documentNo}">
 			<td>${report.deadline}</td>
 			<td>${report.draftDate || '-'}</td>
 			<td>${report.completionDate || '-'}</td>
-			<td><a class="doc-link" href="#" data-doc-no="${report.documentNo}">${report.title}</a> </td>
+			<td>${report.title}</td>
 			<td>${report.approvedDocumentNo || '-'}</td>
 			<td><button class="flag ${statusStyle}">${report.processStatus}</button></td>
 		</tr>
 		`;
 		content += row;
 	});
+	if(!result || result.length == 0){
+		content = "<tr><td colspan='6'>결재 신청된 문서가 없습니다.</td></tr>";
+	}
 	reqListTbody.innerHTML = content;
-	getDetailReport();
-}
-
-let getDetailReport = function(){
-	const docLinks = document.querySelectorAll('.doc-link');
-	
-	docLinks.forEach(link=>{
-		link.addEventListener('click', function(e){
-			e.preventDefault();
-			window.location.href = `controller?cmd=getDetailReport&documentNo=${this.dataset.docNo}`;
-		})
-	})
 }
 
 let loadPageData = function(pageInfo, status){
     let pageNum;
     let pageElem;
-    
+   
     if (typeof pageInfo === 'object' && pageInfo.jquery) {
         pageElem = pageInfo;
         pageNum = pageElem.data("page");
@@ -114,3 +107,10 @@ $(document).ready(function(){
 		loadPageData(1, e.target.value);
 	})
 });
+
+$(document).on('click', '.req-row', function(e){
+	if ($(e.target).is("button")) return;
+	
+	let documentNo = $(this).data("documentno")
+	window.location.href = `controller?cmd=getDetailReport&documentNo=${documentNo}`;
+})

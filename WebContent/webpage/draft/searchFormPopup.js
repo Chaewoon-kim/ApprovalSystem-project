@@ -20,6 +20,7 @@ const groupForm = function(result){
 			</div>
 			<div class="submenu">`
 			formList.forEach(form=>{
+				if(form.formUsage == 'N') return;
 				content += `<div class="form" data-formid="${form.formId}">
 				<img src="img/file.png">
 				<span>${form.formName}</span>
@@ -65,6 +66,6 @@ const groupForm = function(result){
 	})
 	
 	$('.setForm').click(function(){
-		const selectFormId = $('.selectForm .form.selected').data('formid')
+		const selectFormId = $('.selectForm .form.selected').data('formid');
 		window.location.href='controller?cmd=setForm&formId='+selectFormId;
 	})

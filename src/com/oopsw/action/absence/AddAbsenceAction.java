@@ -26,7 +26,6 @@ public class AddAbsenceAction implements Action {
 	    String endDateStr = request.getParameter("endDate");
 	    String reason = request.getParameter("reason");
 	    String proxyId = request.getParameter("proxyId");
-
 	    Date startDate = Date.valueOf(startDateStr);
 	    Date endDate = Date.valueOf(endDateStr);
 	    Date today = new Date(System.currentTimeMillis());

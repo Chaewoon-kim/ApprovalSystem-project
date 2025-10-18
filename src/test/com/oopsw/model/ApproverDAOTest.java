@@ -52,8 +52,8 @@ public class ApproverDAOTest {
 	public void processApprovalTest() {
 		al.setDocumentNo(20);
 		al.setApproverId("E25-014");
-		al.setApprovalStatus("����");
-		al.setOpinion("�׽�Ʈ �ǰ�");
+		al.setApprovalStatus("占쏙옙占쏙옙");
+		al.setOpinion("占쌓쏙옙트 占실곤옙");
 		assertTrue(dao.processApproval(conn, al));
 	}
 
@@ -107,17 +107,17 @@ public class ApproverDAOTest {
 
 	@Test
 	public void getEndListTest() {
-		System.out.println(dao.getEndList(new GetListVO("E25-010", "반려", 1)));
+		System.out.println(dao.getEndList(new GetListVO("E25-010", "諛섎젮", 1)));
 	}
 
 	@Test
 	public void getAbsenceListTest() {
-		System.out.println(dao.getAbsenceList(new GetListVO("E25-015", "반려", 1)));
+		System.out.println(dao.getAbsenceList(new GetListVO("E25-015", "諛섎젮", 1)));
 	}
 
 	@Test
 	public void getProxyListTest() {
-		System.out.println(dao.getProxyList(new GetListVO("E25-015", "반려", 1)));
+		System.out.println(dao.getProxyList(new GetListVO("E25-015", "諛섎젮", 1)));
 	}
 	
 	@Test
@@ -126,7 +126,7 @@ public class ApproverDAOTest {
 		ab.setProxyId("E25-002");
 		ab.setAbsenceStartDate(java.sql.Date.valueOf("2025-10-12"));
 		ab.setAbsenceEndDate(java.sql.Date.valueOf("2025-10-20"));
-		ab.setAbsenceReason("출장");
+		ab.setAbsenceReason("아무거나");
 		ab.setAbsenceUsage("대기");
 		assertTrue(dao.addAbsence(ab));
 	}
@@ -137,8 +137,8 @@ public class ApproverDAOTest {
 		ab.setProxyId("E25-020");
 		ab.setAbsenceStartDate(java.sql.Date.valueOf("2025-10-12"));
 		ab.setAbsenceEndDate(java.sql.Date.valueOf("2025-10-20"));
-		ab.setAbsenceReason("휴가 일정 변경");
-		ab.setAbsenceUsage("대기");
+		ab.setAbsenceReason("�쑕媛� �씪�젙 蹂�寃�");
+		ab.setAbsenceUsage("��湲�");
 		assertTrue(dao.modifyAbsence(ab));
 	}
 	

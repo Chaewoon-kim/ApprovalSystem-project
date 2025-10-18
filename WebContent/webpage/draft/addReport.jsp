@@ -21,7 +21,7 @@
 			<button class="form-btn" id="tempSaveBtn" type="submit" form="approveDoc">
 				<img src="./img/download.png"> <span>임시저장</span>
 			</button>
-			<button class="form-btn">
+			<button class="form-btn" id="cancelBtn">
 				<img src="./img/x-circle.png"> <span>작성취소</span>
 			</button>
 		</div>

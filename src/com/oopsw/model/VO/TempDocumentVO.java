@@ -8,6 +8,8 @@ public class TempDocumentVO {
 	private String title;
 	private String processStatus;
 	private Date temporarySaveDate;
+	private int totalCount;
+	
 	public int getDocumentNo() {
 		return documentNo;
 	}
@@ -38,10 +40,17 @@ public class TempDocumentVO {
 	public void setTemporarySaveDate(Date temporarySaveDate) {
 		this.temporarySaveDate = temporarySaveDate;
 	}
+	
+	public int getTotalCount() {
+		return totalCount;
+	}
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
+	}
 	@Override
 	public String toString() {
 		return "TempDocumentVO [documentNo=" + documentNo + ", formName=" + formName + ", title=" + title
-				+ ", processStatus=" + processStatus + ", temporarySaveDate=" + temporarySaveDate + "]\n";
+				+ ", processStatus=" + processStatus + ", temporarySaveDate=" + temporarySaveDate + ", totalCount=" + totalCount + "]\n";
 	}
 	
 	
