@@ -26,7 +26,12 @@ public class SaveTempDocAction implements Action {
 		String employeeId = (String) session.getAttribute("employeeId");
 		String formId = request.getParameter("formId");
 		String title = request.getParameter("title");
-		String contents = request.getParameter("contents");
+		String contents = request.getParameter("contents")
+				.replace("\\", "\\\\")   
+			    .replace("\"", "\\\"")   
+			    .replace("\t", "\\t")    
+			    .replace("\r", "\\r")    
+			    .replace("\n", "\\n");
 		String year = request.getParameter("deadlineYear");
 		String month = request.getParameter("deadlineMonth");
 		String day = request.getParameter("deadlineDay");
@@ -54,13 +59,13 @@ public class SaveTempDocAction implements Action {
 			}
 
 			for (int i = 0; i < approverIds.length; i++) {
-				d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i+1, "´ë±âÁß"), conn);
+				d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i+1, "ï¿½ï¿½ï¿½ï¿½ï¿½"), conn);
 			}
 			
 			conn.commit();
 			url = "webpage/draft/getSaveList.jsp";
 		} catch (Exception e) {
-			request.setAttribute("message", "ÀÓ½ÃÀúÀåÀ» ½ÇÆÐÇÏ¿´½À´Ï´Ù.");
+			request.setAttribute("message", "ï¿½Ó½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 			conn.rollback();
 		}finally{
 			conn.close();

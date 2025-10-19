@@ -248,3 +248,22 @@
 	    font-size: 14px;
 	    margin: 0 10px;
 	}
+	#noti-body tr{
+		padding: 10px;
+	}    
+	
+	.noti-container .form-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .noti-container .form-table th, .form-table td {
+      border-bottom: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .noti-container .form-table th {
+      background: #f9f9f9;
+      font-weight: bold;
+    }
+    

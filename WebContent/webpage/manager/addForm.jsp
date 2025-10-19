@@ -119,7 +119,12 @@
 				element.focus();
 				return null;
 			}
-			return element.val();
+			return element.val()
+			.replace(/\\/g, "\\\\")
+		    .replace(/"/g, '\\"')
+		    .replace(/\t/g, "\\t")
+		    .replace(/\r/g, "\\r")
+		    .replace(/\n/g, "\\n");
 		}
 		function getValues(){
 			data = {};

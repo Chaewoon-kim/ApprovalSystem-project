@@ -155,6 +155,7 @@ public class ApproverDAO{
     }
     
     public boolean addAbsence(AbsenceVO vo) {
+    	System.out.println(vo);
         boolean result = false;
         SqlSession conn = DBCP.getSqlSessionFactory().openSession();
         try {

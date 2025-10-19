@@ -52,7 +52,7 @@ closeNotiBtn.on("click", ()=>{
 	notiModal.hide();
 });
 $(document).on("click", (e) => {
-	  if (!$(e.target).closest(".noti-modal, #openNoti", ".notiObject").length > 0) {
+	  if (!$(e.target).closest(".noti-modal, #openNoti").length > 0) {
 		  notiModal.hide();
 	  }
 });
@@ -90,13 +90,14 @@ const makeModalContent = (tbody)=>{
 		$tbody.append("<tr><td><div>알림이 없습니다.</div></td></tr>");
 	}
 }
-$("#notinList").click(function(){
+$("#notiList").click(function(){
 	location.href = "controller?cmd=getNotiList";
 });
 $(document).on("click", ".notiObject", function(){
 	list = [];
 	let val = $(this).closest("tr").data();
 	list.push(val);
+	notiModal.hide();
 	reqReadNoti(list, true);
 });
 
@@ -115,7 +116,9 @@ function reqReadNoti(notiList, isClicked){
 			notiList: JSON.stringify(notiList)
 		},
 		(data)=>{
-			if(isClicked && data.result) clickNoti(notiList.at(0));
+			if(isClicked && data.result) {
+				clickNoti(notiList.at(0));
+			}
 			else if(data.result){
 				reqNoti(1, currentSelect, tableElem, makeContent);
 			}

@@ -47,7 +47,7 @@
 				      </table>
 					</div>
 					<div class="button-container">
-						<div class="noti-btn" id="notinList">알림 목록</div>				
+						<div class="noti-btn" id="notiList">알림 목록</div>				
 						<div class="noti-btn" id="closeNoti">닫기</div>
 					</div>
 				</div>
