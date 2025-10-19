@@ -28,7 +28,11 @@ public class SaveTempDocAction implements Action {
 		String employeeId = (String) session.getAttribute("employeeId");
 		String formId = request.getParameter("formId");
 		String title = request.getParameter("title");
-		String contents = request.getParameter("contents");
+		String contents = request.getParameter("contents").replace("\\", "\\\\")   
+			    .replace("\"", "\\\"")   
+			    .replace("\t", "\\t")    
+			    .replace("\r", "\\r")    
+			    .replace("\n", "\\n");
 		String year = request.getParameter("deadlineYear");
 		String month = request.getParameter("deadlineMonth");
 		String day = request.getParameter("deadlineDay");
@@ -58,16 +62,16 @@ public class SaveTempDocAction implements Action {
 			}
 
 			for (int i = 0; i < approverIds.length; i++) {
-				d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i+1, "´ë±âÁß"), conn);
+				d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i+1, "ëŒ€ê¸°ì¤‘"), conn);
 			}
 			
 			conn.commit();
 			jsonResult.put("success", true);
-	        jsonResult.put("message", "ÀÓ½Ã ÀúÀåµÇ¾ú½À´Ï´Ù.");
+	        jsonResult.put("message", "ìž„ì‹œ ì €ìž¥ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	        jsonResult.put("url", "controller?cmd=getTempListUI");
 		} catch (Exception e) {
 			jsonResult.put("success", false);
-	        jsonResult.put("message", "ÀÓ½Ã ÀúÀåÀÌ ½ÇÆÐÇÏ¿´½À´Ï´Ù.");
+	        jsonResult.put("message", "ìž„ì‹œ ì €ìž¥ì´ ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			conn.rollback();
 		}finally{
 			conn.close();

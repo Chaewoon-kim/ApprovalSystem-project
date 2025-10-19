@@ -11,7 +11,6 @@
 <!-- 글깨짐 현상 <base>태그로 해결 -->
 <link rel="stylesheet" href="webpage/employee/documentForm.css">
 <link rel="stylesheet" href="webpage/approve/approveModal.css">
-<link rel="stylesheet" href="webpage/employee/common.css">
 <link rel="stylesheet" href="webpage/report.css">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

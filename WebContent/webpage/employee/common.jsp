@@ -43,11 +43,12 @@
 					<div class="noti-container">
 						<table class="form-table">
 				        <tbody id="notiBody">
+				        </tbody>
 				      </table>
 					</div>
 					<div class="button-container">
-						<button class="form-btn" id="notinList">알림 목록</button>				
-						<button class="form-btn" id="closeNoti">닫기</button>
+						<div class="noti-btn" id="notiList">알림 목록</div>				
+						<div class="noti-btn" id="closeNoti">닫기</div>
 					</div>
 				</div>
 			</div>

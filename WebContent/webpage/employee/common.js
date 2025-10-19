@@ -75,22 +75,29 @@ function reqNoti(page, filter, elem, setFunc){
 	);
 }
 const makeModalContent = (tbody)=>{
+	let cnt = 0;
 	const $tbody = $(tbody);
 	
 	$tbody.children().each((index, element)=>{
 		const $tr = $(element);
-		let row = "<td><div class='notiObject'><div>"+$tr.data("title")+"</div><div>"+$tr.data("notiDate")+"</div></div></td>";
-		if($tr.data("readStatus") == "안읽음")
+		let row = "<td><div class='notiObject'><div class='noti-label'>"+$tr.data("title")+"</div><div class='noti-label'>"+$tr.data("notiDate")+"</div></div></td>";
+		if($tr.data("readStatus") == "안읽음"){
 	    	$tr.append(row);
+			cnt++;
+		}
 	});
+	if(cnt == 0){
+		$tbody.append("<tr><td><div>알림이 없습니다.</div></td></tr>");
+	}
 }
-$("#notinList").click(function(){
+$("#notiList").click(function(){
 	location.href = "controller?cmd=getNotiList";
 });
 $(document).on("click", ".notiObject", function(){
 	list = [];
 	let val = $(this).closest("tr").data();
 	list.push(val);
+	notiModal.hide();
 	reqReadNoti(list, true);
 });
 
@@ -109,7 +116,9 @@ function reqReadNoti(notiList, isClicked){
 			notiList: JSON.stringify(notiList)
 		},
 		(data)=>{
-			if(isClicked && data.result) clickNoti(notiList.at(0));
+			if(isClicked && data.result) {
+				clickNoti(notiList.at(0));
+			}
 			else if(data.result){
 				reqNoti(1, currentSelect, tableElem, makeContent);
 			}

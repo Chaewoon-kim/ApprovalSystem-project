@@ -28,7 +28,12 @@ public class SubmitDocAction implements Action {
 		String employeeId = (String) session.getAttribute("employeeId");
 		String formId = request.getParameter("formId");
 		String title = request.getParameter("title");
-		String contents = request.getParameter("contents");
+		String contents = request.getParameter("contents")
+				.replace("\\", "\\\\")   
+			    .replace("\"", "\\\"")   
+			    .replace("\t", "\\t")    
+			    .replace("\r", "\\r")    
+			    .replace("\n", "\\n");
 		String year = request.getParameter("deadlineYear");
 		String month = request.getParameter("deadlineMonth");
 		String day = request.getParameter("deadlineDay");
