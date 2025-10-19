@@ -106,16 +106,21 @@ let setOrgChart = function(result){
 let setApprovalLine = function(result){
 	const approverSectionHeader = $('#approvalTable tbody').find('.section-header-row:last-child');
     let insertBeforeNode = approverSectionHeader ? approverSectionHeader.nextSibling : null;
-	
+	if (result.length == 0){
+		const DraftEmployeeId = $("#draft-id").val();
+		const DraftName = $("#draft-name").text();
+		const DraftDept = $("#draft-dept").text();
+		const DarftRank = $("#draft-rank").text();
+		result = [{employeeId: DraftEmployeeId, name: DraftName, department:DraftDept, rank: DarftRank}]
+	}
     result.forEach(line =>{
         const employeeId = line.employeeId;
         const name = line.name;
-        const department = line.department + '팀'; // 데이터에 '팀'이 없으므로 추가
+        const department = line.department == '코스타오피스' ? '코스타오피스' : line.department + '팀';
         const rank = line.rank;
 
         // 1. selectedIds 배열에 ID 추가
         selectedApprovers.push({employeeId, name, department, rank});
-        
         // 2. 테이블 행 생성
         const newRow = document.createElement('tr');
         newRow.innerHTML = `
@@ -272,5 +277,6 @@ document.addEventListener('DOMContentLoaded', () => {
 $("#editApprover").on('click', function(e){
 	e.preventDefault();
 	const finalApprovers = selectedApprovers;
+	console.log(finalApprovers)
 	editApprovalLine(finalApprovers);
 })
