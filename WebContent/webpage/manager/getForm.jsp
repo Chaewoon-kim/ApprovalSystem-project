@@ -141,7 +141,7 @@
 	function reqForm(pageElem, keyword){
 		ajaxRequest(
 			{
-				cmd: "getForm",
+				cmd: "getFormsWithKeyword",
 				page: pageElem.data("page"),
 				keyword: keyword
 			},

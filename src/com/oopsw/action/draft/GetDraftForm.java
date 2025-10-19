@@ -21,6 +21,7 @@ public class GetDraftForm implements Action {
 
 		ManagerDAO dao = new ManagerDAO();
 		List<FormVO> list = dao.getForms(vo);
+		System.out.println(list);
 
 		request.setAttribute("result", list);
 		return "webpage/result.jsp";
