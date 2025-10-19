@@ -29,6 +29,7 @@ public class SetFormAction implements Action {
 		request.setAttribute("form", gson.toJson(form));
 		request.setAttribute("defaultlines", gson.toJson(lines));
 		request.setAttribute("add", true);
+		System.out.println(gson.toJson(lines));
 		return "webpage/draft/addReport.jsp";
 	}
 

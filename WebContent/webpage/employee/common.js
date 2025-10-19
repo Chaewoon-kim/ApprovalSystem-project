@@ -52,7 +52,7 @@ closeNotiBtn.on("click", ()=>{
 	notiModal.hide();
 });
 $(document).on("click", (e) => {
-	  if (!$(e.target).closest(".noti-modal, #openNoti").length > 0) {
+	  if (!$(e.target).closest(".noti-modal, #openNoti", ".notiObject").length > 0) {
 		  notiModal.hide();
 	  }
 });
@@ -75,14 +75,20 @@ function reqNoti(page, filter, elem, setFunc){
 	);
 }
 const makeModalContent = (tbody)=>{
+	let cnt = 0;
 	const $tbody = $(tbody);
 	
 	$tbody.children().each((index, element)=>{
 		const $tr = $(element);
-		let row = "<td><div class='notiObject'><div>"+$tr.data("title")+"</div><div>"+$tr.data("notiDate")+"</div></div></td>";
-		if($tr.data("readStatus") == "안읽음")
+		let row = "<td><div class='notiObject'><div class='noti-label'>"+$tr.data("title")+"</div><div class='noti-label'>"+$tr.data("notiDate")+"</div></div></td>";
+		if($tr.data("readStatus") == "안읽음"){
 	    	$tr.append(row);
+			cnt++;
+		}
 	});
+	if(cnt == 0){
+		$tbody.append("<tr><td><div>알림이 없습니다.</div></td></tr>");
+	}
 }
 $("#notinList").click(function(){
 	location.href = "controller?cmd=getNotiList";
