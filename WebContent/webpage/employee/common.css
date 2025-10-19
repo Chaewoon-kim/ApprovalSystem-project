@@ -145,6 +145,7 @@
 	  width: 0px;
 	  height: 0px;
 	  overflow: hidden;
+	  margin: 10px;
 	}
 	.change-mode-container label{
 	  position: relative;

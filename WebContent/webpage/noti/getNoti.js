@@ -131,13 +131,21 @@ let currentSelect = '';
 			const $tbody = $(elem);
 			$tbody.children().each((index, element)=>{
 				const $tr = $(element);
-				
+				statusStyle = ''
+					switch($tr.data("status")){
+					case "반려":
+						statusStyle = 'reject';
+						break;
+					case "완료":
+						statusStyle = 'complete';
+						break;
+					}
 				let row = '<td><input type="checkbox" class="row-check"></td>'+'<td>' + $tr.data("readStatus") + '</td>' +
 		          '<td>' + $tr.data("notiDate") + '</td>' +
 		          '<td>' + getFilterName($tr.data("notiType")) + '</td>' +
 		          '<td><div><span class="text-link">' + $tr.data("title") + '</span></div></td>' +
 		          '<td>' + $tr.data("approvedDoc") + '</td>' +
-		          '<td><div ' + ($tr.data("status") == "" ? "" : "class=\'flag\'") + '>' +
+		          '<td><div ' + ($tr.data("status") == "" ? "" : "class=\'flag " + statusStyle + "\'") + '>' +
 		              $tr.data("status") + '</div></td>';
 		              
 			      $tr.append(row);

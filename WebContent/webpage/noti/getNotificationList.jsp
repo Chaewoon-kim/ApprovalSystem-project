@@ -11,7 +11,6 @@
 	<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	
 	<link href="webpage/table.css" rel="stylesheet">
-	<link href="webpage/employee/common.css" rel="stylesheet">
 	<link href="webpage/report.css" rel="stylesheet" >
 	<link href="webpage/employee/integration.css" rel="stylesheet">
 </head>
