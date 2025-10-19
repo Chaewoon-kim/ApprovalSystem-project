@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ include file="../employee/common.jsp" %>
 <!DOCTYPE html>
 <html>
@@ -129,7 +130,11 @@
 				<hr>
 
 				<div class="inputForm">
-					<p>${documentDetail.contents}</p>
+					<c:set var="content" value="${documentDetail.contents}" />
+					<c:set var="content" value="${fn:replace(content, '\\\\n', '<br/>')}" />
+					<c:set var="content" value="${fn:replace(content, '\\\\r', '')}" />
+					<c:set var="content" value="${fn:replace(content, '\\\\t', '&nbsp;&nbsp;&nbsp;&nbsp;')}" />
+					<c:out value="${content}" escapeXml="false"/>
 				</div>
 			</div>
 			<hr>
