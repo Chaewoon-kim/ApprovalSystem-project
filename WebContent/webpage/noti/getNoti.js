@@ -46,7 +46,7 @@ let currentSelect = '';
 		$(document).on("click", ".page-number", function(e){
 			if(!$(this).hasClass("active")){
 				
-				if(pageNo != null) currentPage = $(this).data("page");
+				currentPage = $(this).data("page");
 				
 				reqNoti(currentPage, currentSelect, tableElem, makeContent);
 				clickPage($(this));
