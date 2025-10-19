@@ -14,7 +14,9 @@ import org.apache.ibatis.session.SqlSession;
 import com.google.gson.Gson;
 import com.oopsw.action.Action;
 import com.oopsw.model.DBCP;
+import com.oopsw.model.DAO.ApproverDAO;
 import com.oopsw.model.DAO.DrafterDAO;
+import com.oopsw.model.VO.AbsenceVO;
 import com.oopsw.model.VO.ApprovalLineVO;
 import com.oopsw.model.VO.DocumentVO;
 
@@ -65,14 +67,38 @@ public class SubmitDocAction implements Action {
 				d.removeApprovers(documentNo, conn);
 			}
 			
+			// 첫번째 결재자 부재여부 확인
+			ApproverDAO approverDao = new ApproverDAO();
 			for (int i = 0; i < approverIds.length; i++) {
+				String currentApproverId = approverIds[i];
+				String approvalStatus = (i == 0) ? "결재대기" : "대기";
+
+				if (i == 0) {
+					AbsenceVO absence = approverDao.checkAbsence(currentApproverId);
+					if (absence != null && "위임".equals(absence.getAbsenceUsage())) {
+						String proxyId = absence.getProxyId();
+
+						AbsenceVO proxyAbsence = approverDao.checkAbsence(proxyId);
+						if (proxyAbsence != null && "위임".equals(proxyAbsence.getAbsenceUsage())) {
+							jsonResult.put("success", false);
+							jsonResult.put("message", "첫 번째 결재자와 대결자 모두 부재중입니다. 결재 요청이 불가합니다.");
+							conn.rollback();
+							request.setAttribute("result", jsonResult);
+							return "webpage/result.jsp";
+						}
+
+						currentApproverId = proxyId;
+						approvalStatus = "결재대기";
+					}
+				}
+
 				if(i == 0){
-					firstApprovalLineNo = d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i+1, "결재대기"), conn);
+					firstApprovalLineNo = d.addApprovers(new ApprovalLineVO(documentNo, currentApproverId, i+1, approvalStatus), conn);
 				}else{
-					d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i+1, "대기중"), conn);
+					d.addApprovers(new ApprovalLineVO(documentNo, currentApproverId, i+1, approvalStatus), conn);
 				}
 			}
-		
+			
 			if(firstApprovalLineNo != 0){
 				d.sendFirstReqNoti(firstApprovalLineNo, conn);
 				conn.commit();
