@@ -2,6 +2,8 @@ package com.oopsw.action.draft;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.google.gson.Gson;
 import com.oopsw.action.Action;
 import com.oopsw.model.DBCP;
 import com.oopsw.model.DAO.DrafterDAO;
@@ -19,7 +22,6 @@ public class SubmitDocAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-		String url = "webpage/draft/addReport.jsp";
 		DrafterDAO d = new DrafterDAO();
 		HttpSession session = request.getSession();
 		String documentNoStr = request.getParameter("documentNo");
@@ -39,7 +41,9 @@ public class SubmitDocAction implements Action {
 		String formattedDay = String.format("%02d", Integer.parseInt(day));
 		Date deadline = java.sql.Date.valueOf(year + "-" + formattedMonth+ "-" + formattedDay);
 		String[] approverIds = request.getParameterValues("approverId");
-	
+		
+		Map<String, Object> jsonResult = new HashMap<>();
+		
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession(false);
 		try {
 			int documentNo = 0;
@@ -72,18 +76,19 @@ public class SubmitDocAction implements Action {
 			if(firstApprovalLineNo != 0){
 				d.sendFirstReqNoti(firstApprovalLineNo, conn);
 				conn.commit();
-				request.setAttribute("message", "결재 요청이 완료되었습니다.");
+				jsonResult.put("success", true);
+		        jsonResult.put("message", "결재를 요청하였습니다.");
+		        jsonResult.put("url", "controller?cmd=getReqListUI");
 			}
-			url = "webpage/draft/getReport.jsp";
 		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("message", "결재 요청이 실패하었습니다.");
+			jsonResult.put("success", false);
+	        jsonResult.put("message", "결재요청이 실패하였습니다.");
 			conn.rollback();
 		}finally{
 			conn.close();
 		}
-		
-		return url;
+		request.setAttribute("result", jsonResult);
+		return "webpage/result.jsp";
 	}
 
 }

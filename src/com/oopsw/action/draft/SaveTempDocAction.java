@@ -2,6 +2,8 @@ package com.oopsw.action.draft;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,8 +28,7 @@ public class SaveTempDocAction implements Action {
 		String employeeId = (String) session.getAttribute("employeeId");
 		String formId = request.getParameter("formId");
 		String title = request.getParameter("title");
-		String contents = request.getParameter("contents")
-				.replace("\\", "\\\\")   
+		String contents = request.getParameter("contents").replace("\\", "\\\\")   
 			    .replace("\"", "\\\"")   
 			    .replace("\t", "\\t")    
 			    .replace("\r", "\\r")    
@@ -39,7 +40,9 @@ public class SaveTempDocAction implements Action {
 		String formattedDay = String.format("%02d", Integer.parseInt(day));
 		Date deadline = java.sql.Date.valueOf(year + "-" + formattedMonth+ "-" + formattedDay);
 		String[] approverIds = request.getParameterValues("approverId");
-	
+		
+		Map<String, Object> jsonResult = new HashMap<>();
+		
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession(false);
 		try {
 			int documentNo = 0;
@@ -59,19 +62,22 @@ public class SaveTempDocAction implements Action {
 			}
 
 			for (int i = 0; i < approverIds.length; i++) {
-				d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i+1, "�����"), conn);
+				d.addApprovers(new ApprovalLineVO(documentNo, approverIds[i], i+1, "대기중"), conn);
 			}
 			
 			conn.commit();
-			url = "webpage/draft/getSaveList.jsp";
+			jsonResult.put("success", true);
+	        jsonResult.put("message", "임시 저장되었습니다.");
+	        jsonResult.put("url", "controller?cmd=getTempListUI");
 		} catch (Exception e) {
-			request.setAttribute("message", "�ӽ������� �����Ͽ����ϴ�.");
+			jsonResult.put("success", false);
+	        jsonResult.put("message", "임시 저장이 실패하였습니다.");
 			conn.rollback();
 		}finally{
 			conn.close();
 		}
-		
-		return url;
+		request.setAttribute("result", jsonResult);
+		return "webpage/result.jsp";
 	}
 
 }
