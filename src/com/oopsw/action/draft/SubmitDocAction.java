@@ -73,6 +73,7 @@ public class SubmitDocAction implements Action {
 				conn.commit();
 				jsonResult.put("success", true);
 		        jsonResult.put("message", "결재를 요청하였습니다.");
+		        jsonResult.put("url", "controller?cmd=getReqListUI");
 			}
 		} catch (Exception e) {
 			jsonResult.put("success", false);

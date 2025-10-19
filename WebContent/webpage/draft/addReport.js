@@ -85,7 +85,7 @@ const handleFormSubmission = function(e){
     	success: function(result){
     		alert(result.message);
     		if(result.success){
-    			location.href="controller?cmd=getReqListUI"
+    			location.href=result.url;
     		}
     	},
     	error: function(){
