@@ -54,6 +54,9 @@ let tableList = document.querySelectorAll(".tables");
 
 
 const getApproverIds = function(data){
+	if(data.length == 0){
+		data = [{employeeId: '${employeeId}', name: '${name}', department: '${department}', rank: '${rank}'}]
+	}
 	let content = '';
 	 for(i = 0;  i < data.length ; i++){
 		content += "<input type='hidden' name='approverId' value=" + data[i].employeeId + ">";
@@ -106,6 +109,9 @@ const addProposalTable = function(table, data){
 };
 
 const addApprovalTable = function(table, data){
+	if(data.length == 0){
+		data = [{employeeId: '${employeeId}', name: '${name}', department: '${department}', rank: '${rank}'}]
+	}
     let content = '<table class="table-bordered">';
     content += '<tr><th rowspan="4" class="table-bgColor rotated-text">승인</th></tr>';
     let rankCells = '';
