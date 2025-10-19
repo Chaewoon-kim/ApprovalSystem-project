@@ -2,6 +2,8 @@ package com.oopsw.action.draft;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +36,9 @@ public class SaveTempDocAction implements Action {
 		String formattedDay = String.format("%02d", Integer.parseInt(day));
 		Date deadline = java.sql.Date.valueOf(year + "-" + formattedMonth+ "-" + formattedDay);
 		String[] approverIds = request.getParameterValues("approverId");
-	
+		
+		Map<String, Object> jsonResult = new HashMap<>();
+		
 		SqlSession conn = DBCP.getSqlSessionFactory().openSession(false);
 		try {
 			int documentNo = 0;
@@ -58,15 +62,18 @@ public class SaveTempDocAction implements Action {
 			}
 			
 			conn.commit();
-			url = "webpage/draft/getSaveList.jsp";
+			jsonResult.put("success", true);
+	        jsonResult.put("message", "임시 저장되었습니다.");
+	        jsonResult.put("url", "controller?cmd=getTempListUI");
 		} catch (Exception e) {
-			request.setAttribute("message", "임시저장을 실패하였습니다.");
+			jsonResult.put("success", false);
+	        jsonResult.put("message", "임시 저장이 실패하였습니다.");
 			conn.rollback();
 		}finally{
 			conn.close();
 		}
-		
-		return url;
+		request.setAttribute("result", jsonResult);
+		return "webpage/result.jsp";
 	}
 
 }
