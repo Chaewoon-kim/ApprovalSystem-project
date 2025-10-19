@@ -72,14 +72,27 @@ const handleFormSubmission = function(e){
 	e.preventDefault();
     const form = $(this);
     const clickedButtonId = document.activeElement ? document.activeElement.id : '';
+    let cmd = "controller?cmd=submitDoc";
     if(clickedButtonId == "tempSaveBtn"){
-      e.preventDefault();
-      form.attr("action", "controller?cmd=saveTempDoc");
+      cmd = "controller?cmd=saveTempDoc";
     }
-    form.off('submit', handleFormSubmission); 
-    form.submit();
-    form.on('submit', handleFormSubmission);
-    form.attr("action", "controller?cmd=submitDoc");
+    const formData = form.serialize();
+    
+    $.ajax({
+    	url: cmd,
+    	data: formData,
+    	dataType: 'json',
+    	success: function(result){
+    		alert(result.message);
+    		if(result.success){
+    			location.href="controller?cmd=getReqListUI"
+    		}
+    	},
+    	error: function(){
+    		alert("결재 요청 중 오류가 발생하였습니다.")
+    	}
+    })
+ 
 }
 $("#approveDoc").on('submit', handleFormSubmission);
 $("#cancelBtn").on('click', function(e){

@@ -26,7 +26,7 @@
 			</button>
 		</div>
 		<hr>
-		<form id="approveDoc" action="controller?cmd=submitDoc" method="post">
+		<form id="approveDoc" method="post">
 				<div class="document-content">
 					<label>
 						<span>문서 제목</span>
