@@ -46,6 +46,7 @@ import com.oopsw.action.manager.GetAllEmployeesAction;
 import com.oopsw.action.manager.GetEmployeesAction;
 import com.oopsw.action.manager.GetFormAction;
 import com.oopsw.action.manager.GetFormCountAction;
+import com.oopsw.action.manager.GetFormWithKeywordAction;
 import com.oopsw.action.manager.InvertAccessPermissionAction;
 import com.oopsw.action.manager.InvertFormUsageAction;
 
@@ -55,7 +56,9 @@ public class ActionFactory {
 		Action a = null;
 		System.out.println(cmd);
 		switch(cmd){
-		
+		case "getFormsWithKeyword":
+			a = new GetFormWithKeywordAction();
+			break;
 		case "updateComment":
 			a = new UpdateCommentAction();
 			break;

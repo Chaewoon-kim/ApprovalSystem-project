@@ -44,13 +44,23 @@
 	<select id="getFormsByKeyword" parameterType="com.oopsw.model.VO.FormVO" resultType="com.oopsw.model.VO.FormVO">
 		select form_id formId, form_category formCategory, form_name formName, form_description formDescription, form_usage formUsage
 		from (
-			select e.*, ROW_NUMBER() over (order by form_id asc) as rn
+			select e.*, ROW_NUMBER() over (order by to_number(regexp_substr(form_id, '[0-9]+')) asc) as rn
 			from document_form e
 			<if test="keyword != null and keyword != ''">
 				where (#{keyword} is null or form_category = #{keyword} or form_name like '%' || #{keyword} || '%')
 			</if>
 		)
 		where rn between (#{page} - 1) * 8 + 1 and #{page} * 8
+	</select>
+	
+	<!-- 양식 검색 -->
+	<select id="getAllForms" parameterType="com.oopsw.model.VO.FormVO" resultType="com.oopsw.model.VO.FormVO">
+		select form_id formId, form_category formCategory, form_name formName, form_description formDescription, form_usage formUsage
+		from document_form
+		<if test="keyword != null and keyword != ''">
+			where (#{keyword} is null or form_category = #{keyword} or form_name like '%' || #{keyword} || '%')
+		</if>
+		order by to_number(regexp_substr(form_id, '[0-9]+')) asc
 	</select>
 	
 	<!-- 양식 추가  -->
