@@ -133,7 +133,8 @@ function setTable(data, elem, setFunc){
 		  const readStatus = noti.readStatus == null ? "안읽음" : "읽음";
 		  const notiDate = noti.notiInDate || "";
 		  const notiType = noti.notiType;
-		  const title = noti.title || "";
+		  let title = noti.title || "";
+		  if(notiType =="A") title ="["+ title +"]님으로부터 대결자로 지정되었습니다.";
 		  const approvedDoc = noti.approvedDocumentNo || "-";
 		  const status = noti.status || "";
 		  const documentNo = noti.documentNo || "";
