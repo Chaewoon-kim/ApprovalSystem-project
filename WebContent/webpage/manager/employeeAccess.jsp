@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" isELIgnored="true"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -64,7 +64,7 @@
 			init();
 		});
 		function init(){
-			reqPage(currentSelect, true);
+			reqPage_(currentSelect, true);
 		}
 		function getFilter(filter){
 			switch(filter){
@@ -84,7 +84,7 @@
 		// 페이지 정보 획득
 		$(document).on("change", "#statusSelect", function(e){
 			currentSelect = getFilter($(this).val());
-			reqPage(currentSelect, true);
+			reqPage_(currentSelect, true);
 		});
 		//
 		$(document).on("click", ".page-number", function(e){
@@ -93,7 +93,7 @@
 				if(pageNo == null) pageNo = 1;
 				
 				reqEmployee(pageNo, currentSelect);
-				clickPage($(this));
+				clickPage_($(this));
 			}
 		});
 		
@@ -103,13 +103,13 @@
 			
 		});
 		
-		function clickPage(pageElem){
+		function clickPage_(pageElem){
 			$(".page-number.active").removeClass("active");
 			pageElem.addClass("active");
 		}
 		
 		// 비동기 사용자 수 획득
-		function reqPage(filter, loadFirstPage){
+		function reqPage_(filter, loadFirstPage){
 			$.ajax({
 				url : "controller",
 				data : {
@@ -117,7 +117,7 @@
 					filter: filter
 				},
 				success : function(data){
-					setPage(data.result);
+					setPage_(data.result);
 					if(loadFirstPage){
 						let firstPage = $(".page-number").eq(0).data("page");
 						if(firstPage != null) reqEmployee(firstPage, filter);
@@ -127,7 +127,7 @@
 		}
 
 		// UI에 페이지네이션 표시
-		function setPage(empCount){
+		function setPage_(empCount){
 			let pagination = $(".pagination");
 			pagination.empty();
 			
@@ -139,9 +139,9 @@
 			if(totalPage > 10) endPage = 10;
 			
 			for(let idx = startPage; idx <= endPage; idx++){
-				pagination.append(`<div class='page-number' data-page='${idx}'>${idx}</div>`);
+				pagination.append("<div class='page-number' data-page='"+idx+"'>"+idx+"</div>");
 			}
-			clickPage($(".page-number").eq(0));
+			clickPage_($(".page-number").eq(0));
 		}
 		
 		// 사용자 정보 획득
@@ -154,26 +154,32 @@
 					filter: filter
 				},
 				success: function(data){
-					setTable(data.result);
+					setTable_(data.result);
 				},
 				error: function(err){
 				      console.error("getEmployee error:", err);
 			    }
 			});
 		}
-		function setTable(data){
+		function setTable_(data){
 			let tableBody = $(".form-table tbody");
 			tableBody.empty();
 			let row="";
 			$.each(data, function(i, emp){
 				if(emp.managerPermission == 'Y') return;
-				row += `<tr>
-		        <td><div id='empId'>${emp.employeeId}</div></td>
-		        <td>${emp.name}</td>
-		        <td>${emp.department}</td>
-		        <td>${emp.rank}</td>
-		        <td><div class="btn ${emp.accessPermission == 'Y' ? 'btn-event' : 'btn-event active'} access-btn" data-name="${emp.employeeId}">${emp.accessPermission == 'Y' ? '해제':'등록'}</div></td>
-		    	</tr>`;
+				row +=
+					  "<tr>" +
+					    "<td><div id='empId'>" + emp.employeeId + "</div></td>" +
+					    "<td>" + emp.name + "</td>" +
+					    "<td>" + emp.department + "</td>" +
+					    "<td>" + emp.rank + "</td>" +
+					    "<td>" +
+					      "<div class='btn " + (emp.accessPermission === 'Y' ? 'btn-event' : 'btn-event active') +
+					      " access-btn' data-name='" + emp.employeeId + "'>" +
+					      (emp.accessPermission === 'Y' ? '해제' : '등록') +
+					      "</div>" +
+					    "</td>" +
+					  "</tr>";
 			});
 			tableBody.append(row);
 		}

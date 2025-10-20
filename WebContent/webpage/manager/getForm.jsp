@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" isELIgnored="true"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -21,7 +21,7 @@
     <main class="form-list">
       <h1>양식 목록</h1>
       <!-- 검색 -->
-      <div class="flex right">
+      <div class="flex">
 	      <div class="search-box">
 	        <input id="keyword" type="text" placeholder="카테고리, 양식제목 검색">
 	        <div class="btn-keyword">검색</div>
@@ -74,12 +74,12 @@
 	
 	function init(){
 		// 첫번째 페이지 로드
-		reqPage($("#keyword").val(), true);
+		reqPage_($("#keyword").val(), true);
 	}
 	
 	function searchAction(){
 		currentKeyword = $("#keyword").val();
-		reqPage(currentKeyword, true);
+		reqPage_(currentKeyword, true);
 	}
 	// 검색 버튼 이벤트
 	$(".btn-keyword").on("click", searchAction);	
@@ -88,14 +88,14 @@
 	});
 	
 	// 양식 수량 획득
-	function reqPage(keyword, loadFirstPage){
+	function reqPage_(keyword, loadFirstPage){
 		ajaxRequest(
 			{
 				cmd: "getFormCount",
 				keyword: keyword
 			},
 			function(data){
-				setPage(data.result);
+				setPage_(data.result);
 				if(loadFirstPage){
 					let firstPage = $(".page-number").eq(0);
 					if(firstPage.length) reqForm(firstPage, keyword);
@@ -105,7 +105,7 @@
 	}
 	
 	// UI에 페이지네이션 표시
-	function setPage(formCount){
+	function setPage_(formCount){
 		let pagination = $(".pagination");
 		pagination.empty();
 		
@@ -117,7 +117,7 @@
 		if(totalPage > 10) endPage = 10;
 		
 		for(let idx = startPage; idx <= endPage; idx++){
-			pagination.append(`<div class='page-number' data-page='${idx}'>${idx}</div>`);
+			pagination.append("<div class='page-number' data-page='"+idx+"'>"+idx+"</div>");
 		}
 		clickPage($(".page-number").eq(0));
 	}
@@ -147,25 +147,31 @@
 			},
 			function(data){
 				clickPage(pageElem);
-				setTable(data.result);
+				setTable_(data.result);
 			}
 		);
 	}
 	
 	// 양식 정보를 테이블에 출력
-	function setTable(data){
+	function setTable_(data){
 		let tableBody = $(".form-table tbody");
 		tableBody.empty();
 
     	let row = "";
 		$.each(data, function(i, form){
-			row +=`<tr>
-	            <td>${form.formId}</td>
-	            <td>${form.formCategory}</td>
-	            <td>${form.formName}</td>
-	            <td>${form.formDescription}</td>
-	            <td><div class="btn ${form.formUsage == 'Y' ? 'btn-event' : 'btn-event active'}" data-form-id="${form.formId}">${form.formUsage == 'Y' ? "해제" : "등록"}</div></td>
-	      	</tr>`;
+			row +=
+			    "<tr>" +
+			      "<td>" + form.formId + "</td>" +
+			      "<td>" + form.formCategory + "</td>" +
+			      "<td>" + form.formName + "</td>" +
+			      "<td>" + form.formDescription + "</td>" +
+			      "<td>" +
+			        "<div class='btn " + (form.formUsage === 'Y' ? 'btn-event' : 'btn-event active') + "' " +
+			             "data-form-id='" + form.formId + "'>" +
+			             (form.formUsage === 'Y' ? "해제" : "등록") +
+			        "</div>" +
+			      "</td>" +
+			    "</tr>";
 		});
     	tableBody.append(row);
 	}
