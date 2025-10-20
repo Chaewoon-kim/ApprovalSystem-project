@@ -39,10 +39,10 @@
 								<td colspan="4" class="section-header">기안자</td>
 							</tr>
 							<tr class="applicant-row">
-								<td>${name}</td>
-								<td>${department}팀</td>
-								<td>${rank}</td>
-								<td></td> 
+								<td id="draft-name">${name}</td>
+								<td id="draft-dept">${department ? department + '팀': '코스타오피스'}</td>
+								<td id="draft-rank">${rank}</td>
+								<td><input id="draft-id" type="hidden" value='${employeeId}'></td> 
 							</tr>
 							<tr class="section-header-row">
 								<td colspan="4" class="section-header">결재자</td>
